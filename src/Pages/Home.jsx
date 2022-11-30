@@ -1,10 +1,12 @@
 import React from "react";
-import { Alert } from 'antd';
+import { Alert, Card } from 'antd';
 
 const Home = () => {
   return (
     <>
-      <h1>Home(profile) Page</h1>
+       <Card title="Card title" bordered={false}>
+          Card content
+        </Card>
       <Alert message="Вас забанил Путинцев" type="error" />
     </>
 
