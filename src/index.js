@@ -4,6 +4,8 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { Route, BrowserRouter, Routes } from 'react-router-dom'
 import Home from './Pages/Home';
+import Events from './Pages/Events';
+import Achivments from './Pages/Achivments';
 
 
 
@@ -12,6 +14,8 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route index element={<Home />} />
+        <Route path="events" element={<Events />} />
+        <Route path="achivments" element={<Achivments />} />
       </Routes>
     </BrowserRouter>
   );
