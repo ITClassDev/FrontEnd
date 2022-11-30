@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import {
-  DesktopOutlined,
-  FileOutlined,
   PieChartOutlined,
-  TeamOutlined,
   UserOutlined,
+  NotificationOutlined,
+  CrownOutlined,
+  CodeOutlined,
+  FieldTimeOutlined,
+  HomeOutlined,
+  CheckSquareOutlined 
 } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
 
@@ -26,15 +29,15 @@ function getItem(
 }
 
 const items = [
-  getItem('Аккаунт', '1', <PieChartOutlined />),
-  getItem('Option 2', '2', <DesktopOutlined />),
-  getItem('User', 'sub1', <UserOutlined />, [
-    getItem('Tom', '3'),
-    getItem('Bill', '4'),
-    getItem('Alex', '5'),
+  getItem('Аккаунт', '1', <UserOutlined />),
+  getItem('Достижения', '2', <CrownOutlined />),
+  getItem('Задачи', 'sub1', <CodeOutlined />, [
+    getItem('Задача дня', '3', <FieldTimeOutlined />),
+    getItem('ДЗ', '4', <HomeOutlined />),
+    getItem('СР', '5', <CheckSquareOutlined/>),
   ]),
-  getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
-  getItem('Files', '9', <FileOutlined />),
+  getItem('Уведомления', '6', <NotificationOutlined />),
+  getItem('Статистика', '7', <PieChartOutlined/>),
 ];
 
 const Home = () => {
@@ -50,7 +53,9 @@ const Home = () => {
         <Header className="site-layout-background" style={{ padding: 0 }} />
         <Content style={{ margin: '0 16px' }}>
           <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-            Block content here
+            <div>Block content here</div>
+            <div>For ex. API</div>
+            <div>But, yeah AXIOS async loading</div>
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>SHTP 2022</Footer>
