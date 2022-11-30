@@ -41,7 +41,7 @@ const items = [
     getItem('СР', '5', <CheckSquareOutlined/>, "/"),
   ]),
   getItem('Мероприятия', '6', <CalendarOutlined />, "/events"),
-  getItem('Уведомления', '7', <NotificationOutlined />, "/notify"),
+  getItem('Уведомления', '7', <NotificationOutlined />, "/notifications"),
   getItem('Статистика', '8', <PieChartOutlined/>, "/stats"),
 ];
 

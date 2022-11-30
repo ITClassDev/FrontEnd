@@ -6,6 +6,7 @@ import { Route, BrowserRouter, Routes } from 'react-router-dom'
 import Home from './Pages/Home';
 import Events from './Pages/Events';
 import Achivments from './Pages/Achivments';
+import Notifications from './Pages/Notifications';
 import BaseLayout from './Components/Layout';
 
 export default function App() {
@@ -16,6 +17,8 @@ export default function App() {
           <Route index element={<Home />} ind={'1'}/>
           <Route path="events" element={<Events />} />
           <Route path="achivments" element={<Achivments />} />
+          <Route path="notifications" element={<Notifications />} />
+
         </Route>
       </Routes>
     </BrowserRouter>
