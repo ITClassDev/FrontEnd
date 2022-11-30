@@ -8,7 +8,9 @@ import {
   FieldTimeOutlined,
   HomeOutlined,
   CheckSquareOutlined,
-  CalendarOutlined
+  CalendarOutlined,
+  ControlOutlined,
+  ProfileOutlined
 } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
 import { Outlet, Link } from 'react-router-dom';
@@ -43,6 +45,8 @@ const items = [
   getItem('Мероприятия', '6', <CalendarOutlined />, "/events"),
   getItem('Уведомления', '7', <NotificationOutlined />, "/notifications"),
   getItem('Статистика', '8', <PieChartOutlined/>, "/stats"),
+  getItem('API доки', '9', <ProfileOutlined/>, "/docs"),
+  getItem('Админка', '10', <ControlOutlined/>, "/admin"),
 ];
 
 const BaseLayout = () => { 

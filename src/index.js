@@ -7,6 +7,7 @@ import Home from './Pages/Home';
 import Events from './Pages/Events';
 import Achivments from './Pages/Achivments';
 import Notifications from './Pages/Notifications';
+import ApiDocs from './Pages/ApiDocs';
 import BaseLayout from './Components/Layout';
 
 export default function App() {
@@ -18,7 +19,7 @@ export default function App() {
           <Route path="events" element={<Events />} />
           <Route path="achivments" element={<Achivments />} />
           <Route path="notifications" element={<Notifications />} />
-
+          <Route path="docs" element={<ApiDocs />} />
         </Route>
       </Routes>
     </BrowserRouter>
