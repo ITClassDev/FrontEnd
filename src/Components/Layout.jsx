@@ -10,7 +10,8 @@ import {
   CheckSquareOutlined,
   CalendarOutlined,
   ControlOutlined,
-  ProfileOutlined
+  ProfileOutlined,
+  LogoutOutlined
 } from '@ant-design/icons';
 import { Layout, Menu, Badge } from 'antd';
 import { Outlet, Link } from 'react-router-dom';
@@ -33,6 +34,10 @@ function getItem(
   };
 }
 
+function exit(dom, e){
+  console.log("Exit")
+}
+
 const items = [
   getItem('Аккаунт', '1', <UserOutlined />, "/"),
   getItem('Достижения', '2', <CrownOutlined />, "/achivments"),
@@ -46,6 +51,7 @@ const items = [
   getItem('Статистика', '8', <PieChartOutlined />, "/stats"),
   getItem('API доки', '9', <ProfileOutlined />, "/docs"),
   getItem('Админка', '10', <ControlOutlined />, "/admin"),
+  {label: "Выйти", icon: <LogoutOutlined />, key: '11', onTitleClick: "exit"}
 ];
 
 const BaseLayout = () => {

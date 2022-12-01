@@ -1,13 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input } from 'antd';
-
-
-
+import axios from "axios";
+import API_URL from "../config";
+import { useNavigate } from "react-router-dom";
+import { getAuth } from "../api";
 
 const LoginPage = () => {
+    const navigate = useNavigate();
+    useEffect(() => { //Check login before
+        if (localStorage.getItem("user")){
+            axios.get(`${API_URL}/auth/me`, getAuth()).then((respose) => {
+                if (respose.status === 200){ // Token valid
+                    localStorage.setItem("user_id", respose.data.user.id);
+                    navigate('/');
+                } 
+            });
+        }
+    });
+
     const onFinish = (values) => {
-        console.log('Received values of form: ', values);
+        axios.post(`${API_URL}/auth/login`, {"email": values["email"], "password": values["password"]}).then((response) => {
+            if (response.status === 200){
+              localStorage.setItem('user', response.data.accessToken); // Update access token in local storage; so security?! No!
+              navigate('/');
+            }
+          });
     };
 
     return (
@@ -22,22 +40,22 @@ const LoginPage = () => {
             onFinish={onFinish}
         >
             <Form.Item
-                name="username"
+                name="email"
                 rules={[
                     {
                         required: true,
-                        message: 'Please input your Username!',
+                        message: 'EMAIL!!!!!!!',
                     },
                 ]}
             >
-                <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+                <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" />
             </Form.Item>
             <Form.Item
                 name="password"
                 rules={[
                     {
                         required: true,
-                        message: 'Please input your Password!',
+                        message: 'PASSWORD!!!!!!',
                     },
                 ]}
             >
@@ -52,14 +70,14 @@ const LoginPage = () => {
                     <Checkbox>Remember me</Checkbox>
                 </Form.Item>
 
-                <a className="login-form-forgot" href="">
-                    Forgot password
+                <a className="login-form-forgot">
+                    Забыл пароль
                 </a>
             </Form.Item>
 
             <Form.Item>
                 <Button type="primary" htmlType="submit" className="login-form-button">
-                    Log in
+                    Войти
                 </Button>
             </Form.Item>
         </Form>
