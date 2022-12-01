@@ -7,6 +7,7 @@ const Home = () => {
   useEffect(() => { getUser(1, setUserFio, "http://localhost:8080") }, []);
   return (
     <>
+      <h1>Ваш профиль</h1>
       <p>
         Test Data from API: {userFio}
       </p>
