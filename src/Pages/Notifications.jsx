@@ -19,7 +19,7 @@ const Notifications = () => {
         <>
             <h1>Уведомления</h1>
             {notifications.map(notify => <Alert
-                message={notify.title}
+                message={(<span style={{fontWeight: "bold"}}>{notify.title}</span>)}
                 description={notify.desc}
                 type={notify.type}
                 style={{marginBottom: "20px"}}

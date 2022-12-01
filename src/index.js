@@ -10,17 +10,19 @@ import Notifications from './Pages/Notifications';
 import ApiDocs from './Pages/ApiDocs';
 import NotFound from './Pages/NotFound';
 import BaseLayout from './Components/Layout';
+import Challenge from './Pages/Challenge';
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<BaseLayout />}>
-          <Route index element={<Home />} ind={'1'}/>
+          <Route index element={<Home />}/>
           <Route path="events" element={<Events />} />
           <Route path="achivments" element={<Achivments />} />
           <Route path="notifications" element={<Notifications />} />
           <Route path="docs" element={<ApiDocs />} />
+          <Route path="challenge" element={<Challenge />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

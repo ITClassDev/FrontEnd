@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Alert, Card } from 'antd';
+import { Alert } from 'antd';
 import { getUser } from "../api";
 
 const Home = () => {

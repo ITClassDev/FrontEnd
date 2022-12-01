@@ -1,10 +1,10 @@
 import Achivment from "./Achivment";
-import { Col, Row } from 'antd';
+import { Row } from 'antd';
 
-const AchivmentsList = ({achivments, ...props}) => {
+const AchivmentsList = ({achivments}) => {
     return (
         <Row>
-            {achivments.map(achive => <Achivment title={achive.title} desc={achive.desc} points={achive.points}/>)}
+            {achivments.map((achive, ind) => <Achivment title={achive.title} desc={achive.desc} points={achive.points} key={ind}/>)}
         </Row>
     );
 }
