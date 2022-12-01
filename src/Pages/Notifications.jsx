@@ -18,8 +18,9 @@ const Notifications = () => {
     return (
         <>
             <h1>Уведомления</h1>
-            {notifications.map(notify => <Alert
+            {notifications.map((notify, ind) => <Alert
                 message={(<span style={{fontWeight: "bold"}}>{notify.title}</span>)}
+                key={ind}
                 description={notify.desc}
                 type={notify.type}
                 style={{marginBottom: "20px"}}

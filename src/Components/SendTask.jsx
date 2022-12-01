@@ -24,7 +24,7 @@ const props = {
 };
 
 
-const SendTask = () => {
+const SendTask = ({task_id}) => {
     return (
         <Card title="Сдать задачу" style={{ marginBottom: 20 }}>
             <Dragger {...props}>
