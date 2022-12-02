@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   PieChartOutlined,
   UserOutlined,
@@ -16,7 +16,8 @@ import {
 import { Layout, Menu, Badge } from 'antd';
 import { Outlet, Link } from 'react-router-dom';
 import "../index.css";
-const {  Content, Sider } = Layout;
+
+const { Content, Sider } = Layout;
 
 
 function getItem(
@@ -34,9 +35,6 @@ function getItem(
   };
 }
 
-function exit(dom, e){
-  console.log("Exit")
-}
 
 const items = [
   getItem('Аккаунт', '1', <UserOutlined />, "/"),
@@ -51,12 +49,12 @@ const items = [
   getItem('Статистика', '8', <PieChartOutlined />, "/stats"),
   getItem('API доки', '9', <ProfileOutlined />, "/docs"),
   getItem('Админка', '10', <ControlOutlined />, "/admin"),
-  {label: "Выйти", icon: <LogoutOutlined />, key: '11', onTitleClick: "exit"}
 ];
+
+
 
 const BaseLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
-
   return (
     <Layout hasSider>
       <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)} breakpoint="lg" style={{
@@ -66,6 +64,7 @@ const BaseLayout = () => {
         left: 0,
         top: 0,
         bottom: 0,
+        zIndex: 2000
       }}>
         <div className="logo" />
         <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />

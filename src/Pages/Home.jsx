@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Alert } from 'antd';
 import { getUser } from "../api";
+import API_URL from "../config";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [userFio, setUserFio] = useState(null);
-  useEffect(() => { getUser(1, setUserFio, "http://localhost:8080") }, []);
+  const navigate = useNavigate();
+  useEffect(() => {
+    getUser(() => {console.log("Auth")}, () => {navigate("/login")}, API_URL);
+  })
   return (
     <>
       <h1>Ваш профиль</h1>
