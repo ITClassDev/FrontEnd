@@ -6,10 +6,14 @@ import { useNavigate } from "react-router-dom";
 import { Typography } from 'antd';
 import { GithubOutlined } from '@ant-design/icons';
 
-const { Title } = Typography;
+const { Text, Title } = Typography;
+
+
+const socialLinks = { userGithub: { base: "https://github.com/", icon: <GithubOutlined /> } };
 
 
 const Home = () => {
+  const userSocial = [["userGithub", "ret7020"]];
   const navigate = useNavigate();
   useEffect(() => {
     getUser(() => { console.log("Auth") }, () => { navigate("/login") }, API_URL);
@@ -26,14 +30,14 @@ const Home = () => {
             <Avatar src="http://localhost:8080/storage/avatars/1_avatar.png" size={100} />
           </Col>
           <Col style={{ marginLeft: 20 }}>
-            <Title level={2}>Степан Жданов</Title>
+            <div style={{marginBottom: 10}}>
+              <Title level={2} style={{marginBottom: 0}}>Степан Жданов</Title>
+              <Text type="secondary">ML, DS, Web, Firmware dev</Text>
+            </div>
             <Row>
-              <Button type="primary" icon={<GithubOutlined />} style={{marginRight: 10}}>
-                @ret7020
-              </Button>
-              <Button type="primary" icon={<GithubOutlined />}>
-                @ret7020
-              </Button>
+              {userSocial.map((social) => (
+                <Button type="primary" href={`${socialLinks[social[0]].base}${social[1]}`} target={"__blank"}>{socialLinks[social[0]].icon}@{social[1]}</Button>
+              ))}
             </Row>
           </Col>
 
