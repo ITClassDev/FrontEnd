@@ -36,6 +36,11 @@ function getItem(
 }
 
 
+const not_logined_menu = [
+  
+  getItem('API доки', '9', <ProfileOutlined />, "/docs"),
+];
+
 const items = [
   getItem('Аккаунт', '1', <UserOutlined />, "/"),
   getItem('Достижения', '2', <CrownOutlined />, "/achivments"),
@@ -49,6 +54,7 @@ const items = [
   getItem('Статистика', '8', <PieChartOutlined />, "/stats"),
   getItem('API доки', '9', <ProfileOutlined />, "/docs"),
   getItem('Админка', '10', <ControlOutlined />, "/admin"),
+  {label: "Login", key: '11', icon: <LogoutOutlined/>, onClick: () => {console.log("Click")}}
 ];
 
 
