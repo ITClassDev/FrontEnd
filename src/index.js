@@ -12,6 +12,7 @@ import NotFound from './Pages/NotFound';
 import BaseLayout from './Components/Layout';
 import Challenge from './Pages/Challenge';
 import LoginPage from './Pages/Login';
+import Admin from './Pages/Admin';
 
 export default function App() {
   return (
@@ -24,6 +25,7 @@ export default function App() {
           <Route path="notifications" element={<Notifications />} />
           <Route path="docs" element={<ApiDocs />} />
           <Route path="challenge" element={<Challenge />} />
+          <Route path="admin" element={<Admin />} />
         </Route>
         <Route path="login" element={<LoginPage/>} />
         <Route path="*" element={<NotFound />} />

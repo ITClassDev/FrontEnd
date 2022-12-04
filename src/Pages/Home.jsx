@@ -55,8 +55,8 @@ const Home = () => {
 
             </div>
             <Row>
-              {userSocial.map((social) => (
-                <Button type="primary" style={{ marginBottom: 10, marginRight: 10 }} href={`${socialLinks[social[0]].base}${social[1]}`} target={"__blank"}>{socialLinks[social[0]].icon}@{social[1]}</Button>
+              {userSocial.map((social, ind) => (
+                <Button type="primary" style={{ marginBottom: 10, marginRight: 10 }} href={`${socialLinks[social[0]].base}${social[1]}`} target={"__blank"} key={ind}>{socialLinks[social[0]].icon}@{social[1]}</Button>
               ))}
             </Row>
           </Col>
