@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
+import {LoadingBig, LoadingSmall} from "../Components/Loading.jsx";
 import { Card, Avatar, Col, Row, Button } from 'antd';
 import { getUser } from "../api";
 import { API_URL, STORAGE } from "../config";
 import { useNavigate } from "react-router-dom";
 import { Typography } from 'antd';
 import { GithubOutlined } from '@ant-design/icons';
-
 const { Title, Paragraph } = Typography;
 
 
@@ -18,15 +18,15 @@ function inlineUpdateProfile(new_text, state_hook) {
 function fillProfile(about, name, avatar, user) {
   name(`${user.firstName} ${user.lastName}`);
   about(user.userAboutText);
-  avatar(`${STORAGE}/avatars/${user.userAvatarPath}`)
+  avatar(`${STORAGE}/avatars/${user.userAvatarPath}`);
 }
 
 
 const Home = () => {
   const userSocial = [["userGithub", "ret7020"], ["userGithub", "ret7020"], ["userGithub", "ret7020"], ["userGithub", "ret7020"], ["userGithub", "ret7020"]];
-  const [userAbout, setUserAbout] = useState('Loading...');
-  const [userName, setUserName] = useState('Loading...');
-  const [userAvatar, setUserAvatar] = useState(""); //http://localhost:8080/storage/avatars/1_avatar.png
+  const [userAbout, setUserAbout] = useState(<LoadingSmall/>);
+  const [userName, setUserName] = useState(<LoadingBig/>);
+  const [userAvatar, setUserAvatar] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
     getUser((resp) => { fillProfile(setUserAbout, setUserName, setUserAvatar, resp.data.user) }, () => { navigate("/login") }, API_URL);
