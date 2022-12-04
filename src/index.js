@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
@@ -13,12 +13,17 @@ import BaseLayout from './Components/Layout';
 import Challenge from './Pages/Challenge';
 import LoginPage from './Pages/Login';
 import Admin from './Pages/Admin';
+import { getUser } from './api';
 
 export default function App() {
+  const [userData, setUserData] = useState({status: 0});
+  useEffect(() => {
+    getUser((resp) => {setUserData({status: 1, user: resp.data.user})}, () => {setUserData({status: 2})})
+  }, []);
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<BaseLayout />}>
+        <Route path="/" element={<BaseLayout user={userData}/>}>
           <Route index element={<Home />}/>
           <Route path="events" element={<Events />} />
           <Route path="achivments" element={<Achivments />} />

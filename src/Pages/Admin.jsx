@@ -25,10 +25,13 @@ const Admin = () => {
         <>
             <h1>Админка</h1>
             <div>
-                <Descriptions title="Debug" bordered>
+                <Descriptions title="System info" bordered>
                     <Descriptions.Item label="API">{API_URL}</Descriptions.Item>
                     <Descriptions.Item label="Storage">{STORAGE}</Descriptions.Item>
                     <Descriptions.Item label="Req to REST time">{timeToApi}</Descriptions.Item>
+                    <Descriptions.Item label="RAM usage">N/A</Descriptions.Item>
+                    <Descriptions.Item label="CPU usage">N/A</Descriptions.Item>
+                    <Descriptions.Item label="API time">N/A</Descriptions.Item>
                 </Descriptions>
             </div>
         </>

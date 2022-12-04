@@ -23,14 +23,15 @@ function fillProfile(about, name, avatar, user) {
 
 
 const Home = () => {
+  
   const userSocial = [["userGithub", "ret7020"], ["userGithub", "ret7020"], ["userGithub", "ret7020"], ["userGithub", "ret7020"], ["userGithub", "ret7020"]];
   const [userAbout, setUserAbout] = useState(<LoadingSmall/>);
   const [userName, setUserName] = useState(<LoadingBig/>);
   const [userAvatar, setUserAvatar] = useState("");
   const navigate = useNavigate();
-  useEffect(() => {
-    getUser((resp) => { fillProfile(setUserAbout, setUserName, setUserAvatar, resp.data.user) }, () => { navigate("/login") }, API_URL);
-  });
+  //useEffect(() => {
+  //  getUser((resp) => { fillProfile(setUserAbout, setUserName, setUserAvatar, resp.data.user) }, () => { navigate("/login") }, API_URL);
+  //});
 
   return (
     <>

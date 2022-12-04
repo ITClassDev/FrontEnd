@@ -29,10 +29,9 @@ const LoginPage = () => {
     };
 
     return (
-
         <Form
             name="normal_login"
-            style={{ width: "30%" }}
+            style={{ width: "30%"}}
             className="login-form"
             initialValues={{
                 remember: true,

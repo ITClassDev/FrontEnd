@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { getUser } from '../api';
+
 import {
   PieChartOutlined,
   UserOutlined,
@@ -17,9 +19,8 @@ import {
 import { Layout, Menu, Badge, Modal, Form, Input, Button } from 'antd';
 import { Outlet, Link } from 'react-router-dom';
 import "../index.css";
+import { set } from 'rsuite/esm/utils/dateUtils';
 const { Content, Sider } = Layout;
-
-
 
 function getItem(
   label,
@@ -37,9 +38,18 @@ function getItem(
 }
 
 
-const BaseLayout = () => {
+const BaseLayout = ({ user }) => {
   const [collapsed, setCollapsed] = useState(false);
   const [loginModelOpened, openLoginModal] = useState(false);
+  const [menu, setMenu] = useState([]);
+  useEffect(() => {
+      if (user.status != 0){
+        if (user.status == 1)
+          setMenu(logined_menu);
+        else
+          setMenu(non_logined_menu)
+      }
+  }, [user]);
 
   const openLogin = () => {
     openLoginModal(true);
@@ -47,6 +57,10 @@ const BaseLayout = () => {
   const hideLogin = () => {
     openLoginModal(false);
   };
+
+  const non_logined_menu = [
+    { label: "Login", key: '11', icon: <LogoutOutlined />, onClick: () => { openLogin() } }
+  ];
 
   const logined_menu = [
     getItem('Аккаунт', '1', <UserOutlined />, "/"),
@@ -61,9 +75,7 @@ const BaseLayout = () => {
     getItem('Статистика', '8', <PieChartOutlined />, "/stats"),
     getItem('API доки', '9', <ProfileOutlined />, "/docs"),
     getItem('Админка', '10', <ControlOutlined />, "/admin"),
-    { label: "Login", key: '11', icon: <LogoutOutlined />, onClick: () => { openLogin() } }
   ];
-
 
   return (
 
@@ -112,8 +124,6 @@ const BaseLayout = () => {
               Забыл пароль
             </a>
           </Form.Item>
-
-          
         </Form>
       </Modal>
       <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)} breakpoint="lg" style={{
@@ -126,7 +136,7 @@ const BaseLayout = () => {
         zIndex: 2000
       }}>
         <div className="logo" />
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={logined_menu} />
+        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={menu} />
       </Sider>
 
       <Layout className="site-layout" style={{ backgroundColor: '' }}>
