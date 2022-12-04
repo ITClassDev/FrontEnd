@@ -24,7 +24,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<BaseLayout user={userData}/>}>
-          <Route index element={<Home />}/>
+          <Route index element={<Home user={userData}/>}/>
           <Route path="events" element={<Events />} />
           <Route path="achivments" element={<Achivments />} />
           <Route path="notifications" element={<Notifications />} />

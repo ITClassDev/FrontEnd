@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getUser } from '../api';
+import { useNavigate } from 'react-router-dom';
 
 import {
   PieChartOutlined,
@@ -14,12 +14,12 @@ import {
   ControlOutlined,
   ProfileOutlined,
   LogoutOutlined,
-  LockOutlined
+  LoginOutlined
 } from '@ant-design/icons';
-import { Layout, Menu, Badge, Modal, Form, Input, Button } from 'antd';
+import { Layout, Menu, Badge, Modal } from 'antd';
 import { Outlet, Link } from 'react-router-dom';
 import "../index.css";
-import { set } from 'rsuite/esm/utils/dateUtils';
+import LoginForm from './LoginForm';
 const { Content, Sider } = Layout;
 
 function getItem(
@@ -37,11 +37,17 @@ function getItem(
   };
 }
 
+function logOut(nav){
+  localStorage.clear();
+  nav(0);
+}
+
 
 const BaseLayout = ({ user }) => {
   const [collapsed, setCollapsed] = useState(false);
   const [loginModelOpened, openLoginModal] = useState(false);
   const [menu, setMenu] = useState([]);
+  const navigate = useNavigate();
   useEffect(() => {
       if (user.status != 0){
         if (user.status == 1)
@@ -59,7 +65,7 @@ const BaseLayout = ({ user }) => {
   };
 
   const non_logined_menu = [
-    { label: "Login", key: '11', icon: <LogoutOutlined />, onClick: () => { openLogin() } }
+    { label: "Login", key: '2', icon: <LogoutOutlined />, onClick: () => { openLogin() } }
   ];
 
   const logined_menu = [
@@ -75,56 +81,14 @@ const BaseLayout = ({ user }) => {
     getItem('Статистика', '8', <PieChartOutlined />, "/stats"),
     getItem('API доки', '9', <ProfileOutlined />, "/docs"),
     getItem('Админка', '10', <ControlOutlined />, "/admin"),
+    { label: "Logout", key: '11', icon: <LoginOutlined />, onClick: () => { logOut(navigate) } }
   ];
 
   return (
 
     <Layout hasSider>
       <Modal title="Войти в аккаунт" open={loginModelOpened} onCancel={hideLogin} footer={[]}>
-        <Form
-          name="normal_login"
-          className="login-form"
-          initialValues={{
-            remember: true,
-          }}
-        >
-          <Form.Item
-            name="email"
-            rules={[
-              {
-                required: true,
-                message: 'EMAIL!!!',
-              },
-            ]}
-          >
-            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" />
-          </Form.Item>
-          <Form.Item
-            name="password"
-            rules={[
-              {
-                required: true,
-                message: 'PASSWORD!!!',
-              },
-            ]}
-          >
-            <Input
-              prefix={<LockOutlined className="site-form-item-icon" />}
-              type="password"
-              placeholder="Пароль"
-            />
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit" className="login-form-button">
-              Войти
-            </Button>
-          </Form.Item>
-          <Form.Item>
-            <a className="login-form-forgot">
-              Забыл пароль
-            </a>
-          </Form.Item>
-        </Form>
+          <LoginForm/>
       </Modal>
       <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)} breakpoint="lg" style={{
         overflow: 'auto',
