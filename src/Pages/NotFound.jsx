@@ -6,7 +6,7 @@ const NotFound = () => {
             status="404"
             title="404"
             subTitle="Страница не найдена."
-            extra={<Button type="primary">На главную</Button>}
+            extra={<Button type="primary" href="/">На главную</Button>}
         />
     );
 
