@@ -1,7 +1,7 @@
 import React from "react";
 import { GithubOutlined } from '@ant-design/icons';
 import { Card, Form, Input, Button, Alert, Space, Typography } from 'antd';
-const { Text, Link } = Typography;
+const { Text } = Typography;
 
 const SubmitViaGithub = () => {
     return (
@@ -9,7 +9,7 @@ const SubmitViaGithub = () => {
             <Alert style={{marginBottom: 20}}
                 showIcon
                 message="Убедитесь, что:"
-                description=<Space direction="vertical"><Text>Файлы задачи находятся в корне репозитория</Text><Text>Репозиторий открытый</Text><Text>Название header файла: <Text code>str_easy.h</Text></Text><Text>Вы передаёте авторские права нам, и мы продадим ваш код</Text></Space>
+                description=<Space direction="vertical"><Text>Файлы задачи находятся в корне репозитория</Text><Text>Репозиторий открытый</Text><Text>Название header файла: <Text code>str_easy.h</Text></Text><Text type="secondary">Вы передаёте авторские права нам, и мы продадим ваш код майкрософту (чтобы не только код индусов у них был)</Text></Space>
                 type="info"
             />
             <Form

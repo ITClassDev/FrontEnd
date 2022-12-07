@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import {
   PieChartOutlined,
   UserOutlined,
@@ -37,24 +36,25 @@ function getItem(
   };
 }
 
-function logOut(nav){
+function logOut(nav) {
   localStorage.clear();
   nav(0);
 }
 
 
 const BaseLayout = ({ user }) => {
+
   const [collapsed, setCollapsed] = useState(false);
   const [loginModelOpened, openLoginModal] = useState(false);
   const [menu, setMenu] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
-      if (user.status != 0){
-        if (user.status == 1)
-          setMenu(logined_menu);
-        else
-          setMenu(non_logined_menu)
-      }
+    if (user.status !== 0) {
+      if (user.status === 1)
+        setMenu(logined_menu);
+      else
+        setMenu(non_logined_menu)
+    }
   }, [user]);
 
   const openLogin = () => {
@@ -87,8 +87,9 @@ const BaseLayout = ({ user }) => {
   return (
 
     <Layout hasSider>
+      
       <Modal title="Войти в аккаунт" open={loginModelOpened} onCancel={hideLogin} footer={[]}>
-          <LoginForm/>
+        <LoginForm />
       </Modal>
       <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)} breakpoint="lg" style={{
         overflow: 'auto',

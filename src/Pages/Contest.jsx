@@ -5,7 +5,7 @@ import { useState } from 'react';
 import SubmitViaGithub from '../Components/SubmitViaGithub';
 
 function choosePage(setPage, item){
-    if (item == "submit")
+    if (item === "submit")
         setPage(<SubmitViaGithub/>);
     else
         setPage(<ProgTask title={item} desc="Написать функцию string itc_hello_str(string name), которая принимает имя пользователя и возвращает строку приветствие «Hello, <имя пользователя>»" time_limit={5} memory_limit={100} can_submit={false}/>);

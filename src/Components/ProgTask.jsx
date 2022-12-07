@@ -1,6 +1,6 @@
 import React from "react";
 import { Card } from 'antd';
-import { Rate, Descriptions, Table } from 'antd';
+import { Descriptions, Table } from 'antd';
 import SendTask from "./SendTask";
 import MyAttempts from "./MyAttempts";
 
