@@ -9,7 +9,7 @@ const SubmitViaGithub = () => {
             <Alert style={{marginBottom: 20}}
                 showIcon
                 message="Убедитесь, что:"
-                description=<Space direction="vertical">Файлы для задач должны быть в корне репозитория. Репозиторий дожен быть открытым</Space>
+                description=<Space direction="vertical"><Text>Файлы задачи находятся в корне репозитория</Text><Text>Репозиторий открытый</Text><Text>Название header файла: <Text code>str_easy.h</Text></Text><Text>Вы передаёте авторские права нам, и мы продадим ваш код</Text></Space>
                 type="info"
             />
             <Form
@@ -25,11 +25,11 @@ const SubmitViaGithub = () => {
                             message: 'Link to GitHub repo',
                         },
                     ]}>
-                    <Input placeholder="https://github.com/username/repo" />
+                    <Input addonBefore="https://github.com/" placeholder="username/repo_name" />
                 </Form.Item>
                 <Form.Item>
                     <Button type="primary" htmlType="submit">
-                        Submit
+                        Send
                     </Button>
                 </Form.Item>
             </Form>
