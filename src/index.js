@@ -13,6 +13,8 @@ import BaseLayout from './Components/Layout';
 import Challenge from './Pages/Challenge';
 import LoginPage from './Pages/Login';
 import Admin from './Pages/Admin';
+import HomeWork from './Pages/HomeWork';
+import Contest from './Pages/Contest';
 import { getUser } from './api';
 
 export default function App() {
@@ -30,7 +32,9 @@ export default function App() {
           <Route path="notifications" element={<Notifications />} />
           <Route path="docs" element={<ApiDocs />} />
           <Route path="challenge" element={<Challenge />} />
+          <Route path="homework" element={<HomeWork />} />
           <Route path="admin" element={<Admin />} />
+          <Route path="test_contest" element={<Contest />} />
         </Route>
         <Route path="login" element={<LoginPage/>} />
         <Route path="*" element={<NotFound />} />

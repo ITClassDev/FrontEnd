@@ -5,7 +5,6 @@ import IntroPage from "../Components/IntroPage";
 import ProfileCard from "../Components/ProfileCard.jsx";
 
 const Home = ({ user }) => {
-  const userSocial = [["userGithub", "ret7020"], ["userGithub", "ret7020"], ["userGithub", "ret7020"], ["userGithub", "ret7020"], ["userGithub", "ret7020"]];
   useEffect(() => {
     userHook(() => {
       //fillProfile(setUserAbout, setUserName, setUserAvatar, user.user);

@@ -73,7 +73,7 @@ const BaseLayout = ({ user }) => {
     getItem('Достижения', '2', <CrownOutlined />, "/achivments"),
     getItem('Задачи', 'sub1', <CodeOutlined />, "", [
       getItem('Задача дня', '3', <FieldTimeOutlined />, "/challenge"),
-      getItem('ДЗ', '4', <HomeOutlined />, "/"),
+      getItem('ДЗ', '4', <HomeOutlined />, "/homework"),
       getItem('СР', '5', <CheckSquareOutlined />, "/"),
     ]),
     getItem('Мероприятия', '6', <CalendarOutlined />, "/events"),

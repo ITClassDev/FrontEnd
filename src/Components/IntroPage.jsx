@@ -1,13 +1,14 @@
 import { Carousel, Image } from 'antd';
 import { Typography } from 'antd';
-
+import { GithubOutlined } from '@ant-design/icons';
+import Link from 'antd/es/typography/Link';
 const { Title, Text } = Typography;
 
 const IntroPage = () => {
     return (
         <>
             <Title>Школьная IT платформа</Title>
-            <Text>ШТП - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Dui vivamus arcu felis bibendum ut. Sed ullamcorper morbi tincidunt ornare massa eget egestas purus. Integer feugiat scelerisque varius morbi enim nunc faucibus. Sagittis vitae et leo duis ut diam quam nulla porttitor.</Text>
+            <Text>Школьная IT платформа(ШТП) - система для учеников профильных IT классов.</Text>
             <Carousel autoplay>
                 <div>
                     <Image src="https://i.imgur.com/SXm2Xim.png" preview={false}/>
@@ -22,7 +23,13 @@ const IntroPage = () => {
                     <Image src="https://i.imgur.com/SXm2Xim.png" preview={false}/>
                 </div>
             </Carousel>
-            
+            <Title>Open Source</Title>
+            <div>
+                <Text>Исходный код всех частей нашего проекта полностью открыт. Вы можете улучшить наш проект, а так же адаптировать проект под своё учебное заведение.</Text>
+            </div>
+            <div>
+                <Link href='https://github.com/ItClassDev' target="__blank"><GithubOutlined/> GitHub</Link>
+            </div>
         </>
     )
 }
