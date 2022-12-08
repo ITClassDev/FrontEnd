@@ -25,14 +25,14 @@ function fillProfile(about, name, avatar, user, socials) {
     avatar(`${STORAGE}/avatars/${user.userAvatarPath}`);
     let userSocial = [];
     available_socials.forEach((val) => {
-        if (user[val.name]){
+        if (user[val.name])
             userSocial.push([val.icon, user[val.name], val.color, val.url]);
-        }
+        
     });
     socials(userSocial);
 
 }
-const ProfileCard = ({ user }) => {
+const ProfileCard = ({ user, header_title="Ваш профиль" }) => {
     const [userAbout, setUserAbout] = useState(<LoadingSmall />);
     const [userName, setUserName] = useState(<LoadingBig />);
     const [userAvatar, setUserAvatar] = useState("");
@@ -41,7 +41,7 @@ const ProfileCard = ({ user }) => {
 
     return (
         <Card
-            title="Ваш профиль"
+            title={header_title}
             bordered={false}
         >
             <Row align="middle">
