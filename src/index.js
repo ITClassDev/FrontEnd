@@ -17,6 +17,7 @@ import HomeWork from './Pages/HomeWork';
 import Contest from './Pages/Contest';
 import { getUser } from './api';
 import ViewProfile from './Pages/ViewProfile';
+import LeaderBoard from './Pages/LeaderBoard';
 
 export default function App() {
   const [userData, setUserData] = useState({status: 0});
@@ -37,6 +38,7 @@ export default function App() {
           <Route path="admin" element={<Admin />} />
           <Route path="test_contest" element={<Contest />} />
           <Route path="profile/:user_id" element={<ViewProfile />} />
+          <Route path="leaderboard" element={<LeaderBoard />} />
         </Route>
         <Route path="login" element={<LoginPage/>} />
         <Route path="*" element={<NotFound />} />

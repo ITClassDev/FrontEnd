@@ -9,7 +9,6 @@ const ViewProfile = () => {
     const [page, setPage] = useState(<>Loading...</>);
     useEffect(() => {getOtherUser((resp) => {setPage(<ProfileCard user={resp.data} header_title="Профиль пользователя"/>)}, () => {setPage(<NotFound/>)}, user_id)}, []);
     return (page);
-
 }
 
 export default ViewProfile;
