@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
   PieChartOutlined,
   UserOutlined,
@@ -32,6 +32,7 @@ function getItem(
 ) {
   return {
     label: ((children === undefined) ? <Link to={href}>{label}</Link> : label),
+    href: href,
     key: key,
     icon: icon,
     children: children
@@ -45,17 +46,43 @@ function logOut(nav) {
 
 
 const BaseLayout = ({ user }) => {
+  const onClickMenu = (item) => {
+    setSelectedKey(item.key);
 
+  }
+  const router_mapping = {"/": "1", "/achivments": "2", "/challenge": "3", "/homework": "4", "/tests": "5", "/events": "6", "/notifications": "7", "/stats": "8", "/docs": "9", "/admin": "10"}
+  
   const [collapsed, setCollapsed] = useState(false);
   const [loginModelOpened, openLoginModal] = useState(false);
   const [menu, setMenu] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
+  const logined_menu = [
+    getItem('Аккаунт', '1', <UserOutlined />, "/"),
+    getItem('Достижения', '2', <CrownOutlined />, "/achivments"),
+    getItem('Задачи', 'sub1', <CodeOutlined />, "", [
+      getItem('Задача дня', '3', <FieldTimeOutlined />, "/challenge"),
+      getItem('ДЗ', '4', <HomeOutlined />, "/homework"),
+      getItem('СР', '5', <CheckSquareOutlined />, "/tests"),
+    ]),
+    getItem('Мероприятия', '6', <CalendarOutlined />, "/events"),
+    getItem('Уведомления', '7', <Badge dot={1}><NotificationOutlined /></Badge>, "/notifications"),
+    getItem('Статистика', '8', <PieChartOutlined />, "/stats"),
+    getItem('API доки', '9', <ProfileOutlined />, "/docs"),
+    getItem('Админка', '10', <ControlOutlined />, "/admin"),
+    { label: "Logout", key: '11', icon: <LoginOutlined />, onClick: () => { logOut(navigate) } }
+  ];
+  const [selectedKey, setSelectedKey] = useState(router_mapping[location.pathname]);
+
+
+
   useEffect(() => {
     if (user.status !== 0) {
-      if (user.status === 1)
+      if (user.status === 1) {
         setMenu(logined_menu);
-      else
+      } else {
         setMenu(non_logined_menu)
+      }
     }
   }, [user]);
 
@@ -70,26 +97,8 @@ const BaseLayout = ({ user }) => {
     { label: "Login", key: '2', icon: <LogoutOutlined />, onClick: () => { openLogin() } }
   ];
 
-  const logined_menu = [
-    getItem('Аккаунт', '1', <UserOutlined />, "/"),
-    getItem('Достижения', '2', <CrownOutlined />, "/achivments"),
-    getItem('Задачи', 'sub1', <CodeOutlined />, "", [
-      getItem('Задача дня', '3', <FieldTimeOutlined />, "/challenge"),
-      getItem('ДЗ', '4', <HomeOutlined />, "/homework"),
-      getItem('СР', '5', <CheckSquareOutlined />, "/"),
-    ]),
-    getItem('Мероприятия', '6', <CalendarOutlined />, "/events"),
-    getItem('Уведомления', '7', <Badge dot={1}><NotificationOutlined /></Badge>, "/notifications"),
-    getItem('Статистика', '8', <PieChartOutlined />, "/stats"),
-    getItem('API доки', '9', <ProfileOutlined />, "/docs"),
-    getItem('Админка', '10', <ControlOutlined />, "/admin"),
-    { label: "Logout", key: '11', icon: <LoginOutlined />, onClick: () => { logOut(navigate) } }
-  ];
-
   return (
-
     <Layout hasSider>
-
       <Modal title="Войти в аккаунт" open={loginModelOpened} onCancel={hideLogin} footer={[]}>
         <LoginForm />
       </Modal>
@@ -100,16 +109,16 @@ const BaseLayout = ({ user }) => {
         left: 0,
         top: 0,
         bottom: 0,
-        zIndex: 2000
+        zIndex: 2
       }}>
         <div className="logo" />
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={menu} />
+        <Menu theme="dark" selectedKeys={[selectedKey]} mode="inline" items={menu} onClick={onClickMenu}/>
       </Sider>
 
       <Layout className="site-layout" style={{ backgroundColor: '' }}>
         <Content style={{ marginLeft: '25%', overflow: 'auto', marginRight: '5%' }} width="70%">
           <Outlet />
-          <Footer style={{textAlign: "center"}}>
+          <Footer style={{ textAlign: "center" }}>
             <Space direction="vertical">
               <Text strong>ShTP project</Text>
               <Text>Client version: <Text code>{CLIENT_VER}</Text></Text>
