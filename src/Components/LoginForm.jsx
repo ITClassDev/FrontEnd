@@ -2,34 +2,38 @@ import React, { useState } from "react";
 import { Button, message, Form, Input } from 'antd';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import API_URL from "../config";
+import { authUser } from "../api";
 
 const LoginForm = () => {
     const navigate = useNavigate();
     const [messageApi, contextHolder] = message.useMessage();
     const [buttonLoading, setButtonLoading] = useState(false);
-    const error = () => {
+    const login_error = () => {
         messageApi.open({
             type: 'error',
             content: 'Неверная пара логин/пароль',
         });
     };
+    const login_ok = (response) => {
+        setButtonLoading(false);
+        localStorage.setItem('user', response.data.accessToken); // Update access token in local storage; so security?! No!
+        navigate(0);
+    }
 
     const onFinish = (values) => {
         setButtonLoading(true);
-        axios.post(`${API_URL}/auth/login`, { "email": values["email"], "password": values["password"] }).then((response) => {
-            if (response.status === 200) {
-                setButtonLoading(false);
-                localStorage.setItem('user', response.data.accessToken); // Update access token in local storage; so security?! No!
-                navigate(0);
-            }
+        authUser(values.email, values.password, login_ok, login_error);
+        /*axios.post(`${API_URL}/auth/login`, { "email": values["email"], "password": values["password"] }).then((response) => {
+            
         }).catch((response) => {
-            console.log(response.status === undefined);
-            setButtonLoading(false);
-            error();
+            if (response.status === undefined){
+                
+            }else{
+                setButtonLoading(false);
+                error();
+            }
 
-        });
+        });*/
     };
 
     return (
