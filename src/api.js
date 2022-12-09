@@ -1,10 +1,18 @@
 import axios from "axios";
 import API_URL from "./config";
+import React from "react";
+
+export function backendError(){
+  console.warn("Backend is down; Contact ShTP admins");
+
+}
+
 
 export function getUser(ok_handler, error_handler, api = API_URL) {
   axios.get(`${api}/auth/me`, getAuth()).then((response) => {
     ok_handler(response);
   }).catch((response) => {
+    backendError();
     error_handler(response);
   });
 }
@@ -29,10 +37,12 @@ export function userHook(authed_handler, non_authed_handler, user) {
 
 }
 
-export function authUser(login, password, api = API_URL) {
+export function authUser(login, password, ok_handler, error_handler, api = API_URL) {
   axios.post(`${api}/auth/login`, { "email": login, "password": password }).then((response) => {
     if (response.status === 200)
       localStorage.setItem('user', response.data.accessToken); // Update access token in local storage; so security?! No!
+  }).catch((response) => {
+    backendError();
   });
 }
 

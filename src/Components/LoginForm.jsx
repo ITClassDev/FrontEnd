@@ -24,7 +24,8 @@ const LoginForm = () => {
                 localStorage.setItem('user', response.data.accessToken); // Update access token in local storage; so security?! No!
                 navigate(0);
             }
-        }).catch(() => {
+        }).catch((response) => {
+            console.log(response.status === undefined);
             setButtonLoading(false);
             error();
 

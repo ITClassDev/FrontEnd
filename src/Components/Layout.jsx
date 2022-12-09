@@ -15,11 +15,13 @@ import {
   LogoutOutlined,
   LoginOutlined
 } from '@ant-design/icons';
-import { Layout, Menu, Badge, Modal } from 'antd';
+import { Layout, Menu, Badge, Modal, Typography, Space } from 'antd';
 import { Outlet, Link } from 'react-router-dom';
 import "../index.css";
 import LoginForm from './LoginForm';
-const { Content, Sider } = Layout;
+import { CLIENT_VER } from '../config';
+const { Content, Sider, Footer } = Layout;
+const { Text } = Typography;
 
 function getItem(
   label,
@@ -87,7 +89,7 @@ const BaseLayout = ({ user }) => {
   return (
 
     <Layout hasSider>
-      
+
       <Modal title="Войти в аккаунт" open={loginModelOpened} onCancel={hideLogin} footer={[]}>
         <LoginForm />
       </Modal>
@@ -107,6 +109,14 @@ const BaseLayout = ({ user }) => {
       <Layout className="site-layout" style={{ backgroundColor: '' }}>
         <Content style={{ marginLeft: '25%', overflow: 'auto', marginRight: '5%' }} width="70%">
           <Outlet />
+          <Footer style={{textAlign: "center"}}>
+            <Space direction="vertical">
+              <Text strong>ShTP project</Text>
+              <Text>Client version: <Text code>{CLIENT_VER}</Text></Text>
+              <Text>FrontEnd: <Text code type="success">Online</Text></Text>
+              <Text>BackEnd (API): <Text code type="danger">Offline</Text></Text>
+            </Space>
+          </Footer>
         </Content>
       </Layout>
     </Layout>
