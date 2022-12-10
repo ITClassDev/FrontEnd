@@ -11,7 +11,7 @@ export function getUser(ok_handler, error_handler, api = API_URL) {
   axios.get(`${api}/auth/me`, getAuth()).then((response) => {
     ok_handler(response);
   }).catch((response) => {
-    if (response.status === undefined) { backendError(); }
+    if (response.code === "ERR_NETWORK") { backendError(); }
     error_handler(response);
   });
 }
@@ -43,7 +43,7 @@ export function authUser(login, password, ok_handler, error_handler, api = API_U
     if (response.status === 200)
       ok_handler(response);
   }).catch((response) => {
-    if (response.status === undefined) {
+    if (response.code === "ERR_NETWORK") {
       backendError();
     } else {
       error_handler(response);

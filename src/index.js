@@ -20,16 +20,16 @@ import ViewProfile from './Pages/ViewProfile';
 import LeaderBoard from './Pages/LeaderBoard';
 
 export default function App() {
-  const [userData, setUserData] = useState({status: 0});
+  const [userData, setUserData] = useState({ status: 0 });
   const [backendStatus, setBackendStatus] = useState("Online");
   useEffect(() => {
-    getUser((resp) => {setUserData({status: 1, user: resp.data.user})}, (resp) => {setUserData({status: 2}); setBackendStatus("Offline");})
+    getUser((resp) => { setUserData({ status: 1, user: resp.data.user }) }, (resp) => { setUserData({ status: 2 }); if (resp.code === "ERR_NETWORK") { setBackendStatus("Offline"); } })
   }, []);
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<BaseLayout user={userData} backendStatus={backendStatus}/>}>
-          <Route index element={<Home user={userData}/>}/>
+        <Route path="/" element={<BaseLayout user={userData} backendStatus={backendStatus} />}>
+          <Route index element={<Home user={userData} />} />
           <Route path="events" element={<Events />} />
           <Route path="achivments" element={<Achivments />} />
           <Route path="notifications" element={<Notifications />} />
@@ -41,7 +41,7 @@ export default function App() {
           <Route path="profile/:user_id" element={<ViewProfile />} />
           <Route path="leaderboard" element={<LeaderBoard />} />
         </Route>
-        <Route path="login" element={<LoginPage/>} />
+        <Route path="login" element={<LoginPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

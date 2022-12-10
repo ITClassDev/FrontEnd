@@ -13,6 +13,7 @@ const LoginForm = () => {
             type: 'error',
             content: 'Неверная пара логин/пароль',
         });
+        setButtonLoading(false);
     };
     const login_ok = (response) => {
         setButtonLoading(false);
