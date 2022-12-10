@@ -14,8 +14,9 @@ export const LoadingBig = () => {
     );
     return (
         <>
-        <span style={{marginRight: 10}}>Loading</span>
-        <Spin indicator={antIcon} /></>
+            <span style={{ marginRight: 10 }}>Loading</span>
+            <Spin indicator={antIcon} />
+        </>
     );
 
 }
@@ -31,10 +32,26 @@ export const LoadingSmall = () => {
     );
     return (
         <>
-        <span style={{marginRight: 5}}>Loading</span>
-        <Spin indicator={antIcon} /></>
+            <span style={{ marginRight: 5 }}>Loading</span>
+            <Spin indicator={antIcon} />
+        </>
     );
+}
 
+export const LoadingHorizCenter = () => {
+    const antIcon = (
+        <LoadingOutlined
+            style={{
+                fontSize: 30,
+            }}
+            spin
+        />
+    );
+    return (
+        <div style={{ textAlign: "center" }}>
+            <Spin indicator={antIcon}/>
+        </div>
+    );
 }
 
 
