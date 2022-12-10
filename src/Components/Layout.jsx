@@ -45,7 +45,7 @@ function logOut(nav) {
 }
 
 
-const BaseLayout = ({ user }) => {
+const BaseLayout = ({ user, backendStatus }) => {
   const onClickMenu = (item) => {
     setSelectedKey(item.key);
 
@@ -123,7 +123,7 @@ const BaseLayout = ({ user }) => {
               <Text strong>ShTP project</Text>
               <Text>Client version: <Text code>{CLIENT_VER}</Text></Text>
               <Text>FrontEnd: <Text code type="success">Online</Text></Text>
-              <Text>BackEnd (API): <Text code type="danger">Offline</Text></Text>
+              <Text>BackEnd (API): <Text code type={backendStatus == "Online" ? "success": "danger"}>{backendStatus}</Text></Text>
             </Space>
           </Footer>
         </Content>

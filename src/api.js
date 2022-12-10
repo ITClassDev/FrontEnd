@@ -11,7 +11,7 @@ export function getUser(ok_handler, error_handler, api = API_URL) {
   axios.get(`${api}/auth/me`, getAuth()).then((response) => {
     ok_handler(response);
   }).catch((response) => {
-    backendError();
+    if (response.status === undefined) {backendError();}
     error_handler(response);
   });
 }

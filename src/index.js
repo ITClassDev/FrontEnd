@@ -21,13 +21,14 @@ import LeaderBoard from './Pages/LeaderBoard';
 
 export default function App() {
   const [userData, setUserData] = useState({status: 0});
+  const [backendStatus, setBackendStatus] = useState("Online");
   useEffect(() => {
-    getUser((resp) => {setUserData({status: 1, user: resp.data.user})}, () => {setUserData({status: 2})})
+    getUser((resp) => {setUserData({status: 1, user: resp.data.user})}, (resp) => {setUserData({status: 2}); setBackendStatus("Offline");})
   }, []);
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<BaseLayout user={userData}/>}>
+        <Route path="/" element={<BaseLayout user={userData} backendStatus={backendStatus}/>}>
           <Route index element={<Home user={userData}/>}/>
           <Route path="events" element={<Events />} />
           <Route path="achivments" element={<Achivments />} />
