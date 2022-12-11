@@ -73,3 +73,10 @@ export function getOtherUser(ok_handler, error_handler, user_id, api = API_URL) 
   ).catch((response) => error_handler(response));
 }
 
+
+export function getLeaderBoard(ok_handler, error_handler, api = API_URL) {
+  axios.get(`${api}/users/get_leaderboard`).then((response) => {
+    ok_handler(response);
+  }
+  ).catch((response) => error_handler(response));
+}
