@@ -14,7 +14,7 @@ const IntroPage = () => {
                     <Image src="https://i.imgur.com/SXm2Xim.png" preview={false}/>
                 </div>
                 <div>
-                    <Image src="https://i.imgur.com/SXm2Xim.png" preview={false}/>
+                    <Image src="https://i.imgur.com/Pf9tQqn.png" preview={false}/>
                 </div>
                 <div>
                     <Image src="https://i.imgur.com/SXm2Xim.png" preview={false}/>

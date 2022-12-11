@@ -1,7 +1,8 @@
 import React from "react";
-import { Button, Form, Input, Upload, message, Select } from 'antd';
+import { Button, Form, Input, Upload, message, Select, Typography } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 const { TextArea } = Input;
+const { Text } = Typography;
 
 
 const uploader_conf = {
@@ -100,6 +101,7 @@ const AddAchivment = () => {
                     <Button icon={<UploadOutlined />}>Выбрать файл</Button>
                 </Upload>
             </Form.Item>
+            
 
 
 
@@ -110,6 +112,7 @@ const AddAchivment = () => {
                     Отправить на модерацию
                 </Button>
             </Form.Item>
+            <Text type="secondary">Количество баллов за данное достижение выбирает преподаватель! Но есть таблица рекомендуемых баллов за достижения из разных категорий.</Text>
         </Form>
     );
 }

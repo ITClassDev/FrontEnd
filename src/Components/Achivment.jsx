@@ -13,7 +13,7 @@ const Achivment = ({ title, points, desc, date }) => {
                 <Text><StarFilled /> {points}</Text>
                 <Text><GlobalOutlined /> Информация</Text>
                 <Text><FileDoneOutlined /> Диплом</Text>
-                <Text><ClockCircleOutlined /> {date}</Text>
+                <Text><ClockCircleOutlined /> {new Date(date).toLocaleDateString("ru-RU")}</Text>
             </Space>
         </Card>
     );

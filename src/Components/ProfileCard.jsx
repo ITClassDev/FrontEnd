@@ -4,6 +4,7 @@ import { Card, Avatar, Col, Row, Button, Image } from 'antd';
 import { Typography } from 'antd';
 import { GithubOutlined } from '@ant-design/icons';
 import { STORAGE } from "../config";
+import { updateUserAbout } from "../api";
 //import Icon from '@ant-design/icons';
 
 import { LoadingBig, LoadingSmall } from "../Components/Loading.jsx";
@@ -17,7 +18,7 @@ const { Title, Paragraph } = Typography;
 // const TelegramIcon = (props) => <Icon component={TelegramLogoSvg} {...props} />;
 
 
-const available_socials = [{ name: "userGithub", icon: <GithubOutlined />, color: "black", url: "https://github.com/" }, {name: "userTelegram", icon: <GithubOutlined />, color: "#0088CC", url: "https://t.me/"}, {name: "userStepik", icon: <GithubOutlined />, color: "#54ad54", url: "https://stepik.org/users/"}, {name: "userKaggle", icon: <GithubOutlined />, color: "#37bae8", url: "https://kaggle.com/"}] 
+const available_socials = [{ name: "userGithub", icon: <GithubOutlined />, color: "black", url: "https://github.com/" }, { name: "userTelegram", icon: <GithubOutlined />, color: "#0088CC", url: "https://t.me/" }, { name: "userStepik", icon: <GithubOutlined />, color: "#54ad54", url: "https://stepik.org/users/" }, { name: "userKaggle", icon: <GithubOutlined />, color: "#37bae8", url: "https://kaggle.com/" }]
 function fillProfile(about, name, avatar, user, socials) {
 
     name(`${user.firstName} ${user.lastName}`);
@@ -27,17 +28,22 @@ function fillProfile(about, name, avatar, user, socials) {
     available_socials.forEach((val) => {
         if (user[val.name])
             userSocial.push([val.icon, user[val.name], val.color, val.url]);
-        
+
     });
     socials(userSocial);
-
 }
-const ProfileCard = ({ user, header_title="Ваш профиль" }) => {
+
+
+const ProfileCard = ({ user, header_title = "Ваш профиль" }) => {
     const [userAbout, setUserAbout] = useState(<LoadingSmall />);
     const [userName, setUserName] = useState(<LoadingBig />);
     const [userAvatar, setUserAvatar] = useState("");
     const [userSocialNets, setUserSocialNets] = useState([]);
     useEffect(() => { fillProfile(setUserAbout, setUserName, setUserAvatar, user, setUserSocialNets); }, [user]);
+    function setProfileAboutText(new_text) {
+        updateUserAbout(new_text, (resp) => {setUserAbout(new_text)}, () => {});
+    }
+
 
     return (
         <Card
@@ -46,12 +52,12 @@ const ProfileCard = ({ user, header_title="Ваш профиль" }) => {
         >
             <Row align="middle">
                 <Col>
-                    <Avatar src={<Image src={userAvatar}/>} size={100} />
+                    <Avatar src={<Image src={userAvatar} />} size={100} />
                 </Col>
                 <Col style={{ marginLeft: 20 }}>
                     <div style={{ marginBottom: 10 }}>
                         <Title level={2} style={{ marginBottom: 0 }}>{userName}</Title>
-                        <Paragraph editable
+                        <Paragraph editable={{ onChange: setProfileAboutText }}
                         >
                             {userAbout}
                         </Paragraph>

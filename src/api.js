@@ -18,12 +18,18 @@ export function getUser(ok_handler, error_handler, api = API_URL) {
 
 export function getUserAchievements(ok_handler, error_handler, api = API_URL) {
   axios.get(`${api}/achievements/get_my`, getAuth()).then((response) => {
-
     ok_handler(response);
   }).catch((response) => {
     error_handler(response);
   })
+}
 
+export function updateUserAbout(new_about, ok_handler, error_handler, api = API_URL) {
+  axios.post(`${api}/users/update_about_text`, { about_text: new_about }, getAuth()).then((response) => {
+    ok_handler(response);
+  }).catch((response) => {
+    error_handler(response);
+  })
 }
 
 
@@ -39,7 +45,7 @@ export function userHook(authed_handler, non_authed_handler, user) {
 }
 
 export function authUser(login, password, ok_handler, error_handler, api = API_URL) {
-  axios.post(`${api}/auth/login`, { "email": login, "password": password }).then((response) => {
+  axios.post(`${api}/auth/login`, { email: login, password: password }).then((response) => {
     if (response.status === 200)
       ok_handler(response);
   }).catch((response) => {
