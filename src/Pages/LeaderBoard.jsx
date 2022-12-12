@@ -12,7 +12,7 @@ const LeaderBoard = () => {
     useEffect(() => {getLeaderBoard((resp) => {
         let res = [];
         resp.data.forEach((element, ind) => {
-            if (element.rating != 0) // ignore users withput rating(zero rating)
+            if (element.rating !== 0) // ignore users withput rating(zero rating)
                 res.push({number: ind + 1, user_name: <><Avatar src={`${STORAGE}/avatars/${element.userAvatarPath}`} style={{ verticalAlign: 'middle', marginRight: 10 }} size="large"></Avatar><Text strong>{element.firstName} {element.lastName}</Text></>, rating: element.rating, key: ind});
         });
         setRatingUsers(res);

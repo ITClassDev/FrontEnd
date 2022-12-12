@@ -18,6 +18,7 @@ import Contest from './Pages/Contest';
 import { getUser } from './api';
 import ViewProfile from './Pages/ViewProfile';
 import LeaderBoard from './Pages/LeaderBoard';
+import OAuth from './Pages/OAuth';
 
 export default function App() {
   const [userData, setUserData] = useState({ status: 0 });
@@ -40,6 +41,7 @@ export default function App() {
           <Route path="test_contest" element={<Contest />} />
           <Route path="profile/:user_id" element={<ViewProfile />} />
           <Route path="leaderboard" element={<LeaderBoard />} />
+          <Route path="login_to/:app_id" element={<OAuth />} />
         </Route>
         <Route path="login" element={<LoginPage />} />
         <Route path="*" element={<NotFound />} />

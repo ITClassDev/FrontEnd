@@ -32,6 +32,12 @@ export function updateUserAbout(new_about, ok_handler, error_handler, api = API_
   })
 }
 
+export function provideAccessToApp(app_id, ok_handler, error_handler, api = API_URL) {
+  axios.post(`${api}/oauth/provide_access`, {app_id: app_id}, getAuth()).then((response) => {
+    ok_handler(response);
+  }).catch((response) => error_handler(response));
+}
+
 
 // AUTH UTILS
 export function userHook(authed_handler, non_authed_handler, user) {
@@ -79,4 +85,13 @@ export function getLeaderBoard(ok_handler, error_handler, api = API_URL) {
     ok_handler(response);
   }
   ).catch((response) => error_handler(response));
+}
+
+
+export function getAppInfo(app_id, ok_handler, error_handler, api = API_URL) {
+  axios.get(`${api}/oauth/get_app/${app_id}`).then((response) => {
+    ok_handler(response);
+  }).catch((response) => {
+    error_handler(response);
+  })
 }

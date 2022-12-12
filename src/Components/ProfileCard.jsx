@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { Card, Avatar, Col, Row, Button, Image } from 'antd';
+import { Card, Avatar, Col, Row, Button, Image, Space } from 'antd';
 import { Typography } from 'antd';
 import { GithubOutlined } from '@ant-design/icons';
 import { STORAGE } from "../config";
@@ -8,8 +8,9 @@ import { updateUserAbout } from "../api";
 //import Icon from '@ant-design/icons';
 
 import { LoadingBig, LoadingSmall } from "../Components/Loading.jsx";
+import Terminal from "./Terminal";
 
-const { Title, Paragraph } = Typography;
+const { Title, Paragraph, Text } = Typography;
 
 // const TelegramLogoSvg = () => (
 
@@ -41,40 +42,41 @@ const ProfileCard = ({ user, header_title = "Ваш профиль" }) => {
     const [userSocialNets, setUserSocialNets] = useState([]);
     useEffect(() => { fillProfile(setUserAbout, setUserName, setUserAvatar, user, setUserSocialNets); }, [user]);
     function setProfileAboutText(new_text) {
-        updateUserAbout(new_text, (resp) => {setUserAbout(new_text)}, () => {});
+        updateUserAbout(new_text, (resp) => { setUserAbout(new_text) }, () => { });
     }
 
 
     return (
-        <Card
-            title={header_title}
-            bordered={false}
-        >
-            <Row align="middle">
-                <Col>
-                    <Avatar src={<Image src={userAvatar} />} size={100} />
-                </Col>
-                <Col style={{ marginLeft: 20 }}>
-                    <div style={{ marginBottom: 10 }}>
-                        <Title level={2} style={{ marginBottom: 0 }}>{userName}</Title>
-                        <Paragraph editable={{ onChange: setProfileAboutText }}
-                        >
-                            {userAbout}
-                        </Paragraph>
-                    </div>
-                    <Row>
-                        {userSocialNets.map((social, ind) => (
-                            <Button type="primary" style={{ marginBottom: 10, marginRight: 10, backgroundColor: social[2] }} target={"__blank"} key={ind} icon={social[0]} href={`${social[3]}${social[1]}`}>@{social[1]}</Button>
-                        ))}
-                    </Row>
+        <>
+            <Card title={header_title} bordered={false}>
+                <Row align="middle">
+                    <Col>
+                        <Avatar src={<Image src={userAvatar} />} size={100} />
+                    </Col>
+                    <Col style={{ marginLeft: 20 }}>
+                        <div style={{ marginBottom: 10 }}>
+                            <Title level={2} style={{ marginBottom: 0 }}>{userName}</Title>
+                            <Paragraph editable={{ onChange: setProfileAboutText }}
+                            >
+                                {userAbout}
+                            </Paragraph>
+                        </div>
+                        <Row>
+                            {userSocialNets.map((social, ind) => (
+                                <Button type="primary" style={{ marginBottom: 10, marginRight: 10, backgroundColor: social[2] }} target={"__blank"} key={ind} icon={social[0]} href={`${social[3]}${social[1]}`}>@{social[1]}</Button>
+                            ))}
+                        </Row>
+                    </Col>
+                    
+                </Row>
+            </Card>
 
-                </Col>
-            </Row>
-        </Card>
+            <Card title="Информация" bordered={false} style={{marginTop: 20}}>
+                <Terminal/>
+            </Card>
+        </>
     );
 }
-/*
 
-                */
 
 export default ProfileCard;

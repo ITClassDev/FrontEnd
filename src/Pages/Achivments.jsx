@@ -5,8 +5,10 @@ import { getUserAchievements } from "../api";
 import { LoadingHorizCenter } from "../Components/Loading";
 import { PlusOutlined } from "@ant-design/icons";
 import AddAchivment from "../Components/AddAchivment";
+import useDocumentTitle from "../useDocumentTitle";
 
 const Achivments = () => {
+    useDocumentTitle('Ваши достижения | ШТП');
     const [achivmentsBlock, setAchivmentsBlock] = useState(<LoadingHorizCenter/>);
     useEffect(() => {
         getUserAchievements((resp) => {setAchivmentsBlock(<AchivmentsList achivments={resp.data.achievements}/>)}, () => {})
