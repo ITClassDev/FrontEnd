@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { API_URL, STORAGE } from "../config";
-import { Descriptions } from "antd";
+import { Descriptions, Typography } from "antd";
 import axios from "axios";
+
+const { Title } = Typography;
 
 
 const measure_time = async (setTime, setCPU, setRAM) => {
@@ -13,18 +15,18 @@ const measure_time = async (setTime, setCPU, setRAM) => {
     const request_duration = request_end_at - request_start_at;
 
     if (response.status === 200) {
-      setTime(`${Math.round(request_duration)} ms`);
-      setCPU(response.data.system_status.cpu);
-      setRAM(response.data.system_status.ram);
+        setTime(`${Math.round(request_duration)} ms`);
+        setCPU(response.data.system_status.cpu);
+        setRAM(response.data.system_status.ram);
     }
-} 
+}
 
 
 const Admin = () => {
     const [timeToApi, setTimeToApi] = useState("waiting...");
     const [backendCPU, setBackendCPU] = useState("waiting...");
     const [backendRAM, setBackendRAM] = useState("waiting...");
-    useEffect(() => {measure_time(setTimeToApi, setBackendCPU, setBackendRAM)}, [])
+    useEffect(() => { measure_time(setTimeToApi, setBackendCPU, setBackendRAM) }, [])
     return (
         <>
             <h1>Админка</h1>
@@ -38,6 +40,15 @@ const Admin = () => {
                     <Descriptions.Item label="API time">N/A</Descriptions.Item>
                 </Descriptions>
             </div>
+            <Title level={4}>Статистика</Title>
+            <div>
+                Stat
+            </div>
+            <Title level={4}>Пользователи</Title>
+            <div>
+                Users table + create user form + multiple users creation
+            </div>
+
         </>
     );
 }

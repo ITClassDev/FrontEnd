@@ -24,6 +24,16 @@ export default function App() {
   const [userData, setUserData] = useState({ status: 0 });
   const [backendStatus, setBackendStatus] = useState("Online");
   useEffect(() => {
+    console.log(`
+Welcome to, 
+ _____ _    _ _______ _____  _ 
+/ ____| |  | |__   __|  __ \| |
+| (___| |__| |  | |  | |__) | |
+\___ \|  __  |  | |  |  ___/| |
+____) | |  | |  | |  | |    |_|
+|____/|_|  |_|  |_|  |_|    (_)
+                               
+`);
     getUser((resp) => { setUserData({ status: 1, user: resp.data.user }) }, (resp) => { setUserData({ status: 2 }); if (resp.code === "ERR_NETWORK") { setBackendStatus("Offline"); } })
   }, []);
   return (

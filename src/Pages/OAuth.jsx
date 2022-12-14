@@ -1,23 +1,30 @@
-import { Card } from "antd";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getAppInfo } from "../api";
+import { getAppInfo, provideAccessToApp } from "../api";
+import LoginTo from "../Components/LoginToAppCard";
+import NotFound from "./NotFound";
 
 const OAuth = () => {
     const { app_id } = useParams();
-    const [appTitle, setAppTitle] = useState("Loading...");
+    const [pageContent, setPageContent] = useState("Loading...");
     useEffect(() => {
         getAppInfo(app_id, (response) => {
-            setAppTitle(response.data.name);
-        }, () => {})
-    }, []);
-    return (
-        <>
-            <Card bordered={false} title={`Войти в ${appTitle}`}>
+            if (response.data.status) {
+                setPageContent(<LoginTo appTitle={response.data.app_info.name} approve_handler={provideInfoButtonHandler}/>);
+            } else {
+                setPageContent(<NotFound/>)
+            }
 
-            </Card>
-        </>
-    );
+        }, () => { })
+    }, []);
+
+    function provideInfoButtonHandler(event) {
+        provideAccessToApp(app_id, (response) => {
+            window.location.assign(response.data.redirect_to);
+        }, () => { });
+    }
+
+    return (pageContent);
 }
 
 export default OAuth;

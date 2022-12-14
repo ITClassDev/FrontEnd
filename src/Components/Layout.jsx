@@ -13,7 +13,8 @@ import {
   ControlOutlined,
   ProfileOutlined,
   LogoutOutlined,
-  LoginOutlined
+  LoginOutlined,
+  CodeSandboxOutlined
 } from '@ant-design/icons';
 import { Layout, Menu, Badge, Modal, Typography, Space } from 'antd';
 import { Outlet, Link } from 'react-router-dom';
@@ -68,9 +69,10 @@ const BaseLayout = ({ user, backendStatus }) => {
     getItem('Мероприятия', '6', <CalendarOutlined />, "/events"),
     getItem('Уведомления', '7', <Badge dot={1}><NotificationOutlined /></Badge>, "/notifications"),
     getItem('Статистика', '8', <PieChartOutlined />, "/stats"),
-    getItem('API доки', '9', <ProfileOutlined />, "/docs"),
-    getItem('Админка', '10', <ControlOutlined />, "/admin"),
-    { label: "Logout", key: '11', icon: <LoginOutlined />, onClick: () => { logOut(navigate) } }
+    getItem('Доки по API', '9', <ProfileOutlined />, "/docs"),
+    getItem('Приложения', '10', <CodeSandboxOutlined />, "/apps"),
+    getItem('Админка', '11', <ControlOutlined />, "/admin"),
+    { label: "Logout", key: '12', icon: <LoginOutlined />, onClick: () => { logOut(navigate) } }
   ];
   const [selectedKey, setSelectedKey] = useState(router_mapping[location.pathname]);
 
@@ -123,7 +125,7 @@ const BaseLayout = ({ user, backendStatus }) => {
               <Text strong>ShTP project</Text>
               <Text>Client version: <Text code>{CLIENT_VER}</Text></Text>
               <Text>FrontEnd: <Text code type="success">Online</Text></Text>
-              <Text>BackEnd (API): <Text code type={backendStatus == "Online" ? "success": "danger"}>{backendStatus}</Text></Text>
+              <Text>BackEnd (API): <Text code type={backendStatus === "Online" ? "success": "danger"}>{backendStatus}</Text></Text>
             </Space>
           </Footer>
         </Content>
