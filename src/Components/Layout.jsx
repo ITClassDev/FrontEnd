@@ -4,7 +4,7 @@ import {
   PieChartOutlined,
   UserOutlined,
   NotificationOutlined,
-  CrownOutlined,
+  StarOutlined,
   CodeOutlined,
   FieldTimeOutlined,
   HomeOutlined,
@@ -48,7 +48,7 @@ function logOut(nav) {
 
 const BaseLayout = ({ user, backendStatus }) => {
   const onClickMenu = (item) => {
-    setSelectedKey(item.key);
+    setSelectedKey(item.key);1
 
   }
   const router_mapping = {"/": "1", "/achivments": "2", "/challenge": "3", "/homework": "4", "/tests": "5", "/events": "6", "/notifications": "7", "/stats": "8", "/docs": "9", "/admin": "10"}
@@ -60,7 +60,7 @@ const BaseLayout = ({ user, backendStatus }) => {
   const location = useLocation();
   const logined_menu = [
     getItem('Аккаунт', '1', <UserOutlined />, "/"),
-    getItem('Достижения', '2', <CrownOutlined />, "/achivments"),
+    getItem('Достижения', '2', <StarOutlined />, "/achivments"),
     getItem('Задачи', 'sub1', <CodeOutlined />, "", [
       getItem('Задача дня', '3', <FieldTimeOutlined />, "/challenge"),
       getItem('ДЗ', '4', <HomeOutlined />, "/homework"),

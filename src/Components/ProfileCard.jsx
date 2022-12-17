@@ -1,16 +1,15 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { Card, Avatar, Col, Row, Button, Image, Space } from 'antd';
+import { Card, Avatar, Col, Row, Button, Image } from 'antd';
 import { Typography } from 'antd';
 import { GithubOutlined } from '@ant-design/icons';
 import { STORAGE } from "../config";
 import { updateUserAbout } from "../api";
-//import Icon from '@ant-design/icons';
-
 import { LoadingBig, LoadingSmall } from "../Components/Loading.jsx";
 import Terminal from "./Terminal";
+//import Icon from '@ant-design/icons';
 
-const { Title, Paragraph, Text } = Typography;
+const { Title, Paragraph } = Typography;
 
 // const TelegramLogoSvg = () => (
 
