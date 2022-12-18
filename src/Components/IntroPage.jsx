@@ -5,6 +5,10 @@ import Link from "antd/es/typography/Link";
 const { Title, Text } = Typography;
 
 const IntroPage = () => {
+  const screenshots = [
+    "https://i.imgur.com/SXm2Xim.png",
+    "https://i.imgur.com/Pf9tQqn.png",
+  ];
   return (
     <>
       <Title>Школьная IT платформа</Title>
@@ -12,24 +16,17 @@ const IntroPage = () => {
         Школьная IT платформа(ШТП) - система для учеников профильных IT классов.
       </Text>
       <Carousel autoplay>
-        <div>
-          <Image src="https://i.imgur.com/SXm2Xim.png" preview={false} />
-        </div>
-        <div>
-          <Image src="https://i.imgur.com/Pf9tQqn.png" preview={false} />
-        </div>
-        <div>
-          <Image src="https://i.imgur.com/SXm2Xim.png" preview={false} />
-        </div>
-        <div>
-          <Image src="https://i.imgur.com/SXm2Xim.png" preview={false} />
-        </div>
+        {screenshots.map((item, index) => (
+          <div>
+            <Image src={item} preview={false} key={index} />
+          </div>
+        ))}
       </Carousel>
       <Title>Open Source</Title>
       <div>
         <Text>
           Исходный код всех частей нашего проекта полностью открыт. Вы можете
-          улучшить наш проект, а так же адаптировать проект под своё учебное
+          улучшить наш проект, a так же адаптировать проект под своё учебное
           заведение.
         </Text>
       </div>
