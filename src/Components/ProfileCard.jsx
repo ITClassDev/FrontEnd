@@ -9,7 +9,7 @@ import {
   Image,
   Typography,
   Calendar,
-  Badge
+  Badge,
 } from "antd";
 import { GithubOutlined } from "@ant-design/icons";
 import { STORAGE } from "../config";
@@ -73,8 +73,15 @@ const ProfileCard = ({ user, header_title = "Ваш профиль" }) => {
   const [userAvatar, setUserAvatar] = useState("");
   const [userSocialNets, setUserSocialNets] = useState([]);
   const [timelineEvents, setTimelineEvents] = useState({
-    "Sat Dec 31 2022": [{ type: "warning", text: "Str middle deadline" }, { type: "warning", text: "Str hard deadline" }, { type: "error", text: "Str someshit deadline" } ],
-    "Mon Dec 12 2022": [{ type: "warning", text: "NTO second tour" }, { type: "success", text: "Project predemo" }],
+    "Sat Dec 31 2022": [
+      { type: "warning", text: "Str middle deadline" },
+      { type: "warning", text: "Str hard deadline" },
+      { type: "error", text: "Str someshit deadline" },
+    ],
+    "Mon Dec 12 2022": [
+      { type: "warning", text: "NTO second tour" },
+      { type: "success", text: "Project predemo" },
+    ],
   });
   useEffect(() => {
     fillProfile(
@@ -99,12 +106,12 @@ const ProfileCard = ({ user, header_title = "Ваш профиль" }) => {
     if (date_string in timelineEvents) {
       return (
         <ul className="eventInCalendar">
-        {timelineEvents[date_string].map((item) => (
-          <li key={item.text}>
-            <Badge status={item.type} text={item.text} />
-          </li>
-        ))}
-      </ul>
+          {timelineEvents[date_string].map((item) => (
+            <li key={item.text}>
+              <Badge status={item.type} text={item.text} />
+            </li>
+          ))}
+        </ul>
       );
     }
   };
