@@ -1,56 +1,33 @@
-import React, { useEffect, useState } from "react";
-import { API_URL, STORAGE } from "../config";
-import { Descriptions, Typography } from "antd";
-import axios from "axios";
-
-const { Title } = Typography;
-
-
-const measure_time = async (setTime, setCPU, setRAM) => {
-    const request_start_at = performance.now();
-
-    const response = await axios.get(API_URL);
-
-    const request_end_at = performance.now();
-    const request_duration = request_end_at - request_start_at;
-
-    if (response.status === 200) {
-        setTime(`${Math.round(request_duration)} ms`);
-        setCPU(response.data.system_status.cpu);
-        setRAM(response.data.system_status.ram);
-    }
-}
-
+import React from "react";
+import {  Tabs } from "antd";
+import AdminUsers from "../Components/AdminUsers";
+import AdminSystem from "../Components/AdminSystem";
 
 const Admin = () => {
-    const [timeToApi, setTimeToApi] = useState("waiting...");
-    const [backendCPU, setBackendCPU] = useState("waiting...");
-    const [backendRAM, setBackendRAM] = useState("waiting...");
-    useEffect(() => { measure_time(setTimeToApi, setBackendCPU, setBackendRAM) }, [])
-    return (
-        <>
-            <h1>Админка</h1>
-            <div>
-                <Descriptions title="System info" bordered>
-                    <Descriptions.Item label="API">{API_URL}</Descriptions.Item>
-                    <Descriptions.Item label="Storage">{STORAGE}</Descriptions.Item>
-                    <Descriptions.Item label="Req to REST time">{timeToApi}</Descriptions.Item>
-                    <Descriptions.Item label="RAM usage">{backendRAM}%</Descriptions.Item>
-                    <Descriptions.Item label="CPU usage">{backendCPU}%</Descriptions.Item>
-                    <Descriptions.Item label="API time">N/A</Descriptions.Item>
-                </Descriptions>
-            </div>
-            <Title level={4}>Статистика</Title>
-            <div>
-                Stat
-            </div>
-            <Title level={4}>Пользователи</Title>
-            <div>
-                Users table + create user form + multiple users creation
-            </div>
-
-        </>
-    );
-}
+  return (
+    <>
+      <h1>Админка</h1>
+      <Tabs defaultActiveKey="1" items={
+        [
+            {
+                label: "Пользователи",
+                key: '1',
+                children: <AdminUsers/>
+            },
+            {
+                label: "Достижения",
+                key: '2',
+                children: ""
+            },
+            {
+                label: "Настройки ШТП",
+                key: '3',
+                children: <AdminSystem/>
+            },
+        ]
+      }/>
+    </>
+  );
+};
 
 export default Admin;
