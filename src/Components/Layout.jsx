@@ -48,7 +48,7 @@ function logOut(nav) {
 
 const BaseLayout = ({ user, backendStatus }) => {
   const onClickMenu = (item) => {
-    setSelectedKey(item.key);1
+    setSelectedKey(item.key);
 
   }
   const router_mapping = {"/": "1", "/achivments": "2", "/challenge": "3", "/homework": "4", "/tests": "5", "/events": "6", "/notifications": "7", "/stats": "8", "/docs": "9", "/admin": "10"}

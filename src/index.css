@@ -26,3 +26,9 @@ code {
 .dots {
   color: red;
 }
+
+.eventInCalendar {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
