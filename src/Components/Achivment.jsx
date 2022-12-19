@@ -6,6 +6,7 @@ import {
   FileDoneOutlined,
   ClockCircleOutlined,
 } from "@ant-design/icons";
+import { convertDate } from "../api";
 
 const { Text } = Typography;
 
@@ -29,7 +30,7 @@ const Achivment = ({ title, points, desc, date }) => {
           <FileDoneOutlined /> Диплом
         </Text>
         <Text>
-          <ClockCircleOutlined /> {new Date(date).toLocaleDateString("ru-RU")}
+          <ClockCircleOutlined /> {convertDate(date)}
         </Text>
       </Space>
     </Card>

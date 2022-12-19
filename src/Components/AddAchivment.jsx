@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { convertDate, getAchivmentsQueue } from "../api";
 import {
   Button,
   Form,
@@ -12,6 +13,7 @@ import {
 import { UploadOutlined } from "@ant-design/icons";
 const { TextArea } = Input;
 const { Text } = Typography;
+
 
 const uploader_conf = {
   name: "confirmation_file",
@@ -45,17 +47,27 @@ const AddAchivment = () => {
       key: "title",
     },
     {
-      title: "Статус",
-      dataIndex: "status",
-      key: "status",
+      title: "Отправлено",
+      dataIndex: "sent_time",
+      key: "sent_time",
     },
   ];
+  const [achievementQueueData, SetAchievementQueueData] = useState();
   const onFinish = (values) => {
     console.log("Success:", values);
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
+  useEffect(() => {
+    getAchivmentsQueue((resp) => {
+        let res = [];
+        resp.data.forEach(element => {
+            res.push({id: element.id, key: element.id, title: element.title, sent_time: convertDate(element.received_at)});
+        });
+        SetAchievementQueueData(res);
+    }, () => {})
+  }, []);
   return (
     <>
       <Form
@@ -144,7 +156,7 @@ const AddAchivment = () => {
         </Text>
       </Form>
       <h1>Ваши достижения на модерации</h1>
-      <Table columns={columns_queue_table} />
+      <Table columns={columns_queue_table} dataSource={achievementQueueData}/>
     </>
   );
 };
