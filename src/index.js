@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
-import { Route, BrowserRouter, Routes } from "react-router-dom";
+import { Route, BrowserRouter, Routes, useLocation } from "react-router-dom";
 import Home from "./Pages/Home";
 import Events from "./Pages/Events";
 import Achivments from "./Pages/Achivments";
@@ -24,6 +24,7 @@ import Settings from "./Pages/Settings";
 export default function App() {
   const [userData, setUserData] = useState({ status: 0 });
   const [backendStatus, setBackendStatus] = useState("Online");
+  
   useEffect(() => {
     console.log(String.raw`
 Welcome to, 
@@ -48,6 +49,7 @@ ____) | |  | |  | |  | |    |_|
     );
   }, []);
 
+
   return (
     <BrowserRouter>
       <Routes>
@@ -57,7 +59,7 @@ ____) | |  | |  | |  | |    |_|
         >
           <Route index element={<Home user={userData} />} />
           <Route path="events" element={<Events />} />
-          <Route path="achivments" element={<Achivments />} />
+          <Route path="achivments" element={<Achivments/>} />
           <Route path="notifications" element={<Notifications />} />
           <Route path="docs" element={<ApiDocs />} />
           <Route path="challenge" element={<Challenge />} />

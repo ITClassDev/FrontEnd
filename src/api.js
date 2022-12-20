@@ -77,12 +77,6 @@ export function getAchivmentsQueue(ok_handler, error_handler, api = API_URL) {
 }
 
 // AUTH UTILS
-export function userHook(authed_handler, non_authed_handler, user) {
-  if (user.status !== 0) {
-    if (user.status === 1) authed_handler(user);
-    else non_authed_handler(user);
-  }
-}
 
 export function authUser(
   login,

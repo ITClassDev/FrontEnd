@@ -22,6 +22,7 @@ import "../index.css";
 import LoginForm from "./LoginForm";
 import { CLIENT_VER } from "../config";
 import { router_mapping } from "../router_mapping";
+import IntroPage from "./IntroPage";
 
 const { Content, Sider, Footer } = Layout;
 const { Text } = Typography;
@@ -44,7 +45,7 @@ const BaseLayout = ({ user, backendStatus }) => {
   const onClickMenu = (item) => {
     setSelectedKey(item.key);
   };
-  
+
   const [collapsed, setCollapsed] = useState(false);
   const [loginModelOpened, openLoginModal] = useState(false);
   const [menu, setMenu] = useState([]);
@@ -83,12 +84,19 @@ const BaseLayout = ({ user, backendStatus }) => {
   const [selectedKey, setSelectedKey] = useState(
     router_mapping[location.pathname][0]
   );
+  const [page, setPage] = useState(<>Loading...</>);
 
   useEffect(() => {
     if (user.status !== 0) {
       if (user.status === 1) {
         setMenu(logined_menu);
+        setPage(<Outlet />);
       } else {
+        if (router_mapping[location.pathname][1]) // if page can be accessed by anon users
+          setPage(<Outlet />);
+        else
+          setPage(<IntroPage />);
+
         setMenu(non_logined_menu);
       }
     }
@@ -152,7 +160,7 @@ const BaseLayout = ({ user, backendStatus }) => {
           style={{ marginLeft: "25%", overflow: "auto", marginRight: "5%" }}
           width="70%"
         >
-          <Outlet />
+          {page}
           <Footer style={{ textAlign: "center" }}>
             <Space direction="vertical">
               <Text strong>ShTP project</Text>

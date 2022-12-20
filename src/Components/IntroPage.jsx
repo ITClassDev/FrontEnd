@@ -17,8 +17,8 @@ const IntroPage = () => {
       </Text>
       <Carousel autoplay>
         {screenshots.map((item, index) => (
-          <div>
-            <Image src={item} preview={false} key={index} />
+          <div key={index}>
+            <Image src={item} preview={false} />
           </div>
         ))}
       </Carousel>
