@@ -15,7 +15,7 @@ const Admin = () => {
                 children: <AdminUsers/>
             },
             {
-                label: "Достижения",
+                label: "Модерация",
                 key: '2',
                 children: ""
             },
