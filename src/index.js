@@ -24,7 +24,7 @@ import Settings from "./Pages/Settings";
 export default function App() {
   const [userData, setUserData] = useState({ status: 0 });
   const [backendStatus, setBackendStatus] = useState("Online");
-  
+
   useEffect(() => {
     console.log(String.raw`
 Welcome to, 
@@ -55,8 +55,7 @@ ____) | |  | |  | |  | |    |_|
       <Routes>
         <Route
           path="/"
-          element={<BaseLayout user={userData} backendStatus={backendStatus} />}
-        >
+          element={<BaseLayout user={userData} backendStatus={backendStatus}/>}>
           <Route index element={<Home user={userData} />} />
           <Route path="events" element={<Events />} />
           <Route path="achivments" element={<Achivments/>} />
@@ -66,9 +65,9 @@ ____) | |  | |  | |  | |    |_|
           <Route path="homework" element={<HomeWork />} />
           <Route path="admin" element={<Admin />} />
           <Route path="test_contest" element={<Contest />} />
-          <Route path="profile/:user_id" element={<ViewProfile />} />
+          <Route path="profile" element={<ViewProfile />} />
           <Route path="leaderboard" element={<LeaderBoard />} />
-          <Route path="login_to/:app_id" element={<OAuth />} />
+          <Route path="login_to" element={<OAuth />} />
           <Route path="settings" element={<Settings user={userData} />} />
         </Route>
         <Route path="login" element={<LoginPage />} />

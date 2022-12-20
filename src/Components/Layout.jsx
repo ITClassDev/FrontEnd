@@ -46,6 +46,7 @@ const BaseLayout = ({ user, backendStatus }) => {
     setSelectedKey(item.key);
   };
 
+
   const [collapsed, setCollapsed] = useState(false);
   const [loginModelOpened, openLoginModal] = useState(false);
   const [menu, setMenu] = useState([]);
@@ -82,6 +83,7 @@ const BaseLayout = ({ user, backendStatus }) => {
       },
     },
   ];
+  
   const [selectedKey, setSelectedKey] = useState(
     router_mapping[location.pathname][0]
   );

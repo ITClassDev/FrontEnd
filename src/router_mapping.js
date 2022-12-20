@@ -9,6 +9,8 @@ export const router_mapping = {
     "/stats": ["8", 0],
     "/docs": ["9", 1],
     "/admin": ["10", 0],
-    "/settings": ["20", 0],
+    "/settings": ["1000", 0],
+    "/login_to": ["1000", 0],
+    "/profile": ["1000", 1],
   };
   

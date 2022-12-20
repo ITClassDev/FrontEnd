@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { getAppInfo, provideAccessToApp } from "../api";
 import LoginTo from "../Components/LoginToAppCard";
 import NotFound from "./NotFound";
 
 const OAuth = () => {
-    const { app_id } = useParams();
+    const [searchParams] = useSearchParams();
+    const app_id = searchParams.get("app_id");
     const [pageContent, setPageContent] = useState("Loading...");
     useEffect(() => {
         getAppInfo(app_id, (response) => {
-            if (response.data.status) {
-                setPageContent(<LoginTo appTitle={response.data.app_info.name} approve_handler={provideInfoButtonHandler}/>);
-            } else {
+            if (response.data.verified)
+                setPageContent(<LoginTo appTitle={response.data.name} approve_handler={provideInfoButtonHandler}/>);
+            else 
                 setPageContent(<NotFound/>)
-            }
-
         }, () => { })
     }, []);
 
