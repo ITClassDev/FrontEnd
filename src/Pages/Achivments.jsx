@@ -24,7 +24,6 @@ const Achivments = () => {
         <>
             <h1>Ваши достижения</h1>
             <Tabs items={tabs} />
-
         </>
     );
 }

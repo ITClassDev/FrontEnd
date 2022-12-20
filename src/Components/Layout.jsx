@@ -21,6 +21,8 @@ import { Outlet, Link } from "react-router-dom";
 import "../index.css";
 import LoginForm from "./LoginForm";
 import { CLIENT_VER } from "../config";
+import { router_mapping } from "../router_mapping";
+
 const { Content, Sider, Footer } = Layout;
 const { Text } = Typography;
 
@@ -42,18 +44,7 @@ const BaseLayout = ({ user, backendStatus }) => {
   const onClickMenu = (item) => {
     setSelectedKey(item.key);
   };
-  const router_mapping = {
-    "/": "1",
-    "/achivments": "2",
-    "/challenge": "3",
-    "/homework": "4",
-    "/tests": "5",
-    "/events": "6",
-    "/notifications": "7",
-    "/stats": "8",
-    "/docs": "9",
-    "/admin": "10",
-  };
+  
   const [collapsed, setCollapsed] = useState(false);
   const [loginModelOpened, openLoginModal] = useState(false);
   const [menu, setMenu] = useState([]);
@@ -81,7 +72,7 @@ const BaseLayout = ({ user, backendStatus }) => {
     getItem("Приложения", "10", <CodeSandboxOutlined />, "/apps"),
     getItem("Админка", "11", <ControlOutlined />, "/admin"),
     {
-      label: "Logout",
+      label: "Выйти",
       key: "12",
       icon: <LoginOutlined />,
       onClick: () => {
@@ -90,7 +81,7 @@ const BaseLayout = ({ user, backendStatus }) => {
     },
   ];
   const [selectedKey, setSelectedKey] = useState(
-    router_mapping[location.pathname]
+    router_mapping[location.pathname][0]
   );
 
   useEffect(() => {
