@@ -141,7 +141,6 @@ export function getAppInfo(app_id, ok_handler, error_handler, api = API_URL) {
     });
 }
 
-
 // Utility
 export function convertDate(date) {
   return new Date(date).toLocaleDateString("ru-RU");
