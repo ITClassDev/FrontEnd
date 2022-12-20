@@ -49,6 +49,7 @@ const BaseLayout = ({ user, backendStatus }) => {
   const [collapsed, setCollapsed] = useState(false);
   const [loginModelOpened, openLoginModal] = useState(false);
   const [menu, setMenu] = useState([]);
+  const [page, setPage] = useState(<>Loading...</>);
   const navigate = useNavigate();
   const location = useLocation();
   const logined_menu = [
@@ -75,7 +76,7 @@ const BaseLayout = ({ user, backendStatus }) => {
     {
       label: "Выйти",
       key: "12",
-      icon: <LoginOutlined />,
+      icon: <LogoutOutlined />,
       onClick: () => {
         logOut(navigate);
       },
@@ -84,7 +85,6 @@ const BaseLayout = ({ user, backendStatus }) => {
   const [selectedKey, setSelectedKey] = useState(
     router_mapping[location.pathname][0]
   );
-  const [page, setPage] = useState(<>Loading...</>);
 
   useEffect(() => {
     if (user.status !== 0) {
@@ -92,10 +92,10 @@ const BaseLayout = ({ user, backendStatus }) => {
         setMenu(logined_menu);
         setPage(<Outlet />);
       } else {
-        if (router_mapping[location.pathname][1]) // if page can be accessed by anon users
+        if (router_mapping[location.pathname][1])
+          // if page can be accessed by anon users
           setPage(<Outlet />);
-        else
-          setPage(<IntroPage />);
+        else setPage(<IntroPage />);
 
         setMenu(non_logined_menu);
       }
@@ -111,9 +111,9 @@ const BaseLayout = ({ user, backendStatus }) => {
 
   const non_logined_menu = [
     {
-      label: "Login",
+      label: "Войти",
       key: "2",
-      icon: <LogoutOutlined />,
+      icon: <LoginOutlined />,
       onClick: () => {
         openLogin();
       },
