@@ -1,9 +1,11 @@
 import React from "react";
 import SystemAchivment from "./SystemAchivment";
-import { Row } from "antd";
+import { Row, Image, Typography } from "antd";
 import BronzeMedal from "../Images/Medals/bronze.svg";
 import SilverMedal from "../Images/Medals/silver.svg";
 import GoldMedal from "../Images/Medals/gold.svg";
+
+const { Text } = Typography;
 
 const SystemAchivmentsList = ({ system_achivments }) => {
   const ACHIVMENTS_AVAILABLE = [
@@ -62,19 +64,21 @@ const SystemAchivmentsList = ({ system_achivments }) => {
     silver: <Image src={SilverMedal} width={30} preview={false} />,
     gold: <Image src={GoldMedal} width={30} preview={false} />,
   };
-
-  
+  //      <Text strong style={{marginBottom: 30}}>Получено {system_achivments.length}/{ACHIVMENTS_AVAILABLE.length}</Text>
 
   return (
-    <Row>
-      {system_achivments.map((achive, ind) => (
-        <SystemAchivment
-          title={achive.title}
-          desc={achive.description}
-          key={achive.id}
-        />
-      ))}
-    </Row>
+    <>
+      <Row>
+        {system_achivments.map((achive) => (
+          <SystemAchivment
+            title={ACHIVMENTS_AVAILABLE[achive].title}
+            desc={ACHIVMENTS_AVAILABLE[achive].desc}
+            medal={MEDALS[ACHIVMENTS_AVAILABLE[achive].type]}
+            key={achive}
+          />
+        ))}
+      </Row>
+    </>
   );
 };
 
