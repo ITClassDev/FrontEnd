@@ -1,33 +1,42 @@
-import React from "react";
-import {  Tabs } from "antd";
+import React, { useEffect } from "react";
+import { Tabs } from "antd";
 import AdminUsers from "../Components/AdminUsers";
 import AdminSystem from "../Components/AdminSystem";
+import NotFound from "./NotFound";
 
-const Admin = () => {
-  return (
-    <>
-      <h1>Админка</h1>
-      <Tabs defaultActiveKey="1" items={
-        [
+const Admin = ({ user }) => {
+  // check permisiions to access this page
+  if (user.user.userRole == 2) {
+    return (
+      <>
+        <h1>Админка</h1>
+        <Tabs
+          defaultActiveKey="1"
+          items={[
             {
-                label: "Пользователи",
-                key: '1',
-                children: <AdminUsers/>
+              label: "Пользователи",
+              key: "1",
+              children: <AdminUsers />,
             },
             {
-                label: "Модерация",
-                key: '2',
-                children: ""
+              label: "Модерация",
+              key: "2",
+              children: "",
             },
             {
-                label: "Настройки ШТП",
-                key: '3',
-                children: <AdminSystem/>
+              label: "Настройки ШТП",
+              key: "3",
+              children: <AdminSystem />,
             },
-        ]
-      }/>
-    </>
-  );
+          ]}
+        />
+      </>
+    );
+  }else{
+    return (
+        <NotFound/>
+    )
+  }
 };
 
 export default Admin;

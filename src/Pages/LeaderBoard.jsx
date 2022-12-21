@@ -23,7 +23,7 @@ const LeaderBoard = () => {
             res.push({
               number: ind + 1,
               user_name: (
-                <Link to={`/profile/${element.id}`}>
+                <Link to={`/profile?id=${element.id}`}>
                   <Avatar
                     src={`${STORAGE}/avatars/${element.userAvatarPath}`}
                     style={{ verticalAlign: "middle", marginRight: 10 }}

@@ -1,9 +1,11 @@
 import React from "react";
-import { Typography, Table, Button, Space, Input } from "antd";
+import { Typography, Table, Button, Space, Input, Avatar } from "antd";
+import { Link } from "react-router-dom";
+import { STORAGE } from "../config";
 
 const { Search } = Input;
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const UserControllButtons = () => {
   return (
@@ -40,7 +42,18 @@ const AdminUsers = () => {
   const testUsersData = [
     {
       id: 1,
-      fio: <>Stephan Zhdanov</>,
+      fio: (
+        <Link to={`/profile?id=${1}`}>
+          <Avatar
+            src={`${STORAGE}/avatars/${"1_avatar.png"}`}
+            style={{ verticalAlign: "middle", marginRight: 10 }}
+            size="large"
+          ></Avatar>
+          <Text strong>
+            Stephan Zhdanov
+          </Text>
+        </Link>
+      ),
       actionsBtns: <UserControllButtons />,
       key: 1,
     },

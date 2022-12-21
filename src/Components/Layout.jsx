@@ -46,7 +46,6 @@ const BaseLayout = ({ user, backendStatus }) => {
     setSelectedKey(item.key);
   };
 
-
   const [collapsed, setCollapsed] = useState(false);
   const [loginModelOpened, openLoginModal] = useState(false);
   const [menu, setMenu] = useState([]);
@@ -73,17 +72,17 @@ const BaseLayout = ({ user, backendStatus }) => {
     getItem("Статистика", "8", <PieChartOutlined />, "/stats"),
     getItem("Доки по API", "9", <ProfileOutlined />, "/docs"),
     getItem("Приложения", "10", <CodeSandboxOutlined />, "/apps"),
-    getItem("Админка", "11", <ControlOutlined />, "/admin"),
-    {
-      label: "Выйти",
-      key: "12",
-      icon: <LogoutOutlined />,
-      onClick: () => {
-        logOut(navigate);
-      },
-    },
   ];
-  
+  const adminMenuItem = getItem("Админка", "11", <ControlOutlined />, "/admin");
+  const logoutBtn = {
+    label: "Выйти",
+    key: "12",
+    icon: <LogoutOutlined />,
+    onClick: () => {
+      logOut(navigate);
+    },
+  };
+
   const [selectedKey, setSelectedKey] = useState(
     router_mapping[location.pathname][0]
   );
@@ -92,6 +91,9 @@ const BaseLayout = ({ user, backendStatus }) => {
     if (user.status !== 0) {
       if (user.status === 1) {
         setMenu(logined_menu);
+        if (user.user.userRole == 2)
+          setMenu([...logined_menu, adminMenuItem, logoutBtn]);
+        else setMenu([...logined_menu, logoutBtn]);
         setPage(<Outlet />);
       } else {
         if (router_mapping[location.pathname][1])

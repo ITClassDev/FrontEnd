@@ -48,21 +48,21 @@ ____) | |  | |  | |  | |    |_|
     );
   }, []);
 
-
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path="/"
-          element={<BaseLayout user={userData} backendStatus={backendStatus}/>}>
+          element={<BaseLayout user={userData} backendStatus={backendStatus} />}
+        >
           <Route index element={<Home user={userData} />} />
           <Route path="events" element={<Events />} />
-          <Route path="achivments" element={<Achivments/>} />
+          <Route path="achivments" element={<Achivments />} />
           <Route path="notifications" element={<Notifications />} />
           <Route path="docs" element={<ApiDocs />} />
           <Route path="challenge" element={<Challenge />} />
           <Route path="homework" element={<HomeWork />} />
-          <Route path="admin" element={<Admin />} />
+          <Route path="admin" element={<Admin user={userData} />} />
           <Route path="test_contest" element={<Contest />} />
           <Route path="profile" element={<ViewProfile />} />
           <Route path="leaderboard" element={<LeaderBoard />} />
