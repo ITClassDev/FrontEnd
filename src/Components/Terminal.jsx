@@ -3,13 +3,13 @@ import Typography from "antd/es/typography/Typography";
 
 const { Text } = Typography;
 
-const Terminal = () => {
+const Terminal = ({username, user_class, user_rating}) => {
   return (
     <>
       <div>
         <li>
           <Text style={{ color: "#1793d1" }} strong>
-            ret7020
+            {username}
           </Text>
           @
           <Text style={{ color: "#1793d1" }} strong>
@@ -20,13 +20,13 @@ const Terminal = () => {
           <Text style={{ color: "#1793d1" }} strong>
             Class
           </Text>
-          : 10
+          : {user_class}
         </li>
         <li>
           <Text style={{ color: "#1793d1" }} strong>
-            Rating
+            Rating points
           </Text>
-          : 150
+          : {user_rating}
         </li>
       </div>
     </>
