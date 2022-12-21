@@ -14,12 +14,17 @@ const Achivments = () => {
   const [achivmentsBlock, setAchivmentsBlock] = useState(
     <LoadingHorizCenter />
   );
+
+  const [systemAchievementsBlock, setSystemAchievementsBlock] = useState(<LoadingHorizCenter/>);
   useEffect(() => {
     getUserAchievements(
       (resp) => {
         setAchivmentsBlock(
-          <AchivmentsList achivments={resp.data.achievements} />
+          <AchivmentsList achivments={resp.data.achievements.base} />
         );
+        setSystemAchievementsBlock(
+            <SystemAchivmentsList system_achivments={resp.data.achievements.system}/>
+        )
       },
       () => {}
     );
@@ -30,7 +35,7 @@ const Achivments = () => {
     {
       label: "Системные",
       key: "item-3",
-      children: <SystemAchivmentsList system_achivments={test_sys_ach} />,
+      children: systemAchievementsBlock,
     },
     {
       label: (

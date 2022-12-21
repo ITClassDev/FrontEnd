@@ -1,11 +1,9 @@
 import React from "react";
 import SystemAchivment from "./SystemAchivment";
-import { Row, Image, Typography } from "antd";
+import { Row, Image } from "antd";
 import BronzeMedal from "../Images/Medals/bronze.svg";
 import SilverMedal from "../Images/Medals/silver.svg";
 import GoldMedal from "../Images/Medals/gold.svg";
-
-const { Text } = Typography;
 
 const SystemAchivmentsList = ({ system_achivments }) => {
   const ACHIVMENTS_AVAILABLE = [
