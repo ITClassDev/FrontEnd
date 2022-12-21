@@ -6,6 +6,7 @@ import { LoadingHorizCenter } from "../Components/Loading";
 import { PlusOutlined } from "@ant-design/icons";
 import AddAchivment from "../Components/AddAchivment";
 import useDocumentTitle from "../useDocumentTitle";
+import SystemAchivment from "../Components/SystemAchivment";
 
 const Achivments = () => {
   useDocumentTitle("Ваши достижения | ШТП");
@@ -25,7 +26,7 @@ const Achivments = () => {
   const tabs = [
     { label: "Олимпиады & Конкурсы", key: "item-1", children: achivmentsBlock },
     { label: "Мероприятия", key: "item-2", children: "Content 2" },
-    { label: "Системные", key: "item-3", children: "Content 3" },
+    { label: "Системные", key: "item-3", children: <SystemAchivment/> }, //Rating 100; Rating 1000; 50 tasks solved; 100 tasks solved; challenge task solved; 10 challenge tasks solved; ShTP maintainer - Send PR, that will be merged to master tree; Crazy open source - 20 PR to ShTP
     {
       label: (
         <>
