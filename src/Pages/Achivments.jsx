@@ -10,12 +10,13 @@ import SystemAchivmentsList from "../Components/SystemAchivmentsList";
 
 const Achivments = () => {
   useDocumentTitle("Ваши достижения | ШТП");
-  const test_sys_ach = [0, 1, 2, 3, 4, 5, 6, 7];
   const [achivmentsBlock, setAchivmentsBlock] = useState(
     <LoadingHorizCenter />
   );
 
-  const [systemAchievementsBlock, setSystemAchievementsBlock] = useState(<LoadingHorizCenter/>);
+  const [systemAchievementsBlock, setSystemAchievementsBlock] = useState(
+    <LoadingHorizCenter />
+  );
   useEffect(() => {
     getUserAchievements(
       (resp) => {
@@ -23,8 +24,10 @@ const Achivments = () => {
           <AchivmentsList achivments={resp.data.achievements.base} />
         );
         setSystemAchievementsBlock(
-            <SystemAchivmentsList system_achivments={resp.data.achievements.system}/>
-        )
+          <SystemAchivmentsList
+            system_achivments={resp.data.achievements.system}
+          />
+        );
       },
       () => {}
     );

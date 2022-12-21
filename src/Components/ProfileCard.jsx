@@ -40,13 +40,13 @@ const available_socials = [
   },
   {
     name: "userStepik",
-    icon: <Image src={Stepik_logo} width={17} preview={false}/>,
+    icon: <Image src={Stepik_logo} width={17} preview={false} />,
     color: "#2c2c2c",
     url: "https://stepik.org/users/",
   },
   {
     name: "userKaggle",
-    icon: <Image src={KaggleLogo} width={17} preview={false}/>,
+    icon: <Image src={KaggleLogo} width={17} preview={false} />,
     color: "#baedff",
     url: "https://kaggle.com/",
   },

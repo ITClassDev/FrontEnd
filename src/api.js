@@ -76,6 +76,14 @@ export function getAchivmentsQueue(ok_handler, error_handler, api = API_URL) {
     });
 }
 
+export function addAchivment(achievement, ok_handler, error_handler, api = API_URL) {
+  axios.post(`${api}/achievements/add`, achievement, getAuth()).then((response) => {
+    ok_handler(response);
+  }).catch((response) => {
+    error_handler(response);
+  })
+} 
+
 // AUTH UTILS
 
 export function authUser(
