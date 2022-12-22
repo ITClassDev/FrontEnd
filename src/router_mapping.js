@@ -12,6 +12,8 @@ export const router_mapping = {
     "/admin": ["11", 0],
     "/settings": ["1000", 0],
     "/login_to": ["1000", 0],
+    "/leaderboard": ["1000", 1],
+    "/test_contest": ["1000", 0],
     "/profile": ["1000", 1],
   };
   

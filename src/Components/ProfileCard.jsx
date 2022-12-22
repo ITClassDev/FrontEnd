@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useState } from "react";
 import {
   Card,
@@ -15,7 +15,6 @@ import {
 import { GithubOutlined } from "@ant-design/icons";
 import { STORAGE } from "../config";
 import { updateUserAbout } from "../api";
-import { LoadingBig, LoadingSmall } from "../Components/Loading.jsx";
 import Terminal from "./Terminal";
 import "dayjs/locale/ru";
 import locale from "antd/es/date-picker/locale/ru_RU";
@@ -51,23 +50,21 @@ const available_socials = [
     url: "https://kaggle.com/",
   },
 ];
-function fillProfile(about, name, avatar, user, socials) {
-  name(`${user.firstName} ${user.lastName}`);
-  about(user.userAboutText);
-  avatar(`${STORAGE}/avatars/${user.userAvatarPath}`);
+
+const ProfileCard = ({ user, header_title = "Ваш профиль" }) => {
+  const [userAbout, setUserAbout] = useState(user.userAboutText);
+  const [userName, setUserName] = useState(
+    `${user.firstName} ${user.lastName}`
+  );
+  const [userAvatar, setUserAvatar] = useState(
+    `${STORAGE}/avatars/${user.userAvatarPath}`
+  );
   let userSocial = [];
   available_socials.forEach((val) => {
     if (user[val.name])
       userSocial.push([val.icon, user[val.name], val.color, val.url]);
   });
-  socials(userSocial);
-}
-
-const ProfileCard = ({ user, header_title = "Ваш профиль" }) => {
-  const [userAbout, setUserAbout] = useState(<LoadingSmall />);
-  const [userName, setUserName] = useState(<LoadingBig />);
-  const [userAvatar, setUserAvatar] = useState("");
-  const [userSocialNets, setUserSocialNets] = useState([]);
+  const [userSocialNets, setUserSocialNets] = useState(userSocial);
   const [timelineEvents, setTimelineEvents] = useState({
     "Sat Dec 31 2022": [
       { type: "warning", text: "Str middle deadline" },
@@ -79,15 +76,7 @@ const ProfileCard = ({ user, header_title = "Ваш профиль" }) => {
       { type: "success", text: "Project predemo" },
     ],
   });
-  useEffect(() => {
-    fillProfile(
-      setUserAbout,
-      setUserName,
-      setUserAvatar,
-      user,
-      setUserSocialNets
-    );
-  }, [user]);
+
   function setProfileAboutText(new_text) {
     updateUserAbout(
       new_text,
@@ -130,7 +119,7 @@ const ProfileCard = ({ user, header_title = "Ваш профиль" }) => {
             </div>
             <Row>
               {userSocialNets.map((social, ind) => (
-                <Popover content={`@${social[1]}`} placement="bottom">
+                <Popover content={`@${social[1]}`} placement="bottom" key={ind}>
                   <Button
                     type="primary"
                     style={{
@@ -139,7 +128,6 @@ const ProfileCard = ({ user, header_title = "Ваш профиль" }) => {
                       backgroundColor: social[2],
                     }}
                     target={"__blank"}
-                    key={ind}
                     href={`${social[3]}${social[1]}`}
                   >
                     {social[0]}

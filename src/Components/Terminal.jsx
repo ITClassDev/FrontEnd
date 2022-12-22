@@ -1,9 +1,12 @@
 import React from "react";
-import Typography from "antd/es/typography/Typography";
+import { Image, Typography, Badge, Space } from "antd";
+import BronzeMedal from "../Images/Medals/bronze.svg";
+import SilverMedal from "../Images/Medals/silver.svg";
+import GoldMedal from "../Images/Medals/gold.svg";
 
 const { Text } = Typography;
 
-const Terminal = ({username, user_class, user_rating}) => {
+const Terminal = ({ username, user_class, user_rating }) => {
   return (
     <>
       <div>
@@ -27,6 +30,19 @@ const Terminal = ({username, user_class, user_rating}) => {
             Rating points
           </Text>
           : {user_rating}
+        </li>
+        <li>
+          <Space direction="horizontal" style={{ marginTop: 15 }}>
+            <Badge count={0} showZero>
+              <Image src={BronzeMedal} width={30} preview={false} />
+            </Badge>
+            <Badge count={0} showZero>
+              <Image src={SilverMedal} width={30} preview={false} />
+            </Badge>
+            <Badge count={0} showZero>
+              <Image src={GoldMedal} width={30} preview={false} />
+            </Badge>
+          </Space>
         </li>
       </div>
     </>
