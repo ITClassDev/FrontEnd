@@ -84,6 +84,10 @@ export function addAchivment(achievement, ok_handler, error_handler, api = API_U
   })
 } 
 
+export function getAchivmentsModerationQueue(api = API_URL) {
+      
+}
+
 // AUTH UTILS
 
 export function authUser(
@@ -112,6 +116,7 @@ export function getAuth() {
     headers: { Authorization: `Bearer ${localStorage.getItem("user")}` },
   };
 }
+
 
 // FOR OTHER USERS
 export function getOtherUser(

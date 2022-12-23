@@ -2,7 +2,9 @@ import React, { useEffect } from "react";
 import { Tabs } from "antd";
 import AdminUsers from "../Components/AdminUsers";
 import AdminSystem from "../Components/AdminSystem";
+import AchivmentsModeration from "../Components/AdminModeration";
 import NotFound from "./NotFound";
+
 
 const Admin = ({ user }) => {
   // check permisiions to access this page
@@ -21,7 +23,7 @@ const Admin = ({ user }) => {
             {
               label: "Модерация",
               key: "2",
-              children: "",
+              children: <AchivmentsModeration/>,
             },
             {
               label: "Настройки ШТП",

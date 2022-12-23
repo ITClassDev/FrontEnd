@@ -1,4 +1,4 @@
-import React from "react";
+import React2 from "react";
 import { useState } from "react";
 import {
   Card,
@@ -51,7 +51,11 @@ const available_socials = [
   },
 ];
 
-const ProfileCard = ({ user, header_title = "Ваш профиль" }) => {
+const ProfileCard = ({
+  user,
+  editable = false,
+  header_title = "Ваш профиль",
+}) => {
   const [userAbout, setUserAbout] = useState(user.userAboutText);
   const [userName, setUserName] = useState(
     `${user.firstName} ${user.lastName}`
@@ -100,6 +104,7 @@ const ProfileCard = ({ user, header_title = "Ваш профиль" }) => {
       );
     }
   };
+  if (editable) editable = { onChange: setProfileAboutText };
 
   return (
     <>
@@ -113,9 +118,7 @@ const ProfileCard = ({ user, header_title = "Ваш профиль" }) => {
               <Title level={2} style={{ marginBottom: 0 }}>
                 {userName}
               </Title>
-              <Paragraph editable={{ onChange: setProfileAboutText }}>
-                {userAbout}
-              </Paragraph>
+              <Paragraph editable={editable}>{userAbout}</Paragraph>
             </div>
             <Row>
               {userSocialNets.map((social, ind) => (

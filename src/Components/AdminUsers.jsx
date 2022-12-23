@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { STORAGE } from "../config";
 
 const { Search } = Input;
-
 const { Title, Text } = Typography;
 
 const UserControllButtons = () => {
@@ -49,9 +48,7 @@ const AdminUsers = () => {
             style={{ verticalAlign: "middle", marginRight: 10 }}
             size="large"
           ></Avatar>
-          <Text strong>
-            Stephan Zhdanov
-          </Text>
+          <Text strong>Stephan Zhdanov</Text>
         </Link>
       ),
       actionsBtns: <UserControllButtons />,
@@ -60,7 +57,7 @@ const AdminUsers = () => {
   ];
   return (
     <>
-      <Title level={4}>Все пользователи</Title>
+      <Title level={4} style={{marginTop: 0}}>Все пользователи</Title>
       <Search
         placeholder="Поиск пользователя по имени и фамилии"
         enterButton
