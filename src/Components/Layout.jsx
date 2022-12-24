@@ -23,6 +23,7 @@ import LoginForm from "./LoginForm";
 import { CLIENT_VER } from "../config";
 import { router_mapping } from "../router_mapping";
 import IntroPage from "./IntroPage";
+import { getUser } from "../api";
 
 const { Content, Sider, Footer } = Layout;
 const { Text } = Typography;
@@ -41,7 +42,7 @@ function logOut(nav) {
   localStorage.clear();
   nav(0);
 }
-const BaseLayout = ({ user, backendStatus }) => {
+const BaseLayout = ({ user, setUserData, backendStatus }) => {
   const onClickMenu = (item) => {
     setSelectedKey(item.key);
   };
@@ -91,7 +92,7 @@ const BaseLayout = ({ user, backendStatus }) => {
     if (user.status !== 0) {
       if (user.status === 1) {
         setMenu(logined_menu);
-        if (user.user.userRole == 2)
+        if (user.user.userRole === 2)
           setMenu([...logined_menu, adminMenuItem, logoutBtn]);
         else setMenu([...logined_menu, logoutBtn]);
         setPage(<Outlet />);
@@ -105,6 +106,14 @@ const BaseLayout = ({ user, backendStatus }) => {
       }
     }
   }, [user]);
+  useEffect(() => {
+    getUser(
+      (resp) => {
+        setUserData({ status: 1, user: resp.data.user });
+      },
+      (resp) => {}
+    );
+  }, [location]);
 
   const openLogin = () => {
     openLoginModal(true);

@@ -21,6 +21,8 @@ import LeaderBoard from "./Pages/LeaderBoard";
 import OAuth from "./Pages/OAuth";
 import Settings from "./Pages/Settings";
 
+
+
 export default function App() {
   const [userData, setUserData] = useState({ status: 0 });
   const [backendStatus, setBackendStatus] = useState("Online");
@@ -53,7 +55,7 @@ ____) | |  | |  | |  | |    |_|
       <Routes>
         <Route
           path="/"
-          element={<BaseLayout user={userData} backendStatus={backendStatus} />}
+          element={<BaseLayout user={userData} setUserData={setUserData} backendStatus={backendStatus} />}
         >
           <Route index element={<Home user={userData} />} />
           <Route path="events" element={<Events />} />
