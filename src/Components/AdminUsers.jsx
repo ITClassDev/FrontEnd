@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Typography, Table, Button, Space, Input, Avatar } from "antd";
 import { Link } from "react-router-dom";
 import { STORAGE } from "../config";
+import { useEffect } from "react";
+import { getAllUsers } from "../api";
 
 const { Search } = Input;
 const { Title, Text } = Typography;
@@ -21,6 +23,12 @@ const UserControllButtons = () => {
 };
 
 const AdminUsers = () => {
+  const [usersList, setUsersList] = useState();
+  useEffect(() => {
+    getAllUsers((response) => {
+      console.log(response.data);
+    }, () => {})
+  }, [])
   const allUsersColumns = [
     {
       title: "ID",
@@ -38,33 +46,34 @@ const AdminUsers = () => {
       key: "actionsBtns",
     },
   ];
-  const testUsersData = [
-    {
-      id: 1,
-      fio: (
-        <Link to={`/profile?id=${1}`}>
-          <Avatar
-            src={`${STORAGE}/avatars/${"1_avatar.png"}`}
-            style={{ verticalAlign: "middle", marginRight: 10 }}
-            size="large"
-          ></Avatar>
-          <Text strong>Stephan Zhdanov</Text>
-        </Link>
-      ),
-      actionsBtns: <UserControllButtons />,
-      key: 1,
-    },
-  ];
+  // const testUsersData = [
+  //   {
+  //     id: 1,
+  //     fio: (
+  //       <Link to={`/profile?id=${1}`}>
+  //         <Avatar
+  //           src={`${STORAGE}/avatars/${"1_avatar.png"}`}
+  //           style={{ verticalAlign: "middle", marginRight: 10 }}
+  //           size="large"
+  //         ></Avatar>
+  //         <Text strong>Stephan Zhdanov</Text>
+  //       </Link>
+  //     ),
+  //     actionsBtns: <UserControllButtons />,
+  //     key: 1,
+  //   },
+  // ];
   return (
     <>
-      <Title level={4} style={{marginTop: 0}}>Все пользователи</Title>
+      <Title level={4} style={{ marginTop: 0 }}>
+        Все пользователи
+      </Title>
       <Search
         placeholder="Поиск пользователя по имени и фамилии"
         enterButton
         style={{ marginBottom: 20 }}
       />
-
-      <Table columns={allUsersColumns} dataSource={testUsersData} />
+      <Table columns={allUsersColumns} dataSource={usersList} />
     </>
   );
 };

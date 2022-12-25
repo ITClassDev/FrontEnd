@@ -76,16 +76,35 @@ export function getAchivmentsQueue(ok_handler, error_handler, api = API_URL) {
     });
 }
 
-export function addAchivment(achievement, ok_handler, error_handler, api = API_URL) {
-  axios.post(`${api}/achievements/add`, achievement, getAuth()).then((response) => {
-    ok_handler(response);
-  }).catch((response) => {
-    error_handler(response);
-  })
-} 
+export function addAchivment(
+  achievement,
+  ok_handler,
+  error_handler,
+  api = API_URL
+) {
+  axios
+    .post(`${api}/achievements/add`, achievement, getAuth())
+    .then((response) => {
+      ok_handler(response);
+    })
+    .catch((response) => {
+      error_handler(response);
+    });
+}
 
-export function getAchivmentsModerationQueue(api = API_URL) {
-      
+// Admin API
+
+export function getAchivmentsModerationQueue(api = API_URL) {}
+
+export function getAllUsers(ok_handler, error_handler, api = API_URL) {
+  axios
+    .get(`${api}/admin/all_users`, getAuth())
+    .then((response) => {
+      ok_handler(response);
+    })
+    .catch((response) => {
+      error_handler(response);
+    });
 }
 
 // AUTH UTILS
@@ -116,7 +135,6 @@ export function getAuth() {
     headers: { Authorization: `Bearer ${localStorage.getItem("user")}` },
   };
 }
-
 
 // FOR OTHER USERS
 export function getOtherUser(

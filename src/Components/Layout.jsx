@@ -111,7 +111,7 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
       (resp) => {
         setUserData({ status: 1, user: resp.data.user });
       },
-      (resp) => {}
+      (resp) => {openLoginModal(true);} // on token expired
     );
   }, [location]);
 
