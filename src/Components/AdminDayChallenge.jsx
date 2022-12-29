@@ -94,6 +94,8 @@ const AdminDayChallenge = () => {
       <Modal
         title="Добавить задачу"
         open={createTaskModalOpen}
+        width={"50%"}
+        footer={<></>}
         onOk={() => {
           setCreateTaskModalOpen(false);
         }}
