@@ -20,6 +20,7 @@ import ViewProfile from "./Pages/ViewProfile";
 import LeaderBoard from "./Pages/LeaderBoard";
 import OAuth from "./Pages/OAuth";
 import Settings from "./Pages/Settings";
+import CreateTaskCard from "./Components/CreateTaskCard";
 
 
 
@@ -69,6 +70,7 @@ ____) | |  | |  | |  | |    |_|
           <Route path="profile" element={<ViewProfile />} />
           <Route path="leaderboard" element={<LeaderBoard />} />
           <Route path="login_to" element={<OAuth />} />
+          <Route path="create_challenge" element={<CreateTaskCard />} />
           <Route path="settings" element={<Settings user={userData} />} />
         </Route>
         <Route path="login" element={<LoginPage />} />

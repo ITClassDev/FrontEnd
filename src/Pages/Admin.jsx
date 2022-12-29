@@ -4,6 +4,7 @@ import AdminUsers from "../Components/AdminUsers";
 import AdminSystem from "../Components/AdminSystem";
 import AchivmentsModeration from "../Components/AdminModeration";
 import NotFound from "./NotFound";
+import AdminDayChallenge from "../Components/AdminDayChallenge";
 
 
 const Admin = ({ user }) => {
@@ -26,8 +27,13 @@ const Admin = ({ user }) => {
               children: <AchivmentsModeration/>,
             },
             {
-              label: "Настройки ШТП",
+              label: "Задача дня",
               key: "3",
+              children: <AdminDayChallenge />,
+            },
+            {
+              label: "Настройки ШТП",
+              key: "4",
               children: <AdminSystem />,
             },
           ]}

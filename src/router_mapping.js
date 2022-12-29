@@ -15,5 +15,6 @@ export const router_mapping = {
     "/leaderboard": ["1000", 1],
     "/test_contest": ["1000", 0],
     "/profile": ["1000", 1],
+    "/create_challenge": ["11", 0]
   };
   
