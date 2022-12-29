@@ -19,7 +19,13 @@ const AchivmentsModeration = () => {
             title: "На модерации с",
             dataIndex: "moderation_date",
             key: "moderation_date"
+        },
+        {
+            title: "Действиия",
+            dataIndex: "actionsBtns",
+            key: "actionsBtns"
         }
+        
         
     ]
     return (

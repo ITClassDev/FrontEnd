@@ -22,7 +22,7 @@ const Admin = ({ user }) => {
               children: <AdminUsers />,
             },
             {
-              label: "Модерация",
+              label: "Достижения",
               key: "2",
               children: <AchivmentsModeration/>,
             },
@@ -32,8 +32,18 @@ const Admin = ({ user }) => {
               children: <AdminDayChallenge />,
             },
             {
-              label: "Настройки ШТП",
+              label: "Домашние работы",
               key: "4",
+              children: <AdminDayChallenge />,
+            },
+            {
+              label: "Задачи",
+              key: "5",
+              children: <AdminDayChallenge />,
+            },
+            {
+              label: "Настройки ШТП",
+              key: "6",
               children: <AdminSystem />,
             },
           ]}

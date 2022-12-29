@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Form, Input, Typography, InputNumber, Space } from "antd";
+import { Button, Form, Input, Typography, InputNumber, Space, Checkbox } from "antd";
 import {
   FieldStringOutlined,
   MinusCircleOutlined,
@@ -72,6 +72,7 @@ const CreateTaskCard = () => {
               message: "Укажите лимит на использованную память программой",
             },
           ]}
+          style={{ marginBottom: 0 }}
         >
           <Space direction="vertical" style={{ width: "100%" }}>
             <Text strong>
@@ -80,13 +81,11 @@ const CreateTaskCard = () => {
             <InputNumber min={32} max={4096} defaultValue={1024} />
           </Space>
         </Form.Item>
-        <Form.Item name="memory_limit">
-          <Space direction="vertical" style={{ width: "100%" }}></Space>
-        </Form.Item>
-        <Text strong style={{textAlign: "center"}}>Тесты</Text>
-
+        <Text className="testsTitleEasyMode" strong>
+          Тесты (easy mode)
+        </Text>
         
-        <Form.List name="tests">
+        <Form.List name="task_tests">
           {(fields, { add, remove }) => (
             <>
               {fields.map(({ key, name, ...restField }) => (
@@ -95,34 +94,43 @@ const CreateTaskCard = () => {
                   style={{
                     display: "flex",
                     marginBottom: 8,
+                    justifyContent: "center",
                   }}
                   align="baseline"
                 >
                   <Form.Item
                     {...restField}
-                    name={[name, "first"]}
+                    name={[name, "input"]}
                     rules={[
                       {
                         required: true,
-                        message: "Missing first name",
+                        message: "Missing input data",
                       },
                     ]}
                   >
-                    <Input placeholder="First Name" />
+                    <TextArea placeholder="Checker input" />
                   </Form.Item>
                   <Form.Item
                     {...restField}
-                    name={[name, "last"]}
+                    name={[name, "output"]}
                     rules={[
                       {
                         required: true,
-                        message: "Missing last name",
+                        message: "Missing output data",
                       },
                     ]}
                   >
-                    <Input placeholder="Last Name" />
+                    <TextArea placeholder="Excepted output" />
                   </Form.Item>
-                  <MinusCircleOutlined onClick={() => remove(name)} />
+                  <Space direction="vertical">
+                    <MinusCircleOutlined onClick={() => remove(name)} />
+                    <Form.Item
+                      name={[name, "demo"]}
+                      valuePropName="checked"
+                    >
+                      <Checkbox>Пример</Checkbox>
+                    </Form.Item>
+                  </Space>
                 </Space>
               ))}
 
