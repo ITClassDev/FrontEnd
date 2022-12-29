@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Typography, Table, Button, Space, Select } from "antd";
+import { Typography, Table, Button, Space, Select, Modal } from "antd";
 import NameAndAvatar from "./NameAndAvatar";
 import { PlusOutlined } from "@ant-design/icons";
+import CreateTaskCard from "./CreateTaskCard";
 
 const { Title, Text } = Typography;
 
@@ -52,6 +53,8 @@ const SearchInput = (props) => {
 };
 
 const AdminDayChallenge = () => {
+  const [createTaskModalOpen, setCreateTaskModalOpen] = useState(false);
+
   const solvedByTableColumns = [
     {
       title: "ID решения",
@@ -88,6 +91,19 @@ const AdminDayChallenge = () => {
   ];
   return (
     <>
+      <Modal
+        title="Добавить задачу"
+        open={createTaskModalOpen}
+        onOk={() => {
+          setCreateTaskModalOpen(false);
+        }}
+        onCancel={() => {
+          setCreateTaskModalOpen(false);
+        }}
+      >
+        <CreateTaskCard/>
+      </Modal>
+
       <Title level={4} style={{ marginTop: 0 }}>
         Решившие задачу - {solvedByUsers.length}
       </Title>
@@ -106,7 +122,7 @@ const AdminDayChallenge = () => {
       </Space>
       <Space>
         <Button type="primary">Сделать задачей дня</Button>
-        <Button type="dashed" icon={<PlusOutlined />}>
+        <Button type="dashed" icon={<PlusOutlined />} onClick={() => {setCreateTaskModalOpen(true);}}>
           Добавить новую задачу
         </Button>
       </Space>
