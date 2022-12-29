@@ -1,8 +1,55 @@
-import React from "react";
-import { Typography, Table, Button, Space } from "antd";
+import React, { useState } from "react";
+import { Typography, Table, Button, Space, Select } from "antd";
 import NameAndAvatar from "./NameAndAvatar";
+import { PlusOutlined } from "@ant-design/icons";
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
+
+const fetch = (value, callback) => {
+  callback([
+    {
+      value: "1",
+      label: "Data",
+    },
+    {
+      value: 2,
+      label: "Data 2",
+    },
+  ]);
+};
+
+const SearchInput = (props) => {
+  const [data, setData] = useState([]);
+  const [value, setValue] = useState();
+  const handleSearch = (newValue) => {
+    if (newValue) {
+      fetch(newValue, setData);
+    } else {
+      setData([]);
+    }
+  };
+  const handleChange = (newValue) => {
+    setValue(newValue);
+  };
+  return (
+    <Select
+      showSearch
+      value={value}
+      placeholder={props.placeholder}
+      style={props.style}
+      defaultActiveFirstOption={false}
+      showArrow={false}
+      filterOption={false}
+      onSearch={handleSearch}
+      onChange={handleChange}
+      notFoundContent={<>Ничего не найдено</>}
+      options={(data || []).map((d) => ({
+        value: d.value,
+        label: d.text,
+      }))}
+    />
+  );
+};
 
 const AdminDayChallenge = () => {
   const solvedByTableColumns = [
@@ -45,9 +92,24 @@ const AdminDayChallenge = () => {
         Решившие задачу - {solvedByUsers.length}
       </Title>
       <Table columns={solvedByTableColumns} dataSource={solvedByUsers} />
-      <Title level={4} style={{ marginTop: 0 }}>
+      <Title level={4} style={{ marginTop: 0, marginBottom: 20 }}>
         Выбрать задачу дня
       </Title>
+      <Space direction="vertical" style={{ width: "100%", marginBottom: 20 }}>
+        <Text strong>
+          Текущая задача дня - <Text code>Своп соседей</Text>
+        </Text>
+        <SearchInput
+          placeholder="Поиск задачи по заголовку"
+          style={{ width: "100%" }}
+        />
+      </Space>
+      <Space>
+        <Button type="primary">Сделать задачей дня</Button>
+        <Button type="dashed" icon={<PlusOutlined />}>
+          Добавить новую задачу
+        </Button>
+      </Space>
     </>
   );
 };
