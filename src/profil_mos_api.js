@@ -23,7 +23,7 @@ export function getActiveEvents(ok_handler) {
   axios
     .post(endpoint, request_data)
     .then((response) => {
-      console.log(response);
+      ok_handler(response);
     })
     .catch((response) => {
       console.log(response);
