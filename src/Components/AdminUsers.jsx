@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { STORAGE } from "../config";
 import { useEffect } from "react";
 import { getAllUsers } from "../api";
+import NameAndAvatar from "./NameAndAvatar";
 
 const { Search } = Input;
 const { Title, Text } = Typography;
@@ -25,8 +26,12 @@ const UserControllButtons = () => {
 const AdminUsers = () => {
   const [usersList, setUsersList] = useState();
   useEffect(() => {
+    let all_users = [];
     getAllUsers((response) => {
-      console.log(response.data);
+      response.data.forEach(user => {
+        all_users.push({id: user.id, fio: <NameAndAvatar user_id={user.id} name={user.firstName} avatar={user.userAvatarPath}/>, key: user.id});
+      });
+      setUsersList(all_users);
     }, () => {})
   }, [])
   const allUsersColumns = [

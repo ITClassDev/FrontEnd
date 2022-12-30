@@ -5,11 +5,11 @@ import { Avatar, Typography } from "antd";
 
 const { Text } = Typography;
 
-const NameAndAvatar = ({user_id, name}) => {
+const NameAndAvatar = ({user_id, name, avatar}) => {
   return (
     <Link to={`/profile?id=${user_id}`}>
       <Avatar
-        src={`${STORAGE}/avatars/${user_id}_avatar.png`}
+        src={`${STORAGE}/avatars/${avatar}`}
         style={{ verticalAlign: "middle", marginRight: 10 }}
         size="large"
       ></Avatar>

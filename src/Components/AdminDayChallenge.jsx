@@ -78,7 +78,7 @@ const AdminDayChallenge = () => {
     {
       sol_id: "31213",
       key: "31213",
-      fio: <NameAndAvatar user_id={1} name={"Stephan Zhdanov"} />,
+      fio: <NameAndAvatar user_id={1} name={"Stephan Zhdanov"} avatar={"1_avatar.png"}/>,
       actionsBtns: (
         <Space direction="horizontal">
           <Button type="primary">Код решения</Button>

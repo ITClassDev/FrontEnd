@@ -42,8 +42,13 @@ const Admin = ({ user }) => {
               children: <AdminDayChallenge />,
             },
             {
-              label: "Настройки ШТП",
+              label: "Мероприятия",
               key: "6",
+              children: <AdminDayChallenge />,
+            },
+            {
+              label: "Настройки ШТП",
+              key: "7",
               children: <AdminSystem />,
             },
           ]}
