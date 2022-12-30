@@ -1,5 +1,4 @@
 export const API_URL = "http://localhost:8080";
 export const STORAGE = "http://localhost:8080/storage";
 export const CLIENT_VER = "0.0.1 dev";
-
 export default API_URL;
