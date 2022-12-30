@@ -15,6 +15,7 @@ import {
   LogoutOutlined,
   LoginOutlined,
   CodeSandboxOutlined,
+  BulbOutlined
 } from "@ant-design/icons";
 import {
   Layout,
@@ -25,6 +26,7 @@ import {
   Space,
   ConfigProvider,
   theme,
+  FloatButton
 } from "antd";
 import { Outlet, Link } from "react-router-dom";
 import "../index.css";
@@ -56,6 +58,8 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
     setSelectedKey(item.key);
   };
 
+
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const [loginModelOpened, openLoginModal] = useState(false);
   const [menu, setMenu] = useState([]);
@@ -146,6 +150,7 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
 
   return (
     <Layout hasSider>
+      <FloatButton type={isDarkMode ? "primary" : ""} icon={<BulbOutlined/>} onClick={() => setIsDarkMode((previousValue) => !previousValue)} />
       <Modal
         title="Войти в аккаунт"
         open={loginModelOpened}
@@ -186,7 +191,7 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
         >
           <ConfigProvider
             theme={{
-              algorithm: theme.darkAlgorithm,
+              algorithm: isDarkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
             }}
           >
             {page}
@@ -217,6 +222,7 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
           </ConfigProvider>
         </Content>
       </Layout>
+
     </Layout>
   );
 };
