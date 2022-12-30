@@ -10,14 +10,19 @@ import {
 const { Text } = Typography;
 
 const EventCard = ({
+  event_id,
   title,
   organizer,
   audience,
   seats_available,
   event_date,
-  duration,
+  start_time,
+  finish_time
 }) => {
   const dateStartProcessed = new Date(event_date).toLocaleString("ru-RU");
+  const startTimeObj = new Date(start_time);
+  const finishTimeObj = new Date(finish_time);
+
   return (
     <Card
       title={title}
@@ -35,14 +40,21 @@ const EventCard = ({
           <Text strong>{seats_available}</Text>
         </Text>
         <Text>
-          <CalendarOutlined /> Дата проведения: <Text strong>{dateStartProcessed}</Text>
+          <CalendarOutlined /> Дата проведения:{" "}
+          <Text strong>{dateStartProcessed}</Text>
         </Text>
         <Text>
-          <ClockCircleOutlined /> Длительность: <Text strong>{duration}</Text>
+          <ClockCircleOutlined /> Длительность:{" "}
+          <Text strong>
+            {(finishTimeObj - startTimeObj) / 60 / 60 / 1000} час
+          </Text>
         </Text>
-        <Button type="primary" style={{ marginTop: 20 }}>
-          Зарегистрироваться
-        </Button>
+        <Space direction="horizontal">
+          <Button type="primary" style={{ marginTop: 20 }} target={"__blank"} href={`https://profil.mos.ru/events/event/${event_id}`}>
+            Зарегистрироваться
+          </Button>
+          <Button style={{ marginTop: 20 }}>Добавить в график</Button>
+        </Space>
       </Space>
     </Card>
   );

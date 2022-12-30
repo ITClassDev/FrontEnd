@@ -12,11 +12,14 @@ const StudyEvents = () => {
           {response.data.data.eventsList.events.map((event) => (
             <EventCard
               key={event.id}
+              event_id={event.id}
               title={event.title}
               organizer={event.agent.name}
               audience={event.audiencesShort[0]}
               seats_available={`${event.emptySeats + event.emptySeatsOnline}/${event.seats + event.seatsOnline}`}
               event_date={event.startTime}
+              start_time={event.startTime}
+              finish_time={event.finishedTime}
             />
           ))}
         </>

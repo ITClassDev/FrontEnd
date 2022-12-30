@@ -32,6 +32,12 @@ const Terminal = ({ username, user_class, user_rating }) => {
           : {user_rating}
         </li>
         <li>
+          <Text style={{ color: "#1793d1" }} strong>
+            Tasks Solved
+          </Text>
+          : {user_rating}
+        </li>
+        <li>
           <Space direction="horizontal" style={{ marginTop: 15 }}>
             <Badge count={0} showZero>
               <Image src={BronzeMedal} width={30} preview={false} />
