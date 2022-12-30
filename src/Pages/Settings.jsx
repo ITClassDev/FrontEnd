@@ -1,11 +1,12 @@
-import { Card, Form, Input, Button, Row, Space } from "antd";
+import { Card, Space, Typography } from "antd";
 import React from "react";
+
+const { Title } = Typography;
 
 const Settings = ({ user }) => {
   return (
     <>
-      <h1>Настройки аккаунта {user.id}</h1>
-      
+      <Title level={3}>Настройки аккаунта {user.id}</Title>      
         <Card title={"Социальные привязки"} style={{ marginBottom: 20 }}>
           <Space direction="vertical">
             <div>TG</div>

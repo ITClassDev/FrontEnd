@@ -1,5 +1,7 @@
 import React from "react";
-import { Alert, Button, Space } from "antd";
+import { Alert, Button, Space, Typography } from "antd";
+
+const { Title } = Typography;
 
 const Notifications = () => {
     const notifications = [{
@@ -17,7 +19,7 @@ const Notifications = () => {
     },]
     return (
         <>
-            <h1>Уведомления</h1>
+            <Title level={3}>Уведомления</Title>
             {notifications.map((notify, ind) => <Alert
                 message={(<span style={{fontWeight: "bold"}}>{notify.title}</span>)}
                 key={ind}

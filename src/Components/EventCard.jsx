@@ -29,6 +29,7 @@ const EventCard = ({
       bordered={false}
       style={{ width: "100%", marginRight: "20px", marginBottom: "20px" }}
     >
+      
       <Space direction="vertical">
         {organizer}
         <hr />
@@ -56,6 +57,8 @@ const EventCard = ({
           <Button style={{ marginTop: 20 }}>Добавить в график</Button>
         </Space>
       </Space>
+      
+      
     </Card>
   );
 };

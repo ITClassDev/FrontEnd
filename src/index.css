@@ -4,7 +4,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f5f5f5;
+  /*background-color: #f5f5f5;*/
+  background-color: #181818;
 }
 
 code {
@@ -13,7 +14,8 @@ code {
 }
 
 .site-layout .site-layout-background {
-  background-color: white;
+  /*background-color: white;*/
+  background-color: #181818;
 }
 
 .logo {

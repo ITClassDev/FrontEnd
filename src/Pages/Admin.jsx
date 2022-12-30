@@ -1,18 +1,19 @@
-import React, { useEffect } from "react";
-import { Tabs } from "antd";
+import React from "react";
+import { Tabs, Typography } from "antd";
 import AdminUsers from "../Components/AdminUsers";
 import AdminSystem from "../Components/AdminSystem";
 import AchivmentsModeration from "../Components/AdminModeration";
 import NotFound from "./NotFound";
 import AdminDayChallenge from "../Components/AdminDayChallenge";
 
+const { Title } = Typography;
 
 const Admin = ({ user }) => {
   // check permisiions to access this page
   if (user.user.userRole == 2) {
     return (
       <>
-        <h1>Админка</h1>
+        <Title level={3}>Админка</Title>
         <Tabs
           defaultActiveKey="1"
           items={[

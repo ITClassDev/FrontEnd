@@ -1,5 +1,4 @@
-import React2 from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   Card,
   Avatar,
@@ -11,6 +10,8 @@ import {
   Calendar,
   Badge,
   Popover,
+  ConfigProvider,
+  theme
 } from "antd";
 import { GithubOutlined } from "@ant-design/icons";
 import { STORAGE } from "../config";

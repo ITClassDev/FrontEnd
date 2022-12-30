@@ -1,16 +1,18 @@
 import React from "react";
-import { Tabs } from "antd";
+import { Tabs, Typography } from "antd";
 import StudyEvents from "../Components/StudyEvents";
+
+const { Title } = Typography;
 
 const Events = () => {
   return (
     <>
-      <h1>Мероприятия</h1>
+      <Title level={3}>Мероприятия</Title>
       <Tabs
         defaultActiveKey="1"
         items={[
           {
-            label: "Обучение (profil)",
+            label: "Обучение (get from profil.mos.ru graphql)",
             key: "1",
             children: <StudyEvents/>,
           },

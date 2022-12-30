@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Tabs } from "antd";
+import { Tabs, Typography } from "antd";
 import AchivmentsList from "../Components/AchivmentsList";
 import { getUserAchievements } from "../api";
 import { LoadingHorizCenter } from "../Components/Loading";
@@ -7,6 +7,8 @@ import { PlusOutlined } from "@ant-design/icons";
 import AddAchivment from "../Components/AddAchivment";
 import useDocumentTitle from "../useDocumentTitle";
 import SystemAchivmentsList from "../Components/SystemAchivmentsList";
+
+const { Title } = Typography;
 
 const Achivments = () => {
   useDocumentTitle("Ваши достижения | ШТП");
@@ -54,7 +56,7 @@ const Achivments = () => {
 
   return (
     <>
-      <h1>Ваши достижения</h1>
+      <Title level={3}>Ваши достижения</Title>
       <Tabs items={tabs} />
     </>
   );

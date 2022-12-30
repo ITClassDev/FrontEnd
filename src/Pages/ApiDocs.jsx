@@ -1,6 +1,6 @@
 import React from "react";
 import SyntaxHighlighter from 'react-syntax-highlighter';
-import { a11yLight } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import { a11yDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { users_info_base } from "../code_snippets";
 import API_URL from "../config";
 import { Typography, Space } from 'antd';
@@ -10,7 +10,7 @@ const { Title, Text, Paragraph } = Typography;
 const ApiDocs = () => {
     return (
         <>
-            <h1>Документация для разработчиков</h1>
+            <Title level={3}>Документация для разработчиков</Title>
             <Space direction="vertical">
                 <Paragraph>
                     <Text strong>ШТП</Text><Text> - построено на архитуктуре REST API. Т.е. у нас есть два независимых(software) сервера. Один из них отвечает за BackEnd, а другой за FrontEnd. Они работают независимо и используют разные технологии. Если интересно, то можете чекнуть нашу организацию на GitHub и поставить звёздочку.</Text>
@@ -43,7 +43,7 @@ const ApiDocs = () => {
                 </Paragraph>
                 <Paragraph>
                     Пример использования(Python + Requests)
-                    <SyntaxHighlighter language="python" style={a11yLight}>{users_info_base}</SyntaxHighlighter>
+                    <SyntaxHighlighter language="python" style={a11yDark}>{users_info_base}</SyntaxHighlighter>
                 </Paragraph>
 
                 <Title level={4}>Авторизация</Title>

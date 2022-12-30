@@ -16,7 +16,16 @@ import {
   LoginOutlined,
   CodeSandboxOutlined,
 } from "@ant-design/icons";
-import { Layout, Menu, Badge, Modal, Typography, Space } from "antd";
+import {
+  Layout,
+  Menu,
+  Badge,
+  Modal,
+  Typography,
+  Space,
+  ConfigProvider,
+  theme,
+} from "antd";
 import { Outlet, Link } from "react-router-dom";
 import "../index.css";
 import LoginForm from "./LoginForm";
@@ -111,7 +120,9 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
       (resp) => {
         setUserData({ status: 1, user: resp.data.user });
       },
-      (resp) => {openLoginModal(true);} // on token expired
+      (resp) => {
+        openLoginModal(true);
+      } // on token expired
     );
   }, [location]);
 
@@ -168,35 +179,42 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
         />
       </Sider>
 
-      <Layout className="site-layout" style={{ backgroundColor: "" }}>
+      <Layout className="site-layout" style={{ backgroundColor: "#181818" }}>
         <Content
           style={{ marginLeft: "25%", overflow: "auto", marginRight: "5%" }}
           width="70%"
         >
-          {page}
-          <Footer style={{ textAlign: "center" }}>
-            <Space direction="vertical">
-              <Text strong>ShTP project</Text>
-              <Text>
-                Client version: <Text code>{CLIENT_VER}</Text>
-              </Text>
-              <Text>
-                FrontEnd:{" "}
-                <Text code type="success">
-                  Online
+          <ConfigProvider
+            theme={{
+              algorithm: theme.darkAlgorithm,
+            }}
+          >
+            {page}
+
+            <Footer style={{ textAlign: "center", backgroundColor: "#181818" }}>
+              <Space direction="vertical">
+                <Text strong>ShTP project</Text>
+                <Text>
+                  Client version: <Text code>{CLIENT_VER}</Text>
                 </Text>
-              </Text>
-              <Text>
-                BackEnd (API):{" "}
-                <Text
-                  code
-                  type={backendStatus === "Online" ? "success" : "danger"}
-                >
-                  {backendStatus}
+                <Text>
+                  FrontEnd:{" "}
+                  <Text code type="success">
+                    Online
+                  </Text>
                 </Text>
-              </Text>
-            </Space>
-          </Footer>
+                <Text>
+                  BackEnd (API):{" "}
+                  <Text
+                    code
+                    type={backendStatus === "Online" ? "success" : "danger"}
+                  >
+                    {backendStatus}
+                  </Text>
+                </Text>
+              </Space>
+            </Footer>
+          </ConfigProvider>
         </Content>
       </Layout>
     </Layout>
