@@ -88,6 +88,7 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
     getItem("Приложения", "10", <CodeSandboxOutlined />, "/apps"),
   ];
   const adminMenuItem = getItem("Админка", "11", <ControlOutlined />, "/admin");
+  
   const logoutBtn = {
     label: "Выйти",
     key: "12",
@@ -147,10 +148,11 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
       },
     },
   ];
+  
 
   return (
     <Layout hasSider>
-      <FloatButton type={isDarkMode ? "primary" : ""} icon={<BulbOutlined/>} onClick={() => setIsDarkMode((previousValue) => !previousValue)} />
+      <FloatButton type={isDarkMode ? "primary" : ""} icon={<BulbOutlined/>} onClick={() => {setIsDarkMode((previousValue) => !previousValue); document.body.style = `background: ${isDarkMode ? "#f5f5f5" : "#181818"};`}} />
       <Modal
         title="Войти в аккаунт"
         open={loginModelOpened}
@@ -162,6 +164,7 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
       <Sider
         collapsible
         collapsed={collapsed}
+        theme={isDarkMode ? "dark" : "light"}
         onCollapse={(value) => setCollapsed(value)}
         breakpoint="lg"
         style={{
@@ -176,7 +179,7 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
       >
         <div className="logo" />
         <Menu
-          theme="dark"
+          theme={isDarkMode ? "dark" : "light"}
           selectedKeys={[selectedKey]}
           mode="inline"
           items={menu}
@@ -184,7 +187,7 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
         />
       </Sider>
 
-      <Layout className="site-layout" style={{ backgroundColor: "#181818" }}>
+      <Layout className="site-layout" style={{ backgroundColor: isDarkMode ? "#181818" : "#f5f5f5" }}>
         <Content
           style={{ marginLeft: "25%", overflow: "auto", marginRight: "5%" }}
           width="70%"
@@ -196,7 +199,7 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
           >
             {page}
 
-            <Footer style={{ textAlign: "center", backgroundColor: "#181818" }}>
+            <Footer style={{ textAlign: "center", backgroundColor: isDarkMode ? "#181818" : "#f5f5f5" }}>
               <Space direction="vertical">
                 <Text strong>ShTP project</Text>
                 <Text>

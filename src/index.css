@@ -4,18 +4,13 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /*background-color: #f5f5f5;*/
-  background-color: #181818;
+  background-color: #f5f5f5;
+  /*background-color: #181818;*/
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
-}
-
-.site-layout .site-layout-background {
-  /*background-color: white;*/
-  background-color: #181818;
 }
 
 .logo {
