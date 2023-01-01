@@ -11,7 +11,7 @@ const { Title } = Typography;
 
 const Admin = ({ user }) => {
   // check permisiions to access this page
-  if (user.user.userRole == 2) {
+  if (user.user.userRole === 2) {
     return (
       <>
         <Title level={3}>Админка</Title>

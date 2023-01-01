@@ -21,6 +21,7 @@ import LeaderBoard from "./Pages/LeaderBoard";
 import OAuth from "./Pages/OAuth";
 import Settings from "./Pages/Settings";
 import CreateTaskCard from "./Components/CreateTaskCard";
+import Apps from "./Pages/Apps";
 
 
 
@@ -64,6 +65,7 @@ ____) | |  | |  | |  | |    |_|
           <Route path="notifications" element={<Notifications />} />
           <Route path="docs" element={<ApiDocs />} />
           <Route path="challenge" element={<Challenge />} />
+          <Route path="apps" element={<Apps />} />
           <Route path="homework" element={<HomeWork />} />
           <Route path="admin" element={<Admin user={userData} />} />
           <Route path="test_contest" element={<Contest />} />
