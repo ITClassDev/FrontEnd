@@ -177,7 +177,7 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
           zIndex: 2,
         }}
       >
-        <div className="logo" />
+        <div className="logo"/>
         <Menu
           theme={isDarkMode ? "dark" : "light"}
           selectedKeys={[selectedKey]}

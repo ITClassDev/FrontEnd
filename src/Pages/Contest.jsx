@@ -1,4 +1,4 @@
-import { Menu, Tooltip, QRCode, Popover } from "antd";
+import { Menu, Tooltip, QRCode, Popover, Typography } from "antd";
 import {
   CheckCircleOutlined,
   CloseCircleOutlined,
@@ -9,6 +9,8 @@ import ProgTask from "../Components/ProgTask";
 import { useState } from "react";
 import SubmitViaGithub from "../Components/SubmitViaGithub";
 import { FRONTEND_URL } from "../config";
+
+const { Title } = Typography;
 
 function choosePage(setPage, item) {
   if (item === "submit") setPage(<SubmitViaGithub />);
@@ -45,7 +47,7 @@ const Contest = () => {
 
   return (
     <>
-      <h1>
+      <Title level={3}>
         Контест - STR EASY{" "}
         <Popover
           overlayInnerStyle={{
@@ -55,7 +57,7 @@ const Contest = () => {
         >
           <QrcodeOutlined/>
         </Popover>
-      </h1>
+      </Title>
       <Menu
         items={items}
         mode="horizontal"
