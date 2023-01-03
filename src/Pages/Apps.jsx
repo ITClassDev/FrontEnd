@@ -4,6 +4,10 @@ import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { getMyApps } from "../api";
 import { useState } from "react";
+import {
+  PlusOutlined,
+} from "@ant-design/icons";
+import CreateAppModal from "../Components/CreateAppModal";
 
 const { Title } = Typography;
 
@@ -51,6 +55,7 @@ const Apps = () => {
         response.data.forEach((app) => {
           apps.push({
             id: app.id,
+            key: app.id,
             title: app.name,
             redirect_url: app.redirect_url,
             status: app.status ? "Неактивно" : "Активно",
@@ -62,9 +67,11 @@ const Apps = () => {
       () => {}
     );
   }, []);
+  const [createModalOpened, setCreateModalOpened] = useState(false);
 
   return (
     <>
+      <CreateAppModal modalOpened={createModalOpened} setModalOpened={setCreateModalOpened}/>
       <Title level={3}>OAuth</Title>
       <Alert
         showIcon
@@ -80,10 +87,6 @@ const Apps = () => {
                 Приложения становятся работоспособными только после ручной
                 модерации
               </li>
-              <li>
-                Вы не можете создать более 10 приложений (по рофлу добавил
-                ограничение)
-              </li>
               <li>Ваше приложение должно, просто должно</li>
             </ul>
             Ознакомиться с документацией можно в{" "}
@@ -92,9 +95,10 @@ const Apps = () => {
         }
         type="info"
       />
+      <Button icon={<PlusOutlined/>} type="primary" style={{marginTop: 20}} onClick={() => setCreateModalOpened(true)}>Создать</Button> 
       <Table
         columns={columnsMyAppsTable}
-        style={{ marginTop: 20 }}
+        style={{ marginTop: 10 }}
         dataSource={appsData}
       />
     </>

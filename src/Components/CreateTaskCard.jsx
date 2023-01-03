@@ -96,7 +96,7 @@ const CreateTaskCard = () => {
                     marginBottom: 8,
                     justifyContent: "center",
                   }}
-                  align="baseline"
+                  align="center"
                 >
                   <Form.Item
                     {...restField}
@@ -126,8 +126,7 @@ const CreateTaskCard = () => {
                     <MinusCircleOutlined onClick={() => remove(name)} />
                     <Form.Item
                       name={[name, "demo"]}
-                      valuePropName="checked"
-                    >
+                      valuePropName="checked">
                       <Checkbox>Пример</Checkbox>
                     </Form.Item>
                   </Space>

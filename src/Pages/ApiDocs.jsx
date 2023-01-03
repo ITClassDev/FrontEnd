@@ -70,7 +70,7 @@ const ApiDocs = () => {
                     <Image src="https://i.imgur.com/8hBttWR_d.webp?maxwidth=760&fidelity=grand"/>
                 </Paragraph>
                 <Paragraph>
-                    Итак, тоже самое, только текстом.
+                    
                 </Paragraph>
             </Space>
         </>
