@@ -3,7 +3,7 @@ import SyntaxHighlighter from 'react-syntax-highlighter';
 import { a11yDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { users_info_base } from "../code_snippets";
 import API_URL from "../config";
-import { Typography, Space } from 'antd';
+import { Typography, Space, Image } from 'antd';
 const { Title, Text, Paragraph } = Typography;
 
 
@@ -48,7 +48,7 @@ const ApiDocs = () => {
 
                 <Title level={4}>Авторизация</Title>
                 <Paragraph>
-                    Авторизация работает на простейшей схеме JWT токенов. Backend генерирует токен, который экспайрится через 1440 минут (24 часа). Всякие эти ваши http only кукисы и рефреш токены для слабаков. Ладно, может быть сделаем потом.
+                    Авторизация работает на простейшей схеме JWT токенов. Backend генерирует токен, который экспайрится через 1440 минут (24 часа). Refresh токены пока не реализованы
                 </Paragraph>
 
 
@@ -67,6 +67,7 @@ const ApiDocs = () => {
 
                 <Paragraph>
                     Мы реализовали систему подобную OAuth. На следующем изображении показана схема аутентификации через ШТП на кастомном ресурсе.
+                    <Image src="https://i.imgur.com/8hBttWR_d.webp?maxwidth=760&fidelity=grand"/>
                 </Paragraph>
                 <Paragraph>
                     Итак, тоже самое, только текстом.

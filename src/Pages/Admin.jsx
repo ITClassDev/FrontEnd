@@ -26,7 +26,7 @@ const Admin = ({ user }) => {
             {
               label: "Достижения",
               key: "2",
-              children: <AchivmentsModeration/>,
+              children: <AchivmentsModeration />,
             },
             {
               label: "Задача дня",
@@ -62,10 +62,8 @@ const Admin = ({ user }) => {
         />
       </>
     );
-  }else{
-    return (
-        <NotFound/>
-    )
+  } else {
+    return <NotFound />;
   }
 };
 

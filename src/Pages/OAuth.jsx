@@ -25,7 +25,7 @@ const OAuth = () => {
     );
   }, []);
 
-  function provideInfoButtonHandler(event) {
+  function provideInfoButtonHandler() {
     provideAccessToApp(
       app_id,
       (response) => {

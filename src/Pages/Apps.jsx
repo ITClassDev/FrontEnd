@@ -1,11 +1,19 @@
 import React from "react";
-import { Alert, Table, Typography } from "antd";
+import { Alert, Button, Space, Table, Typography } from "antd";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { getMyApps } from "../api";
 import { useState } from "react";
 
 const { Title } = Typography;
+
+const AppsActionsBtns = ({ app_id }) => {
+  return (
+    <Space direction="horizontal">
+      <Button type="primary">Редактировать</Button>
+    </Space>
+  );
+};
 
 const Apps = () => {
   const columnsMyAppsTable = [
@@ -37,15 +45,24 @@ const Apps = () => {
   ];
   const [appsData, setAppsData] = useState([]);
   useEffect(() => {
-    getMyApps((response) => {
+    getMyApps(
+      (response) => {
         let apps = [];
-        response.data.forEach(app => {
-            apps.push({id: app.id, title: app.name, redirect_url: app.redirect_url, status: app.status ? "Неактивно" : "Активно"})
+        response.data.forEach((app) => {
+          apps.push({
+            id: app.id,
+            title: app.name,
+            redirect_url: app.redirect_url,
+            status: app.status ? "Неактивно" : "Активно",
+            actions: <AppsActionsBtns app_id={app.id} />,
+          });
         });
         setAppsData(apps);
-    }, () => {})
-  }, [])
-  
+      },
+      () => {}
+    );
+  }, []);
+
   return (
     <>
       <Title level={3}>OAuth</Title>
@@ -75,7 +92,11 @@ const Apps = () => {
         }
         type="info"
       />
-      <Table columns={columnsMyAppsTable} style={{ marginTop: 20 }} dataSource={appsData}/>
+      <Table
+        columns={columnsMyAppsTable}
+        style={{ marginTop: 20 }}
+        dataSource={appsData}
+      />
     </>
   );
 };
