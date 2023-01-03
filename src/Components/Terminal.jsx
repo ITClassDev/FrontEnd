@@ -35,7 +35,7 @@ const Terminal = ({ username, user_class, user_rating }) => {
           <Text style={{ color: "#1793d1" }} strong>
             Tasks Solved
           </Text>
-          : {user_rating}
+          : N/A
         </li>
         <li>
           <Space direction="horizontal" style={{ marginTop: 15 }}>

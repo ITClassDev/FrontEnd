@@ -59,7 +59,7 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
   };
 
 
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(localStorage.getItem("isDarkMode") === 'true');
   const [collapsed, setCollapsed] = useState(false);
   const [loginModelOpened, openLoginModal] = useState(false);
   const [menu, setMenu] = useState([]);
@@ -120,6 +120,7 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
       }
     }
   }, [user]);
+  
   useEffect(() => {
     getUser(
       (resp) => {
@@ -148,11 +149,11 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
       },
     },
   ];
-  
+
 
   return (
     <Layout hasSider>
-      <FloatButton type={isDarkMode ? "primary" : ""} icon={<BulbOutlined/>} onClick={() => {setIsDarkMode((previousValue) => !previousValue); document.body.style = `background: ${isDarkMode ? "#f5f5f5" : "#181818"};`}} />
+      <FloatButton type={isDarkMode ? "primary" : ""} icon={<BulbOutlined/>} onClick={() => {setIsDarkMode((previousValue) => !previousValue); document.body.style = `background: ${isDarkMode ? "#f5f5f5" : "#181818"};`; localStorage.setItem("isDarkMode", !isDarkMode)}} />
       <Modal
         title="Войти в аккаунт"
         open={loginModelOpened}
