@@ -32,17 +32,20 @@ const Notifications = () => {
       color: "success",
     },
     {
-      base: "Ваше достижение {name} прошло модерацию! Начислено {points} баллов",
+      title: "Достижение отклонено",
+      base: "Ваше достижение {name} отклонено",
       color: "error",
     },
     {
-      base: "Ваше достижение {name} прошло модерацию! Начислено {points} баллов",
+      title: "Новое мероприятие!",
+      base: "Добавлено новое школьное мероприятие - {name}",
       color: "info",
     },
     {
-      base: "Ваше достижение {name} прошло модерацию! Начислено {points} баллов",
+      title: "Новая медаль!",
+      base: "Вы получили новую медаль!",
       color: "success",
-    },
+    }
   ];
   useEffect(() => {
     getMyNotifications(
@@ -51,8 +54,12 @@ const Notifications = () => {
           <>
             {response.data.map((notify, ind) => (
               <Alert
-                message={<span style={{ fontWeight: "bold" }}>{"FFF"}</span>}
-                key={ind}
+                message={
+                  <span style={{ fontWeight: "bold" }}>
+                    {ALL_NOTIFICATIONS[notify.type].title}
+                  </span>
+                }
+                key={notify.id}
                 description={ALL_NOTIFICATIONS[notify.type].base.replace(
                   /{(\w+)}/g,
                   (placeholderWithDelimiters, placeholderWithoutDelimiters) =>
@@ -61,13 +68,6 @@ const Notifications = () => {
                 )}
                 type={ALL_NOTIFICATIONS[notify.type].color}
                 style={{ marginBottom: "20px" }}
-                action={
-                  <Space direction="vertical">
-                    <Button size="small" type="primary">
-                      Подробнее
-                    </Button>
-                  </Space>
-                }
               />
             ))}
           </>
@@ -83,5 +83,13 @@ const Notifications = () => {
     </>
   );
 };
+/*
+ action={
+                  <Space direction="vertical">
+                    <Button size="small" type="primary">
+                      Подробнее
+                    </Button>
+                  </Space>
+                }*/
 
 export default Notifications;
