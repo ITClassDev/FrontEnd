@@ -100,6 +100,14 @@ export function getMyApps(ok_handler, error_handler, api = API_URL) {
   })
 }
 
+export function getMyNotifications(ok_handler, error_handler, api = API_URL) {
+  axios.get(`${api}/users/my_notifications`, getAuth()).then((response) => {
+    ok_handler(response);
+  }).catch((response) => {
+    error_handler(response);
+  })
+}
+
 // Admin API
 
 export function getAchivmentsModerationQueue(api = API_URL) {}

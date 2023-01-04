@@ -15,7 +15,7 @@ import {
   LogoutOutlined,
   LoginOutlined,
   CodeSandboxOutlined,
-  BulbOutlined
+  BulbOutlined,
 } from "@ant-design/icons";
 import {
   Layout,
@@ -26,7 +26,7 @@ import {
   Space,
   ConfigProvider,
   theme,
-  FloatButton
+  FloatButton,
 } from "antd";
 import { Outlet, Link } from "react-router-dom";
 import "../index.css";
@@ -58,8 +58,15 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
     setSelectedKey(item.key);
   };
 
+  const [isDarkMode, setIsDarkMode] = useState(
+    localStorage.getItem("isDarkMode") === "true"
+  );
+  useEffect(() => {
+    document.body.style = `background: ${
+      localStorage.getItem("isDarkMode") === "true" ? "#181818" : "#f5f5f5"
+    };`;
+  }, []);
 
-  const [isDarkMode, setIsDarkMode] = useState(localStorage.getItem("isDarkMode") === 'true');
   const [collapsed, setCollapsed] = useState(false);
   const [loginModelOpened, openLoginModal] = useState(false);
   const [menu, setMenu] = useState([]);
@@ -88,7 +95,7 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
     getItem("Приложения", "10", <CodeSandboxOutlined />, "/apps"),
   ];
   const adminMenuItem = getItem("Админка", "11", <ControlOutlined />, "/admin");
-  
+
   const logoutBtn = {
     label: "Выйти",
     key: "12",
@@ -120,7 +127,7 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
       }
     }
   }, [user]);
-  
+
   useEffect(() => {
     getUser(
       (resp) => {
@@ -150,10 +157,19 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
     },
   ];
 
-
   return (
     <Layout hasSider>
-      <FloatButton type={isDarkMode ? "primary" : ""} icon={<BulbOutlined/>} onClick={() => {setIsDarkMode((previousValue) => !previousValue); document.body.style = `background: ${isDarkMode ? "#f5f5f5" : "#181818"};`; localStorage.setItem("isDarkMode", !isDarkMode)}} />
+      <FloatButton
+        type={isDarkMode ? "primary" : ""}
+        icon={<BulbOutlined />}
+        onClick={() => {
+          setIsDarkMode((previousValue) => !previousValue);
+          document.body.style = `background: ${
+            isDarkMode ? "#f5f5f5" : "#181818"
+          };`;
+          localStorage.setItem("isDarkMode", !isDarkMode);
+        }}
+      />
       <Modal
         title="Войти в аккаунт"
         open={loginModelOpened}
@@ -178,7 +194,7 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
           zIndex: 2,
         }}
       >
-        <div className="logo"/>
+        <div className="logo" />
         <Menu
           theme={isDarkMode ? "dark" : "light"}
           selectedKeys={[selectedKey]}
@@ -188,19 +204,29 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
         />
       </Sider>
 
-      <Layout className="site-layout" style={{ backgroundColor: isDarkMode ? "#181818" : "#f5f5f5" }}>
+      <Layout
+        className="site-layout"
+        style={{ backgroundColor: isDarkMode ? "#181818" : "#f5f5f5" }}
+      >
         <Content
           style={{ marginLeft: "25%", overflow: "auto", marginRight: "5%" }}
           width="70%"
         >
           <ConfigProvider
             theme={{
-              algorithm: isDarkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
+              algorithm: isDarkMode
+                ? theme.darkAlgorithm
+                : theme.defaultAlgorithm,
             }}
           >
             {page}
 
-            <Footer style={{ textAlign: "center", backgroundColor: isDarkMode ? "#181818" : "#f5f5f5" }}>
+            <Footer
+              style={{
+                textAlign: "center",
+                backgroundColor: isDarkMode ? "#181818" : "#f5f5f5",
+              }}
+            >
               <Space direction="vertical">
                 <Text strong>ShTP project</Text>
                 <Text>
@@ -226,7 +252,6 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
           </ConfigProvider>
         </Content>
       </Layout>
-
     </Layout>
   );
 };
