@@ -36,7 +36,6 @@ const AddAchivment = () => {
   ];
   const [achievementQueueData, SetAchievementQueueData] = useState();
   const onAddAchivment = (values) => {
-    console.log("Success:", values);
     addAchivment(values, (resp) => {
         messageApi.open({
             type: "success",

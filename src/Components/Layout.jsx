@@ -114,7 +114,7 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
     if (user.status !== 0) {
       if (user.status === 1) {
         setMenu(logined_menu);
-        //setNewNotifications(user.user.new_notifications);
+        setNewNotifications(user.user.new_notifications);
         if (user.user.userRole === 2)
           setMenu([...logined_menu, adminMenuItem, logoutBtn]);
         else setMenu([...logined_menu, logoutBtn]);

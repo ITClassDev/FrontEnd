@@ -82,8 +82,17 @@ export function addAchivment(
   error_handler,
   api = API_URL
 ) {
+  let formData = new FormData();
+  formData.append('file', achievement.confirmation_file.file);
+  formData.append('achievement', JSON.stringify({'type': achievement.type, 'title': achievement.title, 'description': achievement.description})); // TOOD // Too messy
+  
   axios
-    .post(`${api}/achievements/add`, achievement, getAuth())
+    .post(`${api}/achievements/add`, formData, {
+      headers: {
+        Authorization: getAuth().headers.Authorization,
+        "Content-Type": "multipart/form-data",
+      },
+    })
     .then((response) => {
       ok_handler(response);
     })
