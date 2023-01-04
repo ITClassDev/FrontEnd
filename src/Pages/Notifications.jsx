@@ -3,28 +3,12 @@ import { Alert, Button, Space, Typography } from "antd";
 import { useEffect } from "react";
 import { getMyNotifications } from "../api";
 import { useState } from "react";
+import LoadingBig from "../Components/Loading";
 
 const { Title } = Typography;
 
 const Notifications = () => {
-  /*[
-    {
-      title: "Реклама",
-      desc: "Задонатьте пж, всё пойдёт на развитие сервиса(нет конечно же)",
-      type: "warning",
-    },
-    {
-      title: "Реклама",
-      desc: "Задонатьте пж, всё пойдёт на развитие сервиса(нет конечно же)",
-      type: "error",
-    },
-    {
-      title: "Реклама",
-      desc: "Задонатьте пж, всё пойдёт на развитие сервиса(нет конечно же)",
-      type: "info",
-    },
-  ];*/
-  const [notifications, setNotifications] = useState([]);
+  const [notifications, setNotifications] = useState(<LoadingBig/>);
   const ALL_NOTIFICATIONS = [
     {
       title: "Новое достижение!",
@@ -45,14 +29,14 @@ const Notifications = () => {
       title: "Новая медаль!",
       base: "Вы получили новую медаль!",
       color: "success",
-    }
+    },
   ];
   useEffect(() => {
     getMyNotifications(
       (response) => {
         setNotifications(
           <>
-            {response.data.map((notify, ind) => (
+            {response.data.map((notify) => (
               <Alert
                 message={
                   <span style={{ fontWeight: "bold" }}>

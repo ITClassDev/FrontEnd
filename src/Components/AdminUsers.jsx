@@ -74,6 +74,15 @@ const AdminUsers = () => {
         style={{ marginBottom: 20 }}
       />
       <Table columns={allUsersColumns} dataSource={usersList} />
+      <Title level={4} style={{ marginTop: 0 }}>
+        Добавить одного
+      </Title>
+      PLACEHOLDER
+
+      <Title level={4} style={{ marginTop: 0 }}>
+        Добавить класс
+      </Title>
+      PLACEHOLDER
     </>
   );
 };

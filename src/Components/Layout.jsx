@@ -57,6 +57,7 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
   const onClickMenu = (item) => {
     setSelectedKey(item.key);
   };
+  const [newNotifications, setNewNotifications] = useState(false);
 
   const [isDarkMode, setIsDarkMode] = useState(
     localStorage.getItem("isDarkMode") === "true"
@@ -85,7 +86,7 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
     getItem(
       "Уведомления",
       "7",
-      <Badge dot={1}>
+      <Badge dot={newNotifications} showZero={false}>
         <NotificationOutlined />
       </Badge>,
       "/notifications"
@@ -113,6 +114,7 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
     if (user.status !== 0) {
       if (user.status === 1) {
         setMenu(logined_menu);
+        //setNewNotifications(user.user.new_notifications);
         if (user.user.userRole === 2)
           setMenu([...logined_menu, adminMenuItem, logoutBtn]);
         else setMenu([...logined_menu, logoutBtn]);
