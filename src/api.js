@@ -83,9 +83,16 @@ export function addAchivment(
   api = API_URL
 ) {
   let formData = new FormData();
-  formData.append('file', achievement.confirmation_file.file);
-  formData.append('achievement', JSON.stringify({'type': achievement.type, 'title': achievement.title, 'description': achievement.description})); // TOOD // Too messy
-  
+  formData.append("file", achievement.confirmation_file.file);
+  formData.append(
+    "achievement",
+    JSON.stringify({
+      type: achievement.type,
+      title: achievement.title,
+      description: achievement.description,
+    })
+  ); // TOOD // Too messy
+
   axios
     .post(`${api}/achievements/add`, formData, {
       headers: {
@@ -145,6 +152,26 @@ export function getAllUsers(ok_handler, error_handler, api = API_URL) {
     .get(`${api}/admin/all_users`, getAuth())
     .then((response) => {
       ok_handler(response);
+    })
+    .catch((response) => {
+      error_handler(response);
+    });
+}
+
+export function moderateAchivment(
+  achivment_id,
+  achivment_status,
+  points,
+  ok_hanler,
+  error_handler,
+  api = API_URL
+) {
+  let req_payload = { id: achivment_id, "status": achivment_status };
+  if (achivment_status) req_payload["points"] = points;
+  axios
+    .post(`${api}/achievements/moderate`, req_payload, getAuth())
+    .then((response) => {
+      ok_hanler(response);
     })
     .catch((response) => {
       error_handler(response);

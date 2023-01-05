@@ -1,15 +1,22 @@
-import { Button, InputNumber, Modal, Space, Typography } from "antd";
+import { Button, InputNumber, Modal, Space, Typography, Image } from "antd";
 import React from "react";
 import { useState } from "react";
+import { moderateAchivment } from "../api";
 import { STORAGE } from "../config";
 
 const { Text, Link } = Typography;
 
-const moderate = (status, setOpenModal) => {
+const moderate = (achivmentId, status, points, setOpenModal) => {
+  moderateAchivment(achivmentId, status, points, () => {}, () => {});
   setOpenModal(false);
 };
 
-const AdminModerateAchivmentModal = ({ isOpen, setOpen, achivmentText, achivmentId }) => {
+const AdminModerateAchivmentModal = ({
+  isOpen,
+  setOpen,
+  achivmentText,
+  achivmentId,
+}) => {
   const [pointForAchivment, setPointsForchivment] = useState(10);
   return (
     <Modal
@@ -23,16 +30,23 @@ const AdminModerateAchivmentModal = ({ isOpen, setOpen, achivmentText, achivment
       <Space direction="vertical">
         <Text strong>Описание</Text>
         <Text>{achivmentText}</Text>
-        <Link href={`${STORAGE}/achievements/${achivmentId}_confirmation_file.png`} target={"_blank"}>
+        <Text strong>Подтверждение</Text>
+        <Image
+          src={`${STORAGE}/achievements/${achivmentId}_confirmation_file.png`}
+        />
+        <Link
+          href={`${STORAGE}/achievements/${achivmentId}_confirmation_file.png`}
+          target={"_blank"}
+        >
           Диплом/подтверждение
         </Link>
         <Text strong>Количество баллов</Text>
-        <InputNumber min={1} value={pointForAchivment} />
+        <InputNumber min={1} value={pointForAchivment} onChange={(points) => {setPointsForchivment(points)}} />
         <Space direction="horizontal">
           <Button
             type="primary"
             onClick={() => {
-              moderate(1, setOpen);
+              moderate(achivmentId, 1, pointForAchivment, setOpen);
             }}
           >
             Принять
@@ -40,7 +54,7 @@ const AdminModerateAchivmentModal = ({ isOpen, setOpen, achivmentText, achivment
           <Button
             danger
             onClick={() => {
-              moderate(1, setOpen);
+              moderate(achivmentId, 0, null, setOpen);
             }}
           >
             Отклонить
