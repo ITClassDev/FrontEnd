@@ -7,7 +7,13 @@ import { STORAGE } from "../config";
 const { Text, Link } = Typography;
 
 const moderate = (achivmentId, status, points, setOpenModal) => {
-  moderateAchivment(achivmentId, status, points, () => {}, () => {});
+  moderateAchivment(
+    achivmentId,
+    status,
+    points,
+    () => {},
+    () => {}
+  );
   setOpenModal(false);
 };
 
@@ -16,6 +22,7 @@ const AdminModerateAchivmentModal = ({
   setOpen,
   achivmentText,
   achivmentId,
+  achivmentAttachment
 }) => {
   const [pointForAchivment, setPointsForchivment] = useState(10);
   return (
@@ -32,16 +39,22 @@ const AdminModerateAchivmentModal = ({
         <Text>{achivmentText}</Text>
         <Text strong>Подтверждение</Text>
         <Image
-          src={`${STORAGE}/achievements/${achivmentId}_confirmation_file.png`}
+          src={`${STORAGE}/achievements/${achivmentAttachment}`}
         />
         <Link
-          href={`${STORAGE}/achievements/${achivmentId}_confirmation_file.png`}
+          href={`${STORAGE}/achievements/${achivmentAttachment}`}
           target={"_blank"}
         >
           Диплом/подтверждение
         </Link>
         <Text strong>Количество баллов</Text>
-        <InputNumber min={1} value={pointForAchivment} onChange={(points) => {setPointsForchivment(points)}} />
+        <InputNumber
+          min={1}
+          value={pointForAchivment}
+          onChange={(points) => {
+            setPointsForchivment(points);
+          }}
+        />
         <Space direction="horizontal">
           <Button
             type="primary"

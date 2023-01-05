@@ -34,6 +34,8 @@ const AchivmentsModeration = () => {
   const [moderationModalOpen, setModerationModalOpen] = useState(false);
   const [moderationAchivmentText, setModerationAchivmentText] = useState();
   const [moderationAchivmentId, setModerationAchivmentId] = useState();
+  const [moderationAchivmentAttachment, setModerationAchivmentAttachment] =
+    useState();
 
   useEffect(() => {
     getAchivmentsModerationQueue(
@@ -51,6 +53,7 @@ const AchivmentsModeration = () => {
                 onClick={() => {
                   setModerationAchivmentText(moderationItem.description);
                   setModerationAchivmentId(moderationItem.id);
+                  setModerationAchivmentAttachment(moderationItem.attachment_file_name)
                   setModerationModalOpen(true);
                 }}
               >
@@ -72,6 +75,7 @@ const AchivmentsModeration = () => {
         setOpen={setModerationModalOpen}
         achivmentText={moderationAchivmentText}
         achivmentId={moderationAchivmentId}
+        achivmentAttachment={moderationAchivmentAttachment}
       />
       <Title level={4} style={{ marginTop: 0 }}>
         Очередь модерации
