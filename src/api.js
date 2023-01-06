@@ -166,7 +166,7 @@ export function moderateAchivment(
   error_handler,
   api = API_URL
 ) {
-  let req_payload = { id: achivment_id, "status": achivment_status };
+  let req_payload = { id: achivment_id, status: achivment_status };
   if (achivment_status) req_payload["points"] = points;
   axios
     .post(`${api}/achievements/moderate`, req_payload, getAuth())

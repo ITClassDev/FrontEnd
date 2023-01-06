@@ -1,14 +1,14 @@
 import React from "react";
 import { Alert, Button, Space, Typography } from "antd";
 import { useEffect } from "react";
-import { getMyNotifications } from "../api";
+import { getMyNotifications, setNotificationsViewed } from "../api";
 import { useState } from "react";
 import LoadingBig from "../Components/Loading";
 
 const { Title } = Typography;
 
 const Notifications = () => {
-  const [notifications, setNotifications] = useState(<LoadingBig/>);
+  const [notifications, setNotifications] = useState(<LoadingBig />);
   const ALL_NOTIFICATIONS = [
     {
       title: "Новое достижение!",
