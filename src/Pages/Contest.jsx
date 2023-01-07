@@ -38,7 +38,7 @@ const Contest = () => {
       <CloseCircleOutlined style={{ color: "red" }} />
     </Tooltip>
   );
-  const items = [
+  const menuTasks = [
     { label: "Submit", key: "submit", icon: <CodeOutlined /> },
     { label: "itc_hello_str", key: "task-0", icon: correctTask },
     { label: "task #1", key: "task-1", icon: invalidTask },
@@ -59,7 +59,7 @@ const Contest = () => {
         </Popover>
       </Title>
       <Menu
-        items={items}
+        items={menuTasks}
         mode="horizontal"
         defaultSelectedKeys={["submit"]}
         style={{ borderRadius: 10, marginBottom: 20 }}
@@ -70,7 +70,6 @@ const Contest = () => {
       {pageContent}
     </>
   );
-  /* <ProgTask title="itc_hello_str" desc="Написать функцию string itc_hello_str(string name), которая принимает имя пользователя и возвращает строку приветствие «Hello, <имя пользователя>»" time_limit={5} memory_limit={100} can_submit={false}/> */
 };
 
 export default Contest;

@@ -11,7 +11,7 @@ import {
   Badge,
   Popover,
   ConfigProvider,
-  theme
+  theme,
 } from "antd";
 import { GithubOutlined } from "@ant-design/icons";
 import { STORAGE } from "../config";
@@ -58,8 +58,7 @@ const ProfileCard = ({
   header_title = "Ваш профиль",
 }) => {
   const [userAbout, setUserAbout] = useState(user.userAboutText);
-  const [userName, setUserName] = useState(
-    `${user.firstName} ${user.lastName}`
+  const [userName, setUserName] = useState(<>{user.firstName} {user.lastName}</>
   );
   const [userAvatar, setUserAvatar] = useState(
     `${STORAGE}/avatars/${user.userAvatarPath}`

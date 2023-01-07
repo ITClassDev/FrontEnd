@@ -30,9 +30,8 @@ const SubmitViaGithub = () => {
         </Space>
         type="info"
       />
-      <Form name="basic" autoComplete="off">
+      <Form name="basic" autoComplete="off" requiredMark={false}>
         <Form.Item
-          label="Link to repo"
           name="github_repo"
           rules={[
             {
@@ -42,13 +41,13 @@ const SubmitViaGithub = () => {
           ]}
         >
           <Input
-            addonBefore="https://github.com/"
+            addonBefore="github.com/"
             placeholder="username/repo_name"
           />
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Send
+          <Button type="primary" htmlType="submit" style={{marginTop: 5}}>
+            Отправить
           </Button>
         </Form.Item>
       </Form>
