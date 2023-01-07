@@ -22,6 +22,8 @@ import OAuth from "./Pages/OAuth";
 import Settings from "./Pages/Settings";
 import CreateTaskCard from "./Components/CreateTaskCard";
 import Apps from "./Pages/Apps";
+import StatisticPage from "./Pages/Statistic";
+
 
 
 
@@ -70,6 +72,7 @@ ____) | |  | |  | |  | |    |_|
           <Route path="admin" element={<Admin user={userData} />} />
           <Route path="test_contest" element={<Contest />} />
           <Route path="profile" element={<ViewProfile />} />
+          <Route path="stats" element={<StatisticPage />} />
           <Route path="leaderboard" element={<LeaderBoard />} />
           <Route path="login_to" element={<OAuth />} />
           <Route path="create_challenge" element={<CreateTaskCard />} />

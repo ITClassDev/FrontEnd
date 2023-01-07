@@ -4,17 +4,18 @@ import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { getMyApps } from "../api";
 import { useState } from "react";
-import {
-  PlusOutlined,
-} from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 import CreateAppModal from "../Components/CreateAppModal";
+import EditAppModal from "../Components/EditAppModal";
 
 const { Title } = Typography;
 
-const AppsActionsBtns = ({ app_id }) => {
+const AppsActionsBtns = ({ app_id, setEditModal }) => {
   return (
     <Space direction="horizontal">
-      <Button type="primary">Редактировать</Button>
+      <Button type="primary" onClick={() => {setEditModal(true)}}>
+        Редактировать
+      </Button>
     </Space>
   );
 };
@@ -54,12 +55,17 @@ const Apps = () => {
         let apps = [];
         response.data.forEach((app) => {
           apps.push({
-            id: app.id,
+            id: <Link to={`/login_to?app_id=${app.id}`}>{app.id}</Link>,
             key: app.id,
             title: app.name,
             redirect_url: app.redirect_url,
             status: app.status ? "Неактивно" : "Активно",
-            actions: <AppsActionsBtns app_id={app.id} />,
+            actions: (
+              <AppsActionsBtns
+                app_id={app.id}
+                setEditModal={setEditModalOpened}
+              />
+            ),
           });
         });
         setAppsData(apps);
@@ -68,10 +74,18 @@ const Apps = () => {
     );
   }, []);
   const [createModalOpened, setCreateModalOpened] = useState(false);
+  const [editModalOpened, setEditModalOpened] = useState(false);
 
   return (
     <>
-      <CreateAppModal modalOpened={createModalOpened} setModalOpened={setCreateModalOpened}/>
+      <CreateAppModal
+        modalOpened={createModalOpened}
+        setModalOpened={setCreateModalOpened}
+      />
+      <EditAppModal
+        modalOpened={editModalOpened}
+        setModalOpened={setEditModalOpened}
+      />
       <Title level={3}>OAuth</Title>
       <Alert
         showIcon
@@ -95,7 +109,14 @@ const Apps = () => {
         }
         type="info"
       />
-      <Button icon={<PlusOutlined/>} type="primary" style={{marginTop: 20}} onClick={() => setCreateModalOpened(true)}>Создать</Button> 
+      <Button
+        icon={<PlusOutlined />}
+        type="primary"
+        style={{ marginTop: 20 }}
+        onClick={() => setCreateModalOpened(true)}
+      >
+        Создать новое
+      </Button>
       <Table
         columns={columnsMyAppsTable}
         style={{ marginTop: 10 }}
