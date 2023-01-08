@@ -19,7 +19,7 @@ import "dayjs/locale/ru";
 import locale from "antd/es/date-picker/locale/ru_RU";
 import Telegram_logo from "../Images/Telegram_logo.svg";
 import Stepik_logo from "../Images/Stepik_logo.png";
-import KaggleLogo from "../Images/Kaggle_logo.svg";
+import Kaggle_logo from "../Images/Kaggle_logo.svg";
 
 const { Title, Paragraph } = Typography;
 
@@ -44,7 +44,7 @@ const available_socials = [
   },
   {
     name: "userKaggle",
-    icon: <Image src={KaggleLogo} width={17} preview={false} />,
+    icon: <Image src={Kaggle_logo} width={17} preview={false} />,
     color: "#baedff",
     url: "https://kaggle.com/",
   },
