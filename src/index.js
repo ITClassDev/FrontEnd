@@ -1,29 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { Route, BrowserRouter, Routes } from "react-router-dom";
-import Home from "./Pages/Home";
-import Events from "./Pages/Events";
-import Achivments from "./Pages/Achivments";
-import Notifications from "./Pages/Notifications";
-import ApiDocs from "./Pages/ApiDocs";
-import NotFound from "./Pages/NotFound";
 import BaseLayout from "./Components/Layout";
-import Challenge from "./Pages/Challenge";import Admin from "./Pages/Admin";
-import HomeWork from "./Pages/HomeWork";
-import Contest from "./Pages/Contest";
+
 import { getUser } from "./api";
-import ViewProfile from "./Pages/ViewProfile";
-import LeaderBoard from "./Pages/LeaderBoard";
-import OAuth from "./Pages/OAuth";
-import Settings from "./Pages/Settings";
-import CreateTaskCard from "./Components/CreateTaskCard";
-import Apps from "./Pages/Apps";
-import StatisticPage from "./Pages/Statistic";
 
-
-
+const Home = lazy(() => import("./Pages/Home"));
+const Events = lazy(() => import("./Pages/Events"));
+const Achivments = lazy(() => import("./Pages/Achivments"));
+const Notifications = lazy(() => import("./Pages/Notifications"));
+const ApiDocs = lazy(() => import("./Pages/ApiDocs"));
+const NotFound = lazy(() => import("./Pages/NotFound"));
+const Challenge = lazy(() => import("./Pages/Challenge"));
+const Admin = lazy(() => import("./Pages/Admin"));
+const HomeWork = lazy(() => import("./Pages/HomeWork"));
+const Contest = lazy(() => import("./Pages/Contest"));
+const ViewProfile = lazy(() => import("./Pages/ViewProfile"));
+const LeaderBoard = lazy(() => import("./Pages/LeaderBoard"));
+const OAuth = lazy(() => import("./Pages/OAuth"));
+const Settings = lazy(() => import("./Pages/Settings"));
+const Apps = lazy(() => import("./Pages/Apps"));
+const StatisticPage = lazy(() => import("./Pages/Statistic"));
 
 export default function App() {
   const [userData, setUserData] = useState({ status: 0 });
@@ -54,30 +53,37 @@ ____) | |  | |  | |  | |    |_|
 
   return (
     <BrowserRouter>
-      <Routes>
-        <Route
-          path="/"
-          element={<BaseLayout user={userData} setUserData={setUserData} backendStatus={backendStatus} />}
-        >
-          <Route index element={<Home user={userData} />} />
-          <Route path="events" element={<Events />} />
-          <Route path="achivments" element={<Achivments />} />
-          <Route path="notifications" element={<Notifications />} />
-          <Route path="docs" element={<ApiDocs />} />
-          <Route path="challenge" element={<Challenge />} />
-          <Route path="apps" element={<Apps />} />
-          <Route path="homework" element={<HomeWork />} />
-          <Route path="admin" element={<Admin user={userData} />} />
-          <Route path="test_contest" element={<Contest />} />
-          <Route path="profile" element={<ViewProfile />} />
-          <Route path="stats" element={<StatisticPage />} />
-          <Route path="leaderboard" element={<LeaderBoard />} />
-          <Route path="login_to" element={<OAuth />} />
-          <Route path="create_challenge" element={<CreateTaskCard />} />
-          <Route path="settings" element={<Settings user={userData} />} />
-        </Route>
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <BaseLayout
+                user={userData}
+                setUserData={setUserData}
+                backendStatus={backendStatus}
+              />
+            }
+          >
+            <Route index element={<Suspense fallback={<div>Loading...</div>}><Home user={userData} /></Suspense>} />
+            <Route path="events" element={<Suspense fallback={<div>Loading...</div>}><Events /></Suspense>} />
+            <Route path="achivments" element={<Suspense fallback={<div>Loading...</div>}><Achivments /></Suspense>} />
+            <Route path="notifications" element={<Suspense fallback={<div>Loading...</div>}><Notifications /></Suspense>} />
+            <Route path="docs" element={<Suspense fallback={<div>Loading...</div>}><ApiDocs /></Suspense>} />
+            <Route path="challenge" element={<Suspense fallback={<div>Loading...</div>}><Challenge /></Suspense>} />
+            <Route path="apps" element={<Suspense fallback={<div>Loading...</div>}><Apps /></Suspense>} />
+            <Route path="homework" element={<Suspense fallback={<div>Loading...</div>}><HomeWork /></Suspense>} />
+            <Route path="admin" element={<Suspense fallback={<div>Loading...</div>}><Admin user={userData} /></Suspense>} />
+            <Route path="test_contest" element={<Suspense fallback={<div>Loading...</div>}><Contest /></Suspense>} />
+            <Route path="profile" element={<Suspense fallback={<div>Loading...</div>}><ViewProfile /></Suspense>} />
+            <Route path="stats" element={<Suspense fallback={<div>Loading...</div>}><StatisticPage /></Suspense>} />
+            <Route path="leaderboard" element={<Suspense fallback={<div>Loading...</div>}><LeaderBoard /></Suspense>} />
+            <Route path="login_to" element={<Suspense fallback={<div>Loading...</div>}><OAuth /></Suspense>} />
+            <Route path="settings" element={<Suspense fallback={<div>Loading...</div>}><Settings user={userData} /></Suspense>} />
+          </Route>
+
+          <Route path="*" element={<NotFound />} />
+        </Routes>
     </BrowserRouter>
   );
 }

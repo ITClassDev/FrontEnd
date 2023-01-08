@@ -10,8 +10,6 @@ import {
   Calendar,
   Badge,
   Popover,
-  ConfigProvider,
-  theme,
 } from "antd";
 import { GithubOutlined } from "@ant-design/icons";
 import { STORAGE } from "../config";
@@ -84,7 +82,7 @@ const ProfileCard = ({
   function setProfileAboutText(new_text) {
     updateUserAbout(
       new_text,
-      (resp) => {
+      () => {
         setUserAbout(new_text);
       },
       () => {}
