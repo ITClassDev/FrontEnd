@@ -10,6 +10,7 @@ const CreateAppModal = ({ modalOpened, setModalOpened }) => {
     <Modal
       title="Создать новое приложение"
       open={modalOpened}
+      transitionName=""
       footer={<></>}
       onOk={() => {
         setModalOpened(false);

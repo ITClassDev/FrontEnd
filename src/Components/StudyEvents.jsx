@@ -2,10 +2,10 @@ import { Row } from "antd";
 import React, { useEffect, useState } from "react";
 import { getActiveEvents } from "../profil_mos_api";
 import EventCard from "./EventCard";
-import { LoadingBig } from "./Loading";
+import { LoadingBar } from "./Loading";
 
 const StudyEvents = () => {
-  const [events, setEvents] = useState(<LoadingBig/>);
+  const [events, setEvents] = useState(<LoadingBar size={24} align="center"/>);
   useEffect(() => {
     getActiveEvents((response) => {
       setEvents(

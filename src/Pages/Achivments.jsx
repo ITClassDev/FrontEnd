@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Tabs, Typography } from "antd";
 import AchivmentsList from "../Components/AchivmentsList";
 import { getUserAchievements } from "../api";
-import { LoadingHorizCenter } from "../Components/Loading";
+import { LoadingBar } from "../Components/Loading";
 import { PlusOutlined } from "@ant-design/icons";
 import AddAchivment from "../Components/AddAchivment";
 import useDocumentTitle from "../useDocumentTitle";
@@ -13,11 +13,11 @@ const { Title } = Typography;
 const Achivments = () => {
   useDocumentTitle("Ваши достижения | ШТП");
   const [achivmentsBlock, setAchivmentsBlock] = useState(
-    <LoadingHorizCenter />
+    <LoadingBar align="center" size={24} />
   );
 
   const [systemAchievementsBlock, setSystemAchievementsBlock] = useState(
-    <LoadingHorizCenter />
+    <LoadingBar align="center" size={24} />
   );
   useEffect(() => {
     getUserAchievements(

@@ -10,9 +10,7 @@ import Notifications from "./Pages/Notifications";
 import ApiDocs from "./Pages/ApiDocs";
 import NotFound from "./Pages/NotFound";
 import BaseLayout from "./Components/Layout";
-import Challenge from "./Pages/Challenge";
-import LoginPage from "./Pages/Login";
-import Admin from "./Pages/Admin";
+import Challenge from "./Pages/Challenge";import Admin from "./Pages/Admin";
 import HomeWork from "./Pages/HomeWork";
 import Contest from "./Pages/Contest";
 import { getUser } from "./api";
@@ -78,7 +76,6 @@ ____) | |  | |  | |  | |    |_|
           <Route path="create_challenge" element={<CreateTaskCard />} />
           <Route path="settings" element={<Settings user={userData} />} />
         </Route>
-        <Route path="login" element={<LoginPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
