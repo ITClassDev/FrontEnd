@@ -22,3 +22,8 @@ jobs:
         cache: 'npm'
     - run: npm install
     - run: npm run build
+    - name: "Upload static site content"
+      uses: actions/upload-artifact@v3
+      with: 
+        name: static-site
+        path: .build/
