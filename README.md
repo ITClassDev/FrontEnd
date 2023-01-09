@@ -7,6 +7,7 @@ Web client for SHtP Rest API. </br>![Build](https://github.com/ITClassDev/FrontE
 - **react-router-dom** - Routing on frontend
 - **Ant Design** - Main UI Kit
 - **react-syntax-highlighter** - highlight users code and code in docs
+- **GitHub actions** - auto build on GitHub servers and auto-deploy to our server
 ## Run
 You can run development version to view your changes in real-time. This is not an optimzied build.
 ```
@@ -22,8 +23,8 @@ serve -s build
 ```
 ## CheckList
 - [x] Setup CI/CD process on GitHub Actions
-- [ ] Fix all issues
-- [ ] Implement all UI (static)
-- [ ] Bind calls to API to static front
+- [ ] Fix all issues (created before LTS release)
+- [ ] Implement all UI (static, no fetch from api)
+- [ ] Bind calls to API to static front (fetch data from api)
 - [ ] Refractor code
 - [ ] Fix dependency security probmlems

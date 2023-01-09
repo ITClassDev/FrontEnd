@@ -51,7 +51,6 @@ const Settings = ({ user }) => {
     { value: "Saas", label: "Saas" },
     { value: "Nginx", label: "Nginx" },
     { value: "Apache", label: "Apache" },
-    
   ];
   return (
     <>
@@ -159,6 +158,7 @@ const Settings = ({ user }) => {
                 <Space direction="vertical" style={{ width: "100%" }}>
                   <Text strong>Bio</Text>
                   <Input
+                    defaultValue={user.user.userAboutText}
                     addonBefore={<InfoCircleOutlined />}
                     placeholder="Краткая информация о вас"
                   />
@@ -207,6 +207,7 @@ const Settings = ({ user }) => {
                 <Space direction="vertical" style={{ width: "100%" }}>
                   <Text strong>Технологии</Text>
                   <Select
+                    defaultValue={user.user.techStack.split(",")}
                     mode="tags"
                     style={{
                       width: "100%",

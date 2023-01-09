@@ -6,8 +6,7 @@ import GoldMedal from "../Images/Medals/gold.svg";
 
 const { Text } = Typography;
 
-const Terminal = ({ username, user_class, user_rating }) => {
-  const techStackExample = "python,c++,figma,fastapi,vscode,js,html5,css3,reactjs,web3";
+const Terminal = ({ username, user_class, user_rating, user_tech_stack }) => {
   return (
     <>
       <div>
@@ -43,7 +42,7 @@ const Terminal = ({ username, user_class, user_rating }) => {
             <Text style={{ color: "#1793d1" }} strong>
               Tech Stack
             </Text>
-            <Row gutter={[5, 5]}>{techStackExample.split(",").map((item) => (<Tag>{item}</Tag>))}</Row>
+            <Row gutter={[5, 5]}>{user_tech_stack.split(",").map((item) => (<Tag>{item}</Tag>))}</Row>
           </Space>
         </li>
         <li>
