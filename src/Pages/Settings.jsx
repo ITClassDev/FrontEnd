@@ -88,7 +88,7 @@ const Settings = ({ user }) => {
                   addonBefore={
                     <Image src={Stepik_logo} width={17} preview={false} />
                   }
-                  placeholder="stepik username"
+                  placeholder="stepik id"
                 />
               </Form.Item>
 

@@ -56,7 +56,7 @@ const ProfileCard = ({
   header_title = "Ваш профиль",
 }) => {
   const [userAbout, setUserAbout] = useState(user.userAboutText);
-  const [userName, setUserName] = useState(<>{user.firstName} {user.lastName}</>
+  const [userName] = useState(<>{user.firstName} {user.lastName}</>
   );
   const [userAvatar, setUserAvatar] = useState(
     `${STORAGE}/avatars/${user.userAvatarPath}`
@@ -66,7 +66,7 @@ const ProfileCard = ({
     if (user[val.name])
       userSocial.push([val.icon, user[val.name], val.color, val.url]);
   });
-  const [userSocialNets, setUserSocialNets] = useState(userSocial);
+  const [userSocialNets] = useState(userSocial);
   const [timelineEvents, setTimelineEvents] = useState({
     "Sat Dec 31 2022": [
       { type: "warning", text: "Str middle deadline" },
