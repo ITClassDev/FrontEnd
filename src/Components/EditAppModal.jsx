@@ -7,6 +7,7 @@ const EditAppModal = ({ modalOpened, setModalOpened }) => {
   return (
     <Modal
       title="Редактировать приложение"
+      transitionName=""
       open={modalOpened}
       footer={<></>}
       onOk={() => {

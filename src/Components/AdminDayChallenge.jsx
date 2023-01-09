@@ -93,6 +93,7 @@ const AdminDayChallenge = () => {
     <>
       <Modal
         title="Добавить задачу"
+        transitionName=""
         open={createTaskModalOpen}
         width={"50%"}
         footer={<></>}

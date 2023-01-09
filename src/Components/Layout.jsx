@@ -174,6 +174,7 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
       />
       <Modal
         title="Войти в аккаунт"
+        transitionName=""
         open={loginModelOpened}
         onCancel={hideLogin}
         footer={[]}

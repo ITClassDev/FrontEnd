@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, Typography, Badge, Space } from "antd";
+import { Image, Typography, Badge, Space, Row, Tag } from "antd";
 import BronzeMedal from "../Images/Medals/bronze.svg";
 import SilverMedal from "../Images/Medals/silver.svg";
 import GoldMedal from "../Images/Medals/gold.svg";
@@ -7,6 +7,7 @@ import GoldMedal from "../Images/Medals/gold.svg";
 const { Text } = Typography;
 
 const Terminal = ({ username, user_class, user_rating }) => {
+  const techStackExample = "python,c++,figma,fastapi,vscode,js,html5,css3,reactjs,web3";
   return (
     <>
       <div>
@@ -38,7 +39,15 @@ const Terminal = ({ username, user_class, user_rating }) => {
           : N/A
         </li>
         <li>
-          <Space direction="horizontal" style={{ marginTop: 15 }}>
+          <Space direction="vertical">
+            <Text style={{ color: "#1793d1" }} strong>
+              Tech Stack
+            </Text>
+            <Row gutter={[5, 5]}>{techStackExample.split(",").map((item) => (<Tag>{item}</Tag>))}</Row>
+          </Space>
+        </li>
+        <li>
+          <Space direction="horizontal" style={{ marginTop: 20 }}>
             <Badge count={0} showZero>
               <Image src={BronzeMedal} width={30} preview={false} />
             </Badge>

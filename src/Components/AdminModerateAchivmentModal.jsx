@@ -28,6 +28,7 @@ const AdminModerateAchivmentModal = ({
   return (
     <Modal
       title="Достижение"
+      transitionName=""
       open={isOpen}
       onCancel={() => {
         setOpen(false);
