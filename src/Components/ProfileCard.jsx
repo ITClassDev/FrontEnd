@@ -56,7 +56,10 @@ const ProfileCard = ({
   header_title = "Ваш профиль",
 }) => {
   const [userAbout, setUserAbout] = useState(user.userAboutText);
-  const [userName] = useState(<>{user.firstName} {user.lastName}</>
+  const [userName] = useState(
+    <>
+      {user.firstName} {user.lastName}
+    </>
   );
   const [userAvatar, setUserAvatar] = useState(
     `${STORAGE}/avatars/${user.userAvatarPath}`

@@ -77,7 +77,7 @@ const LoginForm = () => {
           </Button>
         </Form.Item>
         <Form.Item>
-          <a className="login-form-forgot">Восстановить пароль</a>
+          <span className="login-form-forgot">Восстановить пароль</span>
         </Form.Item>
       </Form>
     </>

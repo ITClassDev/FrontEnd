@@ -1,13 +1,12 @@
 import React from "react";
 import { Typography } from "antd";
-import { LoadingBar } from "../Components/Loading";
 
-
-const { Title, Text } = Typography;
+const { Title } = Typography;
 const StatisticPage = () => {
     return (
         <>
             <Title level={3}>Ваша статистика</Title>
+            <Title level={3}>Development in progress</Title>
             
         </>
     );
