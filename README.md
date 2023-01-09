@@ -1,6 +1,6 @@
 # About
 ![image](https://user-images.githubusercontent.com/55328925/211334625-3d46cd38-44d4-4a58-bbfd-4d15fc375c2a.png)
-Web client for SHtP Rest API
+Web client for SHtP Rest API. </br>![Build](https://github.com/ITClassDev/FrontEnd/actions/workflows/build.js.yml/badge.svg)
 ## Stack
 - **ReactJS** - base framework
 - **axios** - http requests to API
@@ -21,7 +21,7 @@ And then serve it via http server. For example **serve**, but we recomend to use
 serve -s build
 ```
 ## CheckList
-- [ ] Setup CI/CD process on GitHub Actions
+- [x] Setup CI/CD process on GitHub Actions
 - [ ] Fix all issues
 - [ ] Implement all UI (static)
 - [ ] Bind calls to API to static front

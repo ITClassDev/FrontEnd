@@ -3,13 +3,13 @@ import React from "react";
 
 const { Title } = Typography;
 
-const HomeWorkActionsBtns = () => {
+/*const HomeWorkActionsBtns = () => {
   return (
     <>
       <Button type="primary">Edit</Button>
     </>
   );
-};
+};*/
 
 const AdminHomeWork = () => {
   const createdHomeworks = [
