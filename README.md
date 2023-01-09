@@ -20,3 +20,10 @@ And then serve it via http server. For example **serve**, but we recomend to use
 ```
 serve -s build
 ```
+## CheckList
+- [ ] Setup CI/CD process on GitHub Actions
+- [ ] Fix all issues
+- [ ] Implement all UI (static)
+- [ ] Bind calls to API to static front
+- [ ] Refractor code
+- [ ] Fix dependency security probmlems
