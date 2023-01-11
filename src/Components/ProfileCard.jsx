@@ -145,9 +145,9 @@ const ProfileCard = ({
       <Card title="Информация" bordered={false} style={{ marginTop: 20 }}>
         <Terminal
           username={user.firstName}
-          user_class={user.learningClass}
+          user_class={user["learningClass"]}
           user_rating={user.rating}
-          user_tech_stack={user.techStack}
+          user_tech_stack={user["techStack"]}
         />
       </Card>
       <Card title="График" bordered={false} style={{ marginTop: 20 }}>

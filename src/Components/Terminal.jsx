@@ -37,14 +37,14 @@ const Terminal = ({ username, user_class, user_rating, user_tech_stack }) => {
           </Text>
           : N/A
         </li>
-        <li>
+        {user_tech_stack && <li>
           <Space direction="vertical">
             <Text style={{ color: "#1793d1" }} strong>
               Tech Stack
             </Text>
             <Row gutter={[5, 5]}>{user_tech_stack.split(",").map((item, id) => (<Tag key={id}>{item}</Tag>))}</Row>
           </Space>
-        </li>
+        </li>}
         <li>
           <Space direction="horizontal" style={{ marginTop: 20 }}>
             <Badge count={0} showZero>
