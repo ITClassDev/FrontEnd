@@ -38,7 +38,7 @@ export function updateUserAbout(
   api = API_URL
 ) {
   axios
-    .post(
+    .patch(
       `${api}/users/update_about_text`,
       { about_text: new_about },
       getAuth()
@@ -94,7 +94,7 @@ export function addAchivment(
   ); // TOOD // Too messy
 
   axios
-    .post(`${api}/achievements/add`, formData, {
+    .put(`${api}/achievements/add`, formData, {
       headers: {
         Authorization: getAuth().headers.Authorization,
         "Content-Type": "multipart/form-data",
@@ -185,7 +185,7 @@ export function moderateAchivment(
   let req_payload = { id: achivment_id, status: achivment_status };
   if (achivment_status) req_payload["points"] = points;
   axios
-    .post(`${api}/achievements/moderate`, req_payload, getAuth())
+    .patch(`${api}/achievements/moderate`, req_payload, getAuth())
     .then((response) => {
       ok_hanler(response);
     })
