@@ -1,5 +1,7 @@
 import { Button, Table, Typography } from "antd";
-import React from "react";
+import React, {useState} from "react";
+import { PlusOutlined } from "@ant-design/icons";
+import CreateNewContestModal from "./CreateNewContestModal";
 
 const { Title } = Typography;
 
@@ -12,6 +14,7 @@ const { Title } = Typography;
 };*/
 
 const AdminHomeWork = () => {
+  const [createContestModal, setCreateTaskModalOpen] = useState(false);
   const createdHomeworks = [
     {
       title: "Название",
@@ -37,10 +40,11 @@ const AdminHomeWork = () => {
 
   return (
     <>
-      <Button type="primary">Create</Button>
+      <CreateNewContestModal open={createContestModal} setModalOpened={setCreateTaskModalOpen}/>
       <Title level={4} style={{ marginTop: 0 }}>
         Все домашние работы
       </Title>
+      <Button style={{marginBottom: 20}} type="primary" icon={<PlusOutlined />} onClick={() => {setCreateTaskModalOpen(true);}}>Добавить</Button>
       <Table columns={createdHomeworks} />
     </>
   );

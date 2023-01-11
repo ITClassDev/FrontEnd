@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Typography, Table, Button, Space, Input } from "antd";
+import { Typography, Table, Button, Space, Input, Tag, Row } from "antd";
 import { useEffect } from "react";
 import { getAllUsers } from "../api";
 import NameAndAvatar from "./NameAndAvatar";
@@ -14,20 +14,20 @@ const UserControllButtons = ({ user_id }) => {
       <Button type="dashed" danger>
         Удалить
       </Button>
-      <Button type="primary" danger>
-        Забанить (ахахахах)
-      </Button>
     </Space>
   );
 };
 
 const AdminUsers = () => {
   const [usersList, setUsersList] = useState();
+  const [userGroups, setUserGroups] = useState([]);
   useEffect(() => {
     let all_users = [];
     getAllUsers(
       (response) => {
-        response.data.forEach((user) => {
+        console.log(response.data.user_groups);
+        setUserGroups(response.data.user_groups);
+        response.data.users.forEach((user) => {
           all_users.push({
             id: user.id,
             fio: (
@@ -38,6 +38,7 @@ const AdminUsers = () => {
               />
             ),
             actionsBtns: <UserControllButtons user_id={user.id} />,
+            user_group: user.groupName,
             key: user.id,
           });
         });
@@ -58,6 +59,11 @@ const AdminUsers = () => {
       key: "fio",
     },
     {
+      title: "Группа",
+      dataIndex: "user_group",
+      key: "user_group",
+    },
+    {
       title: "Действия",
       dataIndex: "actionsBtns",
       key: "actionsBtns",
@@ -75,6 +81,10 @@ const AdminUsers = () => {
       />
       <Table columns={allUsersColumns} dataSource={usersList} />
       <Title level={4} style={{ marginTop: 0 }}>
+        Группы пользователей
+      </Title>
+      <Row gutter={[5, 5]}>{userGroups.map((item) => (<Tag key={item.id}>{item.name}</Tag>))}</Row>
+      <Title level={4} style={{ marginTop: 10 }}>
         Добавить одного
       </Title>
       PLACEHOLDER

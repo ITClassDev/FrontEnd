@@ -53,37 +53,140 @@ ____) | |  | |  | |  | |    |_|
 
   return (
     <BrowserRouter>
-      
-        <Routes>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <BaseLayout
+              user={userData}
+              setUserData={setUserData}
+              backendStatus={backendStatus}
+            />
+          }
+        >
           <Route
-            path="/"
+            index
             element={
-              <BaseLayout
-                user={userData}
-                setUserData={setUserData}
-                backendStatus={backendStatus}
-              />
+              <Suspense fallback={<div>Loading...</div>}>
+                <Home user={userData} />
+              </Suspense>
             }
-          >
-            <Route index element={<Suspense fallback={<div>Loading...</div>}><Home user={userData} /></Suspense>} />
-            <Route path="events" element={<Suspense fallback={<div>Loading...</div>}><Events /></Suspense>} />
-            <Route path="achivments" element={<Suspense fallback={<div>Loading...</div>}><Achivments /></Suspense>} />
-            <Route path="notifications" element={<Suspense fallback={<div>Loading...</div>}><Notifications /></Suspense>} />
-            <Route path="docs" element={<Suspense fallback={<div>Loading...</div>}><ApiDocs /></Suspense>} />
-            <Route path="challenge" element={<Suspense fallback={<div>Loading...</div>}><Challenge /></Suspense>} />
-            <Route path="apps" element={<Suspense fallback={<div>Loading...</div>}><Apps /></Suspense>} />
-            <Route path="homework" element={<Suspense fallback={<div>Loading...</div>}><HomeWork /></Suspense>} />
-            <Route path="admin" element={<Suspense fallback={<div>Loading...</div>}><Admin user={userData} /></Suspense>} />
-            <Route path="test_contest" element={<Suspense fallback={<div>Loading...</div>}><Contest /></Suspense>} />
-            <Route path="profile" element={<Suspense fallback={<div>Loading...</div>}><ViewProfile /></Suspense>} />
-            <Route path="stats" element={<Suspense fallback={<div>Loading...</div>}><StatisticPage /></Suspense>} />
-            <Route path="leaderboard" element={<Suspense fallback={<div>Loading...</div>}><LeaderBoard /></Suspense>} />
-            <Route path="login_to" element={<Suspense fallback={<div>Loading...</div>}><OAuth /></Suspense>} />
-            <Route path="settings" element={<Suspense fallback={<div>Loading...</div>}><Settings user={userData} /></Suspense>} />
-          </Route>
-
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+          />
+          <Route
+            path="events"
+            element={
+              <Suspense fallback={<div>Loading...</div>}>
+                <Events />
+              </Suspense>
+            }
+          />
+          <Route
+            path="achivments"
+            element={
+              <Suspense fallback={<div>Loading...</div>}>
+                <Achivments />
+              </Suspense>
+            }
+          />
+          <Route
+            path="notifications"
+            element={
+              <Suspense fallback={<div>Loading...</div>}>
+                <Notifications />
+              </Suspense>
+            }
+          />
+          <Route
+            path="docs"
+            element={
+              <Suspense fallback={<div>Loading...</div>}>
+                <ApiDocs />
+              </Suspense>
+            }
+          />
+          <Route
+            path="challenge"
+            element={
+              <Suspense fallback={<div>Loading...</div>}>
+                <Challenge />
+              </Suspense>
+            }
+          />
+          <Route
+            path="apps"
+            element={
+              <Suspense fallback={<div>Loading...</div>}>
+                <Apps />
+              </Suspense>
+            }
+          />
+          <Route
+            path="homework"
+            element={
+              <Suspense fallback={<div>Loading...</div>}>
+                <HomeWork />
+              </Suspense>
+            }
+          />
+          <Route
+            path="admin"
+            element={
+              <Suspense fallback={<div>Loading...</div>}>
+                <Admin user={userData} />
+              </Suspense>
+            }
+          />
+          <Route
+            path="test_contest"
+            element={
+              <Suspense fallback={<div>Loading...</div>}>
+                <Contest />
+              </Suspense>
+            }
+          />
+          <Route
+            path="profile"
+            element={
+              <Suspense fallback={<div>Loading...</div>}>
+                <ViewProfile />
+              </Suspense>
+            }
+          />
+          <Route
+            path="stats"
+            element={
+              <Suspense fallback={<div>Loading...</div>}>
+                <StatisticPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="leaderboard"
+            element={
+              <Suspense fallback={<div>Loading...</div>}>
+                <LeaderBoard />
+              </Suspense>
+            }
+          />
+          <Route
+            path="login_to"
+            element={
+              <Suspense fallback={<div>Loading...</div>}>
+                <OAuth />
+              </Suspense>
+            }
+          />
+          <Route
+            path="settings"
+            element={
+              <Suspense fallback={<div>Loading...</div>}>
+                <Settings user={userData} />
+              </Suspense>
+            }
+          />
+        </Route>
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </BrowserRouter>
   );
 }
