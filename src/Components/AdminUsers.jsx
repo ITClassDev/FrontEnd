@@ -1,11 +1,23 @@
 import React, { useState } from "react";
-import { Typography, Table, Button, Space, Input, Tag, Row } from "antd";
+import {
+  Typography,
+  Table,
+  Button,
+  Space,
+  Input,
+  Tag,
+  Row,
+  Form,
+  Select,
+  InputNumber,
+} from "antd";
 import { useEffect } from "react";
 import { getAllUsers } from "../api";
 import NameAndAvatar from "./NameAndAvatar";
 
 const { Search } = Input;
-const { Title } = Typography;
+const { Title, Text } = Typography;
+const { Option } = Select;
 
 const UserControllButtons = ({ user_id }) => {
   return (
@@ -25,7 +37,6 @@ const AdminUsers = () => {
     let all_users = [];
     getAllUsers(
       (response) => {
-        console.log(response.data.user_groups);
         setUserGroups(response.data.user_groups);
         response.data.users.forEach((user) => {
           all_users.push({
@@ -38,7 +49,7 @@ const AdminUsers = () => {
               />
             ),
             actionsBtns: <UserControllButtons user_id={user.id} />,
-            user_group: user.groupName,
+            user_group: <Tag color="geekblue">{user.groupName}</Tag>,
             key: user.id,
           });
         });
@@ -69,6 +80,11 @@ const AdminUsers = () => {
       key: "actionsBtns",
     },
   ];
+
+  const createUser = (data) => {
+    console.log(data);
+  };
+
   return (
     <>
       <Title level={4} style={{ marginTop: 0 }}>
@@ -83,14 +99,127 @@ const AdminUsers = () => {
       <Title level={4} style={{ marginTop: 0 }}>
         Группы пользователей
       </Title>
-      <Row gutter={[5, 5]}>{userGroups.map((item) => (<Tag key={item.id}>{item.name}</Tag>))}</Row>
+      <Row gutter={[5, 5]}>
+        {userGroups.map((item) => (
+          <Tag key={item.id}>{item.name}</Tag>
+        ))}
+      </Row>
       <Title level={4} style={{ marginTop: 10 }}>
         Добавить одного
       </Title>
-      PLACEHOLDER
+      <Form
+        name="create_user"
+        requiredMark={false}
+        className="create-user-form"
+        onFinish={createUser}
+        layout="vertical"
+      >
+        <Form.Item
+          name="firstName"
+          label="Имя"
+          rules={[
+            {
+              required: true,
+              message: "Введите имя",
+            },
+          ]}
+        >
+          <Input placeholder="Иван" />
+        </Form.Item>
+        <Form.Item
+          name="lastName"
+          label="Фамилия"
+          rules={[
+            {
+              required: true,
+              message: "Введите фамилию",
+            },
+          ]}
+        >
+          <Input placeholder="Иванов" />
+        </Form.Item>
 
+        <Form.Item
+          name="email"
+          label="Email"
+          rules={[
+            {
+              required: true,
+              message: "Введите email",
+            },
+          ]}
+        >
+          <Input placeholder="email" />
+        </Form.Item>
+
+        <Form.Item
+          name="password"
+          label="Пароль"
+          rules={[
+            {
+              required: true,
+              message: "Введите пароль",
+            },
+          ]}
+        >
+          <Input placeholder="пароль" />
+        </Form.Item>
+
+        <Form.Item
+          name="userRole"
+          label="Роль"
+          rules={[
+            {
+              required: true,
+              message: "Выберите роль",
+            },
+          ]}
+        >
+          <Select>
+            <Option value={0}>Ученик</Option>
+            <Option value={1}>Преподаватель</Option>
+            <Option value={2}>Администратор</Option>
+          </Select>
+        </Form.Item>
+
+        <Form.Item
+          name="learningClass"
+          label="Класс обучения"
+          rules={[
+            {
+              required: true,
+              message: "Введите класс обучения",
+            },
+          ]}
+        >
+          <InputNumber min={5} max={11} />
+        </Form.Item>
+        <Form.Item name="groupId" label="Категория пользователя" rules={[
+            {
+              required: true,
+              message: "Выберите категорию пользователя",
+            },
+          ]}>
+          <Select
+            options={userGroups.map((item) => ({
+              value: item.id,
+              label: item.name,
+            }))}
+          />
+        </Form.Item>
+
+        <Form.Item>
+          <Button
+            type="primary"
+            htmlType="submit"
+            className="login-form-button"
+          >
+            Создать
+          </Button>
+        </Form.Item>
+      </Form>
       <Title level={4} style={{ marginTop: 0 }}>
-        Добавить класс
+        Добавить несколько пользователей
       </Title>
       PLACEHOLDER
     </>
