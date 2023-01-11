@@ -14,7 +14,7 @@ const Admin = ({ user }) => {
   if (user.user.userRole === 2) {
     return (
       <>
-        <Title level={3}>Админка</Title>
+        <Title level={3}>Панель администратора</Title>
         <Tabs
           defaultActiveKey="1"
           items={[

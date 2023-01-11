@@ -3,7 +3,7 @@ import { InputNumber, Form, Select, Input, Button } from "antd";
 
 const { Option } = Select;
 
-const CreateUserForm = ({createUserFormHandler, userGroups}) => {
+const CreateUserForm = ({ createUserFormHandler, userGroups }) => {
   return (
     <Form
       name="create_user"
@@ -47,7 +47,7 @@ const CreateUserForm = ({createUserFormHandler, userGroups}) => {
           },
         ]}
       >
-        <Input placeholder="email" />
+        <Input placeholder="Email" />
       </Form.Item>
 
       <Form.Item
@@ -60,7 +60,7 @@ const CreateUserForm = ({createUserFormHandler, userGroups}) => {
           },
         ]}
       >
-        <Input placeholder="пароль" />
+        <Input placeholder="Пароль" />
       </Form.Item>
 
       <Form.Item
@@ -94,11 +94,11 @@ const CreateUserForm = ({createUserFormHandler, userGroups}) => {
       </Form.Item>
       <Form.Item
         name="groupId"
-        label="Категория пользователя"
+        label="Группа пользователя"
         rules={[
           {
             required: true,
-            message: "Выберите категорию пользователя",
+            message: "Выберите группу пользователя",
           },
         ]}
       >

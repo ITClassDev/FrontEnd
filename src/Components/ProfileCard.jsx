@@ -11,7 +11,7 @@ import {
   Badge,
   Popover,
 } from "antd";
-import { GithubOutlined } from "@ant-design/icons";
+import { GithubOutlined, GlobalOutlined } from "@ant-design/icons";
 import { STORAGE } from "../config";
 import { updateUserAbout } from "../api";
 import Terminal from "./Terminal";
@@ -29,24 +29,35 @@ const available_socials = [
     icon: <GithubOutlined />,
     color: "black",
     url: "https://github.com/",
+    prefix: "@",
   },
   {
     name: "userTelegram",
     icon: <Image src={Telegram_logo} width={17} preview={false} />,
     color: "#0088CC",
     url: "https://t.me/",
+    prefix: "@",
   },
   {
     name: "userStepik",
     icon: <Image src={Stepik_logo} width={17} preview={false} />,
     color: "#2c2c2c",
     url: "https://stepik.org/users/",
+    prefix: "@",
   },
   {
     name: "userKaggle",
     icon: <Image src={Kaggle_logo} width={17} preview={false} />,
     color: "#baedff",
     url: "https://kaggle.com/",
+    prefix: "@",
+  },
+  {
+    name: "userWebsite",
+    icon: <GlobalOutlined />,
+    color: "black",
+    url: "",
+    prefix: "",
   },
 ];
 
@@ -67,7 +78,13 @@ const ProfileCard = ({
   let userSocial = [];
   available_socials.forEach((val) => {
     if (user[val.name])
-      userSocial.push([val.icon, user[val.name], val.color, val.url]);
+      userSocial.push([
+        val.icon,
+        user[val.name],
+        val.color,
+        val.url,
+        val.prefix,
+      ]);
   });
   const [userSocialNets] = useState(userSocial);
   const [timelineEvents, setTimelineEvents] = useState({
@@ -123,7 +140,11 @@ const ProfileCard = ({
             </div>
             <Row>
               {userSocialNets.map((social, ind) => (
-                <Popover content={`@${social[1]}`} placement="bottom" key={ind}>
+                <Popover
+                  content={`${social[4]}${social[1]}`}
+                  placement="bottom"
+                  key={ind}
+                >
                   <Button
                     type="primary"
                     style={{

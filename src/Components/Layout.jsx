@@ -92,10 +92,10 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
       "/notifications"
     ),
     getItem("Статистика", "8", <PieChartOutlined />, "/stats"),
-    getItem("Доки по API", "9", <ProfileOutlined />, "/docs"),
+    getItem("Документация", "9", <ProfileOutlined />, "/docs"),
     getItem("Приложения", "10", <CodeSandboxOutlined />, "/apps"),
   ];
-  const adminMenuItem = getItem("Админка", "11", <ControlOutlined />, "/admin");
+  const adminMenuItem = getItem("Админ-панель", "11", <ControlOutlined />, "/admin");
 
   const logoutBtn = {
     label: "Выйти",

@@ -119,7 +119,7 @@ const AdminUsers = () => {
       </Title>
       <Row gutter={[5, 5]}>
         {userGroups.map((item) => (
-          <Tag key={item.id}>{item.name}</Tag>
+          <Tag color="geekblue" key={item.id}>{item.name}</Tag>
         ))}
       </Row>
       <Title level={4} style={{ marginTop: 10 }}>
