@@ -20,6 +20,22 @@ export function getUser(ok_handler, error_handler, api = API_URL) {
     });
 }
 
+export function updateSocialLinks(
+  social_links,
+  ok_hanler,
+  error_handler,
+  api = API_URL
+) {
+  axios
+    .patch(`${api}/users/update/social`, social_links, getAuth())
+    .then((response) => {
+      ok_hanler(response);
+    })
+    .catch((response) => {
+      error_handler(response);
+    });
+}
+
 export function getUserAchievements(ok_handler, error_handler, api = API_URL) {
   axios
     .get(`${api}/achievements/get_my`, getAuth())

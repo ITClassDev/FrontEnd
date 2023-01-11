@@ -10,6 +10,7 @@ import {
   Upload,
   Space,
   Select,
+  message,
 } from "antd";
 import React from "react";
 import Telegram_logo from "../Images/Telegram_logo.svg";
@@ -19,8 +20,10 @@ import {
   GithubOutlined,
   LockOutlined,
   InfoCircleOutlined,
+  GlobalOutlined,
 } from "@ant-design/icons";
 import { STORAGE } from "../config";
+import { updateSocialLinks } from "../api";
 
 const { Title, Text } = Typography;
 
@@ -52,8 +55,28 @@ const Settings = ({ user }) => {
     { value: "Nginx", label: "Nginx" },
     { value: "Apache", label: "Apache" },
   ];
+  const [messageApi, contextHolder] = message.useMessage();
+  const updateSocialLinksFormHandler = (social_links) => {
+    updateSocialLinks(
+      social_links,
+      (response) => {
+        messageApi.open({
+          type: "success",
+          content: "Социальные ссылки успешно обновлены!",
+        });
+      },
+      (response) => {
+        messageApi.open({
+          type: "error",
+          content: "Ошибка!",
+        });
+      }
+    );
+  };
+
   return (
     <>
+      {contextHolder}
       <Title level={3}>Настройки аккаунта {user.id}</Title>
 
       <Row gutter={[10, 10]}>
@@ -61,10 +84,15 @@ const Settings = ({ user }) => {
           <Card title={"Социальные ссылки"} style={{ height: "100%" }}>
             <Form
               name="social_links"
-              initialValues={{
-                remember: true,
-              }}
               autoComplete="off"
+              onFinish={updateSocialLinksFormHandler}
+              initialValues={{
+                github: user.user.userGithub,
+                telegram: user.user.userTelegram,
+                stepik: user.user.userStepik,
+                kaggle: user.user.userKaggle,
+                website: user.user.userWebsite,
+              }}
             >
               <Form.Item name="github">
                 <Input
@@ -98,6 +126,10 @@ const Settings = ({ user }) => {
                   }
                   placeholder="kaggle username"
                 />
+              </Form.Item>
+
+              <Form.Item name="website">
+                <Input addonBefore={<GlobalOutlined />} placeholder="website" />
               </Form.Item>
 
               <Form.Item>
