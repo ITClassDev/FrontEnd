@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Typography, Table, Button, Space, Select, Modal } from "antd";
+import { Typography, Table, Button, Space, Select, Modal, message } from "antd";
 import NameAndAvatar from "./NameAndAvatar";
 import { PlusOutlined } from "@ant-design/icons";
 import CreateTaskCard from "./CreateTaskCard";
@@ -54,6 +54,8 @@ const SearchInput = (props) => {
 
 const AdminDayChallenge = () => {
   const [createTaskModalOpen, setCreateTaskModalOpen] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
+
 
   const solvedByTableColumns = [
     {
@@ -91,6 +93,7 @@ const AdminDayChallenge = () => {
   ];
   return (
     <>
+      {contextHolder}
       <Modal
         title="Добавить задачу"
         transitionName=""
@@ -104,7 +107,7 @@ const AdminDayChallenge = () => {
           setCreateTaskModalOpen(false);
         }}
       >
-        <CreateTaskCard/>
+        <CreateTaskCard messageApi={messageApi}/>
       </Modal>
 
       <Title level={4} style={{ marginTop: 0 }}>

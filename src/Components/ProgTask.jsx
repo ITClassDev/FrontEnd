@@ -9,6 +9,7 @@ const ProgTask = ({
   desc,
   time_limit,
   memory_limit,
+  task_id,
   can_submit = true,
 }) => {
   const tests = [

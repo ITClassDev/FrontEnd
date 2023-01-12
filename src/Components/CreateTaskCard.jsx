@@ -1,5 +1,13 @@
 import React from "react";
-import { Button, Form, Input, Typography, InputNumber, Space, Checkbox } from "antd";
+import {
+  Button,
+  Form,
+  Input,
+  Typography,
+  InputNumber,
+  Space,
+  Checkbox,
+} from "antd";
 import {
   FieldStringOutlined,
   MinusCircleOutlined,
@@ -9,18 +17,33 @@ import {
 const { TextArea } = Input;
 const { Text } = Typography;
 
-const CreateTaskCard = () => {
+
+const CreateTaskCard = ({ messageApi }) => {
+  const createTaskFormHandler = (form_data) => {
+    console.log(form_data);
+    messageApi.open({
+      type: "success",
+      content: "Задача успешно добавлена!",
+    });
+  };
+  
   return (
     <>
       <Form
         name="add_task"
         className="create-task-form"
+        layout="vertical"
+        requiredMark={false}
         initialValues={{
-          remember: true,
+          memory_limit: 1024,
+          time_limit: 2,
+          is_day_challenge: true,
         }}
+        onFinish={createTaskFormHandler}
       >
         <Form.Item
           name="task_title"
+          label="Название задачи"
           rules={[
             {
               required: true,
@@ -28,16 +51,14 @@ const CreateTaskCard = () => {
             },
           ]}
         >
-          <Space direction="vertical" style={{ width: "100%" }}>
-            <Text strong>Название задачи</Text>
-            <Input
-              prefix={<FieldStringOutlined className="site-form-item-icon" />}
-              placeholder="Название задачи (тайтл)"
-            />
-          </Space>
+          <Input
+            prefix={<FieldStringOutlined className="site-form-item-icon" />}
+            placeholder="Название задачи (тайтл)"
+          />
         </Form.Item>
         <Form.Item
           name="task_description"
+          label="Текст задачи"
           rules={[
             {
               required: true,
@@ -45,13 +66,11 @@ const CreateTaskCard = () => {
             },
           ]}
         >
-          <Space direction="vertical" style={{ width: "100%" }}>
-            <Text strong>Текст задачи</Text>
-            <TextArea rows={4} placeholder="Условие задачи" />
-          </Space>
+          <TextArea rows={4} placeholder="Условие задачи" />
         </Form.Item>
         <Form.Item
           name="time_limit"
+          label="Максимальное время работы решения (секунды)"
           rules={[
             {
               required: true,
@@ -59,13 +78,11 @@ const CreateTaskCard = () => {
             },
           ]}
         >
-          <Space direction="vertical" style={{ width: "100%" }}>
-            <Text strong>Максимальное время работы решения (секунды)</Text>
-            <InputNumber min={1} max={50} defaultValue={1} />
-          </Space>
+          <InputNumber min={1} max={50} />
         </Form.Item>
         <Form.Item
           name="memory_limit"
+          label="Максимальный объём используемой памяти решением (КБ)"
           rules={[
             {
               required: true,
@@ -74,17 +91,17 @@ const CreateTaskCard = () => {
           ]}
           style={{ marginBottom: 0 }}
         >
-          <Space direction="vertical" style={{ width: "100%" }}>
-            <Text strong>
-              Максимальный объём используемой памяти решением (КБ)
-            </Text>
-            <InputNumber min={32} max={4096} defaultValue={1024} />
-          </Space>
+          <InputNumber min={32} max={4096} />
         </Form.Item>
+
+        <Form.Item name="is_day_challenge" valuePropName="checked">
+          <Checkbox>Сделать задачей дня</Checkbox>
+        </Form.Item>
+
         <Text className="testsTitleEasyMode" strong>
           Тесты (easy mode)
         </Text>
-        
+
         <Form.List name="task_tests">
           {(fields, { add, remove }) => (
             <>
@@ -124,9 +141,7 @@ const CreateTaskCard = () => {
                   </Form.Item>
                   <Space direction="vertical">
                     <MinusCircleOutlined onClick={() => remove(name)} />
-                    <Form.Item
-                      name={[name, "demo"]}
-                      valuePropName="checked">
+                    <Form.Item name={[name, "demo"]} valuePropName="checked">
                       <Checkbox>Пример</Checkbox>
                     </Form.Item>
                   </Space>

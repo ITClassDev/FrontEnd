@@ -146,6 +146,17 @@ export function getMyNotifications(ok_handler, error_handler, api = API_URL) {
     });
 }
 
+export function getDayChallenge(ok_handler, error_handler, api = API_URL) {
+  axios
+    .get(`${api}/programming_tasks/day_challenge/current`)
+    .then((response) => {
+      ok_handler(response);
+    })
+    .catch((response) => {
+      error_handler(response);
+    });
+}
+
 // Admin API
 
 export function getAchivmentsModerationQueue(

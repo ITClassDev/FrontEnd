@@ -73,6 +73,10 @@ const Settings = ({ user }) => {
       }
     );
   };
+  let tech_stack_default;
+  if (user.user["techStack"] !== null) {
+    tech_stack_default = user.user.techStack.split(",");
+  } else tech_stack_default = null;
 
   return (
     <>
@@ -229,25 +233,20 @@ const Settings = ({ user }) => {
         <Col xs={24} xl={12}>
           <Card title={"Дополнительно"} style={{ height: "100%" }}>
             <Form
-              name="password_change"
-              initialValues={{
-                remember: true,
-              }}
+              name="extra"
+              initialValues={{ tech_stack: tech_stack_default }}
               autoComplete="off"
+              layout="vertical"
             >
-              <Form.Item name="tech_stack">
-                <Space direction="vertical" style={{ width: "100%" }}>
-                  <Text strong>Технологии</Text>
-                  <Select
-                    defaultValue={user.user.techStack.split(",")}
-                    mode="tags"
-                    style={{
-                      width: "100%",
-                    }}
-                    tokenSeparators={[","]}
-                    options={defaultStackExamples}
-                  />
-                </Space>
+              <Form.Item name="tech_stack" label="Технологии">
+                <Select
+                  mode="tags"
+                  style={{
+                    width: "100%",
+                  }}
+                  tokenSeparators={[","]}
+                  options={defaultStackExamples}
+                />
               </Form.Item>
               <Form.Item>
                 <Button type="primary" htmlType="submit">

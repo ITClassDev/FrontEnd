@@ -16,6 +16,7 @@ import {
   LoginOutlined,
   CodeSandboxOutlined,
   BulbOutlined,
+  SettingOutlined
 } from "@ant-design/icons";
 import {
   Layout,
@@ -94,6 +95,7 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
     getItem("Статистика", "8", <PieChartOutlined />, "/stats"),
     getItem("Документация", "9", <ProfileOutlined />, "/docs"),
     getItem("Приложения", "10", <CodeSandboxOutlined />, "/apps"),
+    getItem("Настройки", "13", <SettingOutlined />, "/settings"),
   ];
   const adminMenuItem = getItem("Админ-панель", "11", <ControlOutlined />, "/admin");
 

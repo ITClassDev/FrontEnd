@@ -10,7 +10,7 @@ export const router_mapping = {
     "/docs": ["9", 1],
     "/apps": ["10", 0],
     "/admin": ["11", 0],
-    "/settings": ["1000", 0],
+    "/settings": ["13", 0],
     "/login_to": ["1000", 0],
     "/leaderboard": ["1000", 1],
     "/test_contest": ["1000", 0],
