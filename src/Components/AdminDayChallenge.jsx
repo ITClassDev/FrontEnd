@@ -3,6 +3,8 @@ import { Typography, Table, Button, Space, Select, Modal, message } from "antd";
 import NameAndAvatar from "./NameAndAvatar";
 import { PlusOutlined } from "@ant-design/icons";
 import CreateTaskCard from "./CreateTaskCard";
+import { useEffect } from "react";
+import { getDayChallenge } from "../api";
 
 const { Title, Text } = Typography;
 
@@ -91,6 +93,12 @@ const AdminDayChallenge = () => {
       ),
     },
   ];
+  useEffect(() => {
+    getDayChallenge((response) => {
+      SetCurrentDayChallenge(response.data);
+    }, () => {})
+  })
+  const [currentDayChallenge, SetCurrentDayChallenge] = useState({});
   return (
     <>
       {contextHolder}
@@ -119,7 +127,7 @@ const AdminDayChallenge = () => {
       </Title>
       <Space direction="vertical" style={{ width: "100%", marginBottom: 20 }}>
         <Text strong>
-          Текущая задача дня - <Text code>Своп соседей</Text>
+          Текущая задача дня - <Text code>{currentDayChallenge["title"]}</Text>
         </Text>
         <SearchInput
           placeholder="Поиск задачи по заголовку"

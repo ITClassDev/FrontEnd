@@ -13,20 +13,31 @@ import {
   MinusCircleOutlined,
   PlusOutlined,
 } from "@ant-design/icons";
+import { createTask } from "../api";
+
 
 const { TextArea } = Input;
 const { Text } = Typography;
 
-
 const CreateTaskCard = ({ messageApi }) => {
   const createTaskFormHandler = (form_data) => {
-    console.log(form_data);
-    messageApi.open({
-      type: "success",
-      content: "Задача успешно добавлена!",
-    });
+    createTask(
+      form_data,
+      (response) => {
+        messageApi.open({
+          type: "success",
+          content: "Задача успешно добавлена!",
+        });
+      },
+      (response) => {
+        messageApi.open({
+          type: "error",
+          content: "Задача не добавлена! Проверьте данные!",
+        });
+      }
+    );
   };
-  
+
   return (
     <>
       <Form
@@ -42,7 +53,7 @@ const CreateTaskCard = ({ messageApi }) => {
         onFinish={createTaskFormHandler}
       >
         <Form.Item
-          name="task_title"
+          name="title"
           label="Название задачи"
           rules={[
             {
@@ -57,7 +68,7 @@ const CreateTaskCard = ({ messageApi }) => {
           />
         </Form.Item>
         <Form.Item
-          name="task_description"
+          name="text"
           label="Текст задачи"
           rules={[
             {
@@ -102,7 +113,7 @@ const CreateTaskCard = ({ messageApi }) => {
           Тесты (easy mode)
         </Text>
 
-        <Form.List name="task_tests">
+        <Form.List name="tests">
           {(fields, { add, remove }) => (
             <>
               {fields.map(({ key, name, ...restField }) => (

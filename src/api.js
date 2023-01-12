@@ -201,6 +201,22 @@ export function createUser(
     });
 }
 
+export function createTask(
+  task_data,
+  ok_handler,
+  error_handler,
+  api = API_URL
+) {
+  axios
+    .put(`${api}/programming_tasks/task/add`, task_data, getAuth())
+    .then((response) => {
+      ok_handler(response);
+    })
+    .catch((response) => {
+      error_handler(response);
+    });
+}
+
 export function moderateAchivment(
   achivment_id,
   achivment_status,
