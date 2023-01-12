@@ -72,6 +72,8 @@ const ProfileCard = ({
       {user.firstName} {user.lastName}
     </>
   );
+  //FIXIT ONLY FOR DEV, WHILE WE DON'T KNOW WHERE TO CHANGE THIS STATE
+  // eslint-disable-next-line
   const [userAvatar, setUserAvatar] = useState(
     `${STORAGE}/avatars/${user.userAvatarPath}`
   );
@@ -87,6 +89,8 @@ const ProfileCard = ({
       ]);
   });
   const [userSocialNets] = useState(userSocial);
+  //FIXIT ONLY FOR DEV, WHILE WE DON'T KNOW WHERE TO CHANGE THIS STATE
+  // eslint-disable-next-line
   const [timelineEvents, setTimelineEvents] = useState({
     "Sat Dec 31 2022": [
       { type: "warning", text: "Str middle deadline" },

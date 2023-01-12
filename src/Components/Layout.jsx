@@ -133,6 +133,7 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
         setMenu(non_logined_menu);
       }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   useEffect(() => {
@@ -144,6 +145,7 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
         openLoginModal(true);
       } // on token expired
     );
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 
   const openLogin = () => {
