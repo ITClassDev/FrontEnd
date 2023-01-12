@@ -77,6 +77,11 @@ const Apps = () => {
   const [editModalOpened, setEditModalOpened] = useState(false);
 
   return (
+    <Title>
+      Development planned to Hackathon
+    </Title>
+  );
+  /*
     <>
       <CreateAppModal
         modalOpened={createModalOpened}
@@ -123,7 +128,8 @@ const Apps = () => {
         dataSource={appsData}
       />
     </>
-  );
+
+  */
 };
 
 export default Apps;

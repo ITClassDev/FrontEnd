@@ -17,7 +17,7 @@ const CreateNewContestModal = ({ open, setModalOpened }) => {
         setModalOpened(false);
       }}
     >
-      <Form name="create_contest" className="login-form">
+      <Form name="create_contest" className="create-contest-form">
         <Form.Item
           name="contest_name"
           rules={[

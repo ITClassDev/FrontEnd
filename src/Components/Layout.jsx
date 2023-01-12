@@ -16,7 +16,7 @@ import {
   LoginOutlined,
   CodeSandboxOutlined,
   BulbOutlined,
-  SettingOutlined
+  SettingOutlined,
 } from "@ant-design/icons";
 import {
   Layout,
@@ -97,7 +97,10 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
     getItem("Приложения", "10", <CodeSandboxOutlined />, "/apps"),
     getItem("Настройки", "13", <SettingOutlined />, "/settings"),
   ];
-  const adminMenuItem = getItem("Админ-панель", "11", <ControlOutlined />, "/admin");
+  const adminMenuItems = [
+    getItem("Админ-панель", "11", <ControlOutlined />, "/admin"),
+    getItem("Опросы", "14", <SettingOutlined />, "/"),
+  ];
 
   const logoutBtn = {
     label: "Выйти",
@@ -118,7 +121,7 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
         setMenu(logined_menu);
         setNewNotifications(user.user.new_notifications);
         if (user.user.userRole === 2)
-          setMenu([...logined_menu, adminMenuItem, logoutBtn]);
+          setMenu([...logined_menu, ...adminMenuItems, logoutBtn]);
         else setMenu([...logined_menu, logoutBtn]);
         setPage(<Outlet />);
       } else {

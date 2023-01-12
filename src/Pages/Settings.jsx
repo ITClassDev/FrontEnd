@@ -169,7 +169,7 @@ const Settings = ({ user }) => {
               <Form.Item name="confirm_password">
                 <Input
                   addonBefore={<LockOutlined />}
-                  placeholder="Новый пароль ещё раз (вдруг вы еблан)"
+                  placeholder="Новый пароль ещё раз"
                 />
               </Form.Item>
 
