@@ -56,21 +56,6 @@ const CreateAppModal = ({ modalOpened, setModalOpened }) => {
           </Space>
         </Form.Item>
 
-        <Form.Item
-          name="description"
-          rules={[
-            {
-              required: true,
-              message: "Укажите описание приложения",
-            },
-          ]}
-        >
-          <Space direction="vertical" style={{ width: "100%" }}>
-            <Text strong>Описание приложения (для модерации)</Text>
-            <TextArea rows={5} placeholder="Этот текст читает модерация, после чего принимает решение о включении вашего приложения. Постарайтесь максимально описать зачем в вашему приложению нужна аутентификация через ШТП"/>
-          </Space>
-        </Form.Item>
-
         <Form.Item>
           <Button
             type="primary"

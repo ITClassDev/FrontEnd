@@ -1,26 +1,27 @@
 import React from "react";
-/*import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { getMyApps } from "../api";
-import { useState } from "react";*/
-/* Imports for start */
-/*import { PlusOutlined } from "@ant-design/icons";
+import { useState } from "react";
+
+import { PlusOutlined } from "@ant-design/icons";
 import CreateAppModal from "../Components/CreateAppModal";
 import EditAppModal from "../Components/EditAppModal";
-import { Alert, Button, Space, Table, Typography } from "antd";*/
-/* */
+import { Alert, Button, Space, Table, Typography } from "antd";
 
-/* Temp imports, to avoid eslint problems */
-import { Typography } from "antd";
-/* */
+
 
 const { Title } = Typography;
-// Uncomment all code below to develop oauth
-/*
+
 const AppsActionsBtns = ({ app_id, setEditModal }) => {
   return (
     <Space direction="horizontal">
-      <Button type="primary" onClick={() => {setEditModal(true)}}>
+      <Button
+        type="primary"
+        onClick={() => {
+          setEditModal(true);
+        }}
+      >
         Редактировать
       </Button>
     </Space>
@@ -84,11 +85,6 @@ const Apps = () => {
   const [editModalOpened, setEditModalOpened] = useState(false);
 
   return (
-    <Title>
-      Development planned to Hackathon
-    </Title>
-  );*/
-/*
     <>
       <CreateAppModal
         modalOpened={createModalOpened}
@@ -135,12 +131,8 @@ const Apps = () => {
         dataSource={appsData}
       />
     </>
-
-  */
-//};
-
-const Apps = () => {
-  return <Title>Development planned to Hackathon</Title>;
+  );
 };
+
 
 export default Apps;
