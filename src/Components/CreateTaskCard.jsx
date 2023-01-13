@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   Form,
@@ -14,6 +14,8 @@ import {
   PlusOutlined,
 } from "@ant-design/icons";
 import { createTask } from "../api";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 const { TextArea } = Input;
 const { Text } = Typography;
@@ -36,6 +38,7 @@ const CreateTaskCard = ({ messageApi }) => {
       }
     );
   };
+  const [convertedText, setConvertedText] = useState("Some default content");
 
   return (
     <>
@@ -76,7 +79,11 @@ const CreateTaskCard = ({ messageApi }) => {
             },
           ]}
         >
-          <TextArea rows={4} placeholder="Условие задачи" />
+          <ReactQuill
+            theme="snow"
+            value={convertedText}
+            onChange={setConvertedText}
+          />
         </Form.Item>
         <Form.Item
           name="time_limit"

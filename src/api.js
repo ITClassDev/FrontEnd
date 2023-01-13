@@ -222,6 +222,10 @@ export function getAllTasks(ok_handler, error_handler, api = API_URL) {
     });
 }
 
+export function createContest(contest_data, ok_handler, error_handler, api = API_URL) {
+  
+}
+
 export function getAchivmentsModerationQueue(
   ok_handler,
   error_handler,
