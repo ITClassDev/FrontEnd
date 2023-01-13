@@ -76,8 +76,24 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const adminMenu = [
+    getItem("Аккаунт", "1", <UserOutlined />, "/"),
+    getItem("Настройки", "13", <SettingOutlined />, "/settings"),
+    getItem(
+      "Уведомления",
+      "7",
+      <Badge dot={newNotifications} showZero={false}>
+        <NotificationOutlined />
+      </Badge>,
+      "/notifications"
+    ),
+    getItem("Документация", "9", <ProfileOutlined />, "/docs"),
+    getItem("Приложения", "10", <CodeSandboxOutlined />, "/apps"),
+    getItem("Админ-панель", "11", <ControlOutlined />, "/admin"),
+    getItem("Опросы", "14", <SettingOutlined />, "/"),
+  ];
 
-  const logined_menu = [
+  const studentMenu = [
     getItem("Аккаунт", "1", <UserOutlined />, "/"),
     getItem("Достижения", "2", <StarOutlined />, "/achivments"),
     getItem("Задачи", "sub1", <CodeOutlined />, "", [
@@ -99,10 +115,7 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
     getItem("Приложения", "10", <CodeSandboxOutlined />, "/apps"),
     getItem("Настройки", "13", <SettingOutlined />, "/settings"),
   ];
-  const adminMenuItems = [
-    getItem("Админ-панель", "11", <ControlOutlined />, "/admin"),
-    getItem("Опросы", "14", <SettingOutlined />, "/"),
-  ];
+  
 
   const logoutBtn = {
     label: "Выйти",
@@ -120,11 +133,10 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
   useEffect(() => {
     if (user.status !== 0) {
       if (user.status === 1) {
-        setMenu(logined_menu);
+        if (user.user.userRole === 2) // admin user
+          setMenu([...adminMenu, logoutBtn]);
+        else setMenu([...studentMenu, logoutBtn]);
         setNewNotifications(user.user.new_notifications);
-        if (user.user.userRole === 2)
-          setMenu([...logined_menu, ...adminMenuItems, logoutBtn]);
-        else setMenu([...logined_menu, logoutBtn]);
         setPage(<Outlet />);
       } else {
         if (router_mapping[location.pathname][1])

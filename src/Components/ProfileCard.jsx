@@ -10,6 +10,7 @@ import {
   Calendar,
   Badge,
   Popover,
+  Tag,
 } from "antd";
 import { GithubOutlined, GlobalOutlined } from "@ant-design/icons";
 import { STORAGE } from "../config";
@@ -72,7 +73,7 @@ const ProfileCard = ({
       {user.firstName} {user.lastName}
     </>
   );
-  //FIXIT ONLY FOR DEV, WHILE WE DON'T KNOW WHERE TO CHANGE THIS STATE
+  //FIXIT ONLY FOR DEV, WHILE WE DON'T KNOW WHERE TO CHANGE THIS STATE; to pass CI build
   // eslint-disable-next-line
   const [userAvatar, setUserAvatar] = useState(
     `${STORAGE}/avatars/${user.userAvatarPath}`
@@ -89,7 +90,7 @@ const ProfileCard = ({
       ]);
   });
   const [userSocialNets] = useState(userSocial);
-  //FIXIT ONLY FOR DEV, WHILE WE DON'T KNOW WHERE TO CHANGE THIS STATE
+  //FIXIT ONLY FOR DEV, WHILE WE DON'T KNOW WHERE TO CHANGE THIS STATE; to pass CI build
   // eslint-disable-next-line
   const [timelineEvents, setTimelineEvents] = useState({
     "Sat Dec 31 2022": [
@@ -140,7 +141,12 @@ const ProfileCard = ({
               <Title level={2} style={{ marginBottom: 0 }}>
                 {userName}
               </Title>
-              <Paragraph editable={editable}>{userAbout}</Paragraph>
+              <Paragraph style={{ marginBottom: 3 }} editable={editable}>
+                {userAbout}
+              </Paragraph>
+              <Tag color={user.userRole == 0 ? "blue" : "green"}>
+                {user.userRole == 0 ? "Ученик" : "Преподаватель"}
+              </Tag>
             </div>
             <Row>
               {userSocialNets.map((social, ind) => (
@@ -167,20 +173,18 @@ const ProfileCard = ({
           </Col>
         </Row>
       </Card>
-      <Card title="Информация" bordered={false} style={{ marginTop: 20 }}>
-        <Terminal
-          username={user.firstName}
-          user_class={user["learningClass"]}
-          user_rating={user.rating}
-          user_tech_stack={user["techStack"]}
-        />
-      </Card>
+      {user.userRole == 0 && (
+        <Card title="Информация" bordered={false} style={{ marginTop: 20 }}>
+          <Terminal
+            username={user.firstName}
+            user_class={user["learningClass"]}
+            user_rating={user.rating}
+            user_tech_stack={user["techStack"]}
+          />
+        </Card>
+      )}
       <Card title="График" bordered={false} style={{ marginTop: 20 }}>
-        <Calendar
-          headerRender={() => {}}
-          locale={locale}
-          dateCellRender={dateCellRender}
-        />
+        <Calendar locale={locale} dateCellRender={dateCellRender} />
       </Card>
     </>
   );
