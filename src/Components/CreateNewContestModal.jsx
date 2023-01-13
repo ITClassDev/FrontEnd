@@ -47,7 +47,7 @@ const CreateNewContestModal = ({ open, setModalOpened }) => {
           </Space>
         </Form.Item>
         <Form.Item
-          name="contest_tasks"
+          name="tasks"
           rules={[
             {
               required: true,
@@ -57,6 +57,27 @@ const CreateNewContestModal = ({ open, setModalOpened }) => {
         >
           <Space direction="vertical" style={{ width: "100%" }}>
             <Text strong>Задачи в контесте</Text>
+            <Select
+              mode="tags"
+              style={{
+                width: "100%",
+              }}
+              tokenSeparators={[","]}
+            />
+          </Space>
+        </Form.Item>
+
+        <Form.Item
+          name="user_groups"
+          rules={[
+            {
+              required: true,
+              message: "Выберите группы пользователей",
+            },
+          ]}
+        >
+          <Space direction="vertical" style={{ width: "100%" }}>
+            <Text strong>Группы пользователей</Text>
             <Select
               mode="tags"
               style={{

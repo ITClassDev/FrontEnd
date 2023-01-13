@@ -42,7 +42,7 @@ int main(){
     { key: 1, id: 1, status: "OK", time: "0.001", memory: "1024" },
   ];
   return (
-    <Card title="Ваши посылки">
+    <Card title={<>Ваши посылки</>}>
       <Table
         columns={columns}
         dataSource={attempts}

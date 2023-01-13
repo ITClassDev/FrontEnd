@@ -10,6 +10,7 @@ const SendTask = ({ task_id, getSubmissions }) => {
   const props = {
     name: "file",
     multiple: false,
+    accept: ".cpp, .py",
     fileList: fileToSend,
     onRemove: (file) => {
       SetFileToSend([]);

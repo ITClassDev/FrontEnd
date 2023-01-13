@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Card } from "antd";
+import { Card, Typography } from "antd";
 import { Descriptions, Table } from "antd";
 import SendTask from "./SendTask";
 import MyAttempts from "./MyAttempts";
 import { getTaskSubmits } from "../api";
+
+const { Text } = Typography;
 
 const ProgTask = ({
   title,
@@ -27,7 +29,17 @@ const ProgTask = ({
             lang: { py: "Python 3", cpp: "G++" }[
               submission.source.split(".").at(-1)
             ],
-            status: submission.solved ? "OK" : <>NO {submission.status}</>,
+            status: submission.solved ? (
+              <Text code type="success">
+                OK
+              </Text>
+            ) : submission.status == 2 ? (
+              <Text code type="danger">
+                NO
+              </Text>
+            ) : (
+              "Checking..."
+            ),
           });
         });
         setAttempts(result);
