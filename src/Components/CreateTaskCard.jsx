@@ -22,6 +22,7 @@ const { Text } = Typography;
 
 const CreateTaskCard = ({ messageApi }) => {
   const createTaskFormHandler = (form_data) => {
+    console.log(form_data);
     createTask(
       form_data,
       (response) => {

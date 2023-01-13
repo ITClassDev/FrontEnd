@@ -4,6 +4,7 @@ import { Descriptions, Table } from "antd";
 import SendTask from "./SendTask";
 import MyAttempts from "./MyAttempts";
 import { getTaskSubmits, convertDateAndTime } from "../api";
+import Parser from 'html-react-parser';
 
 const { Text } = Typography;
 
@@ -69,7 +70,7 @@ const ProgTask = ({
           </Descriptions.Item>
         </Descriptions>
         <h3>Текст задачи</h3>
-        {desc}
+        {Parser(desc)}
         <h3>Примеры тестов</h3>
         <Table
           dataSource={tests}
