@@ -157,6 +157,22 @@ export function getDayChallenge(ok_handler, error_handler, api = API_URL) {
     });
 }
 
+export function createOauthApp(
+  app_data,
+  ok_handler,
+  error_handler,
+  api = API_URL
+) {
+  axios
+    .put(`${api}/oauth/create_app`, app_data, getAuth())
+    .then((response) => {
+      ok_handler(response);
+    })
+    .catch((response) => {
+      error_handler(response);
+    });
+}
+
 // Admin API
 
 export function getAchivmentsModerationQueue(

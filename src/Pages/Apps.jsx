@@ -9,8 +9,6 @@ import CreateAppModal from "../Components/CreateAppModal";
 import EditAppModal from "../Components/EditAppModal";
 import { Alert, Button, Space, Table, Typography } from "antd";
 
-
-
 const { Title } = Typography;
 
 const AppsActionsBtns = ({ app_id, setEditModal }) => {
@@ -57,7 +55,7 @@ const Apps = () => {
     },
   ];
   const [appsData, setAppsData] = useState([]);
-  useEffect(() => {
+  const updateAppsTable = () => {
     getMyApps(
       (response) => {
         let apps = [];
@@ -80,7 +78,8 @@ const Apps = () => {
       },
       () => {}
     );
-  }, []);
+  };
+  useEffect(() => {updateAppsTable()}, []);
   const [createModalOpened, setCreateModalOpened] = useState(false);
   const [editModalOpened, setEditModalOpened] = useState(false);
 
@@ -89,6 +88,7 @@ const Apps = () => {
       <CreateAppModal
         modalOpened={createModalOpened}
         setModalOpened={setCreateModalOpened}
+        updateAppsTable={updateAppsTable}
       />
       <EditAppModal
         modalOpened={editModalOpened}
@@ -105,11 +105,6 @@ const Apps = () => {
                 Авторизация через ШТП разрешена только для приложений,
                 относящихся к школе
               </li>
-              <li>
-                Приложения становятся работоспособными только после ручной
-                модерации
-              </li>
-              <li>Ваше приложение должно, просто должно</li>
             </ul>
             Ознакомиться с документацией можно в{" "}
             <Link to={"/docs"}>разделе OAuth в документации к API</Link>
@@ -133,6 +128,5 @@ const Apps = () => {
     </>
   );
 };
-
 
 export default Apps;
