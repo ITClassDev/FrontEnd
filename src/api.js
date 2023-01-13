@@ -211,6 +211,17 @@ export function submitDayChallenge(
 
 // Admin API
 
+export function getAllTasks(ok_handler, error_handler, api = API_URL) {
+  axios
+    .get(`${api}/programming_tasks/tasks/all`, getAuth())
+    .then((response) => {
+      ok_handler(response);
+    })
+    .catch((response) => {
+      error_handler(response);
+    });
+}
+
 export function getAchivmentsModerationQueue(
   ok_handler,
   error_handler,
@@ -357,4 +368,7 @@ export function getAppInfo(app_id, ok_handler, error_handler, api = API_URL) {
 // Utility
 export function convertDate(date) {
   return new Date(date).toLocaleDateString("ru-RU");
+}
+export function convertDateAndTime(date) {
+  return new Date(date).toLocaleString("ru-RU");
 }

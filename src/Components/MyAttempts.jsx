@@ -1,10 +1,14 @@
 import React from "react";
-import { Card, Table } from "antd";
+import { Card, Table, Button } from "antd";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { a11yLight } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { Tabs } from "antd";
+import {
+  UndoOutlined,
+} from "@ant-design/icons";
 
-const MyAttempts = ({ attempts }) => {
+
+const MyAttempts = ({ attempts, getSubmissions }) => {
   const test_source = `#include <iostream>
 using namespace std;
 typedef long long ll;
@@ -42,7 +46,8 @@ int main(){
     { key: 1, id: 1, status: "OK", time: "0.001", memory: "1024" },
   ];
   return (
-    <Card title={<>Ваши посылки</>}>
+    <Card title="Ваши посылки">
+      <Button icon={<UndoOutlined />} style={{marginBottom: 20}} type="primary" onClick={getSubmissions}>Обновить</Button>
       <Table
         columns={columns}
         dataSource={attempts}

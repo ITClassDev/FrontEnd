@@ -6,6 +6,7 @@ import AchivmentsModeration from "../Components/AdminModeration";
 import NotFound from "./NotFound";
 import AdminDayChallenge from "../Components/AdminDayChallenge";
 import AdminHomeWork from "../Components/AdminHomeWork";
+import AdminTasks from "../Components/AdminTasks";
 
 const { Title } = Typography;
 
@@ -41,7 +42,7 @@ const Admin = ({ user }) => {
             {
               label: "Задачи",
               key: "5",
-              children: <AdminDayChallenge />,
+              children: <AdminTasks />,
             },
             {
               label: "Мероприятия",

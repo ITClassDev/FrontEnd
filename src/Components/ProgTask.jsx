@@ -3,7 +3,7 @@ import { Card, Typography } from "antd";
 import { Descriptions, Table } from "antd";
 import SendTask from "./SendTask";
 import MyAttempts from "./MyAttempts";
-import { getTaskSubmits } from "../api";
+import { getTaskSubmits, convertDateAndTime } from "../api";
 
 const { Text } = Typography;
 
@@ -25,15 +25,15 @@ const ProgTask = ({
           result.push({
             key: submission.id,
             id: submission.id,
-            date: "N/A",
-            lang: { py: "Python 3", cpp: "G++" }[
+            date: convertDateAndTime(submission.send_date),
+            lang: { py: "Python 3.10.6", cpp: "GCC 10.2.1" }[
               submission.source.split(".").at(-1)
             ],
             status: submission.solved ? (
               <Text code type="success">
                 OK
               </Text>
-            ) : submission.status == 2 ? (
+            ) : submission.status === 2 ? (
               <Text code type="danger">
                 NO
               </Text>
@@ -79,7 +79,7 @@ const ProgTask = ({
       </Card>
 
       {can_submit && <SendTask task_id={1} getSubmissions={getSubmissions} />}
-      {can_submit && <MyAttempts attempts={attempts} />}
+      {can_submit && <MyAttempts attempts={attempts} getSubmissions={getSubmissions}/>}
     </>
   );
   /* Reactions
