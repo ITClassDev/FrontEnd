@@ -189,6 +189,26 @@ export function getTaskSubmits(
     });
 }
 
+export function submitDayChallenge(
+  file,
+  ok_handler,
+  error_handler,
+  api = API_URL
+) {
+  let formData = new FormData();
+  formData.append("file", file);
+  axios
+    .post(`${api}/programming_tasks/day_challenge/submit`, formData, getAuth())
+    .then(
+      (response) => {
+        ok_handler(response);
+      },
+      (response) => {
+        error_handler(response);
+      }
+    );
+}
+
 // Admin API
 
 export function getAchivmentsModerationQueue(

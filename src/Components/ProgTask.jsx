@@ -14,22 +14,37 @@ const ProgTask = ({
   task_id,
   can_submit = true,
 }) => {
+  const getSubmissions = () => {
+    getTaskSubmits(
+      task_id,
+      (response) => {
+        let result = [];
+        response.data.forEach((submission) => {
+          result.push({
+            key: submission.id,
+            id: submission.id,
+            date: "N/A",
+            lang: { py: "Python 3", cpp: "G++" }[
+              submission.source.split(".").at(-1)
+            ],
+            status: submission.solved ? "OK" : <>NO {submission.status}</>,
+          });
+        });
+        setAttempts(result);
+      },
+      (response) => {}
+    );
+  };
   useEffect(() => {
-    getTaskSubmits(task_id, (response) => {
-      let result = [];
-      response.data.forEach(submission => {
-        result.push({key: submission.id, id: submission.id, date: "N/A", lang: {py: "Python 3", cpp: "G++"}[submission.source.split(".").at(-1)], status: submission.solved ? "OK" : <>NO {submission.status}</>});
-      });
-      setAttempts(result);
-    }, (response) => {})
+    getSubmissions();
   }, []);
-  
+
   const columns = [
     { title: "Вход", dataIndex: "input", key: "input" },
     { title: "Выход", dataIndex: "output", key: "output" },
   ];
   const [attempts, setAttempts] = useState();
-  
+
   return (
     <>
       <Card title={title} style={{ marginBottom: 20 }}>
@@ -51,7 +66,7 @@ const ProgTask = ({
         />
       </Card>
 
-      {can_submit && <SendTask task_id={1} />}
+      {can_submit && <SendTask task_id={1} getSubmissions={getSubmissions} />}
       {can_submit && <MyAttempts attempts={attempts} />}
     </>
   );
