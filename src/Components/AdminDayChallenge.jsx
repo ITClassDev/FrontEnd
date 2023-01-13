@@ -126,9 +126,7 @@ const AdminDayChallenge = () => {
         Выбрать задачу дня
       </Title>
       <Space direction="vertical" style={{ width: "100%", marginBottom: 20 }}>
-        <Text strong>
-          Текущая задача дня - <Text code>{currentDayChallenge["title"]}</Text>
-        </Text>
+        
         <SearchInput
           placeholder="Поиск задачи по заголовку"
           style={{ width: "100%" }}

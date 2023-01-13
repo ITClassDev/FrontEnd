@@ -27,7 +27,7 @@ const Challenge = () => {
       },
       (response) => {}
     );
-  });
+  }, []);
   return (
     <>
       <Title level={3}>Задача дня</Title>
