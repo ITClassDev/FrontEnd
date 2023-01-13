@@ -7,15 +7,13 @@ import MyAttempts from "./MyAttempts";
 const ProgTask = ({
   title,
   desc,
+  tests,
   time_limit,
   memory_limit,
   task_id,
   can_submit = true,
 }) => {
-  const tests = [
-    { key: 1, input: "6\n4 5 3 4 2 3", output: "5 4 4 3 3 2" },
-    { key: 2, input: "3\n1 2 3", output: "2 1 3" },
-  ];
+  
   const columns = [
     { title: "Вход", dataIndex: "input", key: "input" },
     { title: "Выход", dataIndex: "output", key: "output" },
@@ -43,7 +41,7 @@ const ProgTask = ({
         </Descriptions>
         <h3>Текст задачи</h3>
         {desc}
-        <h3>Примеры</h3>
+        <h3>Примеры тестов</h3>
         <Table
           dataSource={tests}
           columns={columns}

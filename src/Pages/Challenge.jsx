@@ -22,6 +22,7 @@ const Challenge = () => {
             time_limit={response.data.time_limit}
             memory_limit={response.data.memory_limit}
             task_id={response.data.id}
+            tests={response.data.tests}
           />
         );
       },

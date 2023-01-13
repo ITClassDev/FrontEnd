@@ -144,8 +144,8 @@ const ProfileCard = ({
               <Paragraph style={{ marginBottom: 3 }} editable={editable}>
                 {userAbout}
               </Paragraph>
-              <Tag color={user.userRole == 0 ? "blue" : "green"}>
-                {user.userRole == 0 ? "Ученик" : "Преподаватель"}
+              <Tag color={user.userRole === 0 ? "blue" : "green"}>
+                {user.userRole === 0 ? "Ученик" : "Преподаватель"}
               </Tag>
             </div>
             <Row>
@@ -173,7 +173,7 @@ const ProfileCard = ({
           </Col>
         </Row>
       </Card>
-      {user.userRole == 0 && (
+      {user.userRole === 0 && (
         <Card title="Информация" bordered={false} style={{ marginTop: 20 }}>
           <Terminal
             username={user.firstName}

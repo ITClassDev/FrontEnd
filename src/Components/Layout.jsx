@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import {
   PieChartOutlined,
   UserOutlined,
-  NotificationOutlined,
+  BellOutlined,
   StarOutlined,
   CodeOutlined,
   FieldTimeOutlined,
@@ -83,7 +83,7 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
       "Уведомления",
       "7",
       <Badge dot={newNotifications} showZero={false}>
-        <NotificationOutlined />
+        <BellOutlined />
       </Badge>,
       "/notifications"
     ),
@@ -106,7 +106,7 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
       "Уведомления",
       "7",
       <Badge dot={newNotifications} showZero={false}>
-        <NotificationOutlined />
+        <BellOutlined />
       </Badge>,
       "/notifications"
     ),
