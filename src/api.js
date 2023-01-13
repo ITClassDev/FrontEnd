@@ -173,6 +173,22 @@ export function createOauthApp(
     });
 }
 
+export function getTaskSubmits(
+  task_id,
+  ok_handler,
+  error_handler,
+  api = API_URL
+) {
+  axios
+    .get(`${api}/programming_tasks/task/my_submits/${task_id}`)
+    .then((response) => {
+      ok_handler(response);
+    })
+    .catch((response) => {
+      error_handler(response);
+    });
+}
+
 // Admin API
 
 export function getAchivmentsModerationQueue(

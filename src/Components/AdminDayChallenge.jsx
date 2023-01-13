@@ -97,7 +97,7 @@ const AdminDayChallenge = () => {
     getDayChallenge((response) => {
       SetCurrentDayChallenge(response.data);
     }, () => {})
-  })
+  }, []);
   const [currentDayChallenge, SetCurrentDayChallenge] = useState({});
   return (
     <>
