@@ -75,6 +75,8 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
   const [page, setPage] = useState(<>Loading...</>);
   const navigate = useNavigate();
   const location = useLocation();
+
+
   const logined_menu = [
     getItem("Аккаунт", "1", <UserOutlined />, "/"),
     getItem("Достижения", "2", <StarOutlined />, "/achivments"),

@@ -6,23 +6,34 @@ const { Title, Text } = Typography;
 
 const IntroPage = () => {
   const screenshots = [
-    "https://i.imgur.com/SXm2Xim.png",
-    "https://i.imgur.com/Pf9tQqn.png",
+    "/Landing/carousel_0.png",
+    "/Landing/carousel_1.png",
+    "/Landing/carousel_2.png",
+    "/Landing/carousel_3.png",
   ];
   return (
     <>
-      <Title>Школьная IT платформа</Title>
-      <Text>
-        Школьная IT платформа(ШТП) - система для учеников профильных IT классов.
-      </Text>
-      <Carousel autoplay>
+      <Title level={2}>Школьная IT платформа</Title>
+      <Carousel autoplay style={{marginBottom: 30}}>
         {screenshots.map((item, index) => (
           <div key={index}>
             <Image src={item} preview={false} />
           </div>
         ))}
       </Carousel>
-      <Title>Open Source</Title>
+      <Text>
+        Школьная IT платформа (<b>ШТП</b>) - система для учеников профильных IT классов. Данный проект, позволит упростить процесс обучения для учеников, и процесс преподавания для учителей.
+      </Text>
+      <Title level={2}>Функции</Title>
+      <div>
+        <ul>
+          <li>Отслеживание достижений учеников</li>
+          <li>Отслеживание посещаемых учеником мероприятий</li>
+          <li>Система для автоматической проверки решений по программированию</li>
+        </ul>
+      </div>
+
+      <Title level={2}>Открытый исходный код</Title>
       <div>
         <Text>
           Исходный код всех частей нашего проекта полностью открыт. Вы можете
