@@ -6,7 +6,7 @@ import CreateTaskCard from "./CreateTaskCard";
 import { useEffect } from "react";
 import { getDayChallenge } from "../api";
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 const fetch = (value, callback) => {
   callback([

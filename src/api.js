@@ -180,7 +180,7 @@ export function getTaskSubmits(
   api = API_URL
 ) {
   axios
-    .get(`${api}/programming_tasks/task/my_submits/${task_id}`)
+    .get(`${api}/programming_tasks/task/my_submits/${task_id}`, getAuth())
     .then((response) => {
       ok_handler(response);
     })

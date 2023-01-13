@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card } from "antd";
 import { Descriptions, Table } from "antd";
 import SendTask from "./SendTask";
 import MyAttempts from "./MyAttempts";
+import { getTaskSubmits } from "../api";
 
 const ProgTask = ({
   title,
@@ -13,21 +14,22 @@ const ProgTask = ({
   task_id,
   can_submit = true,
 }) => {
+  useEffect(() => {
+    getTaskSubmits(task_id, (response) => {
+      let result = [];
+      response.data.forEach(submission => {
+        result.push({key: submission.id, id: submission.id, date: "N/A", lang: {py: "Python 3", cpp: "G++"}[submission.source.split(".").at(-1)], status: submission.solved ? "OK" : <>NO {submission.status}</>});
+      });
+      setAttempts(result);
+    }, (response) => {})
+  }, []);
   
   const columns = [
     { title: "Вход", dataIndex: "input", key: "input" },
     { title: "Выход", dataIndex: "output", key: "output" },
   ];
-  const attempts = [
-    {
-      key: 1,
-      id: "1012",
-      date: "01.12.2022 - 19:03",
-      lang: "GNU C++ 17",
-      status: <span style={{ color: "green" }}>OK</span>,
-      tests: "10/10",
-    },
-  ];
+  const [attempts, setAttempts] = useState();
+  
   return (
     <>
       <Card title={title} style={{ marginBottom: 20 }}>
