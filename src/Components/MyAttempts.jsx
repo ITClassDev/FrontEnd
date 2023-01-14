@@ -1,14 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Table, Button } from "antd";
 import SyntaxHighlighter from "react-syntax-highlighter";
-import { a11yLight } from "react-syntax-highlighter/dist/esm/styles/hljs";
-import { Tabs } from "antd";
 import {
-  UndoOutlined,
-} from "@ant-design/icons";
+  a11yLight,
+  a11yDark,
+} from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { Tabs } from "antd";
+import { UndoOutlined } from "@ant-design/icons";
 
-
+const Expanded = ({columns, submission}) => {
+  console.log(submission.id);
+  useEffect(() => {
+    
+  }, [])
+  return (
+    <>
+      <Tabs defaultActiveKey="1">
+        <Tabs.TabPane tab="Исходный код" key="1">
+          <SyntaxHighlighter language="cpp" style={a11yDark} showLineNumbers>     
+          </SyntaxHighlighter>
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="Тесты" key="2">
+          <Table columns={columns} />
+        </Tabs.TabPane>
+      </Tabs>
+    </>
+  );
+};
 const MyAttempts = ({ attempts, getSubmissions }) => {
+  const loadSubmissionDetails = (resp) => {
+    console.log(resp);
+  };
+
+  const [sourceCode, SetSourceCode] = useState("Loading...");
   const test_source = `#include <iostream>
 using namespace std;
 typedef long long ll;
@@ -47,29 +71,21 @@ int main(){
   ];
   return (
     <Card title="Ваши посылки">
-      <Button icon={<UndoOutlined />} style={{marginBottom: 20}} type="primary" onClick={getSubmissions}>Обновить</Button>
+      <Button
+        icon={<UndoOutlined />}
+        style={{ marginBottom: 20 }}
+        type="primary"
+        onClick={getSubmissions}
+      >
+        Обновить
+      </Button>
       <Table
         columns={columns}
         dataSource={attempts}
         expandable={{
-          expandedRowRender: (record) => (
-            <>
-              <Tabs defaultActiveKey="1">
-                <Tabs.TabPane tab="Исходный код" key="1">
-                  <SyntaxHighlighter
-                    language="cpp"
-                    style={a11yLight}
-                    showLineNumbers
-                  >
-                    {test_source}
-                  </SyntaxHighlighter>
-                </Tabs.TabPane>
-                <Tabs.TabPane tab="Тесты" key="2">
-                  <Table columns={columns_tests} dataSource={tests_data} />
-                </Tabs.TabPane>
-              </Tabs>
-            </>
-          ),
+          expandedRowRender: (record) => {
+            return <Expanded columns={columns} submission={record}/>;
+          },
           rowExpandable: (record) => true,
         }}
       />

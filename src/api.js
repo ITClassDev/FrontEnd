@@ -197,7 +197,10 @@ export function getTaskSubmitsContest(
   api = API_URL
 ) {
   axios
-    .get(`${api}/programming_tasks/homework/get_task_submits?task_id=${task_id}&contest_id=${contest_id}`, getAuth())
+    .get(
+      `${api}/programming_tasks/homework/get_task_submits?task_id=${task_id}&contest_id=${contest_id}`,
+      getAuth()
+    )
     .then((response) => {
       ok_handler(response);
     })
@@ -205,7 +208,6 @@ export function getTaskSubmitsContest(
       error_handler(response);
     });
 }
-
 
 export function submitDayChallenge(
   file,
@@ -248,6 +250,24 @@ export function submitDayChallengeLiveCode(
   //console.log(formData);
 }
 
+export function getSubmissionDetails(
+  submission_id,
+  ok_handler,
+  error_handler,
+  api = API_URL
+) {
+  axios
+    .get(
+      `${api}/programming_tasks/submission/details?submission_id=${submission_id}`
+    )
+    .then((response) => {
+      ok_handler;
+    })
+    .catch((response) => {
+      error_handler(response);
+    });
+}
+
 export function getTaskData(task_id, ok_handler, error_handler, api = API_URL) {
   axios
     .get(`${api}/programming_tasks/task/${task_id}`)
@@ -287,7 +307,11 @@ export function submitContest(
   api = API_URL
 ) {
   axios
-    .post(`${api}/programming_tasks/homework/submit`, {git_url: git_url, contest_id: contest_id, language: language},  getAuth())
+    .post(
+      `${api}/programming_tasks/homework/submit`,
+      { git_url: git_url, contest_id: contest_id, language: language },
+      getAuth()
+    )
     .then((response) => {
       ok_handler(response);
     })
