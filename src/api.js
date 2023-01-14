@@ -230,8 +230,15 @@ export function submitDayChallengeLiveCode(
   //console.log(formData);
 }
 
-export function getTaskData(task_id, ok_hanler, error_handler, api = API_URL) {
-  axios.get()
+export function getTaskData(task_id, ok_handler, error_handler, api = API_URL) {
+  axios
+    .get(`${api}/programming_tasks/task/${task_id}`)
+    .then((response) => {
+      ok_handler(response);
+    })
+    .catch((response) => {
+      error_handler(response);
+    });
 }
 
 export function getContestData(
@@ -241,7 +248,10 @@ export function getContestData(
   api = API_URL
 ) {
   axios
-    .get(`${api}/programming_tasks/homework/get?contest_id=${contest_id}`, getAuth())
+    .get(
+      `${api}/programming_tasks/homework/get?contest_id=${contest_id}`,
+      getAuth()
+    )
     .then((response) => {
       ok_handler(response);
     })

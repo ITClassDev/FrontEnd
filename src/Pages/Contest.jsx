@@ -10,23 +10,32 @@ import { useEffect, useState } from "react";
 import SubmitViaGithub from "../Components/SubmitViaGithub";
 import { FRONTEND_URL } from "../config";
 import { useSearchParams } from "react-router-dom";
-import { getContestData } from "../api";
+import { getContestData, getTaskData } from "../api";
 
 const { Title } = Typography;
 
 function choosePage(setPage, item) {
-  console.log(item);
   if (item === "submit") setPage(<SubmitViaGithub />);
-  else
-    setPage(
-      <ProgTask
-        title={item}
-        desc="Написать функцию string itc_hello_str(string name), которая принимает имя пользователя и возвращает строку приветствие «Hello, <имя пользователя>»"
-        time_limit={5}
-        memory_limit={100}
-        can_submit={false}
-      />
+  else {
+    getTaskData(
+      item,
+      (response) => {
+        console.log(response.data);
+        setPage(
+          <ProgTask
+            title={response.data.title}
+            desc={response.data.text}
+            time_limit={response.data.time_limit}
+            memory_limit={response.data.memory_limit}
+            can_submit={false}
+            task_id={response.data.id}
+            tests={response.data.tests}
+          />
+        );
+      },
+      () => {}
     );
+  }
 }
 
 const Contest = () => {
@@ -39,7 +48,7 @@ const Contest = () => {
       (response) => {
         SetContestTitle(response.data.title);
         let result = [];
-        response.data.tasks_ids_list.forEach((task) => {
+        response.data.tasks.forEach((task) => {
           result.push({ key: task, label: task, icon: correctTask });
         });
         SetMenuTasks([

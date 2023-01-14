@@ -4,7 +4,7 @@ import { Descriptions, Table } from "antd";
 import SendTask from "./SendTask";
 import MyAttempts from "./MyAttempts";
 import { getTaskSubmits, convertDateAndTime } from "../api";
-import Parser from 'html-react-parser';
+import Parser from "html-react-parser";
 
 const { Text } = Typography;
 
@@ -49,7 +49,7 @@ const ProgTask = ({
     );
   };
   useEffect(() => {
-    getSubmissions();
+    if (can_submit) getSubmissions();
   }, []);
 
   const columns = [
@@ -80,7 +80,9 @@ const ProgTask = ({
       </Card>
 
       {can_submit && <SendTask task_id={1} getSubmissions={getSubmissions} />}
-      {can_submit && <MyAttempts attempts={attempts} getSubmissions={getSubmissions}/>}
+      {can_submit && (
+        <MyAttempts attempts={attempts} getSubmissions={getSubmissions} />
+      )}
     </>
   );
   /* Reactions
