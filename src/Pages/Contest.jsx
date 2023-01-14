@@ -60,7 +60,7 @@ const Contest = () => {
     );
   }, []);
 
-  const [pageContent, setPageContent] = useState(<SubmitViaGithub />);
+  const [pageContent, setPageContent] = useState(<SubmitViaGithub  contest_id={contest_id}/>);
   const correctTask = (
     <Tooltip title="задача сдана">
       <CheckCircleOutlined style={{ color: "green" }} />

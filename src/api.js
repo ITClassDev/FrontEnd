@@ -260,6 +260,23 @@ export function getContestData(
     });
 }
 
+export function submitContest(
+  contest_id,
+  git_url,
+  ok_handler,
+  error_handler,
+  api = API_URL
+) {
+  axios
+    .post(`${api}/programming_tasks/homework/submit`, {git_url: git_url, contest_id: contest_id},  getAuth())
+    .then((response) => {
+      ok_handler(response);
+    })
+    .catch((response) => {
+      error_handler(response);
+    });
+}
+
 // Admin API
 
 export function getAllTasks(ok_handler, error_handler, api = API_URL) {

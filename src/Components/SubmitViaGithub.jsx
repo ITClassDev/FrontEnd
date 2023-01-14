@@ -1,9 +1,16 @@
 import React from "react";
 import { GithubOutlined } from "@ant-design/icons";
 import { Card, Form, Input, Button, Alert, Space, Typography } from "antd";
+import { submitContest } from "../api";
 const { Text } = Typography;
 
-const SubmitViaGithub = () => {
+const SubmitViaGithub = ({contest_id}) => {
+
+  const submitFormHandler = (form_data) => {
+    submitContest(contest_id, form_data.github_repo, (response) => {
+      console.log(response);
+    }, () => {});
+  }
   return (
     <Card
       title={
@@ -27,7 +34,7 @@ const SubmitViaGithub = () => {
         </Space>
         type="info"
       />
-      <Form name="basic" autoComplete="off" requiredMark={false}>
+      <Form name="basic" autoComplete="off" requiredMark={false} onFinish={submitFormHandler}>
         <Form.Item
           name="github_repo"
           rules={[
