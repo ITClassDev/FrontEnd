@@ -14,7 +14,7 @@ import { getContestData, getTaskData } from "../api";
 
 const { Title } = Typography;
 
-function choosePage(setPage, item) {
+function choosePage(setPage, item, contest_id) {
   if (item === "submit") setPage(<SubmitViaGithub />);
   else {
     getTaskData(
@@ -30,6 +30,7 @@ function choosePage(setPage, item) {
             can_submit={false}
             task_id={response.data.id}
             tests={response.data.tests}
+            contest_id={contest_id}
           />
         );
       },
@@ -48,7 +49,8 @@ const Contest = () => {
       (response) => {
         SetContestTitle(response.data.title);
         let result = [];
-        response.data.tasks.forEach((task) => {
+        console.log(response.data);
+        response.data.tasks_ids_list.forEach((task) => {
           result.push({ key: task, label: task, icon: correctTask });
         });
         SetMenuTasks([
@@ -59,8 +61,8 @@ const Contest = () => {
       (response) => {}
     );
   }, []);
-
-  const [pageContent, setPageContent] = useState(<SubmitViaGithub  contest_id={contest_id}/>);
+  
+  const [pageContent, setPageContent] = useState(<SubmitViaGithub  contest_id={searchParams.get("id")}/>);
   const correctTask = (
     <Tooltip title="задача сдана">
       <CheckCircleOutlined style={{ color: "green" }} />
@@ -83,7 +85,7 @@ const Contest = () => {
           overlayInnerStyle={{
             padding: 0,
           }}
-          content={<QRCode value={`${FRONTEND_URL}/12`} bordered={false} />}
+          content={<QRCode value={`${FRONTEND_URL}?id=3`} bordered={false} />}
         >
           <QrcodeOutlined />
         </Popover>
@@ -94,7 +96,7 @@ const Contest = () => {
         defaultSelectedKeys={["submit"]}
         style={{ borderRadius: 10, marginBottom: 20 }}
         onClick={(item) => {
-          choosePage(setPageContent, item.key);
+          choosePage(setPageContent, item.key, contest_id);
         }}
       />
       {pageContent}

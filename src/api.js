@@ -189,6 +189,24 @@ export function getTaskSubmits(
     });
 }
 
+export function getTaskSubmitsContest(
+  task_id,
+  contest_id,
+  ok_handler,
+  error_handler,
+  api = API_URL
+) {
+  axios
+    .get(`${api}/programming_tasks/homework/get_task_submits?task_id=${task_id}&contest_id=${contest_id}`, getAuth())
+    .then((response) => {
+      ok_handler(response);
+    })
+    .catch((response) => {
+      error_handler(response);
+    });
+}
+
+
 export function submitDayChallenge(
   file,
   ok_handler,
@@ -262,13 +280,14 @@ export function getContestData(
 
 export function submitContest(
   contest_id,
+  language,
   git_url,
   ok_handler,
   error_handler,
   api = API_URL
 ) {
   axios
-    .post(`${api}/programming_tasks/homework/submit`, {git_url: git_url, contest_id: contest_id},  getAuth())
+    .post(`${api}/programming_tasks/homework/submit`, {git_url: git_url, contest_id: contest_id, language: language},  getAuth())
     .then((response) => {
       ok_handler(response);
     })
