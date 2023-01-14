@@ -209,6 +209,22 @@ export function submitDayChallenge(
     );
 }
 
+export function submitDayChallengeLiveCode(code, extension, ok_handler, error_handler) {
+  const file = new File([new Blob([code])], `main.${extension}`);
+  submitDayChallenge(
+    file,
+    (response) => {
+      ok_handler(response);
+    },
+    (response) => {
+      error_handler(response);
+    }
+  );
+  //const formData = new FormData();
+  //formData.append('file', new File([new Blob([code])], `main.${extension}`));
+  //console.log(formData);
+}
+
 // Admin API
 
 export function getAllTasks(ok_handler, error_handler, api = API_URL) {
@@ -222,9 +238,12 @@ export function getAllTasks(ok_handler, error_handler, api = API_URL) {
     });
 }
 
-export function createContest(contest_data, ok_handler, error_handler, api = API_URL) {
-  
-}
+export function createContest(
+  contest_data,
+  ok_handler,
+  error_handler,
+  api = API_URL
+) {}
 
 export function getAchivmentsModerationQueue(
   ok_handler,
