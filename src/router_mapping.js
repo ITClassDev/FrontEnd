@@ -13,7 +13,7 @@ export const router_mapping = {
     "/settings": ["13", 0],
     "/login_to": ["1000", 0],
     "/leaderboard": ["1000", 1],
-    "/test_contest": ["1000", 0],
+    "/contest": ["1000", 0],
     "/profile": ["1000", 1],
     "/create_challenge": ["11", 0]
   };

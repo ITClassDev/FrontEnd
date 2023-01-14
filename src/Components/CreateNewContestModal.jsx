@@ -4,6 +4,9 @@ import { Modal, Space, Typography, Form, Input, Button, Select } from "antd";
 const { Text } = Typography;
 
 const CreateNewContestModal = ({ open, setModalOpened }) => {
+  const createContestHandler = (form_data) => {
+    console.log(form_data);
+  }
   return (
     <Modal
       title="Новый контест"
@@ -17,7 +20,7 @@ const CreateNewContestModal = ({ open, setModalOpened }) => {
         setModalOpened(false);
       }}
     >
-      <Form name="create_contest" className="create-contest-form">
+      <Form name="create_contest" className="create-contest-form" onFinish={createContestHandler}>
         <Form.Item
           name="contest_name"
           rules={[

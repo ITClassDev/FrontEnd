@@ -23,10 +23,7 @@ const SubmitViaGithub = () => {
           <Text>
             Название header файла: <Text code>str_easy.h</Text>
           </Text>
-          <Text type="secondary">
-            Вы передаёте авторские права нам, и мы продадим ваш код майкрософту
-            (чтобы не только код индусов у них был)
-          </Text>
+         
         </Space>
         type="info"
       />

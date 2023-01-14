@@ -209,7 +209,12 @@ export function submitDayChallenge(
     );
 }
 
-export function submitDayChallengeLiveCode(code, extension, ok_handler, error_handler) {
+export function submitDayChallengeLiveCode(
+  code,
+  extension,
+  ok_handler,
+  error_handler
+) {
   const file = new File([new Blob([code])], `main.${extension}`);
   submitDayChallenge(
     file,
@@ -223,6 +228,26 @@ export function submitDayChallengeLiveCode(code, extension, ok_handler, error_ha
   //const formData = new FormData();
   //formData.append('file', new File([new Blob([code])], `main.${extension}`));
   //console.log(formData);
+}
+
+export function getTaskData(task_id, ok_hanler, error_handler, api = API_URL) {
+  axios.get()
+}
+
+export function getContestData(
+  contest_id,
+  ok_handler,
+  error_handler,
+  api = API_URL
+) {
+  axios
+    .get(`${api}/programming_tasks/homework/get?contest_id=${contest_id}`, getAuth())
+    .then((response) => {
+      ok_handler(response);
+    })
+    .catch((response) => {
+      error_handler(response);
+    });
 }
 
 // Admin API

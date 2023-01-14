@@ -6,13 +6,16 @@ import {
   QrcodeOutlined,
 } from "@ant-design/icons";
 import ProgTask from "../Components/ProgTask";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SubmitViaGithub from "../Components/SubmitViaGithub";
 import { FRONTEND_URL } from "../config";
+import { useSearchParams } from "react-router-dom";
+import { getContestData } from "../api";
 
 const { Title } = Typography;
 
 function choosePage(setPage, item) {
+  console.log(item);
   if (item === "submit") setPage(<SubmitViaGithub />);
   else
     setPage(
@@ -27,6 +30,27 @@ function choosePage(setPage, item) {
 }
 
 const Contest = () => {
+  const [contestTitle, SetContestTitle] = useState();
+  const [searchParams] = useSearchParams();
+  const contest_id = searchParams.get("id");
+  useEffect(() => {
+    getContestData(
+      contest_id,
+      (response) => {
+        SetContestTitle(response.data.title);
+        let result = [];
+        response.data.tasks_ids_list.forEach((task) => {
+          result.push({ key: task, label: task, icon: correctTask });
+        });
+        SetMenuTasks([
+          { label: "Submit", key: "submit", icon: <CodeOutlined /> },
+          ...result,
+        ]);
+      },
+      (response) => {}
+    );
+  }, []);
+
   const [pageContent, setPageContent] = useState(<SubmitViaGithub />);
   const correctTask = (
     <Tooltip title="задача сдана">
@@ -38,24 +62,21 @@ const Contest = () => {
       <CloseCircleOutlined style={{ color: "red" }} />
     </Tooltip>
   );
-  const menuTasks = [
+  const [menuTasks, SetMenuTasks] = useState([
     { label: "Submit", key: "submit", icon: <CodeOutlined /> },
-    { label: "itc_hello_str", key: "task-0", icon: correctTask },
-    { label: "task #1", key: "task-1", icon: invalidTask },
-    { label: "task #2", key: "task-2", icon: invalidTask },
-  ];
+  ]);
 
   return (
     <>
       <Title level={3}>
-        Контест - STR EASY{" "}
+        Контест - {contestTitle}{" "}
         <Popover
           overlayInnerStyle={{
             padding: 0,
           }}
           content={<QRCode value={`${FRONTEND_URL}/12`} bordered={false} />}
         >
-          <QrcodeOutlined/>
+          <QrcodeOutlined />
         </Popover>
       </Title>
       <Menu

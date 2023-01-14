@@ -138,7 +138,7 @@ ____) | |  | |  | |  | |    |_|
             }
           />
           <Route
-            path="test_contest"
+            path="contest"
             element={
               <Suspense fallback={<LoadingBar size={24} text="Loading..."/>}>
                 <Contest />
