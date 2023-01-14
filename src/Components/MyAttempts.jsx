@@ -7,21 +7,39 @@ import {
 } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { Tabs } from "antd";
 import { UndoOutlined } from "@ant-design/icons";
+import { getSubmissionDetails } from "../api";
 
-const Expanded = ({columns, submission}) => {
-  console.log(submission.id);
+const Expanded = ({ columns, submission }) => {
+  const [sourceCode, SetSourceCode] = useState("Loading...");
+  const [testsRes, SetTestsRes] = useState();
   useEffect(() => {
-    
-  }, [])
+    getSubmissionDetails(
+      submission.id,
+      (response) => {
+        SetSourceCode(response.data.source);
+        let res = [];
+        response.data.task.tests_results.forEach((element, ind) => {
+          res.push({key: ind, id: ind, status: element.status ? "ОК" : "ERROR", time: element.duration, memory: 122, stdout: element.error_info});
+        });
+        SetTestsRes(res);
+      },
+      (response) => {}
+    );
+  }, []);
   return (
     <>
       <Tabs defaultActiveKey="1">
         <Tabs.TabPane tab="Исходный код" key="1">
-          <SyntaxHighlighter language="cpp" style={a11yDark} showLineNumbers>     
+          <SyntaxHighlighter
+            language="cpp"
+            style={a11yDark}
+            showLineNumbers
+          >
+            {sourceCode}
           </SyntaxHighlighter>
         </Tabs.TabPane>
         <Tabs.TabPane tab="Тесты" key="2">
-          <Table columns={columns} />
+          <Table columns={columns} dataSource={testsRes}/>
         </Tabs.TabPane>
       </Tabs>
     </>
@@ -32,27 +50,6 @@ const MyAttempts = ({ attempts, getSubmissions }) => {
     console.log(resp);
   };
 
-  const [sourceCode, SetSourceCode] = useState("Loading...");
-  const test_source = `#include <iostream>
-using namespace std;
-typedef long long ll;
-
-int main(){
-    ll n, cntr = 0;
-    cin >> n;
-    ll arr[n];
-    for (ll ind = 0; ind < n; ++ind){
-        cin >> arr[ind];
-    }
-    for (ll ind = 1; ind < n; ind += 2){
-        if (ind + 1 == n && n % 2 != 0) break;
-        swap(arr[ind], arr[ind - 1]);
-    }
-    
-    for (ll ind = 0; ind < n; ++ind){
-        cout << arr[ind] << " ";
-    }
-}`;
   const columns = [
     { title: "ID", dataIndex: "id", key: "id" },
     { title: "Дата", dataIndex: "date", key: "date" },
@@ -65,9 +62,7 @@ int main(){
     { title: "Вердикт", dataIndex: "status", key: "status" },
     { title: "Время работы", dataIndex: "time", key: "time" },
     { title: "Используемая память (байт)", dataIndex: "memory", key: "memory" },
-  ];
-  const tests_data = [
-    { key: 1, id: 1, status: "OK", time: "0.001", memory: "1024" },
+    { title: "STDOUT", dataIndex: "stdout", key: "stdout" },
   ];
   return (
     <Card title="Ваши посылки">
@@ -84,7 +79,7 @@ int main(){
         dataSource={attempts}
         expandable={{
           expandedRowRender: (record) => {
-            return <Expanded columns={columns} submission={record}/>;
+            return <Expanded columns={columns_tests} submission={record} />;
           },
           rowExpandable: (record) => true,
         }}

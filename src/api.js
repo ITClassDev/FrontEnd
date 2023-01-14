@@ -261,7 +261,7 @@ export function getSubmissionDetails(
       `${api}/programming_tasks/submission/details?submission_id=${submission_id}`
     )
     .then((response) => {
-      ok_handler;
+      ok_handler(response);
     })
     .catch((response) => {
       error_handler(response);
