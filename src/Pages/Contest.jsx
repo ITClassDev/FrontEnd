@@ -20,7 +20,6 @@ function choosePage(setPage, item, contest_id) {
     getTaskData(
       item,
       (response) => {
-        console.log(response.data);
         setPage(
           <ProgTask
             title={response.data.title}
@@ -49,7 +48,6 @@ const Contest = () => {
       (response) => {
         SetContestTitle(response.data.title);
         let result = [];
-        console.log(response.data);
         response.data.tasks_ids_list.forEach((task) => {
           result.push({ key: task, label: task, icon: correctTask });
         });

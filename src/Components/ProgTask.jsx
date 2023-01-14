@@ -3,7 +3,11 @@ import { Card, Typography } from "antd";
 import { Descriptions, Table } from "antd";
 import SendTask from "./SendTask";
 import MyAttempts from "./MyAttempts";
-import { getTaskSubmits, convertDateAndTime, getTaskSubmitsContest } from "../api";
+import {
+  getTaskSubmits,
+  convertDateAndTime,
+  getTaskSubmitsContest,
+} from "../api";
 import Parser from "html-react-parser";
 
 const { Text } = Typography;
@@ -15,7 +19,7 @@ const ProgTask = ({
   time_limit,
   memory_limit,
   task_id,
-  contest_id=null,
+  contest_id = null,
   can_submit = true,
 }) => {
   const getSubmissions = () => {
@@ -50,7 +54,6 @@ const ProgTask = ({
     );
   };
 
-
   const getSubmissionsContest = () => {
     getTaskSubmitsContest(
       task_id,
@@ -62,9 +65,7 @@ const ProgTask = ({
             key: submission.id,
             id: submission.id,
             date: convertDateAndTime(submission.send_date),
-            lang: { py: "Python 3.10.6", cpp: "GCC 10.2.1" }[
-              submission.source.split(".").at(-1)
-            ],
+            lang: "C++",
             status: submission.solved ? (
               <Text code type="success">
                 OK
@@ -117,7 +118,14 @@ const ProgTask = ({
       </Card>
 
       {can_submit && <SendTask task_id={1} getSubmissions={getSubmissions} />}
-      {can_submit ? <MyAttempts attempts={attempts} getSubmissions={getSubmissions} /> : <MyAttempts attempts={attempts} getSubmissions={getSubmissionsContest} />}
+      {can_submit ? (
+        <MyAttempts attempts={attempts} getSubmissions={getSubmissions} />
+      ) : (
+        <MyAttempts
+          attempts={attempts}
+          getSubmissions={getSubmissionsContest}
+        />
+      )}
     </>
   );
   /* Reactions
