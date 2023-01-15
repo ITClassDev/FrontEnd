@@ -59,8 +59,10 @@ const Contest = () => {
       (response) => {}
     );
   }, []);
-  
-  const [pageContent, setPageContent] = useState(<SubmitViaGithub  contest_id={searchParams.get("id")}/>);
+
+  const [pageContent, setPageContent] = useState(
+    <SubmitViaGithub contest_id={searchParams.get("id")} />
+  );
   const correctTask = (
     <Tooltip title="задача сдана">
       <CheckCircleOutlined style={{ color: "green" }} />

@@ -19,7 +19,7 @@ const SubmitViaGithub = ({ contest_id }) => {
     submitContest(
       contest_id,
       form_data.language,
-      form_data.github_repo,
+      `https://github.com/${form_data.github_repo}`,
       (response) => {
         console.log(response);
       },

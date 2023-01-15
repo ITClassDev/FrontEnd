@@ -1,0 +1,13 @@
+.wrapper {
+    padding-left: 20%;
+    padding-right: 20%;
+}
+
+@media (max-width: 900px) {
+    .wrapper {
+        padding-left: 10%;
+        padding-right: 10%;
+    }
+}
+  
+

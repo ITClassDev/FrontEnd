@@ -24,6 +24,7 @@ const OAuth = lazy(() => import("./Pages/OAuth"));
 const Settings = lazy(() => import("./Pages/Settings"));
 const Apps = lazy(() => import("./Pages/Apps"));
 const StatisticPage = lazy(() => import("./Pages/Statistic"));
+const Poll = lazy(() => import("./Pages/Poll"));
 
 export default function App() {
   const [userData, setUserData] = useState({ status: 0 });
@@ -68,7 +69,7 @@ ____) | |  | |  | |  | |    |_|
           <Route
             index
             element={
-              <Suspense fallback={<LoadingBar size={24} text="Loading..."/>}>
+              <Suspense fallback={<LoadingBar size={24} text="Loading..." />}>
                 <Home user={userData} />
               </Suspense>
             }
@@ -76,7 +77,7 @@ ____) | |  | |  | |  | |    |_|
           <Route
             path="events"
             element={
-              <Suspense fallback={<LoadingBar size={24} text="Loading..."/>}>
+              <Suspense fallback={<LoadingBar size={24} text="Loading..." />}>
                 <Events />
               </Suspense>
             }
@@ -84,7 +85,7 @@ ____) | |  | |  | |  | |    |_|
           <Route
             path="achivments"
             element={
-              <Suspense fallback={<LoadingBar size={24} text="Loading..."/>}>
+              <Suspense fallback={<LoadingBar size={24} text="Loading..." />}>
                 <Achivments />
               </Suspense>
             }
@@ -92,7 +93,7 @@ ____) | |  | |  | |  | |    |_|
           <Route
             path="notifications"
             element={
-              <Suspense fallback={<LoadingBar size={24} text="Loading..."/>}>
+              <Suspense fallback={<LoadingBar size={24} text="Loading..." />}>
                 <Notifications />
               </Suspense>
             }
@@ -100,7 +101,7 @@ ____) | |  | |  | |  | |    |_|
           <Route
             path="docs"
             element={
-              <Suspense fallback={<LoadingBar size={24} text="Loading..."/>}>
+              <Suspense fallback={<LoadingBar size={24} text="Loading..." />}>
                 <ApiDocs />
               </Suspense>
             }
@@ -108,7 +109,7 @@ ____) | |  | |  | |  | |    |_|
           <Route
             path="challenge"
             element={
-              <Suspense fallback={<LoadingBar size={24} text="Loading..."/>}>
+              <Suspense fallback={<LoadingBar size={24} text="Loading..." />}>
                 <Challenge />
               </Suspense>
             }
@@ -116,7 +117,7 @@ ____) | |  | |  | |  | |    |_|
           <Route
             path="apps"
             element={
-              <Suspense fallback={<LoadingBar size={24} text="Loading..."/>}>
+              <Suspense fallback={<LoadingBar size={24} text="Loading..." />}>
                 <Apps />
               </Suspense>
             }
@@ -124,7 +125,7 @@ ____) | |  | |  | |  | |    |_|
           <Route
             path="homework"
             element={
-              <Suspense fallback={<LoadingBar size={24} text="Loading..."/>}>
+              <Suspense fallback={<LoadingBar size={24} text="Loading..." />}>
                 <HomeWork />
               </Suspense>
             }
@@ -132,7 +133,7 @@ ____) | |  | |  | |  | |    |_|
           <Route
             path="admin"
             element={
-              <Suspense fallback={<LoadingBar size={24} text="Loading..."/>}>
+              <Suspense fallback={<LoadingBar size={24} text="Loading..." />}>
                 <Admin user={userData} />
               </Suspense>
             }
@@ -140,7 +141,7 @@ ____) | |  | |  | |  | |    |_|
           <Route
             path="contest"
             element={
-              <Suspense fallback={<LoadingBar size={24} text="Loading..."/>}>
+              <Suspense fallback={<LoadingBar size={24} text="Loading..." />}>
                 <Contest />
               </Suspense>
             }
@@ -148,7 +149,7 @@ ____) | |  | |  | |  | |    |_|
           <Route
             path="profile"
             element={
-              <Suspense fallback={<LoadingBar size={24} text="Loading..."/>}>
+              <Suspense fallback={<LoadingBar size={24} text="Loading..." />}>
                 <ViewProfile />
               </Suspense>
             }
@@ -156,7 +157,7 @@ ____) | |  | |  | |  | |    |_|
           <Route
             path="stats"
             element={
-              <Suspense fallback={<LoadingBar size={24} text="Loading..."/>}>
+              <Suspense fallback={<LoadingBar size={24} text="Loading..." />}>
                 <StatisticPage />
               </Suspense>
             }
@@ -164,7 +165,7 @@ ____) | |  | |  | |  | |    |_|
           <Route
             path="leaderboard"
             element={
-              <Suspense fallback={<LoadingBar size={24} text="Loading..."/>}>
+              <Suspense fallback={<LoadingBar size={24} text="Loading..." />}>
                 <LeaderBoard />
               </Suspense>
             }
@@ -172,7 +173,7 @@ ____) | |  | |  | |  | |    |_|
           <Route
             path="login_to"
             element={
-              <Suspense fallback={<LoadingBar size={24} text="Loading..."/>}>
+              <Suspense fallback={<LoadingBar size={24} text="Loading..." />}>
                 <OAuth />
               </Suspense>
             }
@@ -180,12 +181,16 @@ ____) | |  | |  | |  | |    |_|
           <Route
             path="settings"
             element={
-              <Suspense fallback={<LoadingBar size={24} text="Loading..."/>}>
+              <Suspense fallback={<LoadingBar size={24} text="Loading..." />}>
                 <Settings user={userData} />
               </Suspense>
             }
           />
         </Route>
+        <Route
+          path="/poll"
+          element={<Suspense fallback={<>Loading</>}><Poll/></Suspense>}
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
