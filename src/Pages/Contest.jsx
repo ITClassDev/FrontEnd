@@ -14,34 +14,35 @@ import { getContestData, getTaskData } from "../api";
 
 const { Title } = Typography;
 
-function choosePage(setPage, item, contest_id) {
-  if (item === "submit") setPage(<SubmitViaGithub />);
-  else {
-    getTaskData(
-      item,
-      (response) => {
-        setPage(
-          <ProgTask
-            title={response.data.title}
-            desc={response.data.text}
-            time_limit={response.data.time_limit}
-            memory_limit={response.data.memory_limit}
-            can_submit={false}
-            task_id={response.data.id}
-            tests={response.data.tests}
-            contest_id={contest_id}
-          />
-        );
-      },
-      () => {}
-    );
-  }
-}
-
 const Contest = () => {
   const [contestTitle, SetContestTitle] = useState();
   const [searchParams] = useSearchParams();
   const contest_id = searchParams.get("id");
+  function choosePage(setPage, item, contest_id) {
+    if (item === "submit") setPage(<SubmitViaGithub contest_id={contest_id} />);
+    else {
+      getTaskData(
+        item,
+        (response) => {
+          setPage(
+            <ProgTask
+              title={response.data.title}
+              desc={response.data.text}
+              time_limit={response.data.time_limit}
+              memory_limit={response.data.memory_limit}
+              can_submit={false}
+              task_id={response.data.id}
+              tests={response.data.tests}
+              contest_id={contest_id}
+            />
+          );
+        },
+        () => {}
+      );
+    }
+  }
+
+  
   useEffect(() => {
     getContestData(
       contest_id,
@@ -61,7 +62,7 @@ const Contest = () => {
   }, []);
 
   const [pageContent, setPageContent] = useState(
-    <SubmitViaGithub contest_id={searchParams.get("id")} />
+    <SubmitViaGithub contest_id={contest_id} />
   );
   const correctTask = (
     <Tooltip title="задача сдана">
