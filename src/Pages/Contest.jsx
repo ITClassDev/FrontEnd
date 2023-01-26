@@ -42,7 +42,6 @@ const Contest = () => {
     }
   }
 
-  
   useEffect(() => {
     getContestData(
       contest_id,
