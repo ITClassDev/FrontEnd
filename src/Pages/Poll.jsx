@@ -52,9 +52,11 @@ const OneLineText = ({ ind, question }) => {
 const MultilineText = ({ ind, question }) => {};
 
 const Poll = () => {
+  // Handler
   const formSubmitHandler = (form_data) => {
     console.log(form_data);
   };
+  // Static test; loaded from backend api
   const questions = [
     {
       text: "Путинцев - это: ",
