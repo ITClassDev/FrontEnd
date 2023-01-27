@@ -20,10 +20,10 @@ const { TextArea } = Input;
 
 const QuestionBase = ({ ind, question, body }) => {
   return (
-    <Card title="" style={{ marginTop: 20 }} key={ind}>
+    <Card title={question.text} style={{ marginTop: 20 }} key={ind}>
       <Space direction="vertical" style={{ width: "100%" }}>
-        <Text strong>{question.text}</Text>
         {"image" in question && <Image src={question.image} width={"40%"}/>}
+        {"description" in question && <Text>{question.description}</Text>}
         <Form.Item name={`qustion_${ind}`}>{body}</Form.Item>
       </Space>
     </Card>
@@ -122,6 +122,11 @@ const Poll = () => {
       type: 2,
     },
     {
+      text: "Description",
+      type: 2,
+      description: "Extra information for this question"
+    },
+    {
       text: "Checkbox select",
       type: 3,
       variants: [
@@ -149,7 +154,7 @@ const Poll = () => {
   return (
     <Layout>
       <div className="wrapper">
-        <Card title="Опрос от Путинцева">Этот опрос составил Путинцев</Card>
+        <Card title="Опрос от Путинцева">Этот опрос составил Путинцев; TODO Add statistic</Card>
         <Form
           name="answers_page"
           autoComplete="off"
