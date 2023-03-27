@@ -13,36 +13,34 @@ const ApiDocs = () => {
             <Title level={3}>Документация для разработчиков</Title>
             <Space direction="vertical">
                 <Paragraph>
-                    <Text strong>ШТП</Text><Text> - построено на архитуктуре REST API. Т.е. у нас есть два независимых(software) сервера. Один из них отвечает за BackEnd, а другой за FrontEnd. Они работают независимо и используют разные технологии. Если интересно, то можете чекнуть нашу организацию на GitHub и поставить звёздочку.</Text>
+                    <Text strong>ШТП</Text><Text> построено на архитуктуре RESTful API. Для работы <Text strong>ШТП</Text> используется два независимых(software) сервера(физически один). Один из них отвечает за Backend, а другой за Frontend. Сервера работают независимо и используют разные технологии. Кроме того, локально запущен tcp сервер сервиса для <Text strong>ShTPChecker</Text> - системы автоматизированной проверки задач по программированию в изолированной среде.</Text>
                 </Paragraph>
                 <Paragraph>
-                    <Text>В этой документации мы опишем процесс взаимодействия с нашим API:</Text>
+                    <Text>В документации вы найдёте:</Text>
                     <ul>
-                        <li>Анонимные эндпоинты</li>
-                        <li>Авторизация</li>
-                        <li>Работа с приватными эндпоинтами</li>
-                        <li>Выбор сериализации</li>
-                        <li>OAuth + SSO</li>
-                        <li>Наша библиотека для Python</li>
-                        <li>Наши бэкдоры</li>
+                        <li>Работа с анонимными эндпоинтами</li>
+                        <li>Авторизация и приватные эндпоинты</li>
+                        <li>Выбор protobuf/json api сериализации</li>
+                        <li>ShTP OAuth</li>
+                        <li>Враппер над ShTP API для Python</li>
                     </ul>
                 </Paragraph>
-                <Title level={4}>База</Title>
+                <Title level={4}>Основная информация</Title>
                 <Paragraph>
-                    У нас открытый API и вы можете писать свои клиенты под него. Наполовину закрытым является часть API для получения возможности интеграции с OAuth, для этого вам нужно создать специальное "приложение", после верификации которого вы получите доступ к OAuth. Подробнее это описано в секции OAuth.
+                <Text strong>ШТП</Text><Text> имеет открытый API.</Text>
                 </Paragraph>
                 <Paragraph>
                     <Space direction="vertical">
-                        <Text strong>API URL: <Text code>{API_URL}</Text></Text>
-                        <Text strong>Methods: <Text code>{"[GET, POST]"}</Text></Text>
+                        <Text strong>API: <Text code>{API_URL}</Text></Text>
+                        <Text strong>Методы: <Text code>{"[GET, POST, PUT, PATCH]"}</Text></Text>
                     </Space>
                 </Paragraph>
                 <Title level={4}>Анонимные эндпоиниты</Title>
                 <Paragraph>
-                    Анонимные эндпоинты - эндпоинты нашего API, который не требуют авторизацию со стороны клиента, т.е. доступ к этим эндпоинтам есть у всех. Самый простейший из таких - <Text code>users/info</Text>.
+                    Анонимные эндпоинты - эндпоинты ShTP API, которые не требуют авторизацию со стороны клиента, то есть доступ к этим эндпоинтам есть у всех. Самый простейший из таких - <Text code>users/info</Text>.
                 </Paragraph>
                 <Paragraph>
-                    Пример использования(Python + Requests)
+                    Пример использования(Python + requests)
                     <SyntaxHighlighter language="python" style={a11yDark}>{users_info_base}</SyntaxHighlighter>
                 </Paragraph>
 

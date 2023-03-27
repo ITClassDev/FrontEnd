@@ -30,6 +30,7 @@ const Achivments = () => {
             system_achivments={resp.data.achievements.system}
           />
         );
+        
       },
       () => {}
     );

@@ -12,7 +12,7 @@ const Events = () => {
         defaultActiveKey="1"
         items={[
           {
-            label: "Обучение (get from profil.mos.ru graphql)",
+            label: "Обучение (взято с profil.mos.ru)",
             key: "1",
             children: <StudyEvents/>,
           },

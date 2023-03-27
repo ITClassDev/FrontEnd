@@ -64,20 +64,25 @@ const SystemAchivmentsList = ({ system_achivments }) => {
   };
   //      <Text strong style={{marginBottom: 30}}>Получено {system_achivments.length}/{ACHIVMENTS_AVAILABLE.length}</Text>
 
-  return (
-    <>
-      <Row>
-        {system_achivments.map((achive) => (
-          <SystemAchivment
-            title={ACHIVMENTS_AVAILABLE[achive].title}
-            desc={ACHIVMENTS_AVAILABLE[achive].desc}
-            medal={MEDALS[ACHIVMENTS_AVAILABLE[achive].type]}
-            key={achive}
-          />
-        ))}
-      </Row>
-    </>
-  );
+  if (system_achivments){
+    return (
+      <>
+        <Row>
+          {system_achivments.map((achive) => (
+            <SystemAchivment
+              title={ACHIVMENTS_AVAILABLE[achive].title}
+              desc={ACHIVMENTS_AVAILABLE[achive].desc}
+              medal={MEDALS[ACHIVMENTS_AVAILABLE[achive].type]}
+              key={achive}
+            />
+          ))}
+        </Row>
+      </>
+    );
+  }else{
+    return <>У вас пока нет системных достижений</>;
+  }
+  
 };
 
 export default SystemAchivmentsList;

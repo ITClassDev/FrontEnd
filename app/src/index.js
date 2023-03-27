@@ -38,7 +38,7 @@ Welcome to,
 \___ \|  __  |  | |  |  ___/| |
 ____) | |  | |  | |  | |    |_|
 |____/|_|  |_|  |_|  |_|    (_)
-                               
+                              
 `);
     getUser(
       (resp) => {
@@ -189,7 +189,7 @@ ____) | |  | |  | |  | |    |_|
         </Route>
         <Route
           path="/poll"
-          element={<Suspense fallback={<>Loading</>}><Poll/></Suspense>}
+          element={<Suspense fallback={<>Loading</>}><Poll /></Suspense>}
         />
         <Route path="*" element={<NotFound />} />
       </Routes>
