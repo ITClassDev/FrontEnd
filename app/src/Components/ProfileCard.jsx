@@ -177,19 +177,22 @@ const ProfileCard = ({
         </Row>
       </Card>
       {user.userRole === 0 && (
-        <Card title="Информация" bordered={false} style={{ marginTop: 20 }}>
-          <Terminal
-            username={user.firstName}
-            user_class={user["learningClass"]}
-            user_rating={user.rating}
-            user_tech_stack={user["techStack"]}
-          />
-        </Card>
+        <>
+          <Card title="Информация" bordered={false} style={{ marginTop: 20 }}>
+            <Terminal
+              username={user.firstName}
+              user_class={user["learningClass"]}
+              user_rating={user.rating}
+              user_tech_stack={user["techStack"]}
+            />
+          </Card>
+          <Card title="График" bordered={false} style={{ marginTop: 20 }}>
+            <Calendar locale={locale} dateCellRender={dateCellRender} />
+          </Card>
+        </>
       )}
-      <Card title="График" bordered={false} style={{ marginTop: 20 }}>
-        <Calendar locale={locale} dateCellRender={dateCellRender} />
-      </Card>
     </>
+
   );
 };
 

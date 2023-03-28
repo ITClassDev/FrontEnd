@@ -5,6 +5,53 @@ export function backendError() {
   console.warn("Backend is down; Contact ShTP admins");
 }
 
+
+export function API({endpoint, method = "get", data = {}, auth = true, ok=null, err=null, message={show: false, api: null, ok: "ОК", err: "Err"}, api_url = API_URL}) {
+  /*
+    Global wrapper
+    Function to work with ShTP api
+    Handle tasks as: GET/POST/PATCH/PUT methods
+    Handle NET_ERROR(offline or backend down) - TODO
+    Show message
+    Handle custom ok & error functions
+  */
+ 
+  let request_params = {
+    'headers': {},
+  };
+  
+  
+  if (auth) request_params['headers'] = `Authorization: Bearer ${localStorage.getItem("user")}`;
+  axios({
+    method: method,
+    url: `${api_url}${endpoint}`,
+    data: data,
+    headers: request_params.headers
+  }).then((response) => {
+    // Show success message
+    if (message.show)  message.api.open({
+      type: "success",
+      content: message.ok,
+    });
+    // If ok handler presented; execute it
+    
+    if (ok) ok(response.response);
+  }).catch((response) => {
+    // Show error message
+    console.error(response.response);
+    if (message.show)  message.api.open({
+      type: "error",
+      content: `${message.err}: ${response.response.data.detail}`,
+    });
+    // If error handler presented; execute it
+    if (err) err(response.response);
+  });
+
+
+}
+
+// ALL CODE BELOW THIS COMMENT WILL BE LEGACY AFTER SOME TIME
+
 // FOR AUTHED USER
 export function getUser(ok_handler, error_handler, api = API_URL) {
   axios
@@ -35,6 +82,24 @@ export function updateSocialLinks(
       error_handler(response);
     });
 }
+
+export function updatePassword(
+  password,
+  ok_hanler,
+  error_handler,
+  api = API_URL
+) {
+  axios
+    .patch(`${api}/users/update/password`, password, getAuth())
+    .then((response) => {
+      ok_hanler(response);
+    })
+    .catch((response) => {
+      error_handler(response);
+    });
+}
+
+
 
 export function getUserAchievements(ok_handler, error_handler, api = API_URL) {
   axios
@@ -338,7 +403,7 @@ export function createContest(
   ok_handler,
   error_handler,
   api = API_URL
-) {}
+) { }
 
 export function getAchivmentsModerationQueue(
   ok_handler,

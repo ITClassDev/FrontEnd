@@ -23,7 +23,10 @@ import {
   GlobalOutlined,
 } from "@ant-design/icons";
 import { STORAGE } from "../config";
-import { updateSocialLinks } from "../api";
+import { updateSocialLinks, updatePassword, API } from "../api";
+
+// FIXIT; for dev purpose
+window.API = API;
 
 const { Title, Text } = Typography;
 
@@ -73,6 +76,11 @@ const Settings = ({ user }) => {
       }
     );
   };
+  const updatePasswordFormHandler = (password) => {
+    let message_config = {show: true, api: messageApi, ok: "Пароль обновлён", err: "Ошибка"};
+    API({"endpoint": "/users/update/password", method: "patch", data: password, message: {show: true, api: messageApi, ok: "Пароль обновлён", err: "Ошибка"}});
+  };
+
   let tech_stack_default;
   if (user.user["techStack"] !== null) {
     tech_stack_default = user.user.techStack.split(",");
@@ -82,7 +90,6 @@ const Settings = ({ user }) => {
     <>
       {contextHolder}
       <Title level={3}>Настройки аккаунта {user.id}</Title>
-
       <Row gutter={[10, 10]}>
         <Col xs={24} xl={12}>
           <Card title={"Социальные ссылки"} style={{ height: "100%" }}>
@@ -152,24 +159,43 @@ const Settings = ({ user }) => {
                 remember: true,
               }}
               autoComplete="off"
+              onFinish={updatePasswordFormHandler}
             >
               <Form.Item name="current_password">
-                <Input
+                <Input.Password
                   addonBefore={<LockOutlined />}
                   placeholder="Текущий пароль"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Введите текущий пароль!',
+                    },
+                  ]}
                 />
               </Form.Item>
 
               <Form.Item name="new_password">
-                <Input
+                <Input.Password
                   addonBefore={<LockOutlined />}
                   placeholder="Новый пароль"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Введите новый пароль!',
+                    },
+                  ]}
                 />
               </Form.Item>
               <Form.Item name="confirm_password">
-                <Input
+                <Input.Password
                   addonBefore={<LockOutlined />}
                   placeholder="Новый пароль ещё раз"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Подтвердите свой новый пароль!',
+                    },
+                  ]}
                 />
               </Form.Item>
 
