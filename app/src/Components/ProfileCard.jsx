@@ -10,7 +10,7 @@ import {
   Calendar,
   Badge,
   Popover,
-  Tag,
+  Tag
 } from "antd";
 import { GithubOutlined, GlobalOutlined } from "@ant-design/icons";
 import { STORAGE } from "../config";
@@ -110,7 +110,7 @@ const ProfileCard = ({
       () => {
         setUserAbout(new_text);
       },
-      () => {}
+      () => { }
     );
   }
   const dateCellRender = (value) => {
@@ -170,6 +170,9 @@ const ProfileCard = ({
                 </Popover>
               ))}
             </Row>
+            {(user["techStack"] && user.userRole !== 0) && <li>
+              <Row gutter={[5, 5]}>{user["techStack"].split(",").map((item, id) => (<Tag key={id}>{item}</Tag>))}</Row>
+            </li>}
           </Col>
         </Row>
       </Card>

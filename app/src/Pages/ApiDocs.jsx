@@ -27,7 +27,7 @@ const ApiDocs = () => {
                 </Paragraph>
                 <Title level={4}>Основная информация</Title>
                 <Paragraph>
-                <Text strong>ШТП</Text><Text> имеет открытый API.</Text>
+                    <Text strong>ШТП</Text><Text> имеет открытый API.</Text>
                 </Paragraph>
                 <Paragraph>
                     <Space direction="vertical">
@@ -65,10 +65,10 @@ const ApiDocs = () => {
 
                 <Paragraph>
                     Мы реализовали систему подобную OAuth. На следующем изображении показана схема аутентификации через ШТП на кастомном ресурсе.
-                    <Image src="https://i.imgur.com/8hBttWR_d.webp?maxwidth=760&fidelity=grand"/>
+                    <Image src="https://i.imgur.com/8hBttWR_d.webp?maxwidth=760&fidelity=grand" />
                 </Paragraph>
                 <Paragraph>
-                    
+
                 </Paragraph>
             </Space>
         </>
