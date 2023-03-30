@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Tabs, Typography } from "antd";
 import AchivmentsList from "../Components/AchivmentsList";
-import { getUserAchievements } from "../api";
+import { API } from "../api";
 import { LoadingBar } from "../Components/Loading";
 import { PlusOutlined } from "@ant-design/icons";
 import AddAchivment from "../Components/AddAchivment";
@@ -20,20 +20,20 @@ const Achivments = () => {
     <LoadingBar align="center" size={24} />
   );
   useEffect(() => {
-    getUserAchievements(
-      (resp) => {
-        setAchivmentsBlock(
-          <AchivmentsList achivments={resp.data.achievements.base} />
-        );
+
+    API({
+      endpoint: "/achievements/get_my", ok: (resp) => {
         setSystemAchievementsBlock(
           <SystemAchivmentsList
             system_achivments={resp.data.achievements.system}
-          />
-        );
-        
-      },
-      () => {}
-    );
+          />)
+          setAchivmentsBlock(
+            <AchivmentsList achivments={resp.data.achievements.base} />
+          );
+  
+
+      }});
+
   }, []);
   const tabs = [
     { label: "Олимпиады & Конкурсы", key: "item-1", children: achivmentsBlock },

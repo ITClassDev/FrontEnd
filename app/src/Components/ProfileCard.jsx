@@ -14,7 +14,7 @@ import {
 } from "antd";
 import { GithubOutlined, GlobalOutlined } from "@ant-design/icons";
 import { STORAGE } from "../config";
-import { updateUserAbout } from "../api";
+import { API } from "../api";
 import Terminal from "./Terminal";
 import "dayjs/locale/ru";
 import locale from "antd/es/date-picker/locale/ru_RU";
@@ -104,15 +104,6 @@ const ProfileCard = ({
     ],
   });
 
-  function setProfileAboutText(new_text) {
-    updateUserAbout(
-      new_text,
-      () => {
-        setUserAbout(new_text);
-      },
-      () => { }
-    );
-  }
   const dateCellRender = (value) => {
     const date_string = value.$d.toDateString();
     if (date_string in timelineEvents) {
@@ -127,7 +118,7 @@ const ProfileCard = ({
       );
     }
   };
-  if (editable) editable = { onChange: setProfileAboutText };
+  if (editable) editable = { onChange: (new_text) => API({ endpoint: "/users/update/about", method: "patch", data: { about_text: new_text }, ok: (resp) => { setUserAbout(resp.data.new_about); } }) };
 
   return (
     <>

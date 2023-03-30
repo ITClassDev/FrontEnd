@@ -150,7 +150,8 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
-  useEffect(() => {
+  useEffect(() => { // FIXIT Make light request to optimize bandwith usage
+    //console.log("[layout] Get user");
     getUser(
       (resp) => {
         setUserData({ status: 1, user: resp.data.user });
@@ -160,7 +161,7 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
       } // on token expired
     );
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location]);
+  }, [location.pathname]);
 
   const openLogin = () => {
     openLoginModal(true);

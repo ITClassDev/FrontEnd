@@ -6,7 +6,7 @@ export function backendError() {
 }
 
 
-export function API({endpoint, method = "get", data = {}, auth = true, ok=null, err=null, message={show: false, api: null, ok: "ОК", err: "Err"}, api_url = API_URL}) {
+export function API({ endpoint, method = "get", data = {}, auth = true, ok = null, err = null, message = { show: false, api: null, ok: "ОК", err: "Err" }, api_url = API_URL }) {
   /*
     Global wrapper
     Function to work with ShTP api
@@ -15,12 +15,12 @@ export function API({endpoint, method = "get", data = {}, auth = true, ok=null, 
     Show message
     Handle custom ok & error functions
   */
- 
+
   let request_params = {
     'headers': {},
   };
-  
-  
+
+
   if (auth) request_params['headers'] = `Authorization: Bearer ${localStorage.getItem("user")}`;
   axios({
     method: method,
@@ -29,22 +29,27 @@ export function API({endpoint, method = "get", data = {}, auth = true, ok=null, 
     headers: request_params.headers
   }).then((response) => {
     // Show success message
-    if (message.show)  message.api.open({
+    if (message.show) message.api.open({
       type: "success",
       content: message.ok,
     });
     // If ok handler presented; execute it
-    
-    if (ok) ok(response.response);
+
+    if (ok) ok(response);
   }).catch((response) => {
     // Show error message
-    console.error(response.response);
-    if (message.show)  message.api.open({
-      type: "error",
-      content: `${message.err}: ${response.response.data.detail}`,
-    });
-    // If error handler presented; execute it
+    if (response.code === "ERR_NETWORK") { // Can't connect to backend  (API problem or internet problem)
+      console.log("Backend down");
+      alert("Проверьте подключение к интернету, если проблема не пропадёт, значит ShTP Backend не работает!");
+    } else {
+      if (message.show) message.api.open({
+        type: "error",
+        content: `${message.err}: ${response.response.data.detail}`,
+      });
+      // If error handler presented; execute it
+    }
     if (err) err(response.response);
+
   });
 
 
@@ -67,70 +72,6 @@ export function getUser(ok_handler, error_handler, api = API_URL) {
     });
 }
 
-export function updateSocialLinks(
-  social_links,
-  ok_hanler,
-  error_handler,
-  api = API_URL
-) {
-  axios
-    .patch(`${api}/users/update/social`, social_links, getAuth())
-    .then((response) => {
-      ok_hanler(response);
-    })
-    .catch((response) => {
-      error_handler(response);
-    });
-}
-
-export function updatePassword(
-  password,
-  ok_hanler,
-  error_handler,
-  api = API_URL
-) {
-  axios
-    .patch(`${api}/users/update/password`, password, getAuth())
-    .then((response) => {
-      ok_hanler(response);
-    })
-    .catch((response) => {
-      error_handler(response);
-    });
-}
-
-
-
-export function getUserAchievements(ok_handler, error_handler, api = API_URL) {
-  axios
-    .get(`${api}/achievements/get_my`, getAuth())
-    .then((response) => {
-      ok_handler(response);
-    })
-    .catch((response) => {
-      error_handler(response);
-    });
-}
-
-export function updateUserAbout(
-  new_about,
-  ok_handler,
-  error_handler,
-  api = API_URL
-) {
-  axios
-    .patch(
-      `${api}/users/update_about_text`,
-      { about_text: new_about },
-      getAuth()
-    )
-    .then((response) => {
-      ok_handler(response);
-    })
-    .catch((response) => {
-      error_handler(response);
-    });
-}
 
 export function provideAccessToApp(
   app_id,

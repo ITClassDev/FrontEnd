@@ -23,7 +23,7 @@ import {
   GlobalOutlined,
 } from "@ant-design/icons";
 import { STORAGE } from "../config";
-import { updateSocialLinks, updatePassword, API } from "../api";
+import { API } from "../api";
 
 // FIXIT; for dev purpose
 window.API = API;
@@ -59,28 +59,6 @@ const Settings = ({ user }) => {
     { value: "Apache", label: "Apache" },
   ];
   const [messageApi, contextHolder] = message.useMessage();
-  const updateSocialLinksFormHandler = (social_links) => {
-    updateSocialLinks(
-      social_links,
-      (response) => {
-        messageApi.open({
-          type: "success",
-          content: "Социальные ссылки успешно обновлены!",
-        });
-      },
-      (response) => {
-        messageApi.open({
-          type: "error",
-          content: "Ошибка!",
-        });
-      }
-    );
-  };
-  const updatePasswordFormHandler = (password) => {
-    let message_config = {show: true, api: messageApi, ok: "Пароль обновлён", err: "Ошибка"};
-    API({"endpoint": "/users/update/password", method: "patch", data: password, message: {show: true, api: messageApi, ok: "Пароль обновлён", err: "Ошибка"}});
-  };
-
   let tech_stack_default;
   if (user.user["techStack"] !== null) {
     tech_stack_default = user.user.techStack.split(",");
@@ -96,7 +74,7 @@ const Settings = ({ user }) => {
             <Form
               name="social_links"
               autoComplete="off"
-              onFinish={updateSocialLinksFormHandler}
+              onFinish={(social_links) => { API({endpoint: "/users/update/social", method: "patch", data: social_links, message: { show: true, api: messageApi, ok: "Социальные ссылки успешно обновлены!", err: "Ошибка" }}) }}
               initialValues={{
                 github: user.user.userGithub,
                 telegram: user.user.userTelegram,
@@ -159,7 +137,7 @@ const Settings = ({ user }) => {
                 remember: true,
               }}
               autoComplete="off"
-              onFinish={updatePasswordFormHandler}
+              onFinish={(password) => { API({ endpoint: "/users/update/password", method: "patch", data: password, message: { show: true, api: messageApi, ok: "Пароль обновлён", err: "Ошибка" } }); }}
             >
               <Form.Item name="current_password">
                 <Input.Password
@@ -215,10 +193,10 @@ const Settings = ({ user }) => {
                 remember: true,
               }}
               autoComplete="off"
+              layout="vertical"
             >
-              <Form.Item name="about">
+              <Form.Item name="about" label="О себе">
                 <Space direction="vertical" style={{ width: "100%" }}>
-                  <Text strong>Bio</Text>
                   <Input
                     defaultValue={user.user.userAboutText}
                     addonBefore={<InfoCircleOutlined />}
@@ -227,9 +205,8 @@ const Settings = ({ user }) => {
                 </Space>
               </Form.Item>
 
-              <Form.Item name="avatar">
+              <Form.Item name="avatar" label="Аватар">
                 <Space direction="vertical" style={{ width: "100%" }}>
-                  <Text strong>Аватар</Text>
                   <Upload
                     name="avatar"
                     listType="picture-card"
@@ -263,6 +240,7 @@ const Settings = ({ user }) => {
               initialValues={{ tech_stack: tech_stack_default }}
               autoComplete="off"
               layout="vertical"
+              onFinish={(new_tech_stack) => { API({ endpoint: "/users/update/tech_stack", method: "patch", data: new_tech_stack, message: { show: true, api: messageApi, ok: "Стэк технологий успешно обновлён!", err: "Ошибка" } }); }}
             >
               <Form.Item name="tech_stack" label="Технологии">
                 <Select

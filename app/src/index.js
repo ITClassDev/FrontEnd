@@ -6,7 +6,7 @@ import { Route, BrowserRouter, Routes } from "react-router-dom";
 import BaseLayout from "./Components/Layout";
 import LoadingBar from "./Components/Loading";
 
-import { getUser } from "./api";
+import { API } from "./api";
 
 const Home = lazy(() => import("./Pages/Home"));
 const Events = lazy(() => import("./Pages/Events"));
@@ -30,6 +30,7 @@ export default function App() {
   const [userData, setUserData] = useState({ status: 0 });
   const [backendStatus, setBackendStatus] = useState("Online");
   useEffect(() => {
+    //console.log("[index.js] Get user");
     console.log(String.raw`
 Welcome to, 
  _____ _    _ _______ _____  _ 
@@ -40,17 +41,11 @@ ____) | |  | |  | |  | |    |_|
 |____/|_|  |_|  |_|  |_|    (_)
                               
 `);
-    getUser(
-      (resp) => {
+    API({
+      endpoint: "/auth/me", ok: (resp) => {
         setUserData({ status: 1, user: resp.data.user });
-      },
-      (resp) => {
-        setUserData({ status: 2 });
-        if (resp.code === "ERR_NETWORK") {
-          setBackendStatus("Offline");
-        }
-      }
-    );
+      }, err: () => { setBackendStatus("Offline") }
+    });
   }, []);
 
   return (
