@@ -26,13 +26,17 @@ const ApiDocs = () => {
                     </ul>
                 </Paragraph>
                 <Title level={4}>Основная информация</Title>
-                <Paragraph>
-                    <Text strong>ШТП</Text><Text> имеет открытый API.</Text>
-                </Paragraph>
+
                 <Paragraph>
                     <Space direction="vertical">
                         <Text strong>API: <Text code>{API_URL}</Text></Text>
                         <Text strong>Методы: <Text code>{"[GET, POST, PUT, PATCH]"}</Text></Text>
+                        <Text strong>HTTP коды: </Text>
+                        <ul>
+                            <li><Text code type="success">200</Text> - OK</li>
+                            <li><Text code type="warning">400</Text> - Ошибка при обработке данных запроса</li>
+                            <li><Text code type="danger">422</Text> - Ошибка при валидации данных запроса</li>
+                        </ul>
                     </Space>
                 </Paragraph>
                 <Title level={4}>Анонимные эндпоиниты</Title>

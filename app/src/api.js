@@ -65,6 +65,7 @@ export function getUser(ok_handler, error_handler, api = API_URL) {
       ok_handler(response);
     })
     .catch((response) => {
+      console.log(response);
       if (response.code === "ERR_NETWORK") {
         backendError();
       }

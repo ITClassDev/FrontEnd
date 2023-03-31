@@ -44,7 +44,10 @@ ____) | |  | |  | |  | |    |_|
     API({
       endpoint: "/auth/me", ok: (resp) => {
         setUserData({ status: 1, user: resp.data.user });
-      }, err: () => { setBackendStatus("Offline") }
+      }, err: (resp) => {
+        if (resp.status !== 403) // This http code says, that we have invalid auth code, but backend works correctly
+          setBackendStatus("Offline");
+      }
     });
   }, []);
 
