@@ -145,9 +145,9 @@ const Poll = () => {
       text: "Checkbox select",
       type: 3,
       variants: [
-        { value: "0", label: "Option" },
-        { value: "1", label: "Option 1" },
-        { value: "2", label: "Option 2" },
+        { value: "Option", label: "Option" },
+        { value: "Option 1", label: "Option 1" },
+        { value: "Option 2", label: "Option 2" },
       ],
     },
     {

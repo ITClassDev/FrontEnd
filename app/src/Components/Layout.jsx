@@ -17,6 +17,7 @@ import {
   CodeSandboxOutlined,
   BulbOutlined,
   SettingOutlined,
+  QuestionCircleOutlined
 } from "@ant-design/icons";
 import {
   Layout,
@@ -89,7 +90,7 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
     getItem("Документация", "9", <ProfileOutlined />, "/docs"),
     getItem("Приложения", "10", <CodeSandboxOutlined />, "/apps"),
     getItem("Админ-панель", "11", <ControlOutlined />, "/admin"),
-    getItem("Опросы", "14", <SettingOutlined />, "/"),
+    getItem("Опросы", "14", <QuestionCircleOutlined />, "/polls"),
   ];
 
   const studentMenu = [

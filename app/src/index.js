@@ -25,6 +25,7 @@ const Settings = lazy(() => import("./Pages/Settings"));
 const Apps = lazy(() => import("./Pages/Apps"));
 const StatisticPage = lazy(() => import("./Pages/Statistic"));
 const Poll = lazy(() => import("./Pages/Poll"));
+const PollsAdmin = lazy(() => import("./Pages/PollsAdmin"));
 
 export default function App() {
   const [userData, setUserData] = useState({ status: 0 });
@@ -183,12 +184,18 @@ ____) | |  | |  | |  | |    |_|
                 <Settings user={userData} />
               </Suspense>
             }
+
+          />
+          <Route
+            path="polls"
+            element={<Suspense fallback={<>Loading</>}><PollsAdmin user={userData}/></Suspense>}
           />
         </Route>
         <Route
           path="poll"
           element={<Suspense fallback={<>Loading</>}><Poll /></Suspense>}
         />
+
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

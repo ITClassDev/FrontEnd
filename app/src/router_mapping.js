@@ -1,3 +1,4 @@
+// "/route": ["menu_id", can_be_access_by_anon]
 export const router_mapping = {
     "/": ["1", 0],
     "/achivments": ["2", 0],
@@ -15,6 +16,7 @@ export const router_mapping = {
     "/leaderboard": ["1000", 1],
     "/contest": ["1000", 0],
     "/profile": ["1000", 1],
-    "/create_challenge": ["11", 0]
-  };
+    "/create_challenge": ["11", 0],
+    "/polls": ["14", 0]
+};
   
