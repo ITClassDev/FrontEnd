@@ -10,9 +10,11 @@ import {
   Space,
   Checkbox,
   Row,
+  Col,
   Image
 } from "antd";
 import "../poll.css";
+import { useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
 
 const { Text } = Typography;
@@ -22,7 +24,7 @@ const QuestionBase = ({ ind, question, body }) => {
   return (
     <Card title={question.text} style={{ marginTop: 20 }} key={ind}>
       <Space direction="vertical" style={{ width: "100%" }}>
-        {"image" in question && <Image src={question.image} width={"40%"}/>}
+        {"image" in question && <Image src={question.image} className="poll_image" />}
         {"description" in question && <Text>{question.description}</Text>}
         <Form.Item name={`qustion_${ind}`}>{body}</Form.Item>
       </Space>
@@ -76,19 +78,32 @@ const CheckboxSelect = ({ ind, question }) => {
   console.log(question);
   return (
     <QuestionBase
-      body={question.variants.map((el) => (
-        <Row>
+      body={<Checkbox.Group>
+        <Space direction="vertical">
+          {question.variants.map((el, index) => (
+              <Checkbox value={el.value} key={index}><Text style={{ marginLeft: 5 }}>{el.label}</Text></Checkbox>
+          ))}
+        </Space>
+      </Checkbox.Group>
+      }
+      ind={ind}
+      question={question}
+    />
+    /*
+    {question.variants.map((el, index) => (
+        <Row key={index}>
           <Checkbox value={el.value} />
           <Text style={{ marginLeft: 5 }}>{el.label}</Text>
         </Row>
       ))}
-      ind={ind}
-      question={question}
-    />
+     */
   );
 };
 
 const Poll = () => {
+  const [searchParams] = useSearchParams();
+  const poll_id = searchParams.get("id");
+
   // Handler
   const formSubmitHandler = (form_data) => {
     console.log(form_data);
@@ -142,19 +157,19 @@ const Poll = () => {
       type: 1,
     },
   ];
-  useEffect(() => {
-    console.log(String.raw`
-    ██████╗░██╗░░░██╗████████╗██╗███╗░░██╗░█████╗░███████╗██╗░░░██╗
-    ██╔══██╗██║░░░██║╚══██╔══╝██║████╗░██║██╔══██╗██╔════╝██║░░░██║
-    ██████╔╝██║░░░██║░░░██║░░░██║██╔██╗██║██║░░╚═╝█████╗░░╚██╗░██╔╝
-    ██╔═══╝░██║░░░██║░░░██║░░░██║██║╚████║██║░░██╗██╔══╝░░░╚████╔╝░
-    ██║░░░░░╚██████╔╝░░░██║░░░██║██║░╚███║╚█████╔╝███████╗░░╚██╔╝░░
-    ╚═╝░░░░░░╚═════╝░░░░╚═╝░░░╚═╝╚═╝░░╚══╝░╚════╝░╚══════╝░░░╚═╝░░░`);
-  }, []);
+  // useEffect(() => {
+  //   console.log(String.raw`
+  //   ██████╗░██╗░░░██╗████████╗██╗███╗░░██╗░█████╗░███████╗██╗░░░██╗
+  //   ██╔══██╗██║░░░██║╚══██╔══╝██║████╗░██║██╔══██╗██╔════╝██║░░░██║
+  //   ██████╔╝██║░░░██║░░░██║░░░██║██╔██╗██║██║░░╚═╝█████╗░░╚██╗░██╔╝
+  //   ██╔═══╝░██║░░░██║░░░██║░░░██║██║╚████║██║░░██╗██╔══╝░░░╚████╔╝░
+  //   ██║░░░░░╚██████╔╝░░░██║░░░██║██║░╚███║╚█████╔╝███████╗░░╚██╔╝░░
+  //   ╚═╝░░░░░░╚═════╝░░░░╚═╝░░░╚═╝╚═╝░░╚══╝░╚════╝░╚══════╝░░░╚═╝░░░`);
+  // }, []);
   return (
     <Layout>
       <div className="wrapper">
-        <Card title="Опрос от Путинцева">Этот опрос составил Путинцев; TODO Add statistic</Card>
+        <Card title="Опрос от Путинцева">Этот опрос составил Путинцев; poll_id: {poll_id}</Card>
         <Form
           name="answers_page"
           autoComplete="off"
@@ -195,7 +210,7 @@ const Poll = () => {
               </Button>
             </Space>
           </Card>
-          <Text italic >Polls - Open Source ShTP Service</Text>
+          <Text italic >ShTP-Polls Service</Text>
         </Form>
       </div>
     </Layout>

@@ -35,7 +35,7 @@ import LoginForm from "./LoginForm";
 import { CLIENT_VER } from "../config";
 import { router_mapping } from "../router_mapping";
 import IntroPage from "./IntroPage";
-import { getUser } from "../api";
+import { API } from "../api";
 
 const { Content, Sider, Footer } = Layout;
 const { Text } = Typography;
@@ -64,9 +64,8 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
     localStorage.getItem("isDarkMode") === "true"
   );
   useEffect(() => {
-    document.body.style = `background: ${
-      localStorage.getItem("isDarkMode") === "true" ? "#181818" : "#f5f5f5"
-    };`;
+    document.body.style = `background: ${localStorage.getItem("isDarkMode") === "true" ? "#181818" : "#f5f5f5"
+      };`;
   }, []);
 
   const [collapsed, setCollapsed] = useState(false);
@@ -115,7 +114,6 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
     getItem("Приложения", "10", <CodeSandboxOutlined />, "/apps"),
     getItem("Настройки", "13", <SettingOutlined />, "/settings"),
   ];
-  
 
   const logoutBtn = {
     label: "Выйти",
@@ -125,51 +123,6 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
       logOut(navigate);
     },
   };
-
-  const [selectedKey, setSelectedKey] = useState(
-    router_mapping[location.pathname][0]
-  );
-
-  useEffect(() => {
-    if (user.status !== 0) {
-      if (user.status === 1) {
-        if (user.user.userRole === 2) // admin user
-          setMenu([...adminMenu, logoutBtn]);
-        else setMenu([...studentMenu, logoutBtn]);
-        setNewNotifications(user.user.new_notifications);
-        setPage(<Outlet />);
-      } else {
-        if (router_mapping[location.pathname][1])
-          // if page can be accessed by anon users
-          setPage(<Outlet />);
-        else setPage(<IntroPage />);
-
-        setMenu(non_logined_menu);
-      }
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
-
-  useEffect(() => { // FIXIT Make light request to optimize bandwith usage
-    //console.log("[layout] Get user");
-    getUser(
-      (resp) => {
-        setUserData({ status: 1, user: resp.data.user });
-      },
-      (resp) => {
-        openLoginModal(true);
-      } // on token expired
-    );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname]);
-
-  const openLogin = () => {
-    openLoginModal(true);
-  };
-  const hideLogin = () => {
-    openLoginModal(false);
-  };
-
   const non_logined_menu = [
     {
       label: "Войти",
@@ -181,6 +134,46 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
     },
   ];
 
+  const [selectedKey, setSelectedKey] = useState(
+    router_mapping[location.pathname][0]
+  );
+
+  useEffect(() => {
+    if (user) {
+      if (user.status === 1) {
+        if (user.user.userRole === 2) setMenu([...adminMenu, logoutBtn]); // Admin
+        else setMenu([...studentMenu, logoutBtn]); // Student
+        setNewNotifications(user.user.new_notifications); // New notification bage
+        setPage(<Outlet />); // Set page content
+      } else {
+        if (router_mapping[location.pathname][1]) setPage(<Outlet />); // if page can be accessed by anon users
+        else setPage(<IntroPage />);
+        setMenu(non_logined_menu);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
+  useEffect(() => { // FIXIT Make light request to optimize bandwith usage
+    API({
+      endpoint: "/auth/me", ok: (resp) => {
+        setUserData({ status: 1, user: resp.data.user });
+      }, err: (resp) => {
+        if (resp.status === 403) // This http code says, that we have invalid auth code, but backend works correctly
+          openLoginModal(true);
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname]);
+
+  const openLogin = () => {
+    openLoginModal(true);
+  };
+  const hideLogin = () => {
+    openLoginModal(false);
+  };
+
+
   return (
     <Layout hasSider>
       <FloatButton
@@ -188,9 +181,8 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
         icon={<BulbOutlined />}
         onClick={() => {
           setIsDarkMode((previousValue) => !previousValue);
-          document.body.style = `background: ${
-            isDarkMode ? "#f5f5f5" : "#181818"
-          };`;
+          document.body.style = `background: ${isDarkMode ? "#f5f5f5" : "#181818"
+            };`;
           localStorage.setItem("isDarkMode", !isDarkMode);
         }}
       />

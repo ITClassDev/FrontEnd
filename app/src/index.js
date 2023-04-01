@@ -186,7 +186,7 @@ ____) | |  | |  | |  | |    |_|
           />
         </Route>
         <Route
-          path="/poll"
+          path="poll"
           element={<Suspense fallback={<>Loading</>}><Poll /></Suspense>}
         />
         <Route path="*" element={<NotFound />} />

@@ -65,7 +65,7 @@ export function getUser(ok_handler, error_handler, api = API_URL) {
       ok_handler(response);
     })
     .catch((response) => {
-      console.log(response);
+      
       if (response.code === "ERR_NETWORK") {
         backendError();
       }
@@ -427,26 +427,6 @@ export function moderateAchivment(
 
 // AUTH UTILS
 
-export function authUser(
-  login,
-  password,
-  ok_handler,
-  error_handler,
-  api = API_URL
-) {
-  axios
-    .post(`${api}/auth/login`, { email: login, password: password })
-    .then((response) => {
-      if (response.status === 200) ok_handler(response);
-    })
-    .catch((response) => {
-      if (response.code === "ERR_NETWORK") {
-        backendError();
-      } else {
-        error_handler(response);
-      }
-    });
-}
 
 export function getAuth() {
   return {

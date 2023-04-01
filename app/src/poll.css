@@ -1,12 +1,22 @@
 .wrapper {
-    padding-left: 20%;
-    padding-right: 20%;
+    padding-left: 30%;
+    padding-right: 30%;
 }
 
-@media (max-width: 900px) {
+.poll_image {
+    width: 100%; /* FIXIT; same value with media query*/
+}
+
+@media (max-width: 1200px) {
     .wrapper {
         padding-left: 10%;
         padding-right: 10%;
     }
 }
   
+
+@media (max-width: 900px) {
+    .poll_image {
+        width: 100%;
+    }
+}

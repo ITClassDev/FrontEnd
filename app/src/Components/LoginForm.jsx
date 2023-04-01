@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, message, Form, Input } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import { authUser } from "../api";
+import { API } from "../api";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -21,9 +21,9 @@ const LoginForm = () => {
     navigate(0);
   };
 
-  const onFinish = (values) => {
+  const formHandler = ({email, password}) => {
     setButtonLoading(true);
-    authUser(values.email, values.password, login_ok, login_error);
+    API({ endpoint: "/auth/login", method: "post", data: {email: email, password: password}, ok: login_ok, err: login_error});
   };
 
   return (
@@ -35,7 +35,7 @@ const LoginForm = () => {
         initialValues={{
           remember: true,
         }}
-        onFinish={onFinish}
+        onFinish={formHandler}
       >
         <Form.Item
           name="email"
