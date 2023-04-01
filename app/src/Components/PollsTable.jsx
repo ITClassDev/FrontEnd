@@ -1,21 +1,30 @@
 import React, { useState, useEffect } from "react";
-import { Table, Space, Button, Modal, QRCode, Row, Image } from "antd";
+import { Table, Space, Button, Modal, QRCode, Row, Image, message } from "antd";
+import { GlobalOutlined, CopyOutlined } from "@ant-design/icons";
 import { FRONTEND_URL } from "../config";
 import Telegram_logo from "../Images/Telegram_logo.svg";
 
-const ShareModal = ({ editModalOpen, setEditModalOpen }) => (
+const ShareModal = ({ editModalOpen, setEditModalOpen, messageApi, poll_id }) => (
     <Modal open={editModalOpen} onCancel={() => { setEditModalOpen(false) }} footer={[]} transitionName="">
-        <Row style={{display: "flex", justifyContent: "center"}}>
-            <QRCode value={`${FRONTEND_URL}/poll?id=${123}`} />
+        <Row style={{ display: "flex", justifyContent: "center" }}>
+            <QRCode value={`${FRONTEND_URL}/poll?id=${poll_id}`} />
         </Row>
-        <Row style={{display: "flex", justifyContent: "center", paddingTop: "20px"}}>
-            <Image src={Telegram_logo} width={40} preview={false} style={{cursor: "pointer"}} onClick={() => {window.open(`https://t.me/share/url?url=${FRONTEND_URL}/poll?id=${123}&text=ShTP-PollsService`)}}/>
-            
+        <Row style={{ display: "flex", justifyContent: "center", paddingTop: "20px", gap: "10px" }}>
+            <Image src={Telegram_logo} width={40} preview={false} style={{ cursor: "pointer" }} onClick={() => { window.open(`https://t.me/share/url?url=${FRONTEND_URL}/poll?id=${poll_id}&text=ShTP-PollsService`) }} />
+            <GlobalOutlined style={{ fontSize: 40 }} onClick={() => { window.open(`${FRONTEND_URL}/poll?id=${poll_id}`) }} />
+            <CopyOutlined style={{ fontSize: 40, cursor: "pointer" }} onClick={() => {
+                navigator.clipboard.writeText(`${FRONTEND_URL}/poll?id=${poll_id}`);
+                messageApi.open({
+                    type: 'success',
+                    content: 'Ссылка на опрос скопирована!',
+                });
+            }} />
         </Row>
     </Modal>
 )
 
 const PollsTable = () => {
+    const [messageApi, contextHolder] = message.useMessage();
     useEffect(() => {
         console.log("Static update");
     }, []);
@@ -27,11 +36,16 @@ const PollsTable = () => {
         actionsBtns: <Space direction="horizontal">
             <Button type="primary">Редактировать</Button>
             <Button type="dashed">Результаты</Button>
-            <Button type="dashed" onClick={() => { setEditModalOpen(true); }}>Поделиться</Button>
+            <Button type="dashed" onClick={() => {
+                setSelectedPoll(1313243);
+                setEditModalOpen(true);
+            }}>Поделиться</Button>
             <Button danger>Удалить</Button>
         </Space>
     }]);
     const [editModalOpen, setEditModalOpen] = useState(false);
+    const [selectedPoll, setSelectedPoll] = useState(-1);
+    const [deleteConfirm, setDeleteConfirm] = useState(false);
     const [resultsModalOpen, resultsEditModalOpen] = useState(false);
     const [shareModalOpen, setShareModalOpen] = useState(false);
 
@@ -59,7 +73,8 @@ const PollsTable = () => {
     ];
 
     return (<>
-        <ShareModal editModalOpen={editModalOpen} setEditModalOpen={setEditModalOpen} />
+        {contextHolder}
+        <ShareModal editModalOpen={editModalOpen} setEditModalOpen={setEditModalOpen} messageApi={messageApi} poll_id={selectedPoll} />
         <Table columns={pollTableColumns} dataSource={polls} />
     </>);
 }
