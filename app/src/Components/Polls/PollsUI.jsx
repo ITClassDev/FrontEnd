@@ -32,15 +32,15 @@ export const Entry = ({ name, restField }) => {
     const [localQuestionType, setLocalQuestionType] = useState(0);
     return (
         <Card
-            title={<Form.Item {...restField} name={[name, "question_text"]} style={{ margin: 0 }}><Input placeholder="Напишите здесь вопрос" /></Form.Item>}
+            title={<Form.Item {...restField} name={[name, "text"]} style={{ margin: 0 }}><Input placeholder="Напишите здесь вопрос" /></Form.Item>}
             style={{
                 marginBottom: 8
             }}
         >
-            <TextArea placeholder="Дополнительный текст к вопросу (необязательно)" style={{
+            <Form.Item {...restField} name={[name, "description"]} style={{ margin: 0 }}><TextArea placeholder="Дополнительный текст к вопросу (необязательно)" style={{
                 marginBottom: 10
-            }} />
-            <Select value={localQuestionType} onChange={(q) => { setLocalQuestionType(q) }} placeholder={"Тип вопроса"} options={[
+            }} /></Form.Item>
+            <Form.Item {...restField} name={[name, "type"]} style={{ margin: 0 }}><Select value={localQuestionType} onChange={(q) => { setLocalQuestionType(q) }} placeholder={"Тип вопроса"} options={[
                 { value: 0, label: "Выбор одного" },
                 { value: 1, label: "Одна строка" },
                 { value: 2, label: "Много строк" },
@@ -48,7 +48,7 @@ export const Entry = ({ name, restField }) => {
             ]} style={{
                 width: '100%',
                 marginBottom: 10
-            }} />
+            }} /></Form.Item>
             {{
                 0: <></>,
                 1: <Input placeholder="Введите ответ..." disabled={true} />,
@@ -68,7 +68,7 @@ export const EditableQuestionBase = () => {
         //         <Form.Item>{body}</Form.Item>
         //     </Space>
         // </Card>
-        <Form.List name="questions">
+        <Form.List name="entries">
             {(fields, { add, remove }) => (
                 <>
                     {fields.map(({ key, name, ...restField }) => (

@@ -1,28 +1,36 @@
 import React, { useState } from "react";
 import "../poll.css";
-import { PlusCircleOutlined, SelectOutlined, FileTextOutlined } from '@ant-design/icons';
 
 import {
     Button,
     Form,
     Input,
-    Upload,
     message,
-    FloatButton,
-    Typography,
     Card,
-    Space,
 } from "antd";
-import { OneItemSelect, OneLineText, MultilineText, CheckboxSelect, EditableQuestionBase } from "../Components/Polls/PollsUI";
-
+import { EditableQuestionBase } from "../Components/Polls/PollsUI";
+import { API } from "../api";
 const { TextArea } = Input;
-const { Text } = Typography;
+
 
 const CreatePoll = () => {
     const [messageApi, contextHolder] = message.useMessage();
-    const [questions, setQuestions] = useState([]);
+    const ProcessForm = (data) => {
+        console.log(data);
+        if (!data.title) {
+            messageApi.open({ type: 'error', content: "Введите название опроса" });
+            return;
+        }
+        if (!data.entries) {
+            messageApi.open({ type: 'error', content: "Добавьте хотя бы один вопрос" });
+            return;
+        }
+        // If validation ok
+        API({ endpoint: "/polls", method: "put", data: data });
+
+    }
     return (<>
-        <FloatButton.Group
+        {/* <FloatButton.Group
             trigger="click"
             type="primary"
             style={{
@@ -36,57 +44,21 @@ const CreatePoll = () => {
                 setQuestions([...questions, { type: 1, text: "ShTP" }]);
             }} />
 
-        </FloatButton.Group>
+        </FloatButton.Group> */}
         {contextHolder}
-        {/* <Form
-            name="create_poll"
-            autoComplete="on"
-            requiredMark={false}
-        >
-            <Form.Item
-                label="Заголовок"
-                name="title"
-                rules={[
-                    {
-                        required: true,
-                        message: "Введите заголовок",
-                    },
-                ]}
-            >
-                <Input placeholder="Опрос #1223" />
-            </Form.Item>
-            <Form.Item
-                label="Описание"
-                name="description"
-                rules={[
-                    {
-                        required: true,
-                        message:
-                            "Введите описание опроса",
-                    },
-                ]}
-            >
-                <TextArea
-                    rows={4}
-                    placeholder="Опрос для ..."
-                />
-            </Form.Item>
-        </Form> */}
         <div className="wrapper_admin">
             <Form
                 name="poll_questions"
                 autoComplete="off"
                 requiredMark={false}
-                onFinish={(data) => { console.log(data); }}
+                onFinish={ProcessForm}
             >
-                <Card style={{ marginBottom: 20 }} title={<Form.Item name="poll_name" style={{ margin: 0 }}><Input placeholder="Название" /></Form.Item>}>
-                    <Form.Item name="poll_description" style={{ margin: 0 }}>
+                <Card style={{ marginBottom: 20 }} title={<Form.Item name="title" style={{ margin: 0 }}><Input placeholder="Название" /></Form.Item>}>
+                    <Form.Item name="description" style={{ margin: 0 }}>
                         <TextArea placeholder="Описание" />
                     </Form.Item>
-
-                    
                 </Card>
-                <EditableQuestionBase/>
+                <EditableQuestionBase />
                 <Button type="primary" htmlType="submit">Создать</Button>
             </Form>
         </div>

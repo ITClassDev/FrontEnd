@@ -5,24 +5,25 @@ import { FRONTEND_URL } from "../config";
 import Telegram_logo from "../Images/Telegram_logo.svg";
 import { API } from "../api";
 
-const ShareModal = ({ editModalOpen, setEditModalOpen, messageApi, poll_id }) => (
-    <Modal open={editModalOpen} onCancel={() => { setEditModalOpen(false) }} footer={[]} transitionName="">
+const ShareModal = ({ editModalOpen, setEditModalOpen, messageApi, poll_id }) => {
+    let poll_url = `${FRONTEND_URL}/poll?id=${poll_id}`;
+    return (<Modal open={editModalOpen} onCancel={() => { setEditModalOpen(false) }} footer={[]} transitionName="">
         <Row style={{ display: "flex", justifyContent: "center" }}>
-            <QRCode value={`${FRONTEND_URL}/poll?id=${poll_id}`} />
+            <QRCode value={poll_url} />
         </Row>
         <Row style={{ display: "flex", justifyContent: "center", paddingTop: "20px", gap: "10px" }}>
-            <Image src={Telegram_logo} width={40} preview={false} style={{ cursor: "pointer" }} onClick={() => { window.open(`https://t.me/share/url?url=${FRONTEND_URL}/poll?id=${poll_id}&text=ShTP-PollsService`) }} />
-            <GlobalOutlined style={{ fontSize: 40 }} onClick={() => { window.open(`${FRONTEND_URL}/poll?id=${poll_id}`) }} />
+            <Image src={Telegram_logo} width={40} preview={false} style={{ cursor: "pointer" }} onClick={() => { window.open(`https://t.me/share/url?url=${poll_url}&text=ShTP-PollsService`) }} />
+            <GlobalOutlined style={{ fontSize: 40 }} onClick={() => { window.open(poll_url) }} />
             <CopyOutlined style={{ fontSize: 40, cursor: "pointer" }} onClick={() => {
-                navigator.clipboard.writeText(`${FRONTEND_URL}/poll?id=${poll_id}`);
+                navigator.clipboard.writeText(poll_url);
                 messageApi.open({
                     type: 'success',
                     content: 'Ссылка на опрос скопирована!',
                 });
             }} />
         </Row>
-    </Modal>
-)
+    </Modal>);
+}
 
 const PollsTable = () => {
     const [messageApi, contextHolder] = message.useMessage();
@@ -40,7 +41,7 @@ const PollsTable = () => {
                             <Button type="primary">Редактировать</Button>
                             <Button type="dashed">Результаты</Button>
                             <Button type="dashed" onClick={() => {
-                                setSelectedPoll(1313243);
+                                setSelectedPoll(poll.id);
                                 setEditModalOpen(true);
                             }}>Поделиться</Button>
                             <Button danger>Удалить</Button>
