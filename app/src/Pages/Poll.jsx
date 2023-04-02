@@ -124,9 +124,7 @@ const Poll = () => {
                   res = <MultilineText ind={ind} question={question} key={ind} />;
                   break;
                 case 3:
-                  res = (
-                    <CheckboxSelect ind={ind} question={question} key={ind} />
-                  );
+                  res = <CheckboxSelect ind={ind} question={question} key={ind} />;
                   break;
               }
               return res;

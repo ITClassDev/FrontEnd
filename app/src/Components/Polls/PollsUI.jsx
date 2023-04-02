@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import {
     Card,
@@ -8,8 +8,10 @@ import {
     Space,
     Checkbox,
     Typography,
-    Image
+    Image,
+    Button
 } from "antd";
+import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
 
 const { Text } = Typography;
 const { TextArea } = Input;
@@ -25,6 +27,64 @@ export const QuestionBase = ({ ind, question, body }) => {
         </Card>
     );
 };
+
+export const Entry = ({ name, restField }) => {
+    const [localQuestionType, setLocalQuestionType] = useState(0);
+    return (
+        <Card
+            title={<Form.Item {...restField} name={[name, "question_text"]} style={{ margin: 0 }}><Input placeholder="Напишите здесь вопрос" /></Form.Item>}
+            style={{
+                marginBottom: 8
+            }}
+        >
+            <TextArea placeholder="Дополнительный текст к вопросу (необязательно)" style={{
+                marginBottom: 10
+            }} />
+            <Select value={localQuestionType} onChange={(q) => { setLocalQuestionType(q) }} placeholder={"Тип вопроса"} options={[
+                { value: 0, label: "Выбор одного" },
+                { value: 1, label: "Одна строка" },
+                { value: 2, label: "Много строк" },
+                { value: 3, label: "Выбор нескольких" }
+            ]} style={{
+                width: '100%',
+                marginBottom: 10
+            }} />
+            {{
+                0: <></>,
+                1: <Input placeholder="Введите ответ..." disabled={true} />,
+                2: <TextArea placeholder="Введите ответ..." disabled={true} />,
+                3: "123"
+            }[localQuestionType]}
+
+        </Card>
+
+    );
+}
+
+export const EditableQuestionBase = () => {
+    return (
+        // <Card title={<Input placeholder="Вопрос" />} style={{ marginTop: 20 }}>
+        //     <Space direction="vertical" style={{ width: "100%" }}>
+        //         <Form.Item>{body}</Form.Item>
+        //     </Space>
+        // </Card>
+        <Form.List name="questions">
+            {(fields, { add, remove }) => (
+                <>
+                    {fields.map(({ key, name, ...restField }) => (
+                        <Entry key={key} name={name} restField={restField} />
+                    ))}
+                    <Form.Item>
+                        <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                            Добавить вопрос
+                        </Button>
+                    </Form.Item>
+                </>
+            )}
+        </Form.List>
+    );
+};
+
 
 export const OneItemSelect = ({ ind, question }) => {
     return (

@@ -13,7 +13,7 @@ import {
     Card,
     Space,
 } from "antd";
-import { OneItemSelect, OneLineText, MultilineText, CheckboxSelect } from "../Components/Polls/PollsUI";
+import { OneItemSelect, OneLineText, MultilineText, CheckboxSelect, EditableQuestionBase } from "../Components/Polls/PollsUI";
 
 const { TextArea } = Input;
 const { Text } = Typography;
@@ -33,7 +33,7 @@ const CreatePoll = () => {
             <FloatButton icon={<SelectOutlined />} tooltip={"Выбор одного ответа"} />
             <FloatButton icon={<FileTextOutlined />} tooltip={"Многострочный ответ"} />
             <FloatButton icon={<FileTextOutlined />} tooltip={"Одна строка"} onClick={() => {
-                console.log("Add inline block");
+                setQuestions([...questions, { type: 1, text: "ShTP" }]);
             }} />
 
         </FloatButton.Group>
@@ -72,11 +72,23 @@ const CreatePoll = () => {
                 />
             </Form.Item>
         </Form> */}
-        <div className="wrapper">
-            <Card title={<Input placeholder="Название опроса" />}>{<TextArea placeholder="Basic usage" />}</Card>
-            {questions.map((entry, index) => (
-                <div key={index}>1</div>
-            ))}
+        <div className="wrapper_admin">
+            <Form
+                name="poll_questions"
+                autoComplete="off"
+                requiredMark={false}
+                onFinish={(data) => { console.log(data); }}
+            >
+                <Card style={{ marginBottom: 20 }} title={<Form.Item name="poll_name" style={{ margin: 0 }}><Input placeholder="Название" /></Form.Item>}>
+                    <Form.Item name="poll_description" style={{ margin: 0 }}>
+                        <TextArea placeholder="Описание" />
+                    </Form.Item>
+
+                    
+                </Card>
+                <EditableQuestionBase/>
+                <Button type="primary" htmlType="submit">Создать</Button>
+            </Form>
         </div>
     </>);
 }

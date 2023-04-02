@@ -3,6 +3,11 @@
     padding-right: 30%;
 }
 
+.wrapper_admin {
+    padding-left: 25%;
+    padding-right: 25%;
+}
+
 .poll_image {
     width: 100%; /* FIXIT; same value with media query*/
 }
@@ -11,6 +16,10 @@
     .wrapper {
         padding-left: 10%;
         padding-right: 10%;
+    }
+    .wrapper_admin {
+        padding-left: 0%;
+        padding-right: 0%;
     }
 }
   
