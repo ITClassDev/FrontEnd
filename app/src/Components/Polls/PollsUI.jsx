@@ -11,7 +11,7 @@ import {
     Image,
     Button
 } from "antd";
-import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 
 const { Text } = Typography;
 const { TextArea } = Input;
@@ -22,7 +22,7 @@ export const QuestionBase = ({ ind, question, body }) => {
             <Space direction="vertical" style={{ width: "100%" }}>
                 {"image" in question && <Image src={question.image} className="poll_image" />}
                 {"description" in question && <Text>{question.description}</Text>}
-                <Form.Item name={`qustion_${ind}`}>{body}</Form.Item>
+                <Form.Item name={ind}>{body}</Form.Item>
             </Space>
         </Card>
     );
@@ -63,11 +63,6 @@ export const Entry = ({ name, restField }) => {
 
 export const EditableQuestionBase = () => {
     return (
-        // <Card title={<Input placeholder="Вопрос" />} style={{ marginTop: 20 }}>
-        //     <Space direction="vertical" style={{ width: "100%" }}>
-        //         <Form.Item>{body}</Form.Item>
-        //     </Space>
-        // </Card>
         <Form.List name="entries">
             {(fields, { add, remove }) => (
                 <>

@@ -9,7 +9,7 @@ import {
   Checkbox,
   theme,
   ConfigProvider,
-  
+
 } from "antd";
 import { OneItemSelect, OneLineText, MultilineText, CheckboxSelect } from "../Components/Polls/PollsUI";
 import "../poll.css";
@@ -18,20 +18,18 @@ import { useEffect } from "react";
 import { API } from "../api";
 import { CLIENT_VER } from "../config";
 import { useNavigate } from "react-router-dom";
+import useDocumentTitle from "../useDocumentTitle";
 
 const { Text } = Typography;
 
 const Poll = () => {
   const [searchParams] = useSearchParams();
   const poll_id = searchParams.get("id");
+  useDocumentTitle(`ШТП Опрос | ${poll_id}`);
   const [questions, setQuestions] = useState([]);
   const [pollTitle, setPollTitle] = useState("Loading...");
   const [pollDescription, setPollDescription] = useState("Loading...");
 
-  // Handler
-  const formSubmitHandler = (form_data) => {
-    console.log(form_data);
-  };
   // Static test; loaded from backend api
   // const questions = [
   //   {
@@ -109,7 +107,7 @@ const Poll = () => {
             name="answers_page"
             autoComplete="off"
             requiredMark={false}
-            onFinish={formSubmitHandler}
+            onFinish={(data) => { API({ endpoint: `/polls/${poll_id}/submit`, data: data, method: "put" }) }}
           >
             {questions.map((question, ind) => {
               let res;

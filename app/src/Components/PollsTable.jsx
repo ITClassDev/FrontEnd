@@ -48,7 +48,6 @@ const PollsTable = () => {
                         </Space>
                     });
                 });
-                console.log(tmp);
                 setPolls(tmp);
             }
         });
