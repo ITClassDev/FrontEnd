@@ -59,3 +59,9 @@ code {
   margin: 0 !important;
   }
     
+@media (max-width: 900px) {
+  .shtp_debug_info{
+    display: none;
+  }
+  
+}

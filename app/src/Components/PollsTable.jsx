@@ -3,6 +3,7 @@ import { Table, Space, Button, Modal, QRCode, Row, Image, message } from "antd";
 import { GlobalOutlined, CopyOutlined } from "@ant-design/icons";
 import { FRONTEND_URL } from "../config";
 import Telegram_logo from "../Images/Telegram_logo.svg";
+import { API } from "../api";
 
 const ShareModal = ({ editModalOpen, setEditModalOpen, messageApi, poll_id }) => (
     <Modal open={editModalOpen} onCancel={() => { setEditModalOpen(false) }} footer={[]} transitionName="">
@@ -26,23 +27,32 @@ const ShareModal = ({ editModalOpen, setEditModalOpen, messageApi, poll_id }) =>
 const PollsTable = () => {
     const [messageApi, contextHolder] = message.useMessage();
     useEffect(() => {
-        console.log("Static update");
+        API({
+            endpoint: "/polls", ok: (resp) => {
+                let tmp = [];
+                resp.data.forEach(poll => {
+                    tmp.push({
+                        key: poll.id,
+                        id: poll.id,
+                        title: poll.title,
+                        description: poll.description,
+                        actionsBtns: <Space direction="horizontal">
+                            <Button type="primary">Редактировать</Button>
+                            <Button type="dashed">Результаты</Button>
+                            <Button type="dashed" onClick={() => {
+                                setSelectedPoll(1313243);
+                                setEditModalOpen(true);
+                            }}>Поделиться</Button>
+                            <Button danger>Удалить</Button>
+                        </Space>
+                    });
+                });
+                console.log(tmp);
+                setPolls(tmp);
+            }
+        });
     }, []);
-    const [polls, setPolls] = useState([{
-        key: 1,
-        id: 1313243,
-        title: "Ассоциальный соц. опрос",
-        description: "Ассоциальный соц. опрос от Путинцева",
-        actionsBtns: <Space direction="horizontal">
-            <Button type="primary">Редактировать</Button>
-            <Button type="dashed">Результаты</Button>
-            <Button type="dashed" onClick={() => {
-                setSelectedPoll(1313243);
-                setEditModalOpen(true);
-            }}>Поделиться</Button>
-            <Button danger>Удалить</Button>
-        </Space>
-    }]);
+    const [polls, setPolls] = useState([]);
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [selectedPoll, setSelectedPoll] = useState(-1);
     const [deleteConfirm, setDeleteConfirm] = useState(false);

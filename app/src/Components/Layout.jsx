@@ -244,6 +244,7 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
                 textAlign: "center",
                 backgroundColor: isDarkMode ? "#181818" : "#f5f5f5",
               }}
+              className="shtp_debug_info"
             >
               <Space direction="vertical">
                 <Text strong>ShTP project</Text>

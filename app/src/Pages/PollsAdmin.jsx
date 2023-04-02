@@ -1,12 +1,10 @@
 import React from "react";
 import { Tabs, Typography } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { useEffect } from "react";
-import { API } from "../api";
-import { useState } from "react";
 import { LoadingBar } from "../Components/Loading";
 import PollsTable from "../Components/PollsTable";
 import NotFound from "./NotFound";
+import CreatePoll from "../Components/CreatePoll";
 
 const { Title } = Typography;
 
@@ -25,7 +23,7 @@ const PollsAdmin = ({ user }) => {
                         }, {
                             label: <><PlusOutlined />Создать</>,
                             key: "2",
-                            children: <>Dev2</>,
+                            children: <CreatePoll/>
                         }]}
                 />
             </>

@@ -3,102 +3,23 @@ import {
   Card,
   Layout,
   Button,
-  Select,
   Form,
-  Input,
   Typography,
   Space,
   Checkbox,
   theme,
   ConfigProvider,
-  Image
+  
 } from "antd";
+import { OneItemSelect, OneLineText, MultilineText, CheckboxSelect } from "../Components/Polls/PollsUI";
 import "../poll.css";
 import { useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
 import { API } from "../api";
+import { CLIENT_VER } from "../config";
+import { useNavigate } from "react-router-dom";
 
 const { Text } = Typography;
-const { TextArea } = Input;
-
-const QuestionBase = ({ ind, question, body }) => {
-  return (
-    <Card title={question.text} style={{ marginTop: 20 }} key={ind}>
-      <Space direction="vertical" style={{ width: "100%" }}>
-        {"image" in question && <Image src={question.image} className="poll_image" />}
-        {"description" in question && <Text>{question.description}</Text>}
-        <Form.Item name={`qustion_${ind}`}>{body}</Form.Item>
-      </Space>
-    </Card>
-  );
-};
-
-const OneItemSelect = ({ ind, question }) => {
-  return (
-    <QuestionBase
-      body={
-        <Select style={{ width: "100%" }} options={question.variants}></Select>
-      }
-      ind={ind}
-      question={question}
-    />
-  );
-};
-
-const OneLineText = ({ ind, question }) => {
-  return (
-    <QuestionBase
-      body={
-        <Input
-          style={{ width: "100%" }}
-          placeholder="Введите свой ответ"
-        ></Input>
-      }
-      ind={ind}
-      question={question}
-    />
-  );
-};
-
-const MultilineText = ({ ind, question }) => {
-  return (
-    <QuestionBase
-      body={
-        <TextArea
-          style={{ width: "100%" }}
-          placeholder="Введите свой ответ"
-        ></TextArea>
-      }
-      ind={ind}
-      question={question}
-    />
-  );
-};
-
-const CheckboxSelect = ({ ind, question }) => {
-  return (
-    <QuestionBase
-      body={<Checkbox.Group>
-        <Space direction="vertical">
-          {question.variants.map((el, index) => (
-            <Checkbox value={el.value} key={index}><Text style={{ marginLeft: 5 }}>{el.label}</Text></Checkbox>
-          ))}
-        </Space>
-      </Checkbox.Group>
-      }
-      ind={ind}
-      question={question}
-    />
-    /*
-    {question.variants.map((el, index) => (
-        <Row key={index}>
-          <Checkbox value={el.value} />
-          <Text style={{ marginLeft: 5 }}>{el.label}</Text>
-        </Row>
-      ))}
-     */
-  );
-};
 
 const Poll = () => {
   const [searchParams] = useSearchParams();
@@ -160,7 +81,9 @@ const Poll = () => {
   //     type: 1,
   //   },
   // ];
-  
+  let navigate = useNavigate();
+
+
   useEffect(() => {
     API({
       endpoint: `/polls/${poll_id}`, ok: (resp) => {
@@ -168,19 +91,11 @@ const Poll = () => {
         setPollTitle(resp.data.title);
         setPollDescription(resp.data.description);
       }, err: (resp) => {
-        console.error("404");
+        console.error("404"); // TODO; handle 404 page
+        navigate("/404");
       }
     })
   }, [])
-  // useEffect(() => {
-  //   console.log(String.raw`
-  //   ██████╗░██╗░░░██╗████████╗██╗███╗░░██╗░█████╗░███████╗██╗░░░██╗
-  //   ██╔══██╗██║░░░██║╚══██╔══╝██║████╗░██║██╔══██╗██╔════╝██║░░░██║
-  //   ██████╔╝██║░░░██║░░░██║░░░██║██╔██╗██║██║░░╚═╝█████╗░░╚██╗░██╔╝
-  //   ██╔═══╝░██║░░░██║░░░██║░░░██║██║╚████║██║░░██╗██╔══╝░░░╚████╔╝░
-  //   ██║░░░░░╚██████╔╝░░░██║░░░██║██║░╚███║╚█████╔╝███████╗░░╚██╔╝░░
-  //   ╚═╝░░░░░░╚═════╝░░░░╚═╝░░░╚═╝╚═╝░░╚══╝░╚════╝░╚══════╝░░░╚═╝░░░`);
-  // }, []);
   return (
     <ConfigProvider theme={{
       algorithm: false
@@ -230,7 +145,7 @@ const Poll = () => {
                 </Button>
               </Space>
             </Card>
-            <Text italic >ShTP-Polls Service</Text>
+            <Text italic >ShTP-Polls Service 0.0.1 dev on ShTP {CLIENT_VER} base; loaded poll_id: {poll_id}</Text>
           </Form>
         </div>
       </Layout>
