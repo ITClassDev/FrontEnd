@@ -50,10 +50,26 @@ export const Entry = ({ name, restField }) => {
                 marginBottom: 10
             }} /></Form.Item>
             {{
-                0: <></>,
+                0: <Form.Item name={[name, "variants"]}><Select
+                    mode="tags"
+                    style={{
+                        width: '100%',
+                    }}
+                    placeholder="Введите варианты ответов"
+                    onChange={() => { }}
+                    options={[]}
+                /></Form.Item>,
                 1: <Input placeholder="Введите ответ..." disabled={true} />,
                 2: <TextArea placeholder="Введите ответ..." disabled={true} />,
-                3: "123"
+                3: <Form.Item name={[name, "variants"]}><Select
+                    mode="tags"
+                    style={{
+                        width: '100%',
+                    }}
+                    placeholder="Введите варианты ответов"
+                    onChange={() => { }}
+                    options={[]}
+                /></Form.Item>
             }[localQuestionType]}
 
         </Card>
@@ -85,7 +101,7 @@ export const OneItemSelect = ({ ind, question }) => {
     return (
         <QuestionBase
             body={
-                <Select style={{ width: "100%" }} options={question.variants}></Select>
+                <Select style={{ width: "100%" }} options={question.variants.map(e => ({label: e, value: e}))}></Select>
             }
             ind={ind}
             question={question}
@@ -129,7 +145,7 @@ export const CheckboxSelect = ({ ind, question }) => {
             body={<Checkbox.Group>
                 <Space direction="vertical">
                     {question.variants.map((el, index) => (
-                        <Checkbox value={el.value} key={index}><Text style={{ marginLeft: 5 }}>{el.label}</Text></Checkbox>
+                        <Checkbox value={el} key={index}><Text style={{ marginLeft: 5 }}>{el}</Text></Checkbox>
                     ))}
                 </Space>
             </Checkbox.Group>

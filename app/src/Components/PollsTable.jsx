@@ -25,6 +25,14 @@ const ShareModal = ({ editModalOpen, setEditModalOpen, messageApi, poll_id }) =>
     </Modal>);
 }
 
+const ResultsModal = ({ resultsModalOpen, setResultsModalOpen, poll_id, resultsTableData }) => {
+    return (
+        <Modal open={resultsModalOpen} onCancel={() => { setResultsModalOpen(false) }} transitionName="" footer={[<Button type="dashed" key="download_xlsx">Скачать xlsx</Button>]} title={`Количество ответов: ${"N/A"}`}>
+            <Table columns={[{ title: "ID", dataIndex: "id", key: "id" }, { title: "Дата", dataIndex: "date", key: "date" }, { title: "Действия", dataIndex: "actionsBtns", key: "actionsBtns" }]} />
+        </Modal>
+    )
+}
+
 const PollsTable = () => {
     const [messageApi, contextHolder] = message.useMessage();
     useEffect(() => {
@@ -39,7 +47,15 @@ const PollsTable = () => {
                         description: poll.description,
                         actionsBtns: <Space direction="horizontal">
                             <Button type="primary">Редактировать</Button>
-                            <Button type="dashed">Результаты</Button>
+                            <Button type="dashed" onClick={() => {
+                                setSelectedPoll(poll.id);
+                                setResultsModalOpen(true);
+                                API({
+                                    endpoint: `/polls/${poll.id}/answers`, ok: (resp) => {
+                                        //setResultsModalOpen(resp.data);
+                                    }
+                                })
+                            }}>Результаты</Button>
                             <Button type="dashed" onClick={() => {
                                 setSelectedPoll(poll.id);
                                 setEditModalOpen(true);
@@ -56,8 +72,10 @@ const PollsTable = () => {
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [selectedPoll, setSelectedPoll] = useState(-1);
     const [deleteConfirm, setDeleteConfirm] = useState(false);
-    const [resultsModalOpen, resultsEditModalOpen] = useState(false);
+    const [resultsModalOpen, setResultsModalOpen] = useState(false);
     const [shareModalOpen, setShareModalOpen] = useState(false);
+
+    const [resultsTableData, setResultsTableData] = useState([]);
 
     const pollTableColumns = [
         {
@@ -85,6 +103,7 @@ const PollsTable = () => {
     return (<>
         {contextHolder}
         <ShareModal editModalOpen={editModalOpen} setEditModalOpen={setEditModalOpen} messageApi={messageApi} poll_id={selectedPoll} />
+        <ResultsModal resultsModalOpen={resultsModalOpen} setResultsModalOpen={setResultsModalOpen} poll_id={selectedPoll} resultsTableData={resultsTableData} />
         <Table columns={pollTableColumns} dataSource={polls} />
     </>);
 }
