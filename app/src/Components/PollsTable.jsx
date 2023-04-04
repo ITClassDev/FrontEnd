@@ -33,42 +33,41 @@ const ResultsModal = ({ resultsModalOpen, setResultsModalOpen, poll_id, resultsT
     )
 }
 
-const PollsTable = () => {
+const PollsTable = ({polls, setPolls}) => {
     const [messageApi, contextHolder] = message.useMessage();
-    useEffect(() => {
-        API({
-            endpoint: "/polls", ok: (resp) => {
-                let tmp = [];
-                resp.data.forEach(poll => {
-                    tmp.push({
-                        key: poll.id,
-                        id: poll.id,
-                        title: poll.title,
-                        description: poll.description,
-                        actionsBtns: <Space direction="horizontal">
-                            <Button type="primary">Редактировать</Button>
-                            <Button type="dashed" onClick={() => {
-                                setSelectedPoll(poll.id);
-                                setResultsModalOpen(true);
-                                API({
-                                    endpoint: `/polls/${poll.id}/answers`, ok: (resp) => {
-                                        //setResultsModalOpen(resp.data);
-                                    }
-                                })
-                            }}>Результаты</Button>
-                            <Button type="dashed" onClick={() => {
-                                setSelectedPoll(poll.id);
-                                setEditModalOpen(true);
-                            }}>Поделиться</Button>
-                            <Button danger>Удалить</Button>
-                        </Space>
-                    });
-                });
-                setPolls(tmp);
-            }
-        });
-    }, []);
-    const [polls, setPolls] = useState([]);
+    // useEffect(() => {
+    //     API({
+    //         endpoint: "/polls", ok: (resp) => {
+    //             let tmp = [];
+    //             resp.data.forEach(poll => {
+    //                 tmp.push({
+    //                     key: poll.id,
+    //                     id: poll.id,
+    //                     title: poll.title,
+    //                     description: poll.description,
+    //                     actionsBtns: <Space direction="horizontal">
+    //                         <Button type="primary">Редактировать</Button>
+    //                         <Button type="dashed" onClick={() => {
+    //                             setSelectedPoll(poll.id);
+    //                             setResultsModalOpen(true);
+    //                             API({
+    //                                 endpoint: `/polls/${poll.id}/answers`, ok: (resp) => {
+    //                                     //setResultsModalOpen(resp.data);
+    //                                 }
+    //                             })
+    //                         }}>Результаты</Button>
+    //                         <Button type="dashed" onClick={() => {
+    //                             setSelectedPoll(poll.id);
+    //                             setEditModalOpen(true);
+    //                         }}>Поделиться</Button>
+    //                         <Button danger>Удалить</Button>
+    //                     </Space>
+    //                 });
+    //             });
+    //             setPolls(tmp);
+    //         }
+    //     });
+    // }, []);
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [selectedPoll, setSelectedPoll] = useState(-1);
     const [deleteConfirm, setDeleteConfirm] = useState(false);

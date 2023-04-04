@@ -26,25 +26,10 @@ const CreatePoll = () => {
             return;
         }
         // If validation ok
-        API({ endpoint: "/polls", method: "put", data: data });
+        API({ endpoint: "/polls", method: "put", data: data, message: { show: true, api: messageApi, ok: "Опрос успешно создан!", err: "Опрос не создан!" } });
 
     }
     return (<>
-        {/* <FloatButton.Group
-            trigger="click"
-            type="primary"
-            style={{
-                right: 94,
-            }}
-            icon={<PlusCircleOutlined />}
-        >
-            <FloatButton icon={<SelectOutlined />} tooltip={"Выбор одного ответа"} />
-            <FloatButton icon={<FileTextOutlined />} tooltip={"Многострочный ответ"} />
-            <FloatButton icon={<FileTextOutlined />} tooltip={"Одна строка"} onClick={() => {
-                setQuestions([...questions, { type: 1, text: "ShTP" }]);
-            }} />
-
-        </FloatButton.Group> */}
         {contextHolder}
         <div className="wrapper_admin">
             <Form
