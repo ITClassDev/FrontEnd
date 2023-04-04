@@ -53,9 +53,9 @@ const CreatePoll = () => {
                 requiredMark={false}
                 onFinish={ProcessForm}
             >
-                <Card style={{ marginBottom: 20 }} title={<Form.Item name="title" style={{ margin: 0 }}><Input placeholder="Название" /></Form.Item>}>
+                <Card style={{ marginBottom: 20 }} title={<Form.Item name="title" style={{ margin: 0 }}><Input placeholder="Название опроса" /></Form.Item>}>
                     <Form.Item name="description" style={{ margin: 0 }}>
-                        <TextArea placeholder="Описание" />
+                        <TextArea placeholder="Описание опроса" />
                     </Form.Item>
                 </Card>
                 <EditableQuestionBase />

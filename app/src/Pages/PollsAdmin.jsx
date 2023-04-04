@@ -15,6 +15,7 @@ const PollsAdmin = ({ user }) => {
                 <Title level={3}>Опросы</Title>
                 <Tabs
                     defaultActiveKey="1"
+                    onChange={(tab) => { console.log(tab); }}
                     items={[
                         {
                             label: "Обзор",
@@ -23,7 +24,7 @@ const PollsAdmin = ({ user }) => {
                         }, {
                             label: <><PlusOutlined />Создать</>,
                             key: "2",
-                            children: <CreatePoll/>
+                            children: <CreatePoll />
                         }]}
                 />
             </>

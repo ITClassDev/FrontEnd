@@ -27,7 +27,7 @@ const ShareModal = ({ editModalOpen, setEditModalOpen, messageApi, poll_id }) =>
 
 const ResultsModal = ({ resultsModalOpen, setResultsModalOpen, poll_id, resultsTableData }) => {
     return (
-        <Modal open={resultsModalOpen} onCancel={() => { setResultsModalOpen(false) }} transitionName="" footer={[<Button type="dashed" key="download_xlsx">Скачать xlsx</Button>]} title={`Количество ответов: ${"N/A"}`}>
+        <Modal open={resultsModalOpen} onCancel={() => { setResultsModalOpen(false) }} transitionName="" footer={[<Button type="dashed" key="download_xlsx" onClick={() => { window.open(`${FRONTEND_URL}/polls`) }}>Скачать xlsx</Button>]} title={`Количество ответов: ${"N/A"}`}>
             <Table columns={[{ title: "ID", dataIndex: "id", key: "id" }, { title: "Дата", dataIndex: "date", key: "date" }, { title: "Действия", dataIndex: "actionsBtns", key: "actionsBtns" }]} />
         </Modal>
     )
