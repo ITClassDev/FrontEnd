@@ -3,7 +3,7 @@ import { Table, Space, Button, Modal, QRCode, Row, Image, message } from "antd";
 import { GlobalOutlined, CopyOutlined } from "@ant-design/icons";
 import { FRONTEND_URL } from "../config";
 import Telegram_logo from "../Images/Telegram_logo.svg";
-import { API } from "../api";
+import { DownloadPrivateFile } from "../api";
 
 const ShareModal = ({ shareModalOpen, setShareModalOpen, messageApi, poll_id }) => {
     let poll_url = `${FRONTEND_URL}/poll?id=${poll_id}`;
@@ -27,7 +27,9 @@ const ShareModal = ({ shareModalOpen, setShareModalOpen, messageApi, poll_id }) 
 
 const ResultsModal = ({ resultsModalOpen, setResultsModalOpen, poll_id, resultsTableData }) => {
     return (
-        <Modal open={resultsModalOpen} onCancel={() => { setResultsModalOpen(false) }} transitionName="" footer={[<Button type="dashed" key="download_xlsx" onClick={() => { window.open(`${FRONTEND_URL}/polls`) }}>Скачать xlsx</Button>]} title={`Количество ответов: ${"N/A"}`}>
+        <Modal open={resultsModalOpen} onCancel={() => { setResultsModalOpen(false) }} transitionName="" footer={[
+            <Button type="dashed" key="download_xlsx" onClick={() => { DownloadPrivateFile({ endpoint: `/polls/${poll_id}/answers/xlsx`, file_name: "polls.xlsx" }) }}>Скачать xlsx</Button>
+        ]} title={`Количество ответов: ${"N/A"}`}>
             <Table columns={[{ title: "ID", dataIndex: "id", key: "id" }, { title: "Дата", dataIndex: "date", key: "date" }, { title: "Действия", dataIndex: "actionsBtns", key: "actionsBtns" }]} />
         </Modal>
     )
@@ -37,7 +39,6 @@ const ResultsModal = ({ resultsModalOpen, setResultsModalOpen, poll_id, resultsT
 const PollsTable = ({ polls }) => {
 
     const [messageApi, contextHolder] = message.useMessage();
-    const [editModalOpen, setEditModalOpen] = useState(false);
     const [selectedPoll, setSelectedPoll] = useState(-1);
     const [deleteConfirm, setDeleteConfirm] = useState(false);
     const [resultsModalOpen, setResultsModalOpen] = useState(false);

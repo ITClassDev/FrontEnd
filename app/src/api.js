@@ -52,7 +52,24 @@ export function API({ endpoint, method = "get", data = {}, auth = true, ok = nul
 
   });
 
+}
 
+export function DownloadPrivateFile({ endpoint, file_name, method = "get", api_url = API_URL }) {
+  axios({
+    url: `${api_url}${endpoint}`,
+    method: method,
+    responseType: 'blob',
+    headers: `Authorization: Bearer ${localStorage.getItem("user")}`,
+  }).then((response) => {
+    const href = URL.createObjectURL(response.data);
+    const link = document.createElement('a');
+    link.href = href;
+    link.setAttribute('download', file_name);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(href);
+  });
 }
 
 // ALL CODE BELOW THIS COMMENT WILL BE LEGACY AFTER SOME TIME
@@ -65,7 +82,7 @@ export function getUser(ok_handler, error_handler, api = API_URL) {
       ok_handler(response);
     })
     .catch((response) => {
-      
+
       if (response.code === "ERR_NETWORK") {
         backendError();
       }
