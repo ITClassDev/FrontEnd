@@ -129,9 +129,6 @@ const Poll = () => {
             })}
             <Card style={{ marginTop: 20, marginBottom: 20 }}>
               <Space direction="vertical" style={{ width: "100%" }}>
-                <Checkbox>
-                  Отправляя опрос, Вы отдаёте себя в рабство Путинцеву навсегда
-                </Checkbox>
                 <Button
                   type="primary"
                   htmlType="submit"
