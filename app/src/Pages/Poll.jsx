@@ -15,7 +15,7 @@ import { OneItemSelect, OneLineText, MultilineText, CheckboxSelect } from "../Co
 import "../poll.css";
 import { useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
-import { API } from "../api";
+import { API, submitContest } from "../api";
 import { CLIENT_VER } from "../config";
 import { useNavigate } from "react-router-dom";
 import useDocumentTitle from "../useDocumentTitle";
@@ -26,9 +26,10 @@ const Poll = () => {
   const [searchParams] = useSearchParams();
   const poll_id = searchParams.get("id");
   useDocumentTitle(`ШТП Опрос | ${poll_id}`);
-  const [questions, setQuestions] = useState([]);
   const [pollTitle, setPollTitle] = useState("Loading...");
   const [pollDescription, setPollDescription] = useState("Loading...");
+  const [pollContent, setPollContent] = useState("Loading...");
+  const [displaySubmit, setDisplaySubmit] = useState(true);
 
   // Static test; loaded from backend api
   // const questions = [
@@ -85,7 +86,26 @@ const Poll = () => {
   useEffect(() => {
     API({
       endpoint: `/polls/${poll_id}`, ok: (resp) => {
-        setQuestions(resp.data.entries);
+        setPollContent(<>
+          {resp.data.entries.map((question, ind) => {
+            let res;
+            switch (question.type) {
+              case 0:
+                res = <OneItemSelect ind={ind} question={question} key={ind} />;
+                break;
+              case 1:
+                res = <OneLineText ind={ind} question={question} key={ind} />;
+                break;
+              case 2:
+                res = <MultilineText ind={ind} question={question} key={ind} />;
+                break;
+              case 3:
+                res = <CheckboxSelect ind={ind} question={question} key={ind} />;
+                break;
+            }
+            return res;
+          })}
+        </>)
         setPollTitle(resp.data.title);
         setPollDescription(resp.data.description);
       }, err: (resp) => {
@@ -93,7 +113,8 @@ const Poll = () => {
         navigate("/404");
       }
     })
-  }, [])
+  }, []);
+
   return (
     <ConfigProvider theme={{
       algorithm: false
@@ -107,27 +128,22 @@ const Poll = () => {
             name="answers_page"
             autoComplete="off"
             requiredMark={false}
-            onFinish={(data) => { API({ endpoint: `/polls/${poll_id}/submit`, data: data, method: "put" }) }}
+            onFinish={(data) => {
+              API({
+                endpoint: `/polls/${poll_id}/submit`, data: data, method: "put", ok: () => {
+                  setDisplaySubmit(false);
+                  setPollContent(<Card style={{ marginTop: 20, marginBottom: 20 }}>
+                    <Space direction="vertical" style={{ width: "100%" }}>
+                      <Text>Ответы на опрос записаны</Text>
+                    </Space>
+                  </Card>
+                  );
+                }
+              })
+            }}
           >
-            {questions.map((question, ind) => {
-              let res;
-              switch (question.type) {
-                case 0:
-                  res = <OneItemSelect ind={ind} question={question} key={ind} />;
-                  break;
-                case 1:
-                  res = <OneLineText ind={ind} question={question} key={ind} />;
-                  break;
-                case 2:
-                  res = <MultilineText ind={ind} question={question} key={ind} />;
-                  break;
-                case 3:
-                  res = <CheckboxSelect ind={ind} question={question} key={ind} />;
-                  break;
-              }
-              return res;
-            })}
-            <Card style={{ marginTop: 20, marginBottom: 20 }}>
+            {pollContent}
+            <Card style={displaySubmit ? { marginTop: 20, marginBottom: 20 } : { display: 'none' }}>
               <Space direction="vertical" style={{ width: "100%" }}>
                 <Button
                   type="primary"

@@ -24,7 +24,7 @@ const PollsAdmin = ({ user }) => {
                 <Title level={3}>Опросы</Title>
                 <Tabs
                     defaultActiveKey="1"
-                    onChange={(tab) => { if (tab === 1) loadPollsTable(); }
+                    onChange={(tab) => { if (tab === "1")  loadPollsTable(); }
                     }
                     items={[
                         {
