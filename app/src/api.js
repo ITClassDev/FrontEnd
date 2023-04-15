@@ -390,22 +390,6 @@ export function getAllUsers(ok_handler, error_handler, api = API_URL) {
     });
 }
 
-export function createUser(
-  user_data,
-  ok_handler,
-  error_handler,
-  api = API_URL
-) {
-  axios
-    .put(`${api}/users/create_user`, user_data, getAuth())
-    .then((response) => {
-      ok_handler(response);
-    })
-    .catch((response) => {
-      error_handler(response);
-    });
-}
-
 export function createTask(
   task_data,
   ok_handler,

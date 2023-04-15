@@ -11,41 +11,27 @@ import {
   Upload
 } from "antd";
 import { useEffect } from "react";
-import { createUser, getAllUsers } from "../api";
+import { API, getAllUsers } from "../api";
 import NameAndAvatar from "./NameAndAvatar";
 import CreateUserForm from "./CreateUserForm";
 import Link from "antd/es/typography/Link";
+import API_URL from "../config";
 import { UploadOutlined } from '@ant-design/icons';
 
 const { Search } = Input;
 const { Title } = Typography;
 
 
+
 const AdminUsers = () => {
   const refreshUsersTable = () => {
-    let all_users = [];
-    getAllUsers(
-      (response) => {
-        // FIXIT USE MAP
+    API({
+      endpoint: "/admin/all_users", ok: (response) => {
         setUserGroups(response.data.user_groups);
-        response.data.users.forEach((user) => {
-          all_users.push({
-            id: user.id,
-            fio: (
-              <NameAndAvatar
-                user_id={user.id}
-                name={`${user.firstName} ${user.lastName}`}
-                avatar={user.userAvatarPath}
-              />
-            ),
-            user_group: <Tag color="geekblue">{user.groupName}</Tag>,
-            key: user.id,
-          });
-        });
-        setUsersList(all_users);
-      },
-      () => { }
-    );
+        setUsersList(response.data.users.map(user => ({ key: user.id, id: user.id, fio: <NameAndAvatar user_id={user.id} name={`${user.firstName} ${user.lastName}`} avatar={user.userAvatarPath} />, user_group: <Tag color="geekblue">{user.groupName}</Tag>, })));
+      }
+    })
+
   };
   const [usersList, setUsersList] = useState();
   const [userGroups, setUserGroups] = useState([]);
@@ -76,32 +62,20 @@ const AdminUsers = () => {
       render: (_, record) => (
         <Space direction="horizontal">
           <Button type="primary">Редактировать</Button>
-          <Button type="dashed" danger onClick={() => { console.log(record.id) }}>
+          <Button type="dashed" danger onClick={() => {
+            API({
+              endpoint: `/users/${record.id}/delete`, method: "delete", ok: () => {
+                setUsersList(usersList.filter(obj => obj.id !== record.id))
+              }, message: { show: true, api: messageApi, ok: "Пользователь удалён", err: "Ошибка" }
+            })
+
+          }}>
             Удалить
           </Button>
         </Space>
       ),
     },
   ];
-
-  const createUserFormHandler = (data) => {
-    createUser(
-      data,
-      (response) => {
-        messageApi.open({
-          type: "success",
-          content: "Пользователь создан успешно!",
-        });
-        refreshUsersTable();
-      },
-      (response) => {
-        messageApi.open({
-          type: "error",
-          content: "Ошибка! Проверьте введённые данные.",
-        });
-      }
-    );
-  };
 
   return (
     <>
@@ -127,7 +101,7 @@ const AdminUsers = () => {
         Добавить одного пользователя
       </Title>
       <CreateUserForm
-        createUserFormHandler={createUserFormHandler}
+        createUserFormHandler={(data) => { API({ endpoint: "/users/create_user", method: "put", data: data, message: { show: true, api: messageApi, ok: "Пользователь успешно создан!", err: "Ошибка! Проверьте введённые данные." } }) }}
         userGroups={userGroups}
       />
       <Title level={4} style={{ marginTop: 0 }}>
@@ -137,8 +111,9 @@ const AdminUsers = () => {
         Загрузите csv файл с описанием пользователей:
         <Upload {...{
           name: 'users',
-          action: 'http://localhost:8080',
-          accept: ".csv", 
+          action: `${API_URL}/users/from_csv`,
+          method: 'put',
+          accept: ".csv",
           headers: {
             authorization: 'authorization-text',
           },
