@@ -1,0 +1,3 @@
+firstName,lastName,email,userRole,password,learningClass,groupId
+Иван ,Иванов,ivan@ivanov.com,0,12345,10,1
+Иванов,Иван,ivanov@ivan.com,0,12345,10,1

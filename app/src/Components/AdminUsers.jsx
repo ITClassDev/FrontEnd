@@ -8,31 +8,25 @@ import {
   Tag,
   Row,
   message,
+  Upload
 } from "antd";
 import { useEffect } from "react";
 import { createUser, getAllUsers } from "../api";
 import NameAndAvatar from "./NameAndAvatar";
 import CreateUserForm from "./CreateUserForm";
+import Link from "antd/es/typography/Link";
+import { UploadOutlined } from '@ant-design/icons';
 
 const { Search } = Input;
 const { Title } = Typography;
 
-const UserControllButtons = ({ user_id }) => {
-  return (
-    <Space direction="horizontal">
-      <Button type="primary">Редактировать</Button>
-      <Button type="dashed" danger>
-        Удалить
-      </Button>
-    </Space>
-  );
-};
 
 const AdminUsers = () => {
   const refreshUsersTable = () => {
     let all_users = [];
     getAllUsers(
       (response) => {
+        // FIXIT USE MAP
         setUserGroups(response.data.user_groups);
         response.data.users.forEach((user) => {
           all_users.push({
@@ -44,14 +38,13 @@ const AdminUsers = () => {
                 avatar={user.userAvatarPath}
               />
             ),
-            actionsBtns: <UserControllButtons user_id={user.id} />,
             user_group: <Tag color="geekblue">{user.groupName}</Tag>,
             key: user.id,
           });
         });
         setUsersList(all_users);
       },
-      () => {}
+      () => { }
     );
   };
   const [usersList, setUsersList] = useState();
@@ -80,6 +73,14 @@ const AdminUsers = () => {
       title: "Действия",
       dataIndex: "actionsBtns",
       key: "actionsBtns",
+      render: (_, record) => (
+        <Space direction="horizontal">
+          <Button type="primary">Редактировать</Button>
+          <Button type="dashed" danger onClick={() => { console.log(record.id) }}>
+            Удалить
+          </Button>
+        </Space>
+      ),
     },
   ];
 
@@ -130,9 +131,33 @@ const AdminUsers = () => {
         userGroups={userGroups}
       />
       <Title level={4} style={{ marginTop: 0 }}>
-        Добавить несколько пользователей
+        Добавить несколько пользователей через csv
       </Title>
-      PLACEHOLDER
+      <Space direction="vertical">
+        Загрузите csv файл с описанием пользователей:
+        <Upload {...{
+          name: 'users',
+          action: 'http://localhost:8080',
+          accept: ".csv", 
+          headers: {
+            authorization: 'authorization-text',
+          },
+          onChange(info) {
+            if (info.file.status !== 'uploading') {
+              console.log(info.file, info.fileList);
+            }
+            if (info.file.status === 'done') {
+              message.success(`${info.file.name} file uploaded successfully`);
+            } else if (info.file.status === 'error') {
+              message.error(`${info.file.name} file upload failed.`);
+            }
+          },
+        }}>
+          <Button icon={<UploadOutlined />}>Click to Upload</Button>
+        </Upload>
+        <Link href="/Docs/create_users.csv" target="__blank">Пример файла</Link>
+      </Space>
+
     </>
   );
 };
