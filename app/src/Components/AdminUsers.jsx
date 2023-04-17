@@ -10,29 +10,30 @@ import {
   message,
   Upload
 } from "antd";
-import { useEffect } from "react";
-import { API, getAllUsers } from "../api";
+import { useEffect, useRef } from "react";
+import { API } from "../api";
 import NameAndAvatar from "./NameAndAvatar";
 import CreateUserForm from "./CreateUserForm";
 import Link from "antd/es/typography/Link";
 import API_URL from "../config";
-import { UploadOutlined } from '@ant-design/icons';
+import { UploadOutlined, PlusOutlined } from '@ant-design/icons';
 
 const { Search } = Input;
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 
 
 const AdminUsers = () => {
   const refreshUsersTable = () => {
     API({
-      endpoint: "/admin/all_users", ok: (response) => {
-        setUserGroups(response.data.user_groups);
+      endpoint: "/users/", ok: (response) => {
+        setUserGroups(response.data.userGroups);
         setUsersList(response.data.users.map(user => ({ key: user.id, id: user.id, fio: <NameAndAvatar user_id={user.id} name={`${user.firstName} ${user.lastName}`} avatar={user.userAvatarPath} />, user_group: <Tag color="geekblue">{user.groupName}</Tag>, })));
       }
     })
 
   };
+  const inputGroupNameRef = useRef();
   const [usersList, setUsersList] = useState();
   const [userGroups, setUserGroups] = useState([]);
   const [messageApi, contextHolder] = message.useMessage();
@@ -64,7 +65,7 @@ const AdminUsers = () => {
           <Button type="primary">Редактировать</Button>
           <Button type="dashed" danger onClick={() => {
             API({
-              endpoint: `/users/${record.id}/delete`, method: "delete", ok: () => {
+              endpoint: `/users/${record.id}`, method: "delete", ok: () => {
                 setUsersList(usersList.filter(obj => obj.id !== record.id))
               }, message: { show: true, api: messageApi, ok: "Пользователь удалён", err: "Ошибка" }
             })
@@ -76,8 +77,7 @@ const AdminUsers = () => {
       ),
     },
   ];
-
-  return (
+   return (
     <>
       {contextHolder}
       <Title level={4} style={{ marginTop: 0 }}>
@@ -90,8 +90,15 @@ const AdminUsers = () => {
       />
       <Table columns={allUsersColumns} dataSource={usersList} />
       <Title level={4} style={{ marginTop: 0 }}>
-        Группы пользователей
+        Группы пользователей {/* setUserGroups(prevState => [...prevState, {id: 1, name: "new group"}])} */}
       </Title>
+      <Space.Compact style={{marginBottom: 10}}>
+        <Input placeholder="Название группы" ref={inputGroupNameRef}/>
+        <Button type="primary" icon={<PlusOutlined/>} onClick={() => {
+          API ({endpoint: "/users/groups", method: "put", data: {name: inputGroupNameRef.current.input.value}})
+          //console.log(inputGroupNameRef.current.input.value);
+        }}></Button>
+      </Space.Compact>
       <Row gutter={[5, 5]}>
         {userGroups.map((item) => (
           <Tag color="geekblue" key={item.id}>{item.name}</Tag>
@@ -101,7 +108,7 @@ const AdminUsers = () => {
         Добавить одного пользователя
       </Title>
       <CreateUserForm
-        createUserFormHandler={(data) => { API({ endpoint: "/users/create_user", method: "put", data: data, message: { show: true, api: messageApi, ok: "Пользователь успешно создан!", err: "Ошибка! Проверьте введённые данные." } }) }}
+        createUserFormHandler={(data) => { API({ endpoint: "/users", method: "put", data: data, message: { show: true, api: messageApi, ok: "Пользователь успешно создан!", err: "Ошибка! Проверьте введённые данные." } }) }}
         userGroups={userGroups}
       />
       <Title level={4} style={{ marginTop: 0 }}>
@@ -110,25 +117,27 @@ const AdminUsers = () => {
       <Space direction="vertical">
         Загрузите csv файл с описанием пользователей:
         <Upload {...{
-          name: 'users',
+          name: 'file',
           action: `${API_URL}/users/from_csv`,
           method: 'put',
+          maxCount: 1,
           accept: ".csv",
           headers: {
-            authorization: 'authorization-text',
+            authorization: `Bearer ${localStorage.getItem("user")}`,
           },
           onChange(info) {
             if (info.file.status !== 'uploading') {
               console.log(info.file, info.fileList);
             }
             if (info.file.status === 'done') {
-              message.success(`${info.file.name} file uploaded successfully`);
+              refreshUsersTable();
+              messageApi.success("Пользователи созданы");
             } else if (info.file.status === 'error') {
-              message.error(`${info.file.name} file upload failed.`);
+              messageApi.error("Ошибка при загрузке файла");
             }
           },
         }}>
-          <Button icon={<UploadOutlined />}>Click to Upload</Button>
+          <Button icon={<UploadOutlined />}>Выберите файл</Button>
         </Upload>
         <Link href="/Docs/create_users.csv" target="__blank">Пример файла</Link>
       </Space>

@@ -12,7 +12,7 @@ import {
   Select,
   message,
 } from "antd";
-import React from "react";
+import React, {useState} from "react";
 import Telegram_logo from "../Images/Telegram_logo.svg";
 import Stepik_logo from "../Images/Stepik_logo.png";
 import Kaggle_logo from "../Images/Kaggle_logo.svg";
@@ -22,7 +22,7 @@ import {
   InfoCircleOutlined,
   GlobalOutlined,
 } from "@ant-design/icons";
-import { STORAGE } from "../config";
+import API_URL, { STORAGE } from "../config";
 import { API } from "../api";
 
 // FIXIT; for dev purpose
@@ -59,6 +59,9 @@ const Settings = ({ user }) => {
     { value: "Apache", label: "Apache" },
   ];
   const [messageApi, contextHolder] = message.useMessage();
+  
+
+  const [avatarImageUrl, setAvatarImageUrl] = useState(`${STORAGE}/avatars/${user.user.userAvatarPath}?nocache=${Date.now()}`);
   let tech_stack_default;
   if (user.user["techStack"] !== null) {
     tech_stack_default = user.user.techStack.split(",");
@@ -74,23 +77,23 @@ const Settings = ({ user }) => {
             <Form
               name="social_links"
               autoComplete="off"
-              onFinish={(social_links) => { API({endpoint: "/users/update/social", method: "patch", data: social_links, message: { show: true, api: messageApi, ok: "Социальные ссылки успешно обновлены!", err: "Ошибка" }}) }}
+              onFinish={(social_links) => { API({endpoint: "/users", method: "patch", data: {socialLinks: social_links}, message: { show: true, api: messageApi, ok: "Социальные ссылки успешно обновлены!", err: "Ошибка" }}) }}
               initialValues={{
-                github: user.user.userGithub,
-                telegram: user.user.userTelegram,
-                stepik: user.user.userStepik,
-                kaggle: user.user.userKaggle,
-                website: user.user.userWebsite,
+                userGithub: user.user.userGithub,
+                userTelegram: user.user.userTelegram,
+                userStepik: user.user.userStepik,
+                userKaggle: user.user.userKaggle,
+                userWebsite: user.user.userWebsite,
               }}
             >
-              <Form.Item name="github">
+              <Form.Item name="userGithub">
                 <Input
                   addonBefore={<GithubOutlined />}
                   placeholder="github username"
                 />
               </Form.Item>
 
-              <Form.Item name="telegram">
+              <Form.Item name="userTelegram">
                 <Input
                   addonBefore={
                     <Image src={Telegram_logo} width={17} preview={false} />
@@ -99,7 +102,7 @@ const Settings = ({ user }) => {
                 />
               </Form.Item>
 
-              <Form.Item name="stepik">
+              <Form.Item name="userStepik">
                 <Input
                   addonBefore={
                     <Image src={Stepik_logo} width={17} preview={false} />
@@ -108,7 +111,7 @@ const Settings = ({ user }) => {
                 />
               </Form.Item>
 
-              <Form.Item name="kaggle">
+              <Form.Item name="userKaggle">
                 <Input
                   addonBefore={
                     <Image src={Kaggle_logo} width={17} preview={false} />
@@ -117,7 +120,7 @@ const Settings = ({ user }) => {
                 />
               </Form.Item>
 
-              <Form.Item name="website">
+              <Form.Item name="userWebsite">
                 <Input addonBefore={<GlobalOutlined />} placeholder="website" />
               </Form.Item>
 
@@ -137,9 +140,9 @@ const Settings = ({ user }) => {
                 remember: true,
               }}
               autoComplete="off"
-              onFinish={(password) => { API({ endpoint: "/users/update/password", method: "patch", data: password, message: { show: true, api: messageApi, ok: "Пароль обновлён", err: "Ошибка" } }); }}
+              onFinish={(password) => { API({ endpoint: "/users/", method: "patch", data: {password: password}, message: { show: true, api: messageApi, ok: "Пароль обновлён", err: "Ошибка" } }); }}
             >
-              <Form.Item name="current_password">
+              <Form.Item name="currentPassword">
                 <Input.Password
                   addonBefore={<LockOutlined />}
                   placeholder="Текущий пароль"
@@ -152,7 +155,7 @@ const Settings = ({ user }) => {
                 />
               </Form.Item>
 
-              <Form.Item name="new_password">
+              <Form.Item name="newPassword">
                 <Input.Password
                   addonBefore={<LockOutlined />}
                   placeholder="Новый пароль"
@@ -164,7 +167,7 @@ const Settings = ({ user }) => {
                   ]}
                 />
               </Form.Item>
-              <Form.Item name="confirm_password">
+              <Form.Item name="confirmPassword">
                 <Input.Password
                   addonBefore={<LockOutlined />}
                   placeholder="Новый пароль ещё раз"
@@ -188,18 +191,18 @@ const Settings = ({ user }) => {
         <Col xs={24} xl={12}>
           <Card title={"Основная информация"} style={{ height: "100%" }}>
             <Form
-              name="password_change"
+              name="baseInfo"
               initialValues={{
-                remember: true,
+                aboutText: user.user.userAboutText
               }}
               autoComplete="off"
               layout="vertical"
             >
-              <Form.Item name="about" label="О себе">
+              <Form.Item name="aboutText" label="О себе">
                 <Space direction="vertical" style={{ width: "100%" }}>
                   <Input
-                    defaultValue={user.user.userAboutText}
                     addonBefore={<InfoCircleOutlined />}
+                    defaultValue={user.user.userAboutText}
                     placeholder="Краткая информация о вас"
                   />
                 </Space>
@@ -208,19 +211,41 @@ const Settings = ({ user }) => {
               <Form.Item name="avatar" label="Аватар">
                 <Space direction="vertical" style={{ width: "100%" }}>
                   <Upload
-                    name="avatar"
+                    name="file"
+                    accept=".png,.jpg,.gif"
                     listType="picture-card"
                     className="avatar-uploader"
                     showUploadList={false}
-                    action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                    method="PATCH"
+                    action={`${API_URL}/users/avatar`}
+                    headers={
+                      {
+                        authorization: `Bearer ${localStorage.getItem("user")}`,
+                      }
+                    }
+                    onChange = {(info) => {
+                      if (info.file.status !== 'uploading') {
+                        console.log(info.file, info.fileList);
+                      }
+                      if (info.file.status === 'done') {
+                        messageApi.success("Аватар обновлён");
+                        setAvatarImageUrl(avatarImageUrl + "&cache=reload");
+
+                      } else if (info.file.status === 'error') {
+                        messageApi.error("Ошибка при загрузке файла");
+                      }
+                    }}
+
+                    
+
                   >
-                    <img
-                      src={`${STORAGE}/avatars/${user.user.userAvatarPath}`}
+                    <Image
+                      src={avatarImageUrl}
+                      preview={false}
                       alt="avatar"
                       style={{
                         width: "100%",
-                      }}
-                    />
+                      }}                   />
                   </Upload>
                 </Space>
               </Form.Item>
@@ -237,12 +262,12 @@ const Settings = ({ user }) => {
           <Card title={"Дополнительно"} style={{ height: "100%" }}>
             <Form
               name="extra"
-              initialValues={{ tech_stack: tech_stack_default }}
+              initialValues={{ techStack: tech_stack_default }}
               autoComplete="off"
               layout="vertical"
-              onFinish={(new_tech_stack) => { API({ endpoint: "/users/update/tech_stack", method: "patch", data: new_tech_stack, message: { show: true, api: messageApi, ok: "Стэк технологий успешно обновлён!", err: "Ошибка" } }); }}
+              onFinish={(new_tech_stack) => { API({ endpoint: "/users/", method: "patch", data: new_tech_stack, message: { show: true, api: messageApi, ok: "Стэк технологий успешно обновлён!", err: "Ошибка" } }); }}
             >
-              <Form.Item name="tech_stack" label="Технологии">
+              <Form.Item name="techStack" label="Технологии">
                 <Select
                   mode="tags"
                   style={{
