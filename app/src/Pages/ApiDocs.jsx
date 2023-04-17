@@ -70,7 +70,7 @@ const ApiDocs = () => {
 
                 <Paragraph>
                     Мы реализовали систему подобную OAuth. На следующем изображении показана схема аутентификации через ШТП на кастомном ресурсе.
-                    <Image src="https://i.imgur.com/8hBttWR_d.webp?maxwidth=760&fidelity=grand" />
+                    <Image src="/Docs/images/oauth.webp" />
                 </Paragraph>
                 <Paragraph>
 

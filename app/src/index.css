@@ -16,7 +16,7 @@ code {
 .logo {
   height: 32px;
   margin: 16px;
-  background:url("https://i.imgur.com/pKdEtE5.png");
+  background:url("../public/logo.png");
 }
 
 .dots {
