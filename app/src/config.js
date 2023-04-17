@@ -1,9 +1,3 @@
-// const dev = {
-//     HOST: "localhost",
-//     PROTOCOL: "http",
-//     CLIENT_VER: "0.0.3 alpha (dev)"
-
-// }
 const conf = (HOST, name="prod", PROTOCOL="http") => (
     {
         API_URL: `${PROTOCOL}://${HOST}/api`,
