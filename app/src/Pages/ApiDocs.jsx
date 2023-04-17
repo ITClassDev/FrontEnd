@@ -2,10 +2,11 @@ import React from "react";
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { a11yDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { users_info_base } from "../code_snippets";
-import API_URL from "../config";
+import { config } from "../config";
 import { Typography, Space, Image } from 'antd';
 const { Title, Text, Paragraph } = Typography;
 
+const API_URL = config.API_URL;
 
 const ApiDocs = () => {
     return (

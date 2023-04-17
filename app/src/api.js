@@ -1,9 +1,7 @@
 import axios from "axios";
-import API_URL from "./config";
+import {config} from "./config";
 
-export function backendError() {
-  console.warn("Backend is down; Contact ShTP admins");
-}
+const API_URL = config.API_URL;
 
 
 export function API({ endpoint, method = "get", data = {}, auth = true, ok = null, err = null, message = { show: false, api: null, ok: "ОК", err: "Err" }, api_url = API_URL }) {
@@ -84,7 +82,7 @@ export function getUser(ok_handler, error_handler, api = API_URL) {
     .catch((response) => {
 
       if (response.code === "ERR_NETWORK") {
-        backendError();
+        
       }
       error_handler(response);
     });

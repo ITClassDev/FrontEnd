@@ -8,9 +8,11 @@ import {
 import ProgTask from "../Components/ProgTask";
 import { useEffect, useState } from "react";
 import SubmitViaGithub from "../Components/SubmitViaGithub";
-import { FRONTEND_URL } from "../config";
+import { config } from "../config";
 import { useSearchParams } from "react-router-dom";
 import { getContestData, getTaskData } from "../api";
+
+const FRONTEND_URL = config.FRONTEND_URL;
 
 const { Title } = Typography;
 

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { STORAGE } from "../config";
+import { config } from "../config";
 import { Card, Table, Avatar } from "antd";
 import { Typography } from "antd";
 import { getLeaderBoard } from "../api";
 import { Link } from "react-router-dom";
 const { Text } = Typography;
+const STORAGE = config.STORAGE;
 
 const LeaderBoard = () => {
   const columns = [

@@ -33,10 +33,13 @@ import {
 import { Outlet, Link } from "react-router-dom";
 import "../index.css";
 import LoginForm from "./LoginForm";
-import { CLIENT_VER } from "../config";
+import { config } from "../config";
 import { router_mapping } from "../router_mapping";
 import IntroPage from "./IntroPage";
 import { API } from "../api";
+
+const CLIENT_VER = config.CLIENT_VER;
+
 
 const { Content, Sider, Footer } = Layout;
 const { Text } = Typography;

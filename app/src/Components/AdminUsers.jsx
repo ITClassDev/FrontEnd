@@ -15,11 +15,13 @@ import { API } from "../api";
 import NameAndAvatar from "./NameAndAvatar";
 import CreateUserForm from "./CreateUserForm";
 import Link from "antd/es/typography/Link";
-import API_URL from "../config";
+import { config } from "../config";
 import { UploadOutlined, PlusOutlined } from '@ant-design/icons';
 
+const API_URL = config.API_URL;
+
 const { Search } = Input;
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 
 

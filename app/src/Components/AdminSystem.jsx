@@ -1,7 +1,10 @@
 import React, {useEffect, useState} from "react";
-import { API_URL, STORAGE } from "../config";
+import { config } from "../config";
 import { Descriptions } from "antd";
 import axios from "axios";
+
+const API_URL = config.API_URL;
+const STORAGE = config.STORAGE;
 
 
 const AdminSystem = () => {

@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Table, Space, Button, Modal, QRCode, Row, Image, message } from "antd";
 import { GlobalOutlined, CopyOutlined } from "@ant-design/icons";
-import { FRONTEND_URL } from "../config";
+import { config } from "../config";
 import Telegram_logo from "../Images/Telegram_logo.svg";
 import { DownloadPrivateFile } from "../api";
+
+const FRONTEND_URL = config.FRONTEND_URL;
 
 const ShareModal = ({ shareModalOpen, setShareModalOpen, messageApi, poll_id }) => {
     let poll_url = `${FRONTEND_URL}/poll?id=${poll_id}`;

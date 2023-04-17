@@ -13,7 +13,7 @@ import {
   Tag
 } from "antd";
 import { GithubOutlined, GlobalOutlined } from "@ant-design/icons";
-import { STORAGE } from "../config";
+import { config } from "../config";
 import { API } from "../api";
 import Terminal from "./Terminal";
 import "dayjs/locale/ru";
@@ -22,6 +22,7 @@ import Telegram_logo from "../Images/Telegram_logo.svg";
 import Stepik_logo from "../Images/Stepik_logo.png";
 import Kaggle_logo from "../Images/Kaggle_logo.svg";
 
+const STORAGE = config.STORAGE;
 const { Title, Paragraph } = Typography;
 
 const available_socials = [

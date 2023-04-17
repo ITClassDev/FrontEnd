@@ -2,7 +2,9 @@ import { Button, InputNumber, Modal, Space, Typography, Image } from "antd";
 import React from "react";
 import { useState } from "react";
 import { moderateAchivment } from "../api";
-import { STORAGE } from "../config";
+import { config } from "../config";
+
+const STORAGE = config.STORAGE;
 
 const { Text, Link } = Typography;
 

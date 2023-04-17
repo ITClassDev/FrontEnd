@@ -22,14 +22,18 @@ import {
   InfoCircleOutlined,
   GlobalOutlined,
 } from "@ant-design/icons";
-import API_URL, { STORAGE } from "../config";
+import { config } from "../config";
 import { API } from "../api";
+
+const STORAGE = config.STORAGE;
+const API_URL = config.API_URL;
 
 // FIXIT; for dev purpose
 window.API = API;
 
 const { Title, Text } = Typography;
 
+// FIXIT AUTOMAP from array
 const Settings = ({ user }) => {
   const defaultStackExamples = [
     { value: "Python", label: "Python" },

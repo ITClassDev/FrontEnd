@@ -16,10 +16,11 @@ import "../poll.css";
 import { useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
 import { API, submitContest } from "../api";
-import { CLIENT_VER } from "../config";
+import { config } from "../config";
 import { useNavigate } from "react-router-dom";
 import useDocumentTitle from "../useDocumentTitle";
 
+const CLIENT_VER = config.CLIENT_VER;
 const { Text } = Typography;
 
 const Poll = () => {

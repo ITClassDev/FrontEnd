@@ -1,7 +1,9 @@
 import React from "react";
-import { STORAGE } from "../config";
+import { config } from "../config";
 import { Link } from "react-router-dom";
 import { Avatar, Typography } from "antd";
+
+const STORAGE = config.STORAGE;
 
 const { Text } = Typography;
 
