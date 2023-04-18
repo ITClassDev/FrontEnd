@@ -8,7 +8,7 @@ import { DownloadPrivateFile } from "../api";
 const FRONTEND_URL = config.FRONTEND_URL;
 
 const ShareModal = ({ shareModalOpen, setShareModalOpen, messageApi, poll_id }) => {
-    let poll_url = `${FRONTEND_URL}/poll?id=${poll_id}`;
+    let poll_url = `${FRONTEND_URL}/poll?id=${poll_id}/`;
     return (<Modal open={shareModalOpen} onCancel={() => { setShareModalOpen(false) }} footer={[]} transitionName="">
         <Row style={{ display: "flex", justifyContent: "center" }}>
             <QRCode value={poll_url} />

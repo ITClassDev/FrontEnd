@@ -22,7 +22,7 @@ export function API({ endpoint, method = "get", data = {}, auth = true, ok = nul
   if (auth) request_params['headers'] = `Authorization: Bearer ${localStorage.getItem("user")}`;
   axios({
     method: method,
-    url: `${api_url}${endpoint}`,
+    url: `${api_url}${endpoint}/`,
     data: data,
     headers: request_params.headers
   }).then((response) => {

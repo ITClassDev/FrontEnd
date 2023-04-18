@@ -1,4 +1,4 @@
-const conf = (HOST, name="prod", PROTOCOL="http") => (
+const conf = (HOST, name="prod", PROTOCOL="https") => (
     {
         API_URL: `${PROTOCOL}://${HOST}/api`,
         STORAGE: `${PROTOCOL}://${HOST}/api/storage`,
@@ -7,4 +7,4 @@ const conf = (HOST, name="prod", PROTOCOL="http") => (
     }
 )
 
-export const config = process.env.NODE_ENV === "development" ? conf("localhost", "dev") : conf("192.168.1.11");
+export const config = process.env.NODE_ENV === "development" ? conf("localhost", "dev") : conf("shtp.1561.ru");
