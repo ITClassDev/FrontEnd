@@ -5,10 +5,12 @@ import { useEffect } from "react";
 import { getDayChallenge } from "../api";
 import { useState } from "react";
 import LoadingBar from "../Components/Loading";
+import useDocumentTitle from "../useDocumentTitle";
 
 const { Title } = Typography;
 
 const Challenge = () => {
+  useDocumentTitle("ШТП | Задача дня");
   const [dayChallenge, SetDayChallenge] = useState(
     <LoadingBar size="24" text={"Loading..."} />
   );

@@ -4,11 +4,13 @@ import { useEffect } from "react";
 import { getMyNotifications } from "../api";
 import { useState } from "react";
 import { LoadingBar } from "../Components/Loading";
+import useDocumentTitle from "../useDocumentTitle";
 
 const { Title } = Typography;
 
 const Notifications = () => {
   const [notifications, setNotifications] = useState(<LoadingBar size={24}/>);
+  useDocumentTitle("ШТП | Уведомления");
   const ALL_NOTIFICATIONS = [
     {
       title: "Новое достижение!",

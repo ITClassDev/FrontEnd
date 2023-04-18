@@ -24,6 +24,7 @@ import {
 } from "@ant-design/icons";
 import { config } from "../config";
 import { API } from "../api";
+import useDocumentTitle from "../useDocumentTitle";
 
 const STORAGE = config.STORAGE;
 const API_URL = config.API_URL;
@@ -35,41 +36,18 @@ const { Title } = Typography;
 
 // FIXIT AUTOMAP from array
 const Settings = ({ user }) => {
-  const defaultStackExamples = [
-    { value: "Python", label: "Python" },
-    { value: "C++", label: "C++" },
-    { value: "ReactJS", label: "ReactJS" },
-    { value: "JS", label: "JS" },
-    { value: "HTML5", label: "HTML5" },
-    { value: "CSS3", label: "CSS3" },
-    { value: "Scratch", label: "Scratch" },
-    { value: "FastAPI", label: "FastAPI" },
-    { value: "Django", label: "Django" },
-    { value: "Flask", label: "Flask" },
-    { value: "NextJS", label: "NextJS" },
-    { value: "Git", label: "Git" },
-    { value: "Docker", label: "Docker" },
-    { value: "Linux", label: "Linux" },
-    { value: "TypeScript", label: "TypeScript" },
-    { value: "Bootstrap", label: "Bootstrap" },
-    { value: "MySQL", label: "MySQL" },
-    { value: "PostgreSQL", label: "PostgreSQL" },
-    { value: "Tensorflow", label: "Tensorflow" },
-    { value: "PyTorch", label: "PyTorch" },
-    { value: "Pandas", label: "Pandas" },
-    { value: "SkLearn", label: "SkLearn" },
-    { value: "Saas", label: "Saas" },
-    { value: "Nginx", label: "Nginx" },
-    { value: "Apache", label: "Apache" },
-  ];
+  const defaultStackExamples = ["C++", "NASM", "FASM", "Python", "ReactJS", "JS", "HTML 5", "CSS 3", "SaaS", "Bootstrap 5", "TypeScript", "Scratch",
+    "FastAPI", "Django", "Flask", "NextJS", "Git", "Docker", "Docker-compose", "Kubernetes", "Linux", "MySQL", "PostgreSQL", "PyTorch", "Tensorflow",
+    "Pandas", "SkLearn", "OpenCV", "Nginx", "Apache"].map((e) => ({ value: e, label: e }));
   const [messageApi, contextHolder] = message.useMessage();
+  useDocumentTitle("ШТП | Настройки");
 
 
   const [avatarImageUrl, setAvatarImageUrl] = useState(`${STORAGE}/avatars/${user.user.userAvatarPath}?nocache=${Date.now()}`);
-  let tech_stack_default;
-  if (user.user["techStack"] !== null) {
+  let tech_stack_default = [];
+  if (user.user["techStack"]) {
     tech_stack_default = user.user.techStack.split(",");
-  } else tech_stack_default = null;
+  }
 
   return (
     <>

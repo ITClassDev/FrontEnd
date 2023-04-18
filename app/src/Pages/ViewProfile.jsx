@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { API } from "../api";
 import ProfileCard from "../Components/ProfileCard";
+import useDocumentTitle from "../useDocumentTitle";
 import NotFound from "./NotFound";
 
 const ViewProfile = () => {
+  useDocumentTitle("ШТП | Профиль пользователя");
   const [searchParams] = useSearchParams();
   const user_id = searchParams.get("id");
   const [page, setPage] = useState(<>Loading...</>);

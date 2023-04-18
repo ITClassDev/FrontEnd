@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   Avatar,
@@ -69,11 +69,6 @@ const ProfileCard = ({
   header_title = "Ваш профиль",
 }) => {
   const [userAbout, setUserAbout] = useState(user.userAboutText);
-  const [userName] = useState(
-    <>
-      {user.firstName} {user.lastName}
-    </>
-  );
   //FIXIT ONLY FOR DEV, WHILE WE DON'T KNOW WHERE TO CHANGE THIS STATE; to pass CI build
   // eslint-disable-next-line
   const [userAvatar, setUserAvatar] = useState(
@@ -135,7 +130,7 @@ const ProfileCard = ({
           <Col style={{ marginLeft: 20 }}>
             <div style={{ marginBottom: 10 }}>
               <Title level={2} style={{ marginBottom: 0 }}>
-                {userName}
+                {user.firstName} {user.lastName}
               </Title>
               <Paragraph style={{ marginBottom: 3 }} editable={editable}>
                 {userAbout}

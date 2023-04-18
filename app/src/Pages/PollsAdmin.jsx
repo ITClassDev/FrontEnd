@@ -6,11 +6,13 @@ import PollsTable from "../Components/PollsTable";
 import NotFound from "./NotFound";
 import CreatePoll from "../Components/CreatePoll";
 import { API } from "../api";
+import useDocumentTitle from "../useDocumentTitle";
 
 
 const { Title } = Typography;
 
 const PollsAdmin = ({ user }) => {
+    useDocumentTitle("ШТП | Опросы");
     const [pollsData, setPollsData] = useState([]);
     const loadPollsTable = () => {
         API({ endpoint: "/polls", ok: (resp) => { setPollsData(resp.data.map(poll => ({ key: poll.id, id: poll.id, title: poll.title, description: poll.description }))) } });

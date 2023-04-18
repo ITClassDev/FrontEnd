@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   PieChartOutlined,
@@ -59,6 +59,7 @@ function logOut(nav) {
   nav(0);
 }
 const BaseLayout = ({ user, setUserData, backendStatus }) => {
+
   const onClickMenu = (item) => {
     setSelectedKey(item.key);
   };

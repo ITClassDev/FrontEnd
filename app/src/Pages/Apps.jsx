@@ -8,6 +8,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import CreateAppModal from "../Components/CreateAppModal";
 import EditAppModal from "../Components/EditAppModal";
 import { Alert, Button, Space, Table, Typography } from "antd";
+import useDocumentTitle from "../useDocumentTitle";
 
 const { Title } = Typography;
 
@@ -27,6 +28,7 @@ const AppsActionsBtns = ({ app_id, setEditModal }) => {
 };
 
 const Apps = () => {
+  useDocumentTitle("ШТП | Приложения");
   const columnsMyAppsTable = [
     {
       title: "ID",

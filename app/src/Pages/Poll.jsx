@@ -15,7 +15,7 @@ import { OneItemSelect, OneLineText, MultilineText, CheckboxSelect } from "../Co
 import "../poll.css";
 import { useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
-import { API, submitContest } from "../api";
+import { API } from "../api";
 import { config } from "../config";
 import { useNavigate } from "react-router-dom";
 import useDocumentTitle from "../useDocumentTitle";
@@ -25,68 +25,20 @@ const { Text } = Typography;
 
 const Poll = () => {
   const [searchParams] = useSearchParams();
-  const poll_id = searchParams.get("id");
-  useDocumentTitle(`ШТП Опрос | ${poll_id}`);
+  const poll_id = searchParams.get("id").replace(/\/+$/, '');
+  useDocumentTitle(`ШТП Опрос`);
   const [pollTitle, setPollTitle] = useState("Loading...");
   const [pollDescription, setPollDescription] = useState("Loading...");
   const [pollContent, setPollContent] = useState("Loading...");
   const [displaySubmit, setDisplaySubmit] = useState(true);
 
-  // Static test; loaded from backend api
-  // const questions = [
-  //   {
-  //     text: "Путинцев - это: ",
-  //     type: 0,
-  //     variants: [
-  //       {
-  //         value: "Скамер",
-  //         label: "Скамер",
-  //       },
-  //       {
-  //         value: "Рабовладелец",
-  //         label: "Рабовладелец",
-  //       },
-  //       {
-  //         value: "Предприимчивый",
-  //         label: "Предприимчивый",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     text: "Кратко опишите Путинцева",
-  //     type: 1,
-  //   },
-  //   {
-  //     text: "Просто мультилайн",
-  //     type: 2,
-  //   },
-  //   {
-  //     text: "Description",
-  //     type: 2,
-  //     description: "Extra information for this question"
-  //   },
-  //   {
-  //     text: "Checkbox select",
-  //     type: 3,
-  //     variants: [
-  //       { value: "Option", label: "Option" },
-  //       { value: "Option 1", label: "Option 1" },
-  //       { value: "Option 2", label: "Option 2" },
-  //     ],
-  //   },
-  //   {
-  //     image:
-  //       "https://www.gentoo.org/assets/img/wallpaper/abducted/gentoo-abducted-1600x1200.png",
-  //     text: "With image support",
-  //     type: 1,
-  //   },
-  // ];
   let navigate = useNavigate();
 
 
   useEffect(() => {
     API({
       endpoint: `/polls/${poll_id}`, ok: (resp) => {
+        
         setPollContent(<>
           {resp.data.entries.map((question, ind) => {
             let res;

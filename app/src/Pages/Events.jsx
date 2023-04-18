@@ -1,10 +1,12 @@
 import React from "react";
 import { Tabs, Typography } from "antd";
 import StudyEvents from "../Components/StudyEvents";
+import useDocumentTitle from "../useDocumentTitle";
 
 const { Title } = Typography;
 
 const Events = () => {
+  useDocumentTitle("ШТП | Мероприятия");
   return (
     <>
       <Title level={3}>Мероприятия</Title>

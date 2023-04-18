@@ -7,10 +7,12 @@ import NotFound from "./NotFound";
 import AdminDayChallenge from "../Components/AdminDayChallenge";
 import AdminHomeWork from "../Components/AdminHomeWork";
 import AdminTasks from "../Components/AdminTasks";
+import useDocumentTitle from "../useDocumentTitle";
 
 const { Title } = Typography;
 
 const Admin = ({ user }) => {
+  useDocumentTitle("ШТП | Админ-панель");
   // check permisiions to access this page
   if (user.user.userRole === 2) {
     return (

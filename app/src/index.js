@@ -65,10 +65,11 @@ ____) | |  | |  | |  | |    |_|
             />
           }
         >
+          
           <Route
             index
             element={
-              <Suspense fallback={<LoadingBar size={24} text="Loading..." />}>
+             <Suspense fallback={<LoadingBar size={24} text="Loading..." />}>
                 <Home user={userData} />
               </Suspense>
             }

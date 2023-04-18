@@ -4,11 +4,13 @@ import { a11yDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { users_info_base } from "../code_snippets";
 import { config } from "../config";
 import { Typography, Space, Image } from 'antd';
+import useDocumentTitle from "../useDocumentTitle";
 const { Title, Text, Paragraph } = Typography;
 
 const API_URL = config.API_URL;
 
 const ApiDocs = () => {
+    useDocumentTitle("ШТП | Документация для разработчиков");
     return (
         <>
             <Title level={3}>Документация для разработчиков</Title>
