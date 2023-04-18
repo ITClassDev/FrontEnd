@@ -28,7 +28,7 @@ const { Title } = Typography;
 const AdminUsers = () => {
   const refreshUsersTable = () => {
     API({
-      endpoint: "/users/", ok: (response) => {
+      endpoint: "/users", ok: (response) => {
         setUserGroups(response.data.userGroups);
         setUsersList(response.data.users.map(user => ({ key: user.id, id: user.id, fio: <NameAndAvatar user_id={user.id} name={`${user.firstName} ${user.lastName}`} avatar={user.userAvatarPath} />, user_group: <Tag color="geekblue">{user.groupName}</Tag>, })));
       }

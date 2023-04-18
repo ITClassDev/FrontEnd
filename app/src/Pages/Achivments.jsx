@@ -22,7 +22,7 @@ const Achivments = () => {
   useEffect(() => {
 
     API({
-      endpoint: "/achievements/get_my", ok: (resp) => {
+      endpoint: "/achievements", ok: (resp) => {
         setSystemAchievementsBlock(
           <SystemAchivmentsList
             system_achivments={resp.data.achievements.system}

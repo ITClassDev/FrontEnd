@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { addAchivment, convertDate, getAchivmentsQueue } from "../api";
+import { API, addAchivment, convertDate, getAchivmentsQueue } from "../api";
 import {
   Button,
   Form,
@@ -35,13 +35,8 @@ const AddAchivment = () => {
     },
   ];
   const [achievementQueueData, SetAchievementQueueData] = useState();
-  const onAddAchivment = (values) => {
-    addAchivment(values, (resp) => {
-        messageApi.open({
-            type: "success",
-            content: "Достижение добавлено в очередь. Ожидайте модерации.",
-        })
-    }, () => {});
+  const onAddAchivment = (achievement) => {
+    API({ endpoint: "/achievements", method: "put", data: { type: achievement.type, title: achievement.title, description: achievement.description }, message: { show: true, ok: "Достижение добавлено в очередь. Ожидайте модерации.", err: "Ошибка", api: messageApi } })
   };
   const onFinishFailed = () => {
     messageApi.open({
@@ -55,7 +50,7 @@ const AddAchivment = () => {
     fileList: file,
     multiple: false,
     maxCount: 1,
-    onRemove: () => {},
+    onRemove: () => { },
     beforeUpload: (file) => {
       setFile([file]);
       return false;
@@ -66,6 +61,7 @@ const AddAchivment = () => {
     getAchivmentsQueue(
       (resp) => {
         let res = [];
+        // FIXIT MAP
         resp.data.forEach((element) => {
           res.push({
             id: element.id,
@@ -76,7 +72,7 @@ const AddAchivment = () => {
         });
         SetAchievementQueueData(res);
       },
-      () => {}
+      () => { }
     );
   }, []);
   return (

@@ -77,7 +77,7 @@ const ProfileCard = ({
   //FIXIT ONLY FOR DEV, WHILE WE DON'T KNOW WHERE TO CHANGE THIS STATE; to pass CI build
   // eslint-disable-next-line
   const [userAvatar, setUserAvatar] = useState(
-    `${STORAGE}/avatars/${user.userAvatarPath}`
+    `${STORAGE}/avatars/${user.userAvatarPath}?nocache=${Date.now()}`
   );
   let userSocial = [];
   available_socials.forEach((val) => {

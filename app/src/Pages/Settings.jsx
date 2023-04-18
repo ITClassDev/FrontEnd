@@ -229,11 +229,11 @@ const Settings = ({ user }) => {
                     }
                     onChange = {(info) => {
                       if (info.file.status !== 'uploading') {
-                        console.log(info.file, info.fileList);
+                        //console.log(info.file, info.fileList);
                       }
                       if (info.file.status === 'done') {
                         messageApi.success("Аватар обновлён");
-                        setAvatarImageUrl(avatarImageUrl + "&cache=reload");
+                        setAvatarImageUrl(`${STORAGE}/avatars/${info.file.response.avatar}?nocache=${Date.now()}`);
 
                       } else if (info.file.status === 'error') {
                         messageApi.error("Ошибка при загрузке файла");
@@ -269,7 +269,7 @@ const Settings = ({ user }) => {
               initialValues={{ techStack: tech_stack_default }}
               autoComplete="off"
               layout="vertical"
-              onFinish={(new_tech_stack) => { API({ endpoint: "/users/", method: "patch", data: new_tech_stack, message: { show: true, api: messageApi, ok: "Стэк технологий успешно обновлён!", err: "Ошибка" } }); }}
+              onFinish={(new_tech_stack) => { API({ endpoint: "/users", method: "patch", data: new_tech_stack, message: { show: true, api: messageApi, ok: "Стэк технологий успешно обновлён!", err: "Ошибка" } }); }}
             >
               <Form.Item name="techStack" label="Технологии">
                 <Select
