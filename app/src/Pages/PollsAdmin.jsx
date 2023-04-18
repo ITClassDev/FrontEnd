@@ -13,7 +13,7 @@ const { Title } = Typography;
 const PollsAdmin = ({ user }) => {
     const [pollsData, setPollsData] = useState([]);
     const loadPollsTable = () => {
-        API({ endpoint: "/polls/", ok: (resp) => { setPollsData(resp.data.map(poll => ({ key: poll.id, id: poll.id, title: poll.title, description: poll.description }))) } });
+        API({ endpoint: "/polls", ok: (resp) => { setPollsData(resp.data.map(poll => ({ key: poll.id, id: poll.id, title: poll.title, description: poll.description }))) } });
     }
     useEffect(() => {
         loadPollsTable();

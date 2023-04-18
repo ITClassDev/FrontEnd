@@ -119,7 +119,11 @@ const ProfileCard = ({
       );
     }
   };
-  if (editable) editable = { onChange: (new_text) => API({ endpoint: "/users/update/about", method: "patch", data: { about_text: new_text }, ok: (resp) => { setUserAbout(resp.data.new_about); } }) };
+  if (editable) editable = {
+    onChange: (new_text) => API({
+      endpoint: "/users", method: "patch", data: { aboutText: new_text }, ok: (resp) => { setUserAbout(resp.data.userAboutText); }
+    })
+  };
 
   return (
     <>
@@ -136,8 +140,8 @@ const ProfileCard = ({
               <Paragraph style={{ marginBottom: 3 }} editable={editable}>
                 {userAbout}
               </Paragraph>
-              <Tag color={user.userRole === 0 ? "blue" : "green"}>
-                {user.userRole === 0 ? "Ученик" : "Преподаватель"}
+              <Tag color={user.userRole === 0 ? "blue" : (user.userRole === 1 ? "green" : "red")}>
+                {user.userRole === 0 ? "Ученик" : (user.userRole === 1 ? "Преподаватель" : "Администратор")}
               </Tag>
             </div>
             <Row>

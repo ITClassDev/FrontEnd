@@ -12,7 +12,7 @@ import {
   Select,
   message,
 } from "antd";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Telegram_logo from "../Images/Telegram_logo.svg";
 import Stepik_logo from "../Images/Stepik_logo.png";
 import Kaggle_logo from "../Images/Kaggle_logo.svg";
@@ -31,7 +31,7 @@ const API_URL = config.API_URL;
 // FIXIT; for dev purpose
 window.API = API;
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 // FIXIT AUTOMAP from array
 const Settings = ({ user }) => {
@@ -63,7 +63,7 @@ const Settings = ({ user }) => {
     { value: "Apache", label: "Apache" },
   ];
   const [messageApi, contextHolder] = message.useMessage();
-  
+
 
   const [avatarImageUrl, setAvatarImageUrl] = useState(`${STORAGE}/avatars/${user.user.userAvatarPath}?nocache=${Date.now()}`);
   let tech_stack_default;
@@ -81,7 +81,7 @@ const Settings = ({ user }) => {
             <Form
               name="social_links"
               autoComplete="off"
-              onFinish={(social_links) => { API({endpoint: "/users", method: "patch", data: {socialLinks: social_links}, message: { show: true, api: messageApi, ok: "Социальные ссылки успешно обновлены!", err: "Ошибка" }}) }}
+              onFinish={(social_links) => { API({ endpoint: "/users", method: "patch", data: { socialLinks: social_links }, message: { show: true, api: messageApi, ok: "Социальные ссылки успешно обновлены!", err: "Ошибка" } }) }}
               initialValues={{
                 userGithub: user.user.userGithub,
                 userTelegram: user.user.userTelegram,
@@ -140,11 +140,8 @@ const Settings = ({ user }) => {
           <Card title={"Вход и безопасность"} style={{ height: "100%" }}>
             <Form
               name="password_change"
-              initialValues={{
-                remember: true,
-              }}
               autoComplete="off"
-              onFinish={(password) => { API({ endpoint: "/users/", method: "patch", data: {password: password}, message: { show: true, api: messageApi, ok: "Пароль обновлён", err: "Ошибка" } }); }}
+              onFinish={(password) => { API({ endpoint: "/users/", method: "patch", data: { password: password }, message: { show: true, api: messageApi, ok: "Пароль обновлён", err: "Ошибка" } }); }}
             >
               <Form.Item name="currentPassword">
                 <Input.Password
@@ -201,6 +198,12 @@ const Settings = ({ user }) => {
               }}
               autoComplete="off"
               layout="vertical"
+              onFinish={(aboutText) => {
+                API({
+                  endpoint: "/users", method: "patch", data: { aboutText: aboutText.aboutText },
+                  message: { show: true, api: messageApi, ok: "Описание профиля успешно обновлено!", err: "Ошибка при обновлении описания профиля" }
+                });
+              }}
             >
               <Form.Item name="aboutText" label="О себе">
                 <Space direction="vertical" style={{ width: "100%" }}>
@@ -216,7 +219,7 @@ const Settings = ({ user }) => {
                 <Space direction="vertical" style={{ width: "100%" }}>
                   <Upload
                     name="file"
-                    accept=".png,.jpg,.gif"
+                    accept=".png,.jpg,.gif,.jpeg"
                     listType="picture-card"
                     className="avatar-uploader"
                     showUploadList={false}
@@ -227,7 +230,7 @@ const Settings = ({ user }) => {
                         authorization: `Bearer ${localStorage.getItem("user")}`,
                       }
                     }
-                    onChange = {(info) => {
+                    onChange={(info) => {
                       if (info.file.status !== 'uploading') {
                         //console.log(info.file, info.fileList);
                       }
@@ -239,9 +242,6 @@ const Settings = ({ user }) => {
                         messageApi.error("Ошибка при загрузке файла");
                       }
                     }}
-
-                    
-
                   >
                     <Image
                       src={avatarImageUrl}
@@ -249,7 +249,7 @@ const Settings = ({ user }) => {
                       alt="avatar"
                       style={{
                         width: "100%",
-                      }}                   />
+                      }} />
                   </Upload>
                 </Space>
               </Form.Item>
