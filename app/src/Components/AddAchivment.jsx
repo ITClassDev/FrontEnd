@@ -139,7 +139,7 @@ const AddAchivment = () => {
 
         <Form.Item
           label="Подтверждение"
-          name="confirmation_file"
+          name="file"
           rules={[
             {
               required: true,
