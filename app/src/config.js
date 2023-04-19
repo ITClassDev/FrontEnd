@@ -7,6 +7,7 @@ const conf = (HOST, name="prod", PROTOCOL="https") => (
     }
 )
 
+// For dev in single computer line
 const local_conf = {
     API_URL: `http://localhost:8080`,
     STORAGE: `http://localhost:8080/storage`,
@@ -14,6 +15,7 @@ const local_conf = {
     CLIENT_VER: `EARLY DEVELOP MODE`
 }
 
+// For dev in local line 
 const local_conf_2 = {
     API_URL: `http://192.168.1.11/api`,
     STORAGE: `http://192.168.1.11/api/storage`,

@@ -41,6 +41,13 @@ const AddAchivment = () => {
             type: "success",
             content: "Достижение добавлено в очередь. Ожидайте модерации.",
         })
+        SetAchievementQueueData(prevState => [...prevState, {
+           id: Date.now(), // FIXIT FROM resp
+           key: Date.now(),
+           title: values.title,
+           sent_time: convertDate(values.received_at),
+         }]);
+
     }, () => {});
   }
 
