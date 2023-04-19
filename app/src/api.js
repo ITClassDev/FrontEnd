@@ -105,7 +105,7 @@ export function provideAccessToApp(
 
 export function getAchivmentsQueue(ok_handler, error_handler, api = API_URL) {
   axios
-    .get(`${api}/achievements/my_queue/`, getAuth())
+    .get(`${api}/achievements/my_queue`, getAuth())
     .then((response) => {
       ok_handler(response);
     })
@@ -132,7 +132,7 @@ export function addAchivment(
   ); // TOOD // Too messy
 
   axios
-    .put(`${api}/achievements/add/`, formData, {
+    .put(`${api}/achievements`, formData, {
       headers: {
         Authorization: getAuth().headers.Authorization,
         "Content-Type": "multipart/form-data",

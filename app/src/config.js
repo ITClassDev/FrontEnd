@@ -15,14 +15,14 @@ const local_conf = {
 }
 
 const local_conf_2 = {
-    API_URL: `http://localhost/api`,
-    STORAGE: `http://localhost/api/storage`,
-    FRONTEND_URL: `http://localhost`,
+    API_URL: `http://192.168.1.11/api`,
+    STORAGE: `http://192.168.1.11/api/storage`,
+    FRONTEND_URL: `http://192.168.1.11`,
     CLIENT_VER: `NGINX`
 }
 
 
 
 
-export const config = local_conf_2;
-//export const config = process.env.NODE_ENV === "development" ? conf("localhost", "dev") : conf("shtp.1561.ru");
+//export const config = local_conf_2;
+export const config = process.env.NODE_ENV === "development" ? conf("localhost", "dev") : conf("shtp.1561.ru");
