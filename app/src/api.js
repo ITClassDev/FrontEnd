@@ -121,7 +121,7 @@ export function addAchivment(
   api = API_URL
 ) {
   let formData = new FormData();
-  formData.append("file", achievement.confirmation_file.file);
+  formData.append("file", achievement.file.file);
   formData.append(
     "achievement",
     JSON.stringify({
@@ -132,7 +132,7 @@ export function addAchivment(
   ); // TOOD // Too messy
 
   axios
-    .put(`${api}/achievements/add`, formData, {
+    .put(`${api}/achievements/add/`, formData, {
       headers: {
         Authorization: getAuth().headers.Authorization,
         "Content-Type": "multipart/form-data",
