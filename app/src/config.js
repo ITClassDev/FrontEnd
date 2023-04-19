@@ -14,5 +14,15 @@ const local_conf = {
     CLIENT_VER: `EARLY DEVELOP MODE`
 }
 
-//export const config = local_conf;
-export const config = process.env.NODE_ENV === "development" ? conf("localhost", "dev") : conf("shtp.1561.ru");
+const local_conf_2 = {
+    API_URL: `http://localhost/api`,
+    STORAGE: `http://localhost/api/storage`,
+    FRONTEND_URL: `http://localhost`,
+    CLIENT_VER: `NGINX`
+}
+
+
+
+
+export const config = local_conf_2;
+//export const config = process.env.NODE_ENV === "development" ? conf("localhost", "dev") : conf("shtp.1561.ru");
