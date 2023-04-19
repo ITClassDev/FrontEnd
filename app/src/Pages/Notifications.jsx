@@ -1,7 +1,7 @@
 import React from "react";
 import { Alert, Typography } from "antd";
 import { useEffect } from "react";
-import { getMyNotifications } from "../api";
+import { API } from "../api";
 import { useState } from "react";
 import { LoadingBar } from "../Components/Loading";
 import useDocumentTitle from "../useDocumentTitle";
@@ -9,7 +9,7 @@ import useDocumentTitle from "../useDocumentTitle";
 const { Title } = Typography;
 
 const Notifications = () => {
-  const [notifications, setNotifications] = useState(<LoadingBar size={24}/>);
+  const [notifications, setNotifications] = useState(<LoadingBar size={24} />);
   useDocumentTitle("ШТП | Уведомления");
   const ALL_NOTIFICATIONS = [
     {
@@ -34,8 +34,8 @@ const Notifications = () => {
     },
   ];
   useEffect(() => {
-    getMyNotifications(
-      (response) => {
+    API({
+      endpoint: "/users/my_notifications", ok: (response) => {
         setNotifications(
           <>
             {response.data.map((notify) => (
@@ -58,10 +58,9 @@ const Notifications = () => {
             ))}
           </>
         );
-      },
-      () => {}
-    );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <>
@@ -70,13 +69,5 @@ const Notifications = () => {
     </>
   );
 };
-/*
- action={
-                  <Space direction="vertical">
-                    <Button size="small" type="primary">
-                      Подробнее
-                    </Button>
-                  </Space>
-                }*/
 
 export default Notifications;

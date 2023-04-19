@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { API, addAchivment, convertDate, getAchivmentsQueue } from "../api";
+import { API, convertDate, getAchivmentsQueue } from "../api";
 import {
   Button,
   Form,
@@ -45,7 +45,7 @@ const AddAchivment = () => {
     });
   };
   const uploader_conf = {
-    name: "confirmation_file",
+    name: "file",
     listType: "text",
     fileList: file,
     multiple: false,

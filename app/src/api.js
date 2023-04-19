@@ -105,7 +105,7 @@ export function provideAccessToApp(
 
 export function getAchivmentsQueue(ok_handler, error_handler, api = API_URL) {
   axios
-    .get(`${api}/achievements/my_queue`, getAuth())
+    .get(`${api}/achievements/my_queue/`, getAuth())
     .then((response) => {
       ok_handler(response);
     })

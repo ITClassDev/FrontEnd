@@ -202,7 +202,7 @@ const Settings = ({ user }) => {
                     className="avatar-uploader"
                     showUploadList={false}
                     method="PATCH"
-                    action={`${API_URL}/users/avatar`}
+                    action={`${API_URL}/users/avatar/`}
                     headers={
                       {
                         authorization: `Bearer ${localStorage.getItem("user")}`,
