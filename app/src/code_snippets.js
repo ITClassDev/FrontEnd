@@ -1,6 +1,6 @@
 export const users_info_base = `import requests
 
-API_URL = "https://api.1561.ru/"
+API_URL = "https://shtp.1561.ru/api/"
 USER_ID = 1
 data = requests.get(f"{API}users/{USER_ID}/info")
 if data.status_code == 200:

@@ -1,10 +1,10 @@
 import axios from "axios";
-import {config} from "./config";
+import { config } from "./config";
 
 const API_URL = config.API_URL;
 
 
-export function API({ endpoint, method = "get", data = {}, auth = true, ok = null, err = null, message = { show: false, api: null, ok: "ОК", err: "Err" }, api_url = API_URL }) {
+export function API({ endpoint, method = "get", data = {}, files = null, auth = true, ok = null, err = null, message = { show: false, api: null, ok: "ОК", err: "Err" }, api_url = API_URL }) {
   /*
     Global wrapper
     Function to work with ShTP api
@@ -18,8 +18,26 @@ export function API({ endpoint, method = "get", data = {}, auth = true, ok = nul
     'headers': {},
   };
 
+  // Auth via JWT token
+  if (auth) request_params['headers']['Authorization'] = `Bearer ${localStorage.getItem("user")}`;
 
-  if (auth) request_params['headers'] = `Authorization: Bearer ${localStorage.getItem("user")}`;
+  // File upload support
+  
+  if (files !== null) {
+    console.log(files);
+    request_params['headers']['Content-Type'] = 'multipart/form-data';
+    const form_data = new FormData();
+    // Add files from `files`
+    for (let file_id in files) form_data.append(file_id, files[file_id].file);
+    form_data.append(
+      Object.keys(data)[0],
+      JSON.stringify(Object.values(data)[0])
+    );
+    console.log(form_data);
+
+    data = form_data;
+
+  }
   axios({
     method: method,
     url: `${api_url}${endpoint}/`,
@@ -82,7 +100,7 @@ export function getUser(ok_handler, error_handler, api = API_URL) {
     .catch((response) => {
 
       if (response.code === "ERR_NETWORK") {
-        
+
       }
       error_handler(response);
     });

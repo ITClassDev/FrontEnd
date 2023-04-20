@@ -26,5 +26,5 @@ const local_conf_2 = {
 
 
 
-//export const config = local_conf_2;
-export const config = process.env.NODE_ENV === "development" ? conf("localhost", "dev") : conf("shtp.1561.ru");
+export const config = local_conf;
+//export const config = process.env.NODE_ENV === "development" ? conf("localhost", "dev") : conf("shtp.1561.ru");

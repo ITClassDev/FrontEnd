@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { addAchivment, convertDate, getAchivmentsQueue } from "../api";
+import { addAchivment, convertDate, getAchivmentsQueue, API } from "../api";
 import {
   Button,
   Form,
@@ -35,20 +35,26 @@ const AddAchivment = () => {
     },
   ];
   const [achievementQueueData, SetAchievementQueueData] = useState();
-  const onAddAchivment = (values) => {
-    addAchivment(values, (resp) => {
-        messageApi.open({
-            type: "success",
-            content: "Достижение добавлено в очередь. Ожидайте модерации.",
-        })
-        SetAchievementQueueData(prevState => [...prevState, {
-           id: Date.now(), // FIXIT FROM resp
-           key: Date.now(),
-           title: values.title,
-           sent_time: convertDate(values.received_at),
-         }]);
-
-    }, () => {});
+  const onAddAchivment = (achievement) => {
+    API({
+      endpoint: "/achievements", method: "put", data: {
+        achievement: {
+          type: achievement.type,
+          title: achievement.title,
+          description: achievement.description
+        }
+      },
+      files: { "file": achievement.file },
+      message: { show: true, api: messageApi, ok: "Достижение добавлено в очередь. Ожидайте модерации.", err: "Ошибка при добавлении достижения" },
+      ok: (response) => {
+        SetAchievementQueueData(prevState => [{
+          id: response.data.id,
+          key: response.data.id,
+          title: response.data.title,
+          sent_time: convertDate(response.data.received_at),
+        }, ...prevState]);
+      }
+    });
   }
 
   const onFinishFailed = () => {
