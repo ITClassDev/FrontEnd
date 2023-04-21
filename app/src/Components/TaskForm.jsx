@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
 import {
     Button,
@@ -22,19 +22,16 @@ const { Text } = Typography;
 
 
 
-const TaskForm = ({ createTaskFormHandler }) => {
+const TaskForm = ({ createTaskFormHandler, defaults = { memory_limit: 1024, time_limit: 2, is_day_challenge: true, title: "" } }) => {
     const [convertedText, setConvertedText] = useState("Some default content");
+    
     return (
         <Form
             name="add_task"
             className="create-task-form"
             layout="vertical"
             requiredMark={false}
-            initialValues={{
-                memory_limit: 1024,
-                time_limit: 2,
-                is_day_challenge: true,
-            }}
+            initialValues={{...defaults}}
             onFinish={createTaskFormHandler}
         >
             <Form.Item

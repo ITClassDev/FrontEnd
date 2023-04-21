@@ -1,8 +1,4 @@
-import React, { useState } from "react";
-import {
-  Input,
-  Typography
-} from "antd";
+import React from "react";
 import { createTask } from "../api";
 
 import "react-quill/dist/quill.snow.css";
@@ -14,13 +10,13 @@ const CreateTaskCard = ({ messageApi }) => {
     console.log(form_data);
     createTask(
       form_data,
-      (response) => {
+      () => {
         messageApi.open({
           type: "success",
           content: "Задача успешно добавлена!",
         });
       },
-      (response) => {
+      () => {
         messageApi.open({
           type: "error",
           content: "Задача не добавлена! Проверьте данные!",
