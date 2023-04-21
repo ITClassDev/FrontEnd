@@ -258,7 +258,7 @@ export function submitDayChallenge(
   let formData = new FormData();
   formData.append("file", file);
   axios
-    .post(`${api}/programming_tasks/day_challenge/submit`, formData, getAuth())
+    .post(`${api}/programming_tasks/day_challenge/submit/`, formData, getAuth())
     .then(
       (response) => {
         ok_handler(response);

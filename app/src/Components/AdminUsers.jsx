@@ -79,7 +79,7 @@ const AdminUsers = () => {
       ),
     },
   ];
-   return (
+  return (
     <>
       {contextHolder}
       <Title level={4} style={{ marginTop: 0 }}>
@@ -92,13 +92,19 @@ const AdminUsers = () => {
       />
       <Table columns={allUsersColumns} dataSource={usersList} />
       <Title level={4} style={{ marginTop: 0 }}>
-        Группы пользователей {/* setUserGroups(prevState => [...prevState, {id: 1, name: "new group"}])} */}
+        Группы пользователей
       </Title>
-      <Space.Compact style={{marginBottom: 10}}>
-        <Input placeholder="Название группы" ref={inputGroupNameRef}/>
-        <Button type="primary" icon={<PlusOutlined/>} onClick={() => {
-          API ({endpoint: "/users/groups", method: "put", data: {name: inputGroupNameRef.current.input.value}})
-          //console.log(inputGroupNameRef.current.input.value);
+      <Space.Compact style={{ marginBottom: 10 }}>
+        <Input placeholder="Название группы" ref={inputGroupNameRef} />
+        <Button type="primary" icon={<PlusOutlined />} onClick={() => {
+          console.log();
+          if (inputGroupNameRef.current.input.value) {
+            API({
+              endpoint: "/users/groups", method: "put", data: { name: inputGroupNameRef.current.input.value }, ok: (response) => {
+                setUserGroups(prevState => [...prevState, { id: response.data.groupId, name: inputGroupNameRef.current.input.value }]);
+              }
+            });
+          }
         }}></Button>
       </Space.Compact>
       <Row gutter={[5, 5]}>
@@ -110,7 +116,19 @@ const AdminUsers = () => {
         Добавить одного пользователя
       </Title>
       <CreateUserForm
-        createUserFormHandler={(data) => { API({ endpoint: "/users", method: "put", data: data, message: { show: true, api: messageApi, ok: "Пользователь успешно создан!", err: "Ошибка! Проверьте введённые данные." } }) }}
+        createUserFormHandler={(data) => {
+          API({
+            endpoint: "/users", method: "put", data: data, message: { show: true, api: messageApi, ok: "Пользователь успешно создан!", err: "Ошибка! Проверьте введённые данные." }, ok: (response) => {
+              console.log(response);
+              setUsersList(prevState => [...prevState, {
+                id: response.data.userId,
+                key: response.data.userId,
+                fio: <NameAndAvatar user_id={response.data.userId} name={`${data.firstName} ${data.lastName}`} avatar={"default.png"} />,
+                user_group: <Tag color="geekblue">Новый</Tag>
+              }]);
+            }
+          })
+        }}
         userGroups={userGroups}
       />
       <Title level={4} style={{ marginTop: 0 }}>

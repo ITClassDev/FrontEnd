@@ -243,7 +243,7 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
                 : theme.defaultAlgorithm,
             }}
           >
-            <Alert message="Уведомление ShTP" description="На данный момент ShTP работает в бета режиме" type="warning" showIcon className="topLevelMessage" />
+            <Alert message="Уведомление ShTP" description="На данный момент ShTP работает в бета режиме. Обновление компонентов верхнего уровня: Backend, Frontend и Checker производятся через предварительную пересборку контейнера, а затем перезапуск. Максимальный downtime - 5 секунд." type="warning" showIcon className="topLevelMessage" />
 
             {page}
 
