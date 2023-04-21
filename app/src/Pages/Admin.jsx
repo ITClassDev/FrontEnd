@@ -8,6 +8,7 @@ import AdminDayChallenge from "../Components/AdminDayChallenge";
 import AdminHomeWork from "../Components/AdminHomeWork";
 import AdminTasks from "../Components/AdminTasks";
 import useDocumentTitle from "../useDocumentTitle";
+import AdminNotifications from "../Components/AdminNotifications";
 
 const { Title } = Typography;
 
@@ -54,7 +55,7 @@ const Admin = ({ user }) => {
             {
               label: "Уведомления",
               key: "7",
-              children: <AdminDayChallenge />,
+              children: <AdminNotifications />,
             },
             {
               label: "Настройки ШТП",

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
-  PieChartOutlined,
+  LineChartOutlined,
   UserOutlined,
   BellOutlined,
   StarOutlined,
@@ -95,6 +95,7 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
     ),
     getItem("Документация", "9", <ProfileOutlined />, "/docs"),
     getItem("Приложения", "10", <CodeSandboxOutlined />, "/apps"),
+    getItem("ТОП", "8", <LineChartOutlined />, "/leaderboard"),
     getItem("Админ-панель", "11", <ControlOutlined />, "/admin"),
     getItem("Опросы", "14", <QuestionCircleOutlined />, "/polls"),
   ];
@@ -104,8 +105,7 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
     getItem("Достижения", "2", <StarOutlined />, "/achivments"),
     getItem("Задачи", "sub1", <CodeOutlined />, "", [
       getItem("Задача дня", "3", <FieldTimeOutlined />, "/challenge"),
-      getItem("ДЗ", "4", <HomeOutlined />, "/homework"),
-      getItem("СР", "5", <CheckSquareOutlined />, "/tests"),
+      getItem("ДЗ", "4", <HomeOutlined />, "/homework")
     ]),
     getItem("Мероприятия", "6", <CalendarOutlined />, "/events"),
     getItem(
@@ -116,7 +116,7 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
       </Badge>,
       "/notifications"
     ),
-    getItem("Статистика", "8", <PieChartOutlined />, "/stats"),
+    getItem("ТОП", "8", <LineChartOutlined />, "/leaderboard"),
     getItem("Документация", "9", <ProfileOutlined />, "/docs"),
     getItem("Приложения", "10", <CodeSandboxOutlined />, "/apps"),
     getItem("Настройки", "13", <SettingOutlined />, "/settings"),

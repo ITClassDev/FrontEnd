@@ -32,6 +32,16 @@ const Notifications = () => {
       base: "Вы получили новую медаль!",
       color: "success",
     },
+    {
+      title: "Уведомление",
+      base: "{text}",
+      color: "info"
+    },
+    {
+      title: "Уведомление",
+      base: "{text}",
+      color: "warning"
+    }
   ];
   useEffect(() => {
     API({
