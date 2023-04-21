@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Typography, Table, Space, Button } from "antd";
+import { Typography, Table, Space, Button, Modal } from "antd";
 import { API } from "../api";
 
 const { Title } = Typography;
 
 
 const AdminTasks = () => {
+  const [editModelOpen, setEditModelOpen] = useState(false);
   useEffect(() => {
     API({
       endpoint: "/programming_tasks/tasks/all", ok: (response) => {
