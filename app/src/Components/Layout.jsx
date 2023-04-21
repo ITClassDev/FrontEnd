@@ -29,6 +29,7 @@ import {
   ConfigProvider,
   theme,
   FloatButton,
+  Alert,
 } from "antd";
 import { Outlet, Link } from "react-router-dom";
 import "../index.css";
@@ -37,6 +38,7 @@ import { config } from "../config";
 import { router_mapping } from "../router_mapping";
 import IntroPage from "./IntroPage";
 import { API } from "../api";
+
 
 const CLIENT_VER = config.CLIENT_VER;
 
@@ -241,6 +243,8 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
                 : theme.defaultAlgorithm,
             }}
           >
+            <Alert message="Уведомление ShTP" description="На данный момент ShTP работает в бета режиме" type="warning" showIcon className="topLevelMessage" />
+
             {page}
 
             <Footer
@@ -269,6 +273,9 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
                   >
                     {backendStatus}
                   </Text>
+                </Text>
+                <Text code onClick={() => { window.open("https://stats.uptimerobot.com/DVn8xCo4W7") }} style={{ cursor: "pointer" }} type="success">
+                  UpTime status
                 </Text>
               </Space>
             </Footer>

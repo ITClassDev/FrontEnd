@@ -1,6 +1,6 @@
 # About
 ![image](https://user-images.githubusercontent.com/55328925/211334625-3d46cd38-44d4-4a58-bbfd-4d15fc375c2a.png)
-Web client for SHtP Rest API. </br>![Build](https://github.com/ITClassDev/FrontEnd/actions/workflows/build.js.yml/badge.svg)
+Web client for ShTP REST API. </br>![Build](https://github.com/ITClassDev/FrontEnd/actions/workflows/build.js.yml/badge.svg)
 ## Stack
 - **ReactJS** - base framework
 - **axios** - http requests to API
