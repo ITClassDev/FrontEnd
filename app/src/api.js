@@ -91,20 +91,20 @@ export function DownloadPrivateFile({ endpoint, file_name, method = "get", api_u
 // ALL CODE BELOW THIS COMMENT WILL BE LEGACY AFTER SOME TIME
 
 // FOR AUTHED USER
-export function getUser(ok_handler, error_handler, api = API_URL) {
-  axios
-    .get(`${api}/auth/me`, getAuth())
-    .then((response) => {
-      ok_handler(response);
-    })
-    .catch((response) => {
+// export function getUser(ok_handler, error_handler, api = API_URL) {
+//   axios
+//     .get(`${api}/auth/me`, getAuth())
+//     .then((response) => {
+//       ok_handler(response);
+//     })
+//     .catch((response) => {
 
-      if (response.code === "ERR_NETWORK") {
+//       if (response.code === "ERR_NETWORK") {
 
-      }
-      error_handler(response);
-    });
-}
+//       }
+//       error_handler(response);
+//     });
+// }
 
 
 export function provideAccessToApp(
