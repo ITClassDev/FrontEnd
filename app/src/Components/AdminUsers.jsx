@@ -30,10 +30,9 @@ const AdminUsers = () => {
     API({
       endpoint: "/users", ok: (response) => {
         setUserGroups(response.data.userGroups);
-        setUsersList(response.data.users.map(user => ({ key: user.id, id: user.id, fio: <NameAndAvatar user_id={user.id} name={`${user.firstName} ${user.lastName}`} avatar={user.userAvatarPath} />, user_group: <Tag color="geekblue">{user.groupName}</Tag>, })));
+        setUsersList(response.data.users.map(user => ({ key: user.id, id: user.id, fio: <NameAndAvatar user_id={user.id} name={`${user.firstName} ${user.lastName}`} avatar={user.userAvatarPath} />, user_group: user.groupName, })));
       }
     })
-
   };
   const inputGroupNameRef = useRef();
   const [usersList, setUsersList] = useState();
@@ -47,16 +46,24 @@ const AdminUsers = () => {
       title: "ID",
       dataIndex: "id",
       key: "id",
+      sorter: (a, b) => a.id - b.id
     },
     {
       title: "Имя",
       dataIndex: "fio",
       key: "fio",
+      // sorter: (a, b) => a.fio.localeCompare(b.fio)
     },
     {
       title: "Группа",
       dataIndex: "user_group",
       key: "user_group",
+      render: (_, record) => (
+        <Tag color="geekblue">{record.user_group}</Tag>
+      ),
+      filters: userGroups.map((e) => ({value: e.name, text: e.name})),
+      onFilter: (value, record) => record.user_group === value,
+      filterSearch: true,
     },
     {
       title: "Действия",
@@ -97,7 +104,6 @@ const AdminUsers = () => {
       <Space.Compact style={{ marginBottom: 10 }}>
         <Input placeholder="Название группы" ref={inputGroupNameRef} />
         <Button type="primary" icon={<PlusOutlined />} onClick={() => {
-          console.log();
           if (inputGroupNameRef.current.input.value) {
             API({
               endpoint: "/users/groups", method: "put", data: { name: inputGroupNameRef.current.input.value }, ok: (response) => {
@@ -124,7 +130,7 @@ const AdminUsers = () => {
                 id: response.data.userId,
                 key: response.data.userId,
                 fio: <NameAndAvatar user_id={response.data.userId} name={`${data.firstName} ${data.lastName}`} avatar={"default.png"} />,
-                user_group: <Tag color="geekblue">Новый</Tag>
+                user_group: "Новый"
               }]);
             }
           })

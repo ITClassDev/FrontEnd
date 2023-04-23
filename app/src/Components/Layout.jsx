@@ -144,6 +144,17 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
   const [selectedKey, setSelectedKey] = useState(
     router_mapping[location.pathname][0]
   );
+  useEffect(() => { // FIXIT Make light request to optimize bandwith usage
+    API({
+      endpoint: "/auth/me", ok: (resp) => {
+        setUserData({ status: 1, user: resp.data.user }); 
+      }, err: (resp) => {
+        if (resp.status === 403) // This http code says, that we have invalid auth code, but backend works correctly
+          openLoginModal(true);
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname]);
 
   useEffect(() => {
     if (user) {
@@ -151,6 +162,7 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
         if (user.user.userRole === 2) setMenu([...adminMenu, logoutBtn]); // Admin
         else setMenu([...studentMenu, logoutBtn]); // Student
         setNewNotifications(user.user.new_notifications); // New notification bage
+        console.log(user.user);
         setPage(<Outlet />); // Set page content
       } else {
         if (router_mapping[location.pathname][1]) setPage(<Outlet />); // if page can be accessed by anon users
@@ -161,17 +173,6 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
-  useEffect(() => { // FIXIT Make light request to optimize bandwith usage
-    API({
-      endpoint: "/auth/me", ok: (resp) => {
-        setUserData({ status: 1, user: resp.data.user });
-      }, err: (resp) => {
-        if (resp.status === 403) // This http code says, that we have invalid auth code, but backend works correctly
-          openLoginModal(true);
-      }
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname]);
 
   const openLogin = () => {
     openLoginModal(true);
