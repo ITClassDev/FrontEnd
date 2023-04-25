@@ -22,8 +22,8 @@ export const routes = [
   {
     path: 'settings',
     async lazy() {
-      let { Events } = await import("../Pages/Settings.jsx");
-      return { Component: Events };
+      let { Settings } = await import("../Pages/Settings.jsx");
+      return { Component: Settings };
     },
     icon: <SettingOutlined />,
     label: 'Настройки'

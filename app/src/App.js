@@ -51,7 +51,7 @@ const App = () => {
 
 
     return (
-        <userContext.Provider value={{ userInfo: user.userInfo, loading: user.loading, loggedIn: user.loggedIn }}>
+        <userContext.Provider value={{ userInfo: user.userInfo, loading: user.loading, loggedIn: user.loggedIn, setUser: setUser }}>
             <RouterProvider router={router} fallbackElement={<PageLoading />} />
         </userContext.Provider>
     )

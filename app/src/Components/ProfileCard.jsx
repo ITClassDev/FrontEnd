@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import {
   Card,
   Avatar,
@@ -21,6 +21,7 @@ import locale from "antd/es/date-picker/locale/ru_RU";
 import Telegram_logo from "../Images/Telegram_logo.svg";
 import Stepik_logo from "../Images/Stepik_logo.png";
 import Kaggle_logo from "../Images/Kaggle_logo.svg";
+
 
 const STORAGE = config.STORAGE;
 const { Title, Paragraph } = Typography;
@@ -64,22 +65,23 @@ const available_socials = [
 ];
 
 const ProfileCard = ({
-  user,
+  userInfo,
   editable = false,
   header_title = "Ваш профиль",
 }) => {
-  const [userAbout, setUserAbout] = useState(user.userAboutText);
+  
+  const [userAbout, setUserAbout] = useState(userInfo.userAboutText);
   //FIXIT ONLY FOR DEV, WHILE WE DON'T KNOW WHERE TO CHANGE THIS STATE; to pass CI build
   // eslint-disable-next-line
   const [userAvatar, setUserAvatar] = useState(
-    `${STORAGE}/avatars/${user.userAvatarPath}?nocache=${Date.now()}`
+    `${STORAGE}/avatars/${userInfo.userAvatarPath}?nocache=${Date.now()}`
   );
   let userSocial = [];
   available_socials.forEach((val) => {
-    if (user[val.name])
+    if (userInfo[val.name])
       userSocial.push([
         val.icon,
-        user[val.name],
+        userInfo[val.name],
         val.color,
         val.url,
         val.prefix,
@@ -130,13 +132,13 @@ const ProfileCard = ({
           <Col style={{ marginLeft: 20 }}>
             <div style={{ marginBottom: 10 }}>
               <Title level={2} style={{ marginBottom: 0 }}>
-                {user.firstName} {user.lastName}
+                {userInfo.firstName} {userInfo.lastName}
               </Title>
               <Paragraph style={{ marginBottom: 3 }} editable={editable}>
                 {userAbout}
               </Paragraph>
-              <Tag color={user.userRole === 0 ? "blue" : (user.userRole === 1 ? "green" : "red")}>
-                {user.userRole === 0 ? "Ученик" : (user.userRole === 1 ? "Преподаватель" : "Администратор")}
+              <Tag color={userInfo.userRole === 0 ? "blue" : (userInfo.userRole === 1 ? "green" : "red")}>
+                {userInfo.userRole === 0 ? "Ученик" : (userInfo.userRole === 1 ? "Преподаватель" : "Администратор")}
               </Tag>
             </div>
             <Row>
@@ -161,20 +163,20 @@ const ProfileCard = ({
                 </Popover>
               ))}
             </Row>
-            {(user["techStack"] && user.userRole !== 0) && <li>
-              <Row gutter={[5, 5]}>{user["techStack"].split(",").map((item, id) => (<Tag key={id}>{item}</Tag>))}</Row>
+            {(userInfo["techStack"] && userInfo.userRole !== 0) && <li>
+              <Row gutter={[5, 5]}>{userInfo["techStack"].split(",").map((item, id) => (<Tag key={id}>{item}</Tag>))}</Row>
             </li>}
           </Col>
         </Row>
       </Card>
-      {user.userRole === 0 && (
+      {userInfo.userRole === 0 && (
         <>
           <Card title="Информация" bordered={false} style={{ marginTop: 20 }}>
             <Terminal
-              username={user.firstName}
-              user_class={user["learningClass"]}
-              user_rating={user.rating}
-              user_tech_stack={user["techStack"]}
+              username={userInfo.firstName}
+              user_class={userInfo["learningClass"]}
+              user_rating={userInfo.rating}
+              user_tech_stack={userInfo["techStack"]}
             />
           </Card>
           <Card title="График" bordered={false} style={{ marginTop: 20 }}>

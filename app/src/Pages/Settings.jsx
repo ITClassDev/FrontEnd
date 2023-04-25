@@ -12,7 +12,7 @@ import {
   Select,
   message,
 } from "antd";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Telegram_logo from "../Images/Telegram_logo.svg";
 import Stepik_logo from "../Images/Stepik_logo.png";
 import Kaggle_logo from "../Images/Kaggle_logo.svg";
@@ -25,6 +25,7 @@ import {
 import { config } from "../config";
 import { API } from "../api";
 import useDocumentTitle from "../useDocumentTitle";
+import userContext from "../Contexts/user";
 
 const STORAGE = config.STORAGE;
 const API_URL = config.API_URL;
@@ -34,25 +35,28 @@ window.API = API;
 
 const { Title } = Typography;
 
-// FIXIT AUTOMAP from array
-const Settings = ({ user }) => {
+
+export const Settings = () => {
+  useDocumentTitle("ШТП | Настройки");
+  
   const defaultStackExamples = ["C++", "NASM", "FASM", "Python", "ReactJS", "JS", "HTML 5", "CSS 3", "SaaS", "Bootstrap 5", "TypeScript", "Scratch",
     "FastAPI", "Django", "Flask", "NextJS", "Git", "Docker", "Docker-compose", "Kubernetes", "Linux", "MySQL", "PostgreSQL", "PyTorch", "Tensorflow",
     "Pandas", "SkLearn", "OpenCV", "Nginx", "Apache"].map((e) => ({ value: e, label: e }));
   const [messageApi, contextHolder] = message.useMessage();
-  useDocumentTitle("ШТП | Настройки");
+  const { userInfo } = useContext(userContext);
 
 
-  const [avatarImageUrl, setAvatarImageUrl] = useState(`${STORAGE}/avatars/${user.user.userAvatarPath}?nocache=${Date.now()}`);
+  const [avatarImageUrl, setAvatarImageUrl] = useState(`${STORAGE}/avatars/${userInfo.userAvatarPath}?nocache=${Date.now()}`);
   let tech_stack_default = [];
-  if (user.user["techStack"]) {
-    tech_stack_default = user.user.techStack.split(",");
+  console.log(userInfo);
+  if (userInfo["techStack"]) {
+    tech_stack_default = userInfo.techStack.split(",");
   }
 
   return (
     <>
       {contextHolder}
-      <Title level={3}>Настройки аккаунта {user.id}</Title>
+      <Title level={3}>Настройки аккаунта {userInfo.id}</Title>
       <Row gutter={[10, 10]}>
         <Col xs={24} xl={12}>
           <Card title={"Социальные ссылки"} style={{ height: "100%" }}>
@@ -61,11 +65,11 @@ const Settings = ({ user }) => {
               autoComplete="off"
               onFinish={(social_links) => { API({ endpoint: "/users", method: "patch", data: { socialLinks: social_links }, message: { show: true, api: messageApi, ok: "Социальные ссылки успешно обновлены!", err: "Ошибка" } }) }}
               initialValues={{
-                userGithub: user.user.userGithub,
-                userTelegram: user.user.userTelegram,
-                userStepik: user.user.userStepik,
-                userKaggle: user.user.userKaggle,
-                userWebsite: user.user.userWebsite,
+                userGithub: userInfo.userGithub,
+                userTelegram: userInfo.userTelegram,
+                userStepik: userInfo.userStepik,
+                userKaggle: userInfo.userKaggle,
+                userWebsite: userInfo.userWebsite,
               }}
             >
               <Form.Item name="userGithub">
@@ -172,7 +176,7 @@ const Settings = ({ user }) => {
             <Form
               name="baseInfo"
               initialValues={{
-                aboutText: user.user.userAboutText
+                aboutText: userInfo.userAboutText
               }}
               autoComplete="off"
               layout="vertical"
@@ -187,7 +191,7 @@ const Settings = ({ user }) => {
                 <Space direction="vertical" style={{ width: "100%" }}>
                   <Input
                     addonBefore={<InfoCircleOutlined />}
-                    defaultValue={user.user.userAboutText}
+                    defaultValue={userInfo.userAboutText}
                     placeholder="Краткая информация о вас"
                   />
                 </Space>
@@ -271,5 +275,3 @@ const Settings = ({ user }) => {
     </>
   );
 };
-
-export default Settings;

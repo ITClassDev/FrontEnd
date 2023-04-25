@@ -4,7 +4,6 @@ import {
     Layout,
     Menu,
     Badge,
-    Modal,
     Typography,
     Space,
     ConfigProvider,
@@ -12,6 +11,7 @@ import {
     FloatButton,
     Alert,
 } from "antd";
+import { BulbOutlined } from "@ant-design/icons";
 
 import userContext from '../Contexts/user';
 
@@ -26,6 +26,9 @@ const CLIENT_VER = config.CLIENT_VER;
 export const Root = () => {
     const location = useLocation();
     const [backendStatus, setBackendStatus] = useState("Online");
+    const [isDarkMode, setIsDarkMode] = useState(
+        localStorage.getItem("isDarkMode") === "true"
+    );
     const {
         token: { colorBgContainer },
     } = theme.useToken();
@@ -39,8 +42,20 @@ export const Root = () => {
     if (loading) return (<PageLoading />);
     else if (!loggedIn) return <Navigate to="/login" />;
     else if (loggedIn) return <Layout hasSider>
+        <FloatButton
+            type={isDarkMode ? "primary" : ""}
+            icon={<BulbOutlined />}
+            onClick={() => {
+                setIsDarkMode((previousValue) => !previousValue);
+                document.body.style = `background: ${isDarkMode ? "#f5f5f5" : "#181818"
+                    };`;
+                localStorage.setItem("isDarkMode", !isDarkMode);
+            }}
+        />
         <Sider
+            collapsible
             breakpoint="lg"
+            theme={isDarkMode ? "dark" : "light"}
             style={{
                 overflow: "auto",
                 height: "100vh",
@@ -51,7 +66,7 @@ export const Root = () => {
                 zIndex: 2,
             }}>
             <div className="logo" />
-            <Menu theme="dark" mode="inline" defaultSelectedKeys={[location.pathname.slice(1)]} items={routes.map(route => {
+            <Menu theme={isDarkMode ? "dark" : "light"} mode="inline" defaultSelectedKeys={[location.pathname.slice(1)]} items={routes.map(route => {
                 if (!route.private || userInfo.userRole > 0) {
                     return {
                         key: route.path,
@@ -61,19 +76,23 @@ export const Root = () => {
                 }
             })} />
         </Sider>
-        <Layout className="site-layout">
+        <Layout className="site-layout" style={{ backgroundColor: isDarkMode ? "#181818" : "#f5f5f5" }}>
             <Content
                 style={{ marginLeft: "25%", overflow: "auto", marginRight: "5%" }}
                 width="70%">
                 <ConfigProvider
-                    theme={theme.darkAlgorithm}
+                    theme={{
+                        algorithm: isDarkMode
+                            ? theme.darkAlgorithm
+                            : theme.defaultAlgorithm,
+                    }}
                 >
                     <Alert message="Уведомление ShTP" description="На данный момент ShTP работает в бета режиме. Обновление компонентов верхнего уровня: Backend, Frontend и Checker производятся через предварительную пересборку контейнера, а затем перезапуск. Максимальный downtime - 5 секунд." type="warning" showIcon className="topLevelMessage" />
                     <Outlet />
                     <Footer
                         style={{
                             textAlign: "center",
-                            backgroundColor: "#f5f5f5"
+                            backgroundColor: isDarkMode ? "#181818" : "#f5f5f5",
                         }}
                         className="shtp_debug_info"
                     >

@@ -147,7 +147,7 @@ const BaseLayout = ({ user, setUserData, backendStatus }) => {
   useEffect(() => { // FIXIT Make light request to optimize bandwith usage
     API({
       endpoint: "/auth/me", ok: (resp) => {
-        setUserData({ status: 1, user: resp.data.user }); 
+        setUserData({ status: 1, user: resp.data.user });
       }, err: (resp) => {
         if (resp.status === 403) // This http code says, that we have invalid auth code, but backend works correctly
           openLoginModal(true);
