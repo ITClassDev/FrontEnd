@@ -9,7 +9,7 @@ const { Title, Text, Paragraph } = Typography;
 
 const API_URL = config.API_URL;
 
-const ApiDocs = () => {
+export const ApiDocs = () => {
     useDocumentTitle("ШТП | Документация для разработчиков");
     return (
         <>
@@ -82,4 +82,3 @@ const ApiDocs = () => {
     );
 }
 
-export default ApiDocs;

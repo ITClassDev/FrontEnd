@@ -3,7 +3,7 @@ import { Tabs, Typography } from "antd";
 import AdminUsers from "../Components/AdminUsers";
 import AdminSystem from "../Components/AdminSystem";
 import AchivmentsModeration from "../Components/AdminModeration";
-import NotFound from "./NotFound";
+import { NotFound } from "./NotFound";
 import AdminDayChallenge from "../Components/AdminDayChallenge";
 import AdminHomeWork from "../Components/AdminHomeWork";
 import AdminTasks from "../Components/AdminTasks";

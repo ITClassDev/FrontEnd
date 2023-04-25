@@ -1,19 +1,12 @@
-import { Button, Result } from "antd";
-import { HomeOutlined } from "@ant-design/icons";
+import React from "react";
+import { Button, Result } from 'antd';
 
-const NotFound = () => {
-  return (
+
+export const NotFound = () => (
     <Result
-      status="404"
-      title="404"
-      subTitle="Страница не найдена."
-      extra={
-        <Button type="primary" href="/" icon={<HomeOutlined/>}>
-          На главную
-        </Button>
-      }
+        status="404"
+        title="404"
+        subTitle="Такая страница не найдена"
+        extra={<Button type="primary">На главную</Button>}
     />
-  );
-};
-
-export default NotFound;
+)

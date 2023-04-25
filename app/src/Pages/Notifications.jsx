@@ -8,7 +8,7 @@ import useDocumentTitle from "../useDocumentTitle";
 
 const { Title } = Typography;
 
-const Notifications = () => {
+export const Notifications = () => {
   const [notifications, setNotifications] = useState(<LoadingBar size={24} />);
   useDocumentTitle("ШТП | Уведомления");
   const ALL_NOTIFICATIONS = [
@@ -80,4 +80,3 @@ const Notifications = () => {
   );
 };
 
-export default Notifications;
