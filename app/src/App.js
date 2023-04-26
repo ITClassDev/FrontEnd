@@ -15,7 +15,13 @@ const router = createBrowserRouter([
         path: '/',
         element: <Root />,
         errorElement: <NotFound />,
-        children: routes
+        children: [...routes, {
+            path: 'profile',
+            async lazy() {
+                let { ViewProfile } = await import("./Pages/ViewProfile.jsx");
+                return { Component: ViewProfile };
+            }
+        }]
     },
     {
         path: 'login',
@@ -23,20 +29,23 @@ const router = createBrowserRouter([
             let { Login } = await import("./Pages/Login.jsx");
             return { Component: Login };
         },
-    }
+    },
+
 ]);
 
 
 const App = () => {
     const [user, setUser] = useState({ userInfo: null, loading: true, loggedIn: false });
-    
+
     useEffect(() => {
-        API({endpoint: '/auth/me', ok: (response) => {
-            setUser({ userInfo: response.data.user, loggedIn: true, loading: false });
-        }, err: () => {
-            setUser({ userInfo: null, loggedIn: false, loading: false });
-        }})
-        
+        API({
+            endpoint: '/auth/me', ok: (response) => {
+                setUser({ userInfo: response.data.user, loggedIn: true, loading: false });
+            }, err: () => {
+                setUser({ userInfo: null, loggedIn: false, loading: false });
+            }
+        })
+
         console.log(String.raw`
       Welcome to, 
        _____ _    _ _______ _____  _ 

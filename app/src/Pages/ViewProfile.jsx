@@ -3,9 +3,9 @@ import { useSearchParams } from "react-router-dom";
 import { API } from "../api";
 import ProfileCard from "../Components/ProfileCard";
 import useDocumentTitle from "../useDocumentTitle";
-import NotFound from "./NotFound";
+import { NotFound } from "./NotFound";
 
-const ViewProfile = () => {
+export const ViewProfile = () => {
   useDocumentTitle("ШТП | Профиль пользователя");
   const [searchParams] = useSearchParams();
   const user_id = searchParams.get("id");
@@ -13,7 +13,7 @@ const ViewProfile = () => {
   useEffect(() => {
     API ({endpoint: `/users/${user_id}`, ok: (resp) => {
       setPage(
-        <ProfileCard user={resp.data} header_title="Профиль пользователя" />
+        <ProfileCard userInfo={resp.data} header_title="Профиль пользователя" />
       );
     }, err: () => {
         setPage(<NotFound/>);
@@ -23,4 +23,3 @@ const ViewProfile = () => {
   return page;
 };
 
-export default ViewProfile;

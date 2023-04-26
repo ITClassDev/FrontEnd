@@ -12,9 +12,9 @@ import {
     Alert,
 } from "antd";
 
-import { BulbOutlined } from "@ant-design/icons";
+import { BulbOutlined, LogoutOutlined } from "@ant-design/icons";
 import userContext from '../Contexts/user';
-import { Link, Navigate, Outlet, useLocation } from "react-router-dom";
+import { Link, Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { routes } from './routes';
 import { PageLoading } from '../Components/PageLoading';
 const { Content, Sider, Footer } = Layout;
@@ -28,6 +28,13 @@ export const Root = () => {
     const [isDarkMode, setIsDarkMode] = useState(
         localStorage.getItem("isDarkMode") === "true"
     );
+    const navigate = useNavigate();
+
+    const logOut = () => {
+        localStorage.clear();
+        navigate('/login');
+        
+    }
 
     const { userInfo, loading, loggedIn } = useContext(userContext);
     useEffect(() => {
@@ -64,7 +71,12 @@ export const Root = () => {
                 zIndex: 2,
             }}>
             <div className="logo" />
-            <Menu theme={isDarkMode ? "dark" : "light"} mode="inline" defaultSelectedKeys={[location.pathname.slice(1)]} items={routes.map(route => {
+            <Menu theme={isDarkMode ? "dark" : "light"} mode="inline" defaultSelectedKeys={[location.pathname.slice(1)]} items={[...routes, {
+                label: "Выйти",
+                key: "logout_btn",
+                access: 'all',
+                onClick: () => {logOut()},
+                icon: <LogoutOutlined />}].map(route => {
                 if (route.access === 'all' || (route.access === 'student' && userInfo.userRole === 0) || (route.access === 'admin' && userInfo.userRole >= 1)) { // Access managment
                     let icon = route.icon;
                     if (route.badge) {
@@ -84,10 +96,10 @@ export const Root = () => {
                         key: key,
                         icon: icon,
                         label: label,
-                        children: children
+                        children: children,
+                        onClick: route.onClick
                     }
                 }
-
             })} />
         </Sider>
         <Layout className="site-layout" style={{ backgroundColor: isDarkMode ? "#181818" : "#f5f5f5" }}>

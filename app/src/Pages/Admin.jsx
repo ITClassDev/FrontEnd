@@ -13,7 +13,7 @@ import userContext from "../Contexts/user";
 
 const { Title } = Typography;
 
-export const Admin = ({ user }) => {
+export const Admin = () => {
   const { userInfo, loading, loggedIn } = useContext(userContext);
   useDocumentTitle("ШТП | Админ-панель");
   // check permisiions to access this page
