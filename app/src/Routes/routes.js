@@ -11,6 +11,7 @@ import {
   CodeOutlined,
   HomeOutlined,
   CalendarOutlined,
+  CodeSandboxOutlined,
   FieldTimeOutlined,
   LineChartOutlined
 } from '@ant-design/icons';
@@ -104,6 +105,16 @@ export const routes = [
     },
     icon: <LineChartOutlined/>,
     label: 'ТОП',
+    access: 'all'
+  },
+  {
+    path: 'apps',
+    async lazy() {
+      let { Apps } = await import ("../Pages/Apps.jsx");
+      return { Component: Apps };
+    },
+    icon: <CodeSandboxOutlined/>,
+    label: 'Приложения',
     access: 'all'
   },
   {

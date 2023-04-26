@@ -27,7 +27,7 @@ const AppsActionsBtns = ({ app_id, setEditModal }) => {
   );
 };
 
-const Apps = () => {
+export const Apps = () => {
   useDocumentTitle("ШТП | Приложения");
   const columnsMyAppsTable = [
     {
@@ -131,4 +131,3 @@ const Apps = () => {
   );
 };
 
-export default Apps;

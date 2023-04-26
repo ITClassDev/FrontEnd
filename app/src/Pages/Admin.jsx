@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import { Tabs, Typography } from "antd";
 import AdminUsers from "../Components/AdminUsers";
 import AdminSystem from "../Components/AdminSystem";
@@ -9,13 +9,15 @@ import AdminHomeWork from "../Components/AdminHomeWork";
 import AdminTasks from "../Components/AdminTasks";
 import useDocumentTitle from "../useDocumentTitle";
 import AdminNotifications from "../Components/AdminNotifications";
+import userContext from "../Contexts/user";
 
 const { Title } = Typography;
 
-const Admin = ({ user }) => {
+export const Admin = ({ user }) => {
+  const { userInfo, loading, loggedIn } = useContext(userContext);
   useDocumentTitle("ШТП | Админ-панель");
   // check permisiions to access this page
-  if (user.user.userRole === 2) {
+  if (userInfo.userRole === 2) {
     return (
       <>
         <Title level={3}>Панель администратора</Title>
@@ -71,4 +73,3 @@ const Admin = ({ user }) => {
   }
 };
 
-export default Admin;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Tabs, Typography } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { LoadingBar } from "../Components/Loading";
@@ -7,12 +7,13 @@ import { NotFound } from "./NotFound";
 import CreatePoll from "../Components/CreatePoll";
 import { API } from "../api";
 import useDocumentTitle from "../useDocumentTitle";
+import userContext from "../Contexts/user";
 
 
 const { Title } = Typography;
 
 export const PollsAdmin = () => {
-    //const { userInfo, loading, loggedIn } = useContext(userContext);
+    const { userInfo, loading, loggedIn } = useContext(userContext);
     useDocumentTitle("ШТП | Опросы");
     const [pollsData, setPollsData] = useState([]);
     const loadPollsTable = () => {
@@ -21,7 +22,7 @@ export const PollsAdmin = () => {
     useEffect(() => {
         loadPollsTable();
     }, []);
-    if (user.user.userRole === 2) {
+    if (userInfo.userRole === 2) {
         return (
             <>
                 <Title level={3}>Опросы</Title>

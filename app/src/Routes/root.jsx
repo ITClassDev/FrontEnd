@@ -12,11 +12,8 @@ import {
     Alert,
 } from "antd";
 
-
 import { BulbOutlined } from "@ant-design/icons";
-
 import userContext from '../Contexts/user';
-
 import { Link, Navigate, Outlet, useLocation } from "react-router-dom";
 import { routes } from './routes';
 import { PageLoading } from '../Components/PageLoading';
