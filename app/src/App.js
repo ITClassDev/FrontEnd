@@ -21,7 +21,8 @@ const router = createBrowserRouter([
                 let { ViewProfile } = await import("./Pages/ViewProfile.jsx");
                 return { Component: ViewProfile };
             }
-        }]
+        }
+        ]
     },
     {
         path: 'login',
@@ -30,6 +31,13 @@ const router = createBrowserRouter([
             return { Component: Login };
         },
     },
+    {
+        path: 'poll',
+        async lazy() {
+            let { Poll } = await import("./Pages/Poll.jsx");
+            return { Component: Poll };
+        }
+    }
 
 ]);
 

@@ -23,7 +23,7 @@ import useDocumentTitle from "../useDocumentTitle";
 const CLIENT_VER = config.CLIENT_VER;
 const { Text } = Typography;
 
-const Poll = () => {
+export const Poll = () => {
   const [searchParams] = useSearchParams();
   const poll_id = searchParams.get("id").replace(/\/+$/, '');
   useDocumentTitle(`ШТП Опрос`);
@@ -115,4 +115,3 @@ const Poll = () => {
   );
 };
 
-export default Poll;
