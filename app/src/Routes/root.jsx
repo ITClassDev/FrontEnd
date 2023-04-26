@@ -9,6 +9,7 @@ import {
     ConfigProvider,
     theme,
     FloatButton,
+    notification,
     Alert,
 } from "antd";
 
@@ -17,6 +18,11 @@ import userContext from '../Contexts/user';
 import { Link, Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { routes } from './routes';
 import { PageLoading } from '../Components/PageLoading';
+import { usePollingEffect } from '../Hooks/usePollingEffect';
+import { API } from '../api';
+import { parseNotification } from '../notifications';
+
+
 const { Content, Sider, Footer } = Layout;
 const { Text } = Typography;
 const CLIENT_VER = config.CLIENT_VER;
@@ -25,6 +31,8 @@ const CLIENT_VER = config.CLIENT_VER;
 export const Root = () => {
     const location = useLocation();
     const [backendStatus, setBackendStatus] = useState("Online");
+    const [notificationApi, contextHolder] = notification.useNotification();
+
     const [isDarkMode, setIsDarkMode] = useState(
         localStorage.getItem("isDarkMode") === "true"
     );
@@ -33,20 +41,47 @@ export const Root = () => {
     const logOut = () => {
         localStorage.clear();
         navigate('/login');
-        
+
     }
 
     const { userInfo, loading, loggedIn } = useContext(userContext);
     useEffect(() => {
         document.body.style = `background: ${localStorage.getItem("isDarkMode") === "true" ? "#181818" : "#f5f5f5"};`; // apply theme background
-        if (!loading) {
-            console.log("Logged: ", loggedIn);
-        }
-    }, [loading, userInfo])
+    }, []);
+
+    usePollingEffect(
+        async () => {
+            API({
+                endpoint: '/notifications/polling', ok: (response) => {
+                    if (response.data.length) { // New notifications
+                        response.data.forEach(notification => {
+                            let parsed = parseNotification(notification);
+                            const audio = new Audio('notification.wav');
+                            audio.play();
+                            notificationApi[parsed.color]({
+                                message: parsed.title,
+                                description: parsed.description,
+                            });
+                        });
+                    }
+                }
+            })
+        },
+        [],
+        { interval: 5000 }
+    );
+
+
+    // useEffect(() => {
+
+    //     if (!loading) {
+    //         console.log("Logged: ", loggedIn);
+    //     }
+    // }, [loading, userInfo])
 
     if (loading) return (<PageLoading />);
     else if (!loggedIn) return <Navigate to="/login" />;
-    else if (loggedIn) return <Layout hasSider>
+    else if (loggedIn) return <Layout hasSider>{contextHolder}
         <FloatButton
             type={isDarkMode ? "primary" : ""}
             icon={<BulbOutlined />}
@@ -75,8 +110,9 @@ export const Root = () => {
                 label: "Выйти",
                 key: "logout_btn",
                 access: 'all',
-                onClick: () => {logOut()},
-                icon: <LogoutOutlined />}].map(route => {
+                onClick: () => { logOut() },
+                icon: <LogoutOutlined />
+            }].map(route => {
                 if (route.access === 'all' || (route.access === 'student' && userInfo.userRole === 0) || (route.access === 'admin' && userInfo.userRole >= 1)) { // Access managment
                     let icon = route.icon;
                     if (route.badge) {

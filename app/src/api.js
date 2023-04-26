@@ -53,6 +53,10 @@ export function API({ endpoint, method = "get", data = {}, files = null, auth = 
 
     if (ok) ok(response);
   }).catch((response) => {
+    if (localStorage.getItem('user') !== null && response.code === "ERR_BAD_REQUEST"){ // Expired token handler (or invalid token)
+      localStorage.clear(); // Delete expired token
+      window.location.replace('/login'); // redirect to login page
+    } 
     // Show error message
     if (response.code === "ERR_NETWORK") { // Can't connect to backend  (API problem or internet problem)
       console.log("Backend down");
@@ -114,11 +118,15 @@ export function provideAccessToApp(
   api = API_URL
 ) {
   axios
-    .post(`${api}/oauth/provide_access`, { app_id: app_id }, getAuth())
+  .post(`${api}/oauth/provide_access`, { app_id: app_id }, getAuth())
     .then((response) => {
       ok_handler(response);
     })
-    .catch((response) => error_handler(response));
+    .catch((response) => {
+      console.log(response);
+      error_handler(response);
+
+    });
 }
 
 export function getAchivmentsQueue(ok_handler, error_handler, api = API_URL) {

@@ -38,7 +38,7 @@ const { Title } = Typography;
 
 export const Settings = () => {
   useDocumentTitle("ШТП | Настройки");
-  
+
   const defaultStackExamples = ["C++", "NASM", "FASM", "Python", "ReactJS", "JS", "HTML 5", "CSS 3", "SaaS", "Bootstrap 5", "TypeScript", "Scratch",
     "FastAPI", "Django", "Flask", "NextJS", "Git", "Docker", "Docker-compose", "Kubernetes", "Linux", "MySQL", "PostgreSQL", "PyTorch", "Tensorflow",
     "Pandas", "SkLearn", "OpenCV", "Nginx", "Apache"].map((e) => ({ value: e, label: e }));
@@ -48,7 +48,6 @@ export const Settings = () => {
 
   const [avatarImageUrl, setAvatarImageUrl] = useState(`${STORAGE}/avatars/${userInfo.userAvatarPath}?nocache=${Date.now()}`);
   let tech_stack_default = [];
-  console.log(userInfo);
   if (userInfo["techStack"]) {
     tech_stack_default = userInfo.techStack.split(",");
   }
