@@ -11,6 +11,8 @@ import {
     FloatButton,
     Alert,
 } from "antd";
+
+
 import { BulbOutlined } from "@ant-design/icons";
 
 import userContext from '../Contexts/user';
@@ -29,11 +31,10 @@ export const Root = () => {
     const [isDarkMode, setIsDarkMode] = useState(
         localStorage.getItem("isDarkMode") === "true"
     );
-    const {
-        token: { colorBgContainer },
-    } = theme.useToken();
+
     const { userInfo, loading, loggedIn } = useContext(userContext);
     useEffect(() => {
+        document.body.style = `background: ${localStorage.getItem("isDarkMode") === "true" ? "#181818" : "#f5f5f5"};`; // apply theme background
         if (!loading) {
             console.log("Logged: ", loggedIn);
         }
@@ -67,13 +68,29 @@ export const Root = () => {
             }}>
             <div className="logo" />
             <Menu theme={isDarkMode ? "dark" : "light"} mode="inline" defaultSelectedKeys={[location.pathname.slice(1)]} items={routes.map(route => {
-                if (!route.private || userInfo.userRole > 0) {
+                if (route.access === 'all' || (route.access === 'student' && userInfo.userRole === 0) || (route.access === 'admin' && userInfo.userRole >= 1)) { // Access managment
+                    let icon = route.icon;
+                    if (route.badge) {
+                        icon = <Badge dot={1} showZero={false}>
+                            {route.icon}
+                        </Badge>
+                    }
+                    let children = null;
+                    let key = route.path;
+                    let label = <Link to={route.path}>{route.label}</Link>;
+                    if (route.children) {
+                        children = route.children.map(sub_route => ({ key: `${route.path}/${sub_route.path}`, icon: sub_route.icon, label: <Link to={`${route.path}/${sub_route.path}`}>{sub_route.label}</Link> }));
+                        key = "sub_holder";
+                        label = route.label;
+                    }
                     return {
-                        key: route.path,
-                        icon: route.icon,
-                        label: <Link to={route.path}>{route.label}</Link>,
+                        key: key,
+                        icon: icon,
+                        label: label,
+                        children: children
                     }
                 }
+
             })} />
         </Sider>
         <Layout className="site-layout" style={{ backgroundColor: isDarkMode ? "#181818" : "#f5f5f5" }}>

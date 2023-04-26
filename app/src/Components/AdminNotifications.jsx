@@ -28,7 +28,7 @@ const AdminNotifications = () => {
                 requiredMark={false}
                 className="send_notifications"
                 onFinish={(values) => {
-                    API({ endpoint: "/admin/send_notification", method: "put", data: values, message: { show: true, api: messageApi, ok: "Уведомления успешно отправлены!", err: "Уведомления не отправлены" } })
+                    API({ endpoint: "/notifications", method: "put", data: values, message: { show: true, api: messageApi, ok: "Уведомления успешно отправлены!", err: "Уведомления не отправлены" } })
                 }}
                 layout="vertical"
             >

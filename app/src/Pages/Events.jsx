@@ -5,7 +5,7 @@ import useDocumentTitle from "../useDocumentTitle";
 
 const { Title } = Typography;
 
-const Events = () => {
+export const Events = () => {
   useDocumentTitle("ШТП | Мероприятия");
   return (
     <>
@@ -34,4 +34,3 @@ const Events = () => {
   );
 };
 
-export default Events;

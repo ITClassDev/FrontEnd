@@ -19,11 +19,11 @@ const Expanded = ({ columns, submission }) => {
         SetSourceCode(response.data.source);
         let res = [];
         response.data.task.tests_results.forEach((element, ind) => {
-          res.push({key: ind, id: ind, status: element.status ? "ОК" : "ERROR", time: element.duration, memory: 122, stdout: element.error_info});
+          res.push({ key: ind, id: ind, status: element.status ? "ОК" : "ERROR", time: element.duration, memory: 122, stdout: element.error_info });
         });
         SetTestsRes(res);
       },
-      (response) => {}
+      (response) => { }
     );
   }, []);
   return (
@@ -39,7 +39,7 @@ const Expanded = ({ columns, submission }) => {
           </SyntaxHighlighter>
         </Tabs.TabPane>
         <Tabs.TabPane tab="Тесты" key="2">
-          <Table columns={columns} dataSource={testsRes}/>
+          <Table columns={columns} dataSource={testsRes} />
         </Tabs.TabPane>
       </Tabs>
     </>

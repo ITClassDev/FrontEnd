@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 const { Text } = Typography;
 const STORAGE = config.STORAGE;
 
-const LeaderBoard = () => {
+export const LeaderBoard = () => {
   const columns = [
     { title: "#", dataIndex: "number", key: "number" },
     { title: "Ученик", dataIndex: "user_name", key: "user_name" },
@@ -51,4 +51,4 @@ const LeaderBoard = () => {
   );
 };
 
-export default LeaderBoard;
+

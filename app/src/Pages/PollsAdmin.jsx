@@ -3,7 +3,7 @@ import { Tabs, Typography } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { LoadingBar } from "../Components/Loading";
 import PollsTable from "../Components/PollsTable";
-import NotFound from "./NotFound";
+import { NotFound } from "./NotFound";
 import CreatePoll from "../Components/CreatePoll";
 import { API } from "../api";
 import useDocumentTitle from "../useDocumentTitle";
@@ -11,7 +11,8 @@ import useDocumentTitle from "../useDocumentTitle";
 
 const { Title } = Typography;
 
-const PollsAdmin = ({ user }) => {
+export const PollsAdmin = () => {
+    //const { userInfo, loading, loggedIn } = useContext(userContext);
     useDocumentTitle("ШТП | Опросы");
     const [pollsData, setPollsData] = useState([]);
     const loadPollsTable = () => {
@@ -46,5 +47,3 @@ const PollsAdmin = ({ user }) => {
     }
 };
 
-
-export default PollsAdmin;

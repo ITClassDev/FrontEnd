@@ -10,7 +10,7 @@ import SystemAchivmentsList from "../Components/SystemAchivmentsList";
 
 const { Title } = Typography;
 
-const Achivments = () => {
+export const Achivments = () => {
   useDocumentTitle("ШТП | Ваши достижения");
   const [achivmentsBlock, setAchivmentsBlock] = useState(
     <LoadingBar align="center" size={24} />
@@ -63,4 +63,3 @@ const Achivments = () => {
   );
 };
 
-export default Achivments;

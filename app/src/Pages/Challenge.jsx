@@ -9,7 +9,7 @@ import useDocumentTitle from "../useDocumentTitle";
 
 const { Title } = Typography;
 
-const Challenge = () => {
+export const Challenge = () => {
   useDocumentTitle("ШТП | Задача дня");
   const [dayChallenge, SetDayChallenge] = useState(
     <LoadingBar size="24" text={"Loading..."} />
@@ -38,5 +38,3 @@ const Challenge = () => {
     </>
   );
 };
-
-export default Challenge;
