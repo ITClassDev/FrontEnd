@@ -21,7 +21,7 @@ import locale from "antd/es/date-picker/locale/ru_RU";
 import Telegram_logo from "../Images/Telegram_logo.svg";
 import Stepik_logo from "../Images/Stepik_logo.png";
 import Kaggle_logo from "../Images/Kaggle_logo.svg";
-
+import userContext from "../Contexts/user";
 
 const STORAGE = config.STORAGE;
 const { Title, Paragraph } = Typography;
@@ -69,7 +69,9 @@ const ProfileCard = ({
   editable = false,
   header_title = "Ваш профиль",
 }) => {
-  
+
+  const { setUser } = useContext(userContext);
+
   const [userAbout, setUserAbout] = useState(userInfo.userAboutText);
   //FIXIT ONLY FOR DEV, WHILE WE DON'T KNOW WHERE TO CHANGE THIS STATE; to pass CI build
   // eslint-disable-next-line
@@ -88,7 +90,7 @@ const ProfileCard = ({
       ]);
   });
   const [userSocialNets] = useState(userSocial);
-  //FIXIT ONLY FOR DEV, WHILE WE DON'T KNOW WHERE TO CHANGE THIS STATE; to pass CI build
+  // FIXIT ONLY FOR DEV, WHILE WE DON'T KNOW WHERE TO CHANGE THIS STATE; to pass CI build
   // eslint-disable-next-line
   const [timelineEvents, setTimelineEvents] = useState({
     "Sat Dec 31 2022": [
@@ -118,7 +120,10 @@ const ProfileCard = ({
   };
   if (editable) editable = {
     onChange: (new_text) => API({
-      endpoint: "/users", method: "patch", data: { aboutText: new_text }, ok: (resp) => { setUserAbout(resp.data.userAboutText); }
+      endpoint: "/users", method: "patch", data: { aboutText: new_text }, ok: (resp) => {
+        setUserAbout(resp.data.userAboutText);
+        setUser(({ userInfo: Object.assign({}, userInfo, { userAboutText: resp.data.userAboutText }), loggedIn: true, loading: false }));
+      }
     })
   };
 

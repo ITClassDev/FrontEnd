@@ -10,12 +10,12 @@ import {
     theme,
     FloatButton,
     notification,
-    Alert,
+    Alert
 } from "antd";
 
 import { BulbOutlined, LogoutOutlined } from "@ant-design/icons";
-import userContext from '../Contexts/user';
 import { Link, Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
+import userContext from '../Contexts/user';
 import { routes } from './routes';
 import { PageLoading } from '../Components/PageLoading';
 import { usePollingEffect } from '../Hooks/usePollingEffect';
@@ -44,7 +44,7 @@ export const Root = () => {
 
     }
 
-    const { userInfo, loading, loggedIn } = useContext(userContext);
+    const { userInfo, loading, setUser, loggedIn } = useContext(userContext);
     useEffect(() => {
         document.body.style = `background: ${localStorage.getItem("isDarkMode") === "true" ? "#181818" : "#f5f5f5"};`; // apply theme background
     }, []);
@@ -62,6 +62,7 @@ export const Root = () => {
                                 message: parsed.title,
                                 description: parsed.description,
                             });
+                            setUser(({ userInfo: Object.assign({}, userInfo, { new_notifications: true }), loggedIn: true, loading: false }));
                         });
                     }
                 }
@@ -116,7 +117,7 @@ export const Root = () => {
                 if (route.access === 'all' || (route.access === 'student' && userInfo.userRole === 0) || (route.access === 'admin' && userInfo.userRole >= 1)) { // Access managment
                     let icon = route.icon;
                     if (route.badge) {
-                        icon = <Badge dot={1} showZero={false}>
+                        icon = <Badge dot={userInfo.new_notifications} showZero={false}>
                             {route.icon}
                         </Badge>
                     }
@@ -149,7 +150,7 @@ export const Root = () => {
                             : theme.defaultAlgorithm,
                     }}
                 >
-                    <Alert message="Уведомление ShTP" description="На данный момент ShTP работает в бета режиме. Обновление компонентов верхнего уровня: Backend, Frontend и Checker производятся через предварительную пересборку контейнера, а затем перезапуск. Максимальный downtime - 5 секунд." type="warning" showIcon className="topLevelMessage" />
+                    <Alert message="Уведомление ShTP" description={<>На данный момент ShTP работает в бета режиме. Свои предложения(обнаруженные проблемы) касательно ShTP просьба писать <Typography.Link href='https://shtp.1561.ru/poll?id=648790' target="_blank">сюда</Typography.Link> </>} type="warning" showIcon className="topLevelMessage" />
                     <Outlet />
                     <Footer
                         style={{

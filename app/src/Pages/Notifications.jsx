@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import { Alert, Typography } from "antd";
 import { useEffect } from "react";
 import { API } from "../api";
@@ -6,6 +6,7 @@ import { useState } from "react";
 import { LoadingBar } from "../Components/Loading";
 import useDocumentTitle from "../useDocumentTitle";
 import { parseNotification } from "../notifications";
+import userContext from "../Contexts/user";
 
 const { Title } = Typography;
 
@@ -24,6 +25,10 @@ const Notification = ({ notification }) => (
 )
 
 export const Notifications = () => {
+  const { userInfo, setUser, loading } = useContext(userContext);
+  useEffect(() => {
+    setUser(({ userInfo: Object.assign({}, userInfo, {new_notifications: false}), loggedIn: true, loading: false }));
+  }, [])
   const [notifications, setNotifications] = useState(<LoadingBar size={24} />);
   useDocumentTitle("ШТП | Уведомления");
   useEffect(() => {
