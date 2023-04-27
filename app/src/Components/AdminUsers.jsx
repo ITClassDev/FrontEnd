@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
   Typography,
   Table,
+  Modal,
   Button,
   Space,
   Input,
@@ -16,12 +17,13 @@ import NameAndAvatar from "./NameAndAvatar";
 import CreateUserForm from "./CreateUserForm";
 import Link from "antd/es/typography/Link";
 import { config } from "../config";
-import { UploadOutlined, PlusOutlined } from '@ant-design/icons';
+import { UploadOutlined, PlusOutlined, ExclamationCircleFilled } from '@ant-design/icons';
 
 const API_URL = config.API_URL;
 
 const { Search } = Input;
-const { Title } = Typography;
+const { confirm } = Modal;
+const { Title, Text } = Typography;
 
 
 
@@ -61,7 +63,7 @@ const AdminUsers = () => {
       render: (_, record) => (
         <Tag color="geekblue">{record.user_group}</Tag>
       ),
-      filters: userGroups.map((e) => ({value: e.name, text: e.name})),
+      filters: userGroups.map((e) => ({ value: e.name, text: e.name })),
       onFilter: (value, record) => record.user_group === value,
       filterSearch: true,
     },
@@ -73,11 +75,25 @@ const AdminUsers = () => {
         <Space direction="horizontal">
           <Button type="primary">Редактировать</Button>
           <Button type="dashed" danger onClick={() => {
-            API({
-              endpoint: `/users/${record.id}`, method: "delete", ok: () => {
-                setUsersList(usersList.filter(obj => obj.id !== record.id))
-              }, message: { show: true, api: messageApi, ok: "Пользователь удалён", err: "Ошибка" }
-            })
+            confirm({
+              title: 'Вы действительно хотите удалить этого пользователя?',
+              icon: <ExclamationCircleFilled />,
+              content: 'Отменить это действие невозможно!',
+              async onOk() {
+                return new Promise((resolve, reject) => {
+                  API({
+                    endpoint: `/users/${record.id}`, method: "delete", ok: () => {
+                      setUsersList(usersList.filter(obj => obj.id !== record.id));
+                      resolve();
+                    }, message: { show: true, api: messageApi, ok: "Пользователь удалён", err: "Ошибка" }
+                  });
+                  
+                }).catch(() => console.log('Oops errors!'));
+              },
+              onCancel() { },
+            });
+
+
 
           }}>
             Удалить
@@ -115,7 +131,9 @@ const AdminUsers = () => {
       </Space.Compact>
       <Row gutter={[5, 5]}>
         {userGroups.map((item) => (
-          <Tag color="geekblue" key={item.id}>{item.name}</Tag>
+          <Tag color="geekblue" key={item.id} closable={true} onClose={() => {
+            API({ endpoint: `/users/groups/${item.id}`, method: 'delete' })
+          }}>{item.name} <Text type="secondary">{item.id}</Text></Tag>
         ))}
       </Row>
       <Title level={4} style={{ marginTop: 10 }}>

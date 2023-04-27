@@ -1,12 +1,25 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./Login.css"
-import { Form, Button, Input, Checkbox, message } from 'antd';
+import { Form, Button, Input, Checkbox, message, ConfigProvider, theme } from 'antd';
 import { API } from "../api";
 
+
 export const Login = () => {
-    const [messageApi, contextHolder] = message.useMessage();    
+    const [messageApi, contextHolder] = message.useMessage();
+    const [isDarkMode, setIsDarkMode] = useState(
+        localStorage.getItem("isDarkMode") === "true"
+    );
+    useEffect(() => {
+        API({ endpoint: '/auth/me', ok: () => window.location.replace('/') })
+    }, [])
     return (
-        <>
+        <ConfigProvider
+            theme={{
+                algorithm: isDarkMode
+                    ? theme.darkAlgorithm
+                    : theme.defaultAlgorithm,
+            }}
+        >
             {contextHolder}
             <div className="login-page">
                 <div className="login-box">
@@ -57,7 +70,7 @@ export const Login = () => {
                     </Form>
                 </div>
             </div>
-        </>
+        </ConfigProvider>
     )
 }
 
