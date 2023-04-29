@@ -1,3 +1,6 @@
+//const dotenv = require('dotenv');
+
+
 const conf = (HOST, name="prod", PROTOCOL="https") => (
     {
         API_URL: `${PROTOCOL}://${HOST}/api`,
@@ -15,15 +18,13 @@ const local_conf = {
     CLIENT_VER: `EARLY DEVELOP MODE`
 }
 
-// For dev in local line 
+// For dev in local net
 const local_conf_2 = {
     API_URL: `http://192.168.1.11/api`,
     STORAGE: `http://192.168.1.11/api/storage`,
     FRONTEND_URL: `http://192.168.1.11`,
     CLIENT_VER: `NGINX`
 }
-
-
 
 
 export const config = local_conf;
