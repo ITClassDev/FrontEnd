@@ -16,6 +16,7 @@ import {
 } from "@ant-design/icons";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import { TagsArray } from "./TagsArray";
 
 const { TextArea } = Input;
 const { Text } = Typography;
@@ -24,15 +25,18 @@ const { Text } = Typography;
 
 const TaskForm = ({ createTaskFormHandler, defaults = { memory_limit: 1024, time_limit: 2, is_day_challenge: true, title: "" } }) => {
     const [convertedText, setConvertedText] = useState("Some default content");
-    
+    const [inputTypes, setInputTypes] = useState([]);
+    const [outputTypes, setOutputTypes] = useState([]);
+
     return (
         <Form
             name="add_task"
             className="create-task-form"
             layout="vertical"
             requiredMark={false}
-            initialValues={{...defaults}}
+            initialValues={{ ...defaults }}
             onFinish={createTaskFormHandler}
+            onSubmitCapture={() => {}}
         >
             <Form.Item
                 name="title"
@@ -94,10 +98,38 @@ const TaskForm = ({ createTaskFormHandler, defaults = { memory_limit: 1024, time
             <Form.Item name="is_day_challenge" valuePropName="checked">
                 <Checkbox>Сделать задачей дня</Checkbox>
             </Form.Item>
+            <Text className="testsTitleEasyMode" strong>
+                Входные/Выходные типы (для контестов)
+            </Text>
+
+            <Space
+                style={{
+                    display: "flex",
+                    marginBottom: 8,
+                    justifyContent: "center",
+                    minWidth: 120
+                }}
+                align="center"
+            >
+                <Form.Item
+                    label={<Text>Входные типы </Text>}
+                    name="in"
+                >
+                    <TagsArray color={'geekblue'} tags={inputTypes} setTags={setInputTypes}/>
+                </Form.Item>
+                <Form.Item
+                    label={<Text>Выходные типы </Text>}
+                    name="out"
+                >
+                    <TagsArray color={'magenta'} tags={outputTypes} setTags={setOutputTypes}/>
+                </Form.Item>
+            </Space>
+
 
             <Text className="testsTitleEasyMode" strong>
                 Тесты (easy mode)
             </Text>
+
 
             <Form.List name="tests">
                 {(fields, { add, remove }) => (

@@ -13,7 +13,7 @@ import {
     Alert
 } from "antd";
 
-import { BulbOutlined, LogoutOutlined } from "@ant-design/icons";
+import { BulbOutlined, LogoutOutlined, GithubOutlined } from "@ant-design/icons";
 import { Link, Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import userContext from '../Contexts/user';
 import { routes } from './routes';
@@ -160,7 +160,7 @@ export const Root = () => {
                         className="shtp_debug_info"
                     >
                         <Space direction="vertical">
-                            <Text strong>ShTP project</Text>
+                            <Text strong><Typography.Link href="https://github.com/ItClassDev/"><GithubOutlined/></Typography.Link> ShTP project</Text>
                             <Text>
                                 Client version: <Text code>{CLIENT_VER}</Text>
                             </Text>

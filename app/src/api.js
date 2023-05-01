@@ -196,7 +196,7 @@ export function getMyNotifications(ok_handler, error_handler, api = API_URL) {
 
 export function getDayChallenge(ok_handler, error_handler, api = API_URL) {
   axios
-    .get(`${api}/programming_tasks/day_challenge/current/`)
+    .get(`${api}/programming/day_challenge/current/`)
     .then((response) => {
       ok_handler(response);
     })
@@ -228,7 +228,7 @@ export function getTaskSubmits(
   api = API_URL
 ) {
   axios
-    .get(`${api}/programming_tasks/task/my_submits/${task_id}`, getAuth())
+    .get(`${api}/programming/task/my_submits/${task_id}`, getAuth())
     .then((response) => {
       ok_handler(response);
     })
@@ -246,7 +246,7 @@ export function getTaskSubmitsContest(
 ) {
   axios
     .get(
-      `${api}/programming_tasks/homework/get_task_submits?task_id=${task_id}&contest_id=${contest_id}`,
+      `${api}/programming/homework/get_task_submits?task_id=${task_id}&contest_id=${contest_id}`,
       getAuth()
     )
     .then((response) => {
@@ -266,7 +266,7 @@ export function submitDayChallenge(
   let formData = new FormData();
   formData.append("file", file);
   axios
-    .post(`${api}/programming_tasks/day_challenge/submit/`, formData, getAuth())
+    .post(`${api}/programming/day_challenge/submit/`, formData, getAuth())
     .then(
       (response) => {
         ok_handler(response);
@@ -306,7 +306,7 @@ export function getSubmissionDetails(
 ) {
   axios
     .get(
-      `${api}/programming_tasks/submission/details?submission_id=${submission_id}`
+      `${api}/programming/submission/details?submission_id=${submission_id}`
     )
     .then((response) => {
       ok_handler(response);
@@ -318,7 +318,7 @@ export function getSubmissionDetails(
 
 export function getTaskData(task_id, ok_handler, error_handler, api = API_URL) {
   axios
-    .get(`${api}/programming_tasks/task/${task_id}`)
+    .get(`${api}/programming/task/${task_id}`)
     .then((response) => {
       ok_handler(response);
     })
@@ -335,7 +335,7 @@ export function getContestData(
 ) {
   axios
     .get(
-      `${api}/programming_tasks/homework/get?contest_id=${contest_id}`,
+      `${api}/programming/homework/get?contest_id=${contest_id}`,
       getAuth()
     )
     .then((response) => {
@@ -356,7 +356,7 @@ export function submitContest(
 ) {
   axios
     .post(
-      `${api}/programming_tasks/homework/submit`,
+      `${api}/programming/homework/submit`,
       { git_url: git_url, contest_id: contest_id, language: language },
       getAuth()
     )
@@ -372,7 +372,7 @@ export function submitContest(
 
 export function getAllTasks(ok_handler, error_handler, api = API_URL) {
   axios
-    .get(`${api}/programming_tasks/tasks/all`, getAuth())
+    .get(`${api}/programming/tasks/all`, getAuth())
     .then((response) => {
       ok_handler(response);
     })
@@ -421,7 +421,7 @@ export function createTask(
   api = API_URL
 ) {
   axios
-    .put(`${api}/programming_tasks/task/add`, task_data, getAuth())
+    .put(`${api}/programming/task/`, task_data, getAuth())
     .then((response) => {
       ok_handler(response);
     })
