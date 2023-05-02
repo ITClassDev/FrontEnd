@@ -196,7 +196,7 @@ export function getMyNotifications(ok_handler, error_handler, api = API_URL) {
 
 export function getDayChallenge(ok_handler, error_handler, api = API_URL) {
   axios
-    .get(`${api}/programming/day_challenge/current/`)
+    .get(`${api}/programming/day_challenge/`)
     .then((response) => {
       ok_handler(response);
     })

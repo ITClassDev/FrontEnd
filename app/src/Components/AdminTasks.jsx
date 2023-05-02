@@ -13,7 +13,7 @@ const AdminTasks = () => {
 
   useEffect(() => {
     API({
-      endpoint: "/programming_tasks/tasks/all", ok: (response) => {
+      endpoint: "/programming/tasks", ok: (response) => {
         SetAllTasks(response.data.map(val => (
           { key: val.id, id: val.id, title: val.title }
         )))
@@ -40,7 +40,7 @@ const AdminTasks = () => {
           <Button type="primary">Статистика</Button>
           <Button type="dashed" onClick={() => {
             API({
-              endpoint: `/programming_tasks/task/${record.id}`, ok: (response) => {
+              endpoint: `/programming/task/${record.id}`, ok: (response) => {
                 setEditTaskData(response.data);
               }
             });

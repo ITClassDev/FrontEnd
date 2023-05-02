@@ -24,19 +24,23 @@ const { Text } = Typography;
 
 
 const TaskForm = ({ createTaskFormHandler, defaults = { memory_limit: 1024, time_limit: 2, is_day_challenge: true, title: "" } }) => {
+    const [form] = Form.useForm();
     const [convertedText, setConvertedText] = useState("Some default content");
     const [inputTypes, setInputTypes] = useState([]);
     const [outputTypes, setOutputTypes] = useState([]);
 
     return (
         <Form
+            form={form}
             name="add_task"
             className="create-task-form"
             layout="vertical"
             requiredMark={false}
             initialValues={{ ...defaults }}
-            onFinish={createTaskFormHandler}
-            onSubmitCapture={() => {}}
+            onFinish={(e) => {
+                createTaskFormHandler({ ...e, types: { in: inputTypes, out: outputTypes } });
+            }}
+            onSubmitCapture={() => { }}
         >
             <Form.Item
                 name="title"
@@ -115,13 +119,13 @@ const TaskForm = ({ createTaskFormHandler, defaults = { memory_limit: 1024, time
                     label={<Text>Входные типы </Text>}
                     name="in"
                 >
-                    <TagsArray color={'geekblue'} tags={inputTypes} setTags={setInputTypes}/>
+                    <TagsArray color={'geekblue'} tags={inputTypes} setTags={setInputTypes} />
                 </Form.Item>
                 <Form.Item
                     label={<Text>Выходные типы </Text>}
                     name="out"
                 >
-                    <TagsArray color={'magenta'} tags={outputTypes} setTags={setOutputTypes}/>
+                    <TagsArray color={'magenta'} tags={outputTypes} setTags={setOutputTypes} />
                 </Form.Item>
             </Space>
 
@@ -198,6 +202,17 @@ const TaskForm = ({ createTaskFormHandler, defaults = { memory_limit: 1024, time
                     className="create-task-button"
                 >
                     Создать
+                </Button>
+                <Button
+                    type="dashed"
+                    style={{marginLeft: 5}}
+                    onClick={() => {
+                        form.resetFields();
+                        setInputTypes([]);
+                        setOutputTypes([]);
+                    }}
+                >
+                    Отчистить
                 </Button>
             </Form.Item>
         </Form>

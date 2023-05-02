@@ -22,10 +22,10 @@ export const TagsArray = ({ tags, setTags, color }) => {
     }, [inputValue]);
 
     const handleClose = (index) => {
-        console.log(index);
-        const newTags = [...tags.slice(0, index), ...tags.slice(index + 1)]
-        console.log(newTags);
+        const newTags = [...tags.slice(0, index), ...tags.slice(index + 1)];
+        console.log(index, newTags);
         setTags(newTags);
+        console.log(tags);
     };
 
 

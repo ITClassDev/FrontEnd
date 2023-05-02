@@ -1,5 +1,8 @@
-import React from "react";
-import { Modal, Space, Typography, Form, Input, Button, Select } from "antd";
+import React, { useState, useEffect } from "react";
+import { Modal, Space, Typography, Form, Input, Button, Select, DatePicker } from "antd";
+import "dayjs/locale/ru";
+import locale from "antd/es/date-picker/locale/ru_RU";
+import { API } from "../api";
 
 const { Text } = Typography;
 
@@ -7,6 +10,49 @@ const CreateNewContestModal = ({ open, setModalOpened }) => {
   const createContestHandler = (form_data) => {
     console.log(form_data);
   }
+
+  const SearchInput = (props) => {
+    const [data, setData] = useState([]);
+    const [value, setValue] = useState();
+    const handleSearch = (newValue) => {
+      API({
+        endpoint: `/programming/tasks/search`, data: { query: newValue }, method: 'POST', ok: (response) => {
+          if (response.data.length > 0) setData(response.data.map(item => ({ value: item.id, text: item.title })));
+          else setData([]);
+        }
+      })
+
+    };
+    const handleChange = (newValue) => {
+      setValue(newValue);
+    };
+    return (
+      <Select
+        showSearch
+        value={value}
+        placeholder={props.placeholder}
+        style={props.style}
+        defaultActiveFirstOption={false}
+        showArrow={false}
+        filterOption={false}
+        mode={"multiple"}
+        onSearch={handleSearch}
+        onChange={handleChange}
+        notFoundContent={null}
+        options={(data || []).map((d) => ({
+          value: d.value,
+          label: d.text,
+        }))}
+      />
+    );
+  };
+
+
+  useEffect(() => {
+
+  }, [])
+
+
   return (
     <Modal
       title="Новый контест"
@@ -51,22 +97,10 @@ const CreateNewContestModal = ({ open, setModalOpened }) => {
         </Form.Item>
         <Form.Item
           name="tasks"
-          rules={[
-            {
-              required: true,
-              message: "Выберите задачи",
-            },
-          ]}
         >
           <Space direction="vertical" style={{ width: "100%" }}>
             <Text strong>Задачи в контесте</Text>
-            <Select
-              mode="tags"
-              style={{
-                width: "100%",
-              }}
-              tokenSeparators={[","]}
-            />
+            <SearchInput />
           </Space>
         </Form.Item>
 
@@ -90,6 +124,17 @@ const CreateNewContestModal = ({ open, setModalOpened }) => {
             />
           </Space>
         </Form.Item>
+
+        <Form.Item
+          name="deadline"
+        >
+          <Space direction="vertical" style={{ width: "100%" }}>
+            <Text strong>Дата окончания</Text>
+            <DatePicker locale={locale} />
+          </Space>
+
+        </Form.Item>
+
 
         <Form.Item>
           <Button
