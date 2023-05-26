@@ -46,7 +46,7 @@ export const Settings = () => {
   const { userInfo } = useContext(userContext);
 
 
-  const [avatarImageUrl, setAvatarImageUrl] = useState(`${STORAGE}/avatars/${userInfo.userAvatarPath}?nocache=${Date.now()}`);
+  const [avatarImageUrl, setAvatarImageUrl] = useState(`${STORAGE}/avatars/${userInfo.userAvatarPath}`);
   let tech_stack_default = [];
   if (userInfo["techStack"]) {
     tech_stack_default = userInfo.techStack.split(",");
@@ -217,7 +217,7 @@ export const Settings = () => {
                       }
                       if (info.file.status === 'done') {
                         messageApi.success("Аватар обновлён");
-                        setAvatarImageUrl(`${STORAGE}/avatars/${info.file.response.avatar}?nocache=${Date.now()}`);
+                        setAvatarImageUrl(`${STORAGE}/avatars/${info.file.response.avatar}`);
 
                       } else if (info.file.status === 'error') {
                         messageApi.error("Ошибка при загрузке файла");

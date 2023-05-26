@@ -40,7 +40,7 @@ export function API({ endpoint, method = "get", data = {}, files = null, auth = 
   }
   axios({
     method: method,
-    url: `${api_url}${endpoint}/`,
+    url: `${api_url}${endpoint}`,
     data: data,
     headers: request_params.headers
   }).then((response) => {
