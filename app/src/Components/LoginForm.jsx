@@ -23,7 +23,7 @@ const LoginForm = () => {
 
   const formHandler = ({email, password}) => {
     setButtonLoading(true);
-    API({ endpoint: "/auth/login", method: "post", data: {email: email, password: password}, ok: login_ok, err: login_error});
+    API({ endpoint: "/auth/login/", method: "post", data: {email: email, password: password}, ok: login_ok, err: login_error});
   };
 
   return (
