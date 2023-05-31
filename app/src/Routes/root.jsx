@@ -36,6 +36,7 @@ export const Root = () => {
     const [isDarkMode, setIsDarkMode] = useState(
         localStorage.getItem("isDarkMode") === "true"
     );
+    const [isCollapsed, setCollapsed] = useState(false);
     const navigate = useNavigate();
 
     const logOut = () => {
@@ -97,6 +98,8 @@ export const Root = () => {
             collapsible
             breakpoint="lg"
             theme={isDarkMode ? "dark" : "light"}
+            collapsed={isCollapsed}
+            onCollapse={(value) => setCollapsed(value)}
             style={{
                 overflow: "auto",
                 height: "100vh",
@@ -106,7 +109,15 @@ export const Root = () => {
                 bottom: 0,
                 zIndex: 2,
             }}>
-            <div className="logo" />
+            <img
+                src={
+                    isDarkMode ?
+                        (isCollapsed ? "/logos/dark/small.svg" : "/logos/dark/big.svg") :
+                        (isCollapsed ? "/logos/light/small.svg" : "/logos/light/big.svg")
+                }
+                alt={"Логотип ШТП"}
+                className={isDarkMode ? "logo logo-dark" : "logo logo-light"}
+            />
             <Menu theme={isDarkMode ? "dark" : "light"} mode="inline" defaultSelectedKeys={[location.pathname.slice(1)]} items={[...routes, {
                 label: "Выйти",
                 key: "logout_btn",
