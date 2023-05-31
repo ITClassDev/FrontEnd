@@ -53,7 +53,7 @@ export const Root = () => {
     usePollingEffect(
         async () => {
             API({
-                endpoint: '/notifications/polling', ok: (response) => {
+                endpoint: '/notifications/polling/', ok: (response) => {
                     if (response.data.length) { // New notifications
                         response.data.forEach(notification => {
                             let parsed = parseNotification(notification);

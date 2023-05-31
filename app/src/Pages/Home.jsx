@@ -11,7 +11,7 @@ export const Home = () => {
   useEffect(() => {
 
     API({
-      endpoint: '/auth/me', ok: (response) => {
+      endpoint: '/auth/me/', ok: (response) => {
         setUser({ userInfo: response.data.user, loggedIn: true, loading: false });
         setlocalLoading(false);
       }
