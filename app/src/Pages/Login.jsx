@@ -32,7 +32,8 @@ export const Login = () => {
                         onFinish={(creds) => {
                             API({
                                 endpoint: '/auth/login', method: 'post', data: creds, ok: (response) => {
-                                    localStorage.setItem('user', response.data.accessToken);
+                                    localStorage.setItem('userAccessToken', response.data.accessToken);
+                                    localStorage.setItem('userRefreshToken', response.data.refreshToken);
                                     window.location.replace('/');
                                 }, message: { show: true, api: messageApi, ok: 'Вход успешно выполнен!', err: 'Ошибка' }
                             })

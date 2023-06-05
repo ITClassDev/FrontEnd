@@ -75,13 +75,6 @@ export const Root = () => {
     );
 
 
-    // useEffect(() => {
-
-    //     if (!loading) {
-    //         console.log("Logged: ", loggedIn);
-    //     }
-    // }, [loading, userInfo])
-
     if (loading) return (<PageLoading />);
     else if (!loggedIn) return <Navigate to="/login" />;
     else if (loggedIn) return <Layout hasSider>{contextHolder}

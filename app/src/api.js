@@ -5,6 +5,17 @@ const API_URL = config.API_URL;
 
 
 export function API({ endpoint, method = "get", data = {}, files = null, auth = true, ok = null, err = null, message = { show: false, api: null, ok: "ОК", err: "Err" }, api_url = API_URL }) {
+  // axios.interceptors.response.use(null, (error) => {
+  //   if (error.config && error.response && error.response.status === 403) {
+  //     return updateToken().then((token) => {
+  //       error.config.headers.Authorization = `Bearer ${localStorage.getItem("userRefreshToken")}`;
+  //       return axios.request(config);
+  //     });
+  //   }
+
+  //   return Promise.reject(error);
+  // });
+
   /*
     Global wrapper
     Function to work with ShTP api
@@ -19,10 +30,10 @@ export function API({ endpoint, method = "get", data = {}, files = null, auth = 
   };
 
   // Auth via JWT token
-  if (auth) request_params['headers']['Authorization'] = `Bearer ${localStorage.getItem("user")}`;
+  if (auth) request_params['headers']['Authorization'] = `Bearer ${localStorage.getItem("userAccessToken")}`;
 
   // File upload support
-  
+
   if (files !== null) {
     console.log(files);
     request_params['headers']['Content-Type'] = 'multipart/form-data';
@@ -34,7 +45,6 @@ export function API({ endpoint, method = "get", data = {}, files = null, auth = 
       JSON.stringify(Object.values(data)[0])
     );
     console.log(form_data);
-
     data = form_data;
 
   }
@@ -53,10 +63,10 @@ export function API({ endpoint, method = "get", data = {}, files = null, auth = 
 
     if (ok) ok(response);
   }).catch((response) => {
-    if (localStorage.getItem('user') !== null && response.code === "ERR_BAD_REQUEST"){ // Expired token handler (or invalid token)
-      //localStorage.clear(); // Delete expired token
-      //window.location.replace('/login'); // redirect to login page
-    } 
+    if (localStorage.getItem('userAccessToken') !== null && response.response.status === 403) { // Expired token handler (or invalid token)
+      localStorage.clear(); // Delete expired token
+      window.location.replace('/login'); // redirect to login page
+    }
     // Show error message
     if (response.code === "ERR_NETWORK") { // Can't connect to backend  (API problem or internet problem)
       console.log("Backend down");
@@ -79,7 +89,7 @@ export function DownloadPrivateFile({ endpoint, file_name, method = "get", api_u
     url: `${api_url}${endpoint}`,
     method: method,
     responseType: 'blob',
-    headers: `Authorization: Bearer ${localStorage.getItem("user")}`,
+    headers: `Authorization: Bearer ${localStorage.getItem("userAccessToken")}`,
   }).then((response) => {
     const href = URL.createObjectURL(response.data);
     const link = document.createElement('a');
@@ -94,22 +104,6 @@ export function DownloadPrivateFile({ endpoint, file_name, method = "get", api_u
 
 // ALL CODE BELOW THIS COMMENT WILL BE LEGACY AFTER SOME TIME
 
-// FOR AUTHED USER
-// export function getUser(ok_handler, error_handler, api = API_URL) {
-//   axios
-//     .get(`${api}/auth/me`, getAuth())
-//     .then((response) => {
-//       ok_handler(response);
-//     })
-//     .catch((response) => {
-
-//       if (response.code === "ERR_NETWORK") {
-
-//       }
-//       error_handler(response);
-//     });
-// }
-
 
 export function provideAccessToApp(
   app_id,
@@ -118,7 +112,7 @@ export function provideAccessToApp(
   api = API_URL
 ) {
   axios
-  .post(`${api}/oauth/provide_access`, { app_id: app_id }, getAuth())
+    .post(`${api}/oauth/provide_access`, { app_id: app_id }, getAuth())
     .then((response) => {
       ok_handler(response);
     })

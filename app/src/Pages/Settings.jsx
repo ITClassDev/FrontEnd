@@ -205,16 +205,16 @@ export const Settings = () => {
                     className="avatar-uploader"
                     showUploadList={false}
                     method="PATCH"
-                    action={`${API_URL}/users/avatar/`}
+                    action={`${API_URL}/users/avatar`}
                     headers={
                       {
-                        authorization: `Bearer ${localStorage.getItem("user")}`,
+                        authorization: `Bearer ${localStorage.getItem("userAccessToken")}`,
                       }
                     }
                     onChange={(info) => {
-                      if (info.file.status !== 'uploading') {
-                        //console.log(info.file, info.fileList);
-                      }
+                      // if (info.file.status !== 'uploading') {
+                      //   //console.log(info.file, info.fileList);
+                      // }
                       if (info.file.status === 'done') {
                         messageApi.success("Аватар обновлён");
                         setAvatarImageUrl(`${STORAGE}/avatars/${info.file.response.avatar}`);
