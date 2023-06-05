@@ -46,7 +46,7 @@ export const Settings = () => {
   const { userInfo } = useContext(userContext);
 
 
-  const [avatarImageUrl, setAvatarImageUrl] = useState(`${STORAGE}/avatars/${userInfo.userAvatarPath}`);
+  const [avatarImageUrl, setAvatarImageUrl] = useState(`${STORAGE}/avatars/${userInfo.avatarPath}`);
   let tech_stack_default = [];
   if (userInfo["techStack"]) {
     tech_stack_default = userInfo.techStack.split(",");
@@ -64,21 +64,21 @@ export const Settings = () => {
               autoComplete="off"
               onFinish={(social_links) => { API({ endpoint: "/users", method: "patch", data: { socialLinks: social_links }, message: { show: true, api: messageApi, ok: "Социальные ссылки успешно обновлены!", err: "Ошибка" } }) }}
               initialValues={{
-                userGithub: userInfo.userGithub,
-                userTelegram: userInfo.userTelegram,
-                userStepik: userInfo.userStepik,
-                userKaggle: userInfo.userKaggle,
-                userWebsite: userInfo.userWebsite,
+                github: userInfo.github,
+                telegram: userInfo.telegram,
+                stepik: userInfo.stepik,
+                kaggle: userInfo.kaggle,
+                website: userInfo.website,
               }}
             >
-              <Form.Item name="userGithub">
+              <Form.Item name="github">
                 <Input
                   addonBefore={<GithubOutlined />}
                   placeholder="github username"
                 />
               </Form.Item>
 
-              <Form.Item name="userTelegram">
+              <Form.Item name="telegram">
                 <Input
                   addonBefore={
                     <Image src={Telegram_logo} width={17} preview={false} />
@@ -87,7 +87,7 @@ export const Settings = () => {
                 />
               </Form.Item>
 
-              <Form.Item name="userStepik">
+              <Form.Item name="stepik">
                 <Input
                   addonBefore={
                     <Image src={Stepik_logo} width={17} preview={false} />
@@ -96,7 +96,7 @@ export const Settings = () => {
                 />
               </Form.Item>
 
-              <Form.Item name="userKaggle">
+              <Form.Item name="kaggle">
                 <Input
                   addonBefore={
                     <Image src={Kaggle_logo} width={17} preview={false} />
@@ -105,7 +105,7 @@ export const Settings = () => {
                 />
               </Form.Item>
 
-              <Form.Item name="userWebsite">
+              <Form.Item name="website">
                 <Input addonBefore={<GlobalOutlined />} placeholder="website" />
               </Form.Item>
 
@@ -190,7 +190,7 @@ export const Settings = () => {
                 <Space direction="vertical" style={{ width: "100%" }}>
                   <Input
                     addonBefore={<InfoCircleOutlined />}
-                    defaultValue={userInfo.userAboutText}
+                    defaultValue={userInfo.aboutText}
                     placeholder="Краткая информация о вас"
                   />
                 </Space>
@@ -199,7 +199,7 @@ export const Settings = () => {
               <Form.Item name="avatar" label="Аватар">
                 <Space direction="vertical" style={{ width: "100%" }}>
                   <Upload
-                    name="file"
+                    name="avatar"
                     accept=".png,.jpg,.gif,.jpeg"
                     listType="picture-card"
                     className="avatar-uploader"

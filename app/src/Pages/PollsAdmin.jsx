@@ -22,7 +22,7 @@ export const PollsAdmin = () => {
     useEffect(() => {
         loadPollsTable();
     }, []);
-    if (userInfo.userRole === 2) {
+    if (userInfo.role === "admin") {
         return (
             <>
                 <Title level={3}>Опросы</Title>

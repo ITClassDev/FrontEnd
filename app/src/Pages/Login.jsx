@@ -10,7 +10,7 @@ export const Login = () => {
         localStorage.getItem("isDarkMode") === "true"
     );
     useEffect(() => {
-        API({ endpoint: '/auth/me/', ok: () => window.location.replace('/') })
+        API({ endpoint: '/auth/me', ok: () => window.location.replace('/') })
     }, [])
     return (
         <ConfigProvider
@@ -31,7 +31,7 @@ export const Login = () => {
                         initialValues={{ remember: true }}
                         onFinish={(creds) => {
                             API({
-                                endpoint: '/auth/login/', method: 'post', data: creds, ok: (response) => {
+                                endpoint: '/auth/login', method: 'post', data: creds, ok: (response) => {
                                     localStorage.setItem('user', response.data.accessToken);
                                     window.location.replace('/');
                                 }, message: { show: true, api: messageApi, ok: 'Вход успешно выполнен!', err: 'Ошибка' }

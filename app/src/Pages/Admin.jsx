@@ -17,7 +17,7 @@ export const Admin = () => {
   const { userInfo, loading, loggedIn } = useContext(userContext);
   useDocumentTitle("ШТП | Админ-панель");
   // check permisiions to access this page
-  if (userInfo.userRole === 2) {
+  if (userInfo.role === "teacher" || userInfo.role === "admin") {
     return (
       <>
         <Title level={3}>Панель администратора</Title>

@@ -54,8 +54,8 @@ export function API({ endpoint, method = "get", data = {}, files = null, auth = 
     if (ok) ok(response);
   }).catch((response) => {
     if (localStorage.getItem('user') !== null && response.code === "ERR_BAD_REQUEST"){ // Expired token handler (or invalid token)
-      localStorage.clear(); // Delete expired token
-      window.location.replace('/login'); // redirect to login page
+      //localStorage.clear(); // Delete expired token
+      //window.location.replace('/login'); // redirect to login page
     } 
     // Show error message
     if (response.code === "ERR_NETWORK") { // Can't connect to backend  (API problem or internet problem)

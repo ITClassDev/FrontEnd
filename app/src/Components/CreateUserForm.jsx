@@ -64,7 +64,7 @@ const CreateUserForm = ({ createUserFormHandler, userGroups }) => {
       </Form.Item>
 
       <Form.Item
-        name="userRole"
+        name="role"
         label="Роль"
         rules={[
           {
@@ -74,9 +74,9 @@ const CreateUserForm = ({ createUserFormHandler, userGroups }) => {
         ]}
       >
         <Select>
-          <Option value={0}>Ученик</Option>
-          <Option value={1}>Преподаватель</Option>
-          <Option value={2}>Администратор</Option>
+          <Option value={"student"}>Ученик</Option>
+          <Option value={"teacher"}>Преподаватель</Option>
+          <Option value={"admin"}>Администратор</Option>
         </Select>
       </Form.Item>
 

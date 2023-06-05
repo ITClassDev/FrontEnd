@@ -46,6 +46,7 @@ export const Root = () => {
     }
 
     const { userInfo, loading, setUser, loggedIn } = useContext(userContext);
+
     useEffect(() => {
         document.body.style = `background: ${localStorage.getItem("isDarkMode") === "true" ? "#181818" : "#f5f5f5"};`; // apply theme background
     }, []);
@@ -53,7 +54,7 @@ export const Root = () => {
     usePollingEffect(
         async () => {
             API({
-                endpoint: '/notifications/polling/', ok: (response) => {
+                endpoint: '/notifications', ok: (response) => {
                     if (response.data.length) { // New notifications
                         response.data.forEach(notification => {
                             let parsed = parseNotification(notification);
@@ -109,15 +110,17 @@ export const Root = () => {
                 bottom: 0,
                 zIndex: 2,
             }}>
-            <img
-                src={
-                    isDarkMode ?
-                        (isCollapsed ? "/logos/dark/small.svg" : "/logos/dark/big.svg") :
-                        (isCollapsed ? "/logos/light/small.svg" : "/logos/light/big.svg")
-                }
-                alt={"Логотип ШТП"}
-                className={isDarkMode ? "logo logo-dark" : "logo logo-light"}
-            />
+            <div>
+                <img
+                    src={
+                        isDarkMode ?
+                            (isCollapsed ? "/logos/dark/small.svg" : "/logos/dark/big.svg") :
+                            (isCollapsed ? "/logos/light/small.svg" : "/logos/light/big.svg")
+                    }
+                    alt={"Логотип ШТП"}
+                    className={isDarkMode ? "logo logo-dark" : "logo logo-light"}
+                />
+            </div>
             <Menu theme={isDarkMode ? "dark" : "light"} mode="inline" defaultSelectedKeys={[location.pathname.slice(1)]} items={[...routes, {
                 label: "Выйти",
                 key: "logout_btn",
@@ -125,7 +128,7 @@ export const Root = () => {
                 onClick: () => { logOut() },
                 icon: <LogoutOutlined />
             }].map(route => {
-                if (route.access === 'all' || (route.access === 'student' && userInfo.userRole === 0) || (route.access === 'admin' && userInfo.userRole >= 1)) { // Access managment
+                if (route.access === 'all' || (route.access === 'student' && userInfo.role === "student") || (route.access === 'admin' && (userInfo.role === "teacher" || userInfo.role === "admin"))) { // Access managment
                     let icon = route.icon;
                     if (route.badge) {
                         icon = <Badge dot={userInfo.new_notifications} showZero={false}>
@@ -171,7 +174,7 @@ export const Root = () => {
                         className="shtp_debug_info"
                     >
                         <Space direction="vertical">
-                            <Text strong><Typography.Link href="https://github.com/ItClassDev/"><GithubOutlined/></Typography.Link> ShTP project</Text>
+                            <Text strong><Typography.Link href="https://github.com/ItClassDev/"><GithubOutlined /></Typography.Link> ShTP project</Text>
                             <Text>
                                 Client version: <Text code>{CLIENT_VER}</Text>
                             </Text>

@@ -28,35 +28,35 @@ const { Title, Paragraph } = Typography;
 
 const available_socials = [
   {
-    name: "userGithub",
+    name: "github",
     icon: <GithubOutlined />,
     color: "black",
     url: "https://github.com/",
     prefix: "@",
   },
   {
-    name: "userTelegram",
+    name: "telegram",
     icon: <Image src={Telegram_logo} width={17} preview={false} />,
     color: "#0088CC",
     url: "https://t.me/",
     prefix: "@",
   },
   {
-    name: "userStepik",
+    name: "stepik",
     icon: <Image src={Stepik_logo} width={17} preview={false} />,
     color: "#2c2c2c",
     url: "https://stepik.org/users/",
     prefix: "@",
   },
   {
-    name: "userKaggle",
+    name: "kaggle",
     icon: <Image src={Kaggle_logo} width={17} preview={false} />,
     color: "#baedff",
     url: "https://kaggle.com/",
     prefix: "@",
   },
   {
-    name: "userWebsite",
+    name: "website",
     icon: <GlobalOutlined />,
     color: "black",
     url: "",
@@ -72,11 +72,11 @@ const ProfileCard = ({
 
   const { setUser } = useContext(userContext);
 
-  const [userAbout, setUserAbout] = useState(userInfo.userAboutText);
+  const [userAbout, setUserAbout] = useState(userInfo.aboutText);
   //FIXIT ONLY FOR DEV, WHILE WE DON'T KNOW WHERE TO CHANGE THIS STATE; to pass CI build
   // eslint-disable-next-line
   const [userAvatar, setUserAvatar] = useState(
-    `${STORAGE}/avatars/${userInfo.userAvatarPath}`
+    `${STORAGE}/avatars/${userInfo.avatarPath}`
   );
   let userSocial = [];
   available_socials.forEach((val) => {
@@ -121,8 +121,8 @@ const ProfileCard = ({
   if (editable) editable = {
     onChange: (new_text) => API({
       endpoint: "/users", method: "patch", data: { aboutText: new_text }, ok: (resp) => {
-        setUserAbout(resp.data.userAboutText);
-        setUser(({ userInfo: Object.assign({}, userInfo, { userAboutText: resp.data.userAboutText }), loggedIn: true, loading: false }));
+        setUserAbout(resp.data.aboutText);
+        setUser(({ userInfo: Object.assign({}, userInfo, { userAboutText: resp.data.aboutText }), loggedIn: true, loading: false }));
       }
     })
   };
@@ -136,15 +136,18 @@ const ProfileCard = ({
           </Col>
           <Col style={{ marginLeft: 20 }}>
             <div style={{ marginBottom: 10 }}>
+
               <Title level={2} style={{ marginBottom: 0 }}>
                 {userInfo.firstName} {userInfo.lastName}
               </Title>
+
               <Paragraph style={{ marginBottom: 3 }} editable={editable}>
                 {userAbout}
               </Paragraph>
-              <Tag color={userInfo.userRole === 0 ? "blue" : (userInfo.userRole === 1 ? "green" : "red")}>
-                {userInfo.userRole === 0 ? "Ученик" : (userInfo.userRole === 1 ? "Преподаватель" : "Администратор")}
+              <Tag color={userInfo.role === "student" ? "blue" : (userInfo.role === "teacher" ? "green" : "red")}>
+                {userInfo.role === "student" ? "Ученик" : (userInfo.role === "teacher" ? "Преподаватель" : "Администратор")}
               </Tag>
+              {userInfo.shtpMaintainer && (<Tag color="cyan">ShTP Developer</Tag>)}
             </div>
             <Row>
               {userSocialNets.map((social, ind) => (
@@ -168,13 +171,13 @@ const ProfileCard = ({
                 </Popover>
               ))}
             </Row>
-            {(userInfo["techStack"] && userInfo.userRole !== 0) && <li>
+            {(userInfo["techStack"] && userInfo.role !== "student") && <li>
               <Row gutter={[5, 5]}>{userInfo["techStack"].split(",").map((item, id) => (<Tag key={id}>{item}</Tag>))}</Row>
             </li>}
           </Col>
         </Row>
       </Card>
-      {userInfo.userRole === 0 && (
+      {userInfo.role === "student" && (
         <>
           <Card title="Информация" bordered={false} style={{ marginTop: 20 }}>
             <Terminal

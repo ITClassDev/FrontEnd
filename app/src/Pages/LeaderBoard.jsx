@@ -26,7 +26,7 @@ export const LeaderBoard = () => {
               user_name: (
                 <Link to={`/profile?id=${element.id}`}>
                   <Avatar
-                    src={`${STORAGE}/avatars/${element.userAvatarPath}`}
+                    src={`${STORAGE}/avatars/${element.avatarPath}`}
                     style={{ verticalAlign: "middle", marginRight: 10 }}
                     size="large"
                   ></Avatar>

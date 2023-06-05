@@ -12,7 +12,7 @@ const conf = (HOST, name="prod", PROTOCOL="https") => (
 
 // For dev in single computer line
 const local_conf = {
-    API_URL: `http://localhost:8080`,
+    API_URL: `http://localhost:8080/api/v1`,
     STORAGE: `http://localhost:8080/storage`,
     FRONTEND_URL: `http://localhost:3000`,
     CLIENT_VER: `EARLY DEVELOP MODE`
