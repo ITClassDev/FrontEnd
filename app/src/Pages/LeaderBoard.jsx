@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { config } from "../config";
-import { Card, Table, Avatar } from "antd";
-import { Typography } from "antd";
-import { API, getLeaderBoard } from "../api";
-import { Link } from "react-router-dom";
-const { Text } = Typography;
+import { Card, Table } from "antd";
+import { API } from "../api";
+import ProfileLink from "../Components/ProfileLink";
+
 const STORAGE = config.STORAGE;
 
 export const LeaderBoard = () => {
@@ -19,18 +18,7 @@ export const LeaderBoard = () => {
       endpoint: "/users/leaderboard", ok: (response) => {
         setRatingUsers(response.data.map((element, ind) => ({
           number: ind + 1,
-          user: (
-            <Link to={`/profile?id=${element.uuid}`}>
-              <Avatar
-                src={`${STORAGE}/avatars/${element.avatarPath}`}
-                style={{ verticalAlign: "middle", marginRight: 10 }}
-                size="large"
-              />
-              <Text strong>
-                {element.firstName} {element.lastName}
-              </Text>
-            </Link>
-          ),
+          user: <ProfileLink user={element} storage={STORAGE} />,
           rating: element.rating,
           key: ind,
         })));

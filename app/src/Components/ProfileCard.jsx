@@ -24,7 +24,7 @@ import Kaggle_logo from "../Images/Kaggle_logo.svg";
 import userContext from "../Contexts/user";
 
 const STORAGE = config.STORAGE;
-const { Title, Paragraph } = Typography;
+const { Title, Paragraph, Text } = Typography;
 
 const available_socials = [
   {
@@ -69,9 +69,7 @@ const ProfileCard = ({
   editable = false,
   header_title = "Ваш профиль",
 }) => {
-
   const { setUser } = useContext(userContext);
-
   const [userAbout, setUserAbout] = useState(userInfo.aboutText);
   //FIXIT ONLY FOR DEV, WHILE WE DON'T KNOW WHERE TO CHANGE THIS STATE; to pass CI build
   // eslint-disable-next-line
@@ -140,7 +138,7 @@ const ProfileCard = ({
               <Title level={2} style={{ marginBottom: 0 }}>
                 {userInfo.firstName} {userInfo.lastName}
               </Title>
-
+              {userInfo.nickName && (<Text italic>@{userInfo.nickName}</Text>)}
               <Paragraph style={{ marginBottom: 3 }} editable={editable}>
                 {userAbout}
               </Paragraph>
