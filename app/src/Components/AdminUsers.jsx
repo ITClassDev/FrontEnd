@@ -14,7 +14,6 @@ import {
 } from "antd";
 import { useEffect, useRef } from "react";
 import { API } from "../api";
-import NameAndAvatar from "./NameAndAvatar";
 import CreateUserForm from "./CreateUserForm";
 import Link from "antd/es/typography/Link";
 import { config } from "../config";
@@ -40,7 +39,7 @@ const AdminUsers = () => {
 
     API({
       endpoint: "/users", ok: (response) => {
-        setUsersList(response.data.map(user => ({ key: user.uuid, id: user.uuid, fio: <ProfileLink user={user} storage={STORAGE} target="__blank" />, user_group: user.groupId })));
+        setUsersList(response.data.map(user => ({ key: user.uuid, id: user.uuid, fio: <ProfileLink user={user} storage={STORAGE} target="__blank" />, user_group: user.groupId, user_class: user.learningClass })));
       }
     })
   };
@@ -81,6 +80,15 @@ const AdminUsers = () => {
       onFilter: (value, record) => record.user_group === value,
       filterSearch: true,
     },
+    {
+      title: "Класс",
+      dataIndex: "user_class",
+      key: "user_class",
+      filters: [{value: 11, text: 11}, {value: 10, text: 10}],
+      onFilter: (value, record) => record.user_class === value,
+      filterSearch: true,
+    },
+
     {
       title: "Действия",
       dataIndex: "actionsBtns",
@@ -161,7 +169,8 @@ const AdminUsers = () => {
                 id: response.data.uuid,
                 key: response.data.uuid,
                 fio: <ProfileLink user={response.data} storage={STORAGE} target="__blank" />,
-                user_group: response.data.groupId
+                user_group: response.data.groupId,
+                user_class: response.data.learningClass
               }]);
             }
           })

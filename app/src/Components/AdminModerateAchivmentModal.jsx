@@ -1,31 +1,40 @@
 import { Button, InputNumber, Modal, Space, Typography, Image } from "antd";
 import React from "react";
 import { useState } from "react";
-import { moderateAchivment } from "../api";
+import { API, moderateAchivment } from "../api";
 import { config } from "../config";
 
 const STORAGE = config.STORAGE;
 
 const { Text, Link } = Typography;
 
-const moderate = (achivmentId, status, points, setOpenModal) => {
-  moderateAchivment(
-    achivmentId,
-    status,
-    points,
-    () => {},
-    () => {}
-  );
-  setOpenModal(false);
-};
+
 
 const AdminModerateAchivmentModal = ({
   isOpen,
   setOpen,
   achivmentText,
   achivmentId,
-  achivmentAttachment
+  achivmentAttachment,
+  moderationQueue,
+  setModerationQueue
 }) => {
+  const moderate = (achivmentId, status, points, setOpenModal) => {
+    console.log(moderationQueue);
+    
+    
+    API({
+      endpoint: "/achievements/moderate", method: "patch", data: {
+        status: status,
+        uuid: achivmentId,
+        points: points
+      }
+    });
+    setModerationQueue(moderationQueue.filter(achiv => achiv.id != achivmentId));
+    setOpenModal(false);
+    
+  };
+
   const [pointForAchivment, setPointsForchivment] = useState(10);
   return (
     <Modal
