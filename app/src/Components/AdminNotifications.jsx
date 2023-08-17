@@ -10,8 +10,8 @@ const AdminNotifications = () => {
     const [userGroups, setUserGroups] = useState([]);
     useEffect(() => {
         API({
-            endpoint: "/users", ok: (response) => {
-                setUserGroups(response.data.userGroups);
+            endpoint: "/groups", ok: (response) => {
+                setUserGroups(response.data);
             }
         })
     }, []);
@@ -44,7 +44,7 @@ const AdminNotifications = () => {
                 >
                     <Select
                         options={userGroups.map((item) => ({
-                            value: item.id,
+                            value: item.uuid,
                             label: item.name,
                         }))}
                     />

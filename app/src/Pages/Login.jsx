@@ -59,10 +59,6 @@ export const Login = () => {
                             />
                         </Form.Item>
 
-                        <Form.Item name="remember" valuePropName="checked">
-                            <Checkbox>Эта галочка ничего не делает</Checkbox>
-                        </Form.Item>
-
                         <Form.Item>
                             <Button type="primary" htmlType="submit" className="login-form-button">
                                 ВОЙТИ

@@ -21,6 +21,7 @@ import {
   LockOutlined,
   InfoCircleOutlined,
   GlobalOutlined,
+  LinkOutlined
 } from "@ant-design/icons";
 import { config } from "../config";
 import { API } from "../api";
@@ -195,6 +196,17 @@ export const Settings = () => {
                   />
                 </Space>
               </Form.Item>
+
+              <Form.Item name="nickName" label="Ник">
+                <Space direction="vertical" style={{ width: "100%" }}>
+                  <Input
+                    addonBefore={<LinkOutlined />}
+                    defaultValue={userInfo.nickName}
+                    placeholder="Краткая ссылка на профиль"
+                  />
+                </Space>
+              </Form.Item>
+
 
               <Form.Item name="avatar" label="Аватар">
                 <Space direction="vertical" style={{ width: "100%" }}>

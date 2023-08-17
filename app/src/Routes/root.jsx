@@ -45,34 +45,36 @@ export const Root = () => {
 
     }
 
-    const { userInfo, loading, setUser, loggedIn } = useContext(userContext);
+    const { userInfo, loading, loggedIn, setUser, newNotifications } = useContext(userContext);
 
     useEffect(() => {
         document.body.style = `background: ${localStorage.getItem("isDarkMode") === "true" ? "#181818" : "#f5f5f5"};`; // apply theme background
     }, []);
-    // TODO REVERT POLLING
-    // usePollingEffect(
-    //     async () => {
-    //         API({
-    //             endpoint: '/notifications', ok: (response) => {
-    //                 if (response.data.length) { // New notifications
-    //                     response.data.forEach(notification => {
-    //                         let parsed = parseNotification(notification);
-    //                         const audio = new Audio('notification.wav');
-    //                         audio.play();
-    //                         notificationApi[parsed.color]({
-    //                             message: parsed.title,
-    //                             description: parsed.description,
-    //                         });
-    //                         setUser(({ userInfo: Object.assign({}, userInfo, { new_notifications: true }), loggedIn: true, loading: false }));
-    //                     });
-    //                 }
-    //             }
-    //         })
-    //     },
-    //     [],
-    //     { interval: 5000 }
-    // );
+    usePollingEffect(
+        async () => {
+            API({
+                endpoint: '/notifications', ok: (response) => {
+                    if (response.data.length) { // New notifications
+                        response.data.forEach(notification => {
+                            let parsed = parseNotification(notification);
+                            const audio = new Audio('notification.wav');
+                            audio.play();
+                            notificationApi[parsed.color]({
+                                message: parsed.title,
+                                description: parsed.description,
+                            });
+                            setUser((prevState) => ({
+                                ...prevState,
+                                newNotifications: true,
+                            }));
+                        });
+                    }
+                }
+            })
+        },
+        [],
+        { interval: 5000 }
+    );
 
 
     if (loading) return (<PageLoading />);
@@ -124,7 +126,7 @@ export const Root = () => {
                 if (route.access === 'all' || (route.access === 'student' && userInfo.role === "student") || (route.access === 'admin' && (userInfo.role === "teacher" || userInfo.role === "admin"))) { // Access managment
                     let icon = route.icon;
                     if (route.badge) {
-                        icon = <Badge dot={userInfo.new_notifications} showZero={false}>
+                        icon = <Badge dot={newNotifications} showZero={false}>
                             {route.icon}
                         </Badge>
                     }
@@ -167,8 +169,8 @@ export const Root = () => {
                         className="shtp_debug_info"
                     >
                         <Space direction="vertical">
-                        <Text italic>School 1561 IT class platform</Text>
-                        <Text italic>Powered by <Typography.Link href="https://github.com/ItClassDev/">ShTP</Typography.Link> Project</Text>
+                            <Text italic>School 1561 IT class platform</Text>
+                            <Text italic>Powered by <Typography.Link href="https://github.com/ItClassDev/">ShTP</Typography.Link> Project</Text>
                             {/* <Text>
                                 Client version: <Text code>{CLIENT_VER}</Text>
                             </Text>

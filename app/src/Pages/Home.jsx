@@ -12,7 +12,7 @@ export const Home = () => {
 
     API({
       endpoint: '/auth/me', ok: (response) => {
-        setUser({ userInfo: response.data, loggedIn: true, loading: false });
+        setUser({ userInfo: response.data, loggedIn: true, loading: false, newNotifications: response.data.newNotifications });
         setlocalLoading(false);
       }
     });

@@ -43,14 +43,13 @@ const router = createBrowserRouter([
 
 
 const App = () => {
-    const [user, setUser] = useState({ userInfo: null, loading: true, loggedIn: false });
-
+    const [user, setUser] = useState({ userInfo: null, loading: true, loggedIn: false, newNotifications: null});
     useEffect(() => {
         API({
             endpoint: '/auth/me', ok: (response) => {
-                setUser({ userInfo: response.data, loggedIn: true, loading: false });
+                setUser({ userInfo: response.data, loading: false, loggedIn: true, newNotifications: response.data.newNotifications });
             }, err: () => {
-                setUser({ userInfo: null, loggedIn: false, loading: false });
+                setUser({ userInfo: null, loggedIn: false, loading: false, newNotifications: false });
             }
         })
 
@@ -68,7 +67,7 @@ const App = () => {
 
 
     return (
-        <userContext.Provider value={{ userInfo: user.userInfo, loading: user.loading, loggedIn: user.loggedIn, setUser: setUser }}>
+        <userContext.Provider value={{ userInfo: user.userInfo, loading: user.loading, loggedIn: user.loggedIn, newNotifications: user.newNotifications, setUser: setUser }}>
             <RouterProvider router={router} fallbackElement={<PageLoading />} />
         </userContext.Provider>
     )
