@@ -198,7 +198,6 @@ const ProfileCard = ({
           <Card title="Последние достижения" bordered={false} style={{ marginTop: 20 }}>
             N/A; NOT IMPLEMENTED
           </Card>
-
           <Card title="Проекты" bordered={false} style={{ marginTop: 20 }}>
             N/A; NOT IMPLEMENTED
           </Card>

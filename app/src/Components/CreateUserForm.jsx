@@ -104,7 +104,7 @@ const CreateUserForm = ({ createUserFormHandler, userGroups }) => {
       >
         <Select
           options={userGroups.map((item) => ({
-            value: item.id,
+            value: item.uuid,
             label: item.name,
           }))}
         />

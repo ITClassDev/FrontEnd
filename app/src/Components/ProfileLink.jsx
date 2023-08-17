@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 
 const { Text } = Typography;
 
-const ProfileLink = ({user, storage}) => (
-    <Link to={`/u/${(user.nickName) ? user.nickName: user.uuid}`}>
+const ProfileLink = ({user, storage, target=""}) => (
+    <Link to={`/u/${(user.nickName) ? user.nickName: user.uuid}`} target={target}>
         <Avatar
             src={`${storage}/avatars/${user.avatarPath}`}
             style={{ verticalAlign: "middle", marginRight: 10 }}

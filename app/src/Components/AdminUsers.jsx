@@ -9,7 +9,8 @@ import {
   Tag,
   Row,
   message,
-  Upload
+  Upload,
+  ColorPicker
 } from "antd";
 import { useEffect, useRef } from "react";
 import { API } from "../api";
@@ -17,9 +18,11 @@ import NameAndAvatar from "./NameAndAvatar";
 import CreateUserForm from "./CreateUserForm";
 import Link from "antd/es/typography/Link";
 import { config } from "../config";
+import ProfileLink from "./ProfileLink";
 import { UploadOutlined, PlusOutlined, ExclamationCircleFilled } from '@ant-design/icons';
 
 const API_URL = config.API_URL;
+const STORAGE = config.STORAGE;
 
 const { Search } = Input;
 const { confirm } = Modal;
@@ -30,13 +33,19 @@ const { Title, Text } = Typography;
 const AdminUsers = () => {
   const refreshUsersTable = () => {
     API({
+      endpoint: "/groups", ok: (response) => {
+        setUserGroups(response.data);
+      }
+    })
+
+    API({
       endpoint: "/users", ok: (response) => {
-        setUserGroups(response.data.userGroups);
-        setUsersList(response.data.users.map(user => ({ key: user.id, id: user.id, fio: <NameAndAvatar user_id={user.id} name={`${user.firstName} ${user.lastName}`} avatar={user.avatarPath} />, user_group: user.groupName, })));
+        setUsersList(response.data.map(user => ({ key: user.uuid, id: user.uuid, fio: <ProfileLink user={user} storage={STORAGE} target="__blank" />, user_group: user.groupId })));
       }
     })
   };
   const inputGroupNameRef = useRef();
+  const [inputGroupColor, setInputGroupColor] = useState("#B32931");
   const [usersList, setUsersList] = useState();
   const [userGroups, setUserGroups] = useState([]);
   const [messageApi, contextHolder] = message.useMessage();
@@ -45,10 +54,13 @@ const AdminUsers = () => {
   }, []);
   const allUsersColumns = [
     {
-      title: "ID",
+      title: "UUID",
       dataIndex: "id",
       key: "id",
-      sorter: (a, b) => a.id - b.id
+      sorter: (a, b) => a.id - b.id,
+      render: (_, record) => (
+        <Text>{record.id.slice(30)}...</Text>
+      )
     },
     {
       title: "Имя",
@@ -60,10 +72,12 @@ const AdminUsers = () => {
       title: "Группа",
       dataIndex: "user_group",
       key: "user_group",
-      render: (_, record) => (
-        <Tag color="geekblue">{record.user_group}</Tag>
-      ),
-      filters: userGroups.map((e) => ({ value: e.name, text: e.name })),
+      render: (_, record) => {
+        let group = userGroups.find(item => item.uuid === record.user_group);
+        return <Tag color={group.color}>{group.name}</Tag>
+      },
+
+      filters: userGroups.map((e) => ({ value: e.uuid, text: e.name })),
       onFilter: (value, record) => record.user_group === value,
       filterSearch: true,
     },
@@ -87,13 +101,11 @@ const AdminUsers = () => {
                       resolve();
                     }, message: { show: true, api: messageApi, ok: "Пользователь удалён", err: "Ошибка" }
                   });
-                  
+
                 }).catch(() => console.log('Oops errors!'));
               },
               onCancel() { },
             });
-
-
 
           }}>
             Удалить
@@ -118,12 +130,13 @@ const AdminUsers = () => {
         Группы пользователей
       </Title>
       <Space.Compact style={{ marginBottom: 10 }}>
+        <ColorPicker value={inputGroupColor} onChange={setInputGroupColor} />
         <Input placeholder="Название группы" ref={inputGroupNameRef} />
         <Button type="primary" icon={<PlusOutlined />} onClick={() => {
           if (inputGroupNameRef.current.input.value) {
             API({
-              endpoint: "/users/groups", method: "put", data: { name: inputGroupNameRef.current.input.value }, ok: (response) => {
-                setUserGroups(prevState => [...prevState, { id: response.data.groupId, name: inputGroupNameRef.current.input.value }]);
+              endpoint: "/groups", method: "put", data: { name: inputGroupNameRef.current.input.value, color: inputGroupColor.toHexString() }, ok: (response) => {
+                setUserGroups(prevState => [...prevState, { uuid: response.data.uuid, name: response.data.name, color: response.data.color }]);
               }
             });
           }
@@ -131,9 +144,9 @@ const AdminUsers = () => {
       </Space.Compact>
       <Row gutter={[5, 5]}>
         {userGroups.map((item) => (
-          <Tag color="geekblue" key={item.id} closable={true} onClose={() => {
-            API({ endpoint: `/users/groups/${item.id}`, method: 'delete' })
-          }}>{item.name} <Text type="secondary">{item.id}</Text></Tag>
+          <Tag color={item.color} key={item.uuid} closable={true} onClose={() => {
+            API({ endpoint: `/groups/${item.uuid}`, method: 'delete' })
+          }}>{item.name}</Tag>
         ))}
       </Row>
       <Title level={4} style={{ marginTop: 10 }}>
@@ -145,10 +158,10 @@ const AdminUsers = () => {
             endpoint: "/users", method: "put", data: data, message: { show: true, api: messageApi, ok: "Пользователь успешно создан!", err: "Ошибка! Проверьте введённые данные." }, ok: (response) => {
               console.log(response);
               setUsersList(prevState => [...prevState, {
-                id: response.data.userId,
-                key: response.data.userId,
-                fio: <NameAndAvatar user_id={response.data.userId} name={`${data.firstName} ${data.lastName}`} avatar={"default.png"} />,
-                user_group: "Новый"
+                id: response.data.uuid,
+                key: response.data.uuid,
+                fio: <ProfileLink user={response.data} storage={STORAGE} target="__blank" />,
+                user_group: response.data.groupId
               }]);
             }
           })

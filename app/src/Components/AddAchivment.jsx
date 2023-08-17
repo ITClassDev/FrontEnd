@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { addAchivment, convertDate, getAchivmentsQueue, API } from "../api";
+import { convertDate, API } from "../api";
 import {
   Button,
   Form,
@@ -11,6 +11,10 @@ import {
   Table,
 } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
+import { config } from "../config";
+
+const STORAGE = config.STORAGE;
+
 const { TextArea } = Input;
 const { Text } = Typography;
 
@@ -32,26 +36,38 @@ const AddAchivment = () => {
       title: "Отправлено",
       dataIndex: "sent_time",
       key: "sent_time",
+      render: (_, record) => (
+        convertDate(record.sent_time)
+      )
     },
+    {
+      title: "Документ",
+      dataIndex: "document",
+      key: "document",
+      render: (_, record) => (
+        <Button type="primary" href={`${STORAGE}/achievements/${record.document}`} target="__blank">Открыть</Button>
+      )
+    }
   ];
-  const [achievementQueueData, SetAchievementQueueData] = useState();
+  const [achievementQueueData, SetAchievementQueueData] = useState([]);
   const onAddAchivment = (achievement) => {
     API({
       endpoint: "/achievements", method: "put", data: {
         achievement: {
-          type: achievement.type,
+          eventType: achievement.type,
           title: achievement.title,
           description: achievement.description
         }
       },
-      files: { "file": achievement.file },
+      files: { "confirmFile": achievement.file },
       message: { show: true, api: messageApi, ok: "Достижение добавлено в очередь. Ожидайте модерации.", err: "Ошибка при добавлении достижения" },
       ok: (response) => {
         SetAchievementQueueData(prevState => [{
-          id: response.data.id,
-          key: response.data.id,
+          id: response.data.uuid,
+          key: response.data.uuid,
           title: response.data.title,
-          sent_time: convertDate(response.data.received_at),
+          sent_time: response.data.received_at,
+          document: response.data.attachmentName
         }, ...prevState]);
       }
     });
@@ -77,22 +93,36 @@ const AddAchivment = () => {
   };
 
   useEffect(() => {
-    getAchivmentsQueue(
-      (resp) => {
-        let res = [];
-        // FIXIT MAP
-        resp.data.forEach((element) => {
-          res.push({
-            id: element.id,
-            key: element.id,
-            title: element.title,
-            sent_time: convertDate(element.received_at),
-          });
-        });
-        SetAchievementQueueData(res);
-      },
-      () => { }
-    );
+    API({
+      endpoint: "/achievements/pending", ok: (resp) => {
+        SetAchievementQueueData(resp.data.map(achiv => ({
+          id: achiv.uuid,
+          key: achiv.uuid,
+          title: achiv.title,
+          sent_time: achiv.created_at,
+          document: achiv.attachmentName
+        })));
+
+      }
+    });
+
+    // getAchivmentsQueue(
+    //   (resp) => {
+    //     let res = [];
+    //     console.log(resp.data);
+    //     // FIXIT MAP
+    //     resp.data.forEach((element) => {
+    //       res.push({
+    //         id: element.id,
+    //         key: element.id,
+    //         title: element.title,
+    //         sent_time: convertDate(element.received_at),
+    //       });
+    //     });
+    //     SetAchievementQueueData();
+    //   },
+    //   () => { }
+    // );
   }, []);
   return (
     <>
@@ -128,8 +158,8 @@ const AddAchivment = () => {
           ]}
         >
           <Select>
-            <Select.Option value={0}>Олимпиады/конкурсы</Select.Option>
-            <Select.Option value={1}>Мероприятия</Select.Option>
+            <Select.Option value={"olimpiad"}>Олимпиады/конкурсы</Select.Option>
+            <Select.Option value={"event"}>Мероприятия</Select.Option>
           </Select>
         </Form.Item>
 
@@ -170,8 +200,7 @@ const AddAchivment = () => {
           </Button>
         </Form.Item>
         <Text type="secondary">
-          Количество баллов за данное достижение выбирает модератор! Но есть
-          таблица рекомендуемых баллов за достижения из разных категорий.
+          Количество баллов за данное достижение выбирает преподаватель!
         </Text>
       </Form>
       <h1>На модерации</h1>
