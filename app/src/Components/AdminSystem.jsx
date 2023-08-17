@@ -1,7 +1,10 @@
 import React, {useEffect, useState} from "react";
 import { config } from "../config";
-import { Descriptions } from "antd";
+import { Descriptions, Typography } from "antd";
 import axios from "axios";
+
+
+const { Text } = Typography;
 
 const API_URL = config.API_URL;
 const STORAGE = config.STORAGE;
@@ -24,8 +27,8 @@ const AdminSystem = () => {
 
     if (response.status === 200) {
       setTime(`${Math.round(request_duration)} ms`);
-      setCPU(response.data.system_status.cpu);
-      setRAM(response.data.system_status.ram);
+      // setCPU(response.data.system_status.cpu);
+      // setRAM(response.data.system_status.ram);
     }
   };
 
@@ -42,6 +45,7 @@ const AdminSystem = () => {
           <Descriptions.Item label="CPU usage">{backendCPU}%</Descriptions.Item>
           <Descriptions.Item label="API time">N/A</Descriptions.Item>
         </Descriptions>
+        <Text>Дистрибутив ShTP Project для школы 1561</Text>
       </div>
     </>
   );

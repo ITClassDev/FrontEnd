@@ -1,7 +1,7 @@
 import React from "react";
 import { Typography, Table, Button } from "antd";
 import { useEffect } from "react";
-import { convertDate, getAchivmentsModerationQueue } from "../api";
+import { convertDate, API } from "../api";
 import { useState } from "react";
 import AdminModerateAchivmentModal from "./AdminModerateAchivmentModal";
 
@@ -34,38 +34,29 @@ const AchivmentsModeration = () => {
   const [moderationModalOpen, setModerationModalOpen] = useState(false);
   const [moderationAchivmentText, setModerationAchivmentText] = useState();
   const [moderationAchivmentId, setModerationAchivmentId] = useState();
-  const [moderationAchivmentAttachment, setModerationAchivmentAttachment] =
-    useState();
+  const [moderationAchivmentAttachment, setModerationAchivmentAttachment] = useState();
 
   useEffect(() => {
-    getAchivmentsModerationQueue(
-      (response) => {
-        let moderation = [];
-        response.data.forEach((moderationItem) => {
-          moderation.push({
-            id: moderationItem.id,
-            key: moderationItem.id,
-            title: moderationItem.title,
-            moderation_date: convertDate(moderationItem.received_at),
-            actionsBtns: (
-              <Button
-                type="primary"
-                onClick={() => {
-                  setModerationAchivmentText(moderationItem.description);
-                  setModerationAchivmentId(moderationItem.id);
-                  setModerationAchivmentAttachment(moderationItem.attachment_file_name)
-                  setModerationModalOpen(true);
-                }}
-              >
-                Открыть
-              </Button>
-            ),
-          });
-        });
-        setModerationQueue(moderation);
-      },
-      () => {}
-    );
+    API({
+      endpoint: "/achievements/queue", ok: (response) => {
+        setModerationQueue(response.data.map((achiv) => ({
+          id: achiv.uuid, key: achiv.uuid, title: achiv.title, moderation_date: convertDate(achiv.created_at),
+          actionsBtns: (
+            <Button
+              type="primary"
+              onClick={() => {
+                setModerationAchivmentText(achiv.description);
+                setModerationAchivmentId(achiv.uuid);
+                setModerationAchivmentAttachment(achiv.attachmentName)
+                setModerationModalOpen(true);
+              }}
+            >
+              Открыть
+            </Button>
+          ),
+        })));
+      }
+    });
   }, []);
 
   return (
@@ -76,6 +67,8 @@ const AchivmentsModeration = () => {
         achivmentText={moderationAchivmentText}
         achivmentId={moderationAchivmentId}
         achivmentAttachment={moderationAchivmentAttachment}
+        moderationQueue={moderationQueue}
+        setModerationQueue={setModerationQueue}
       />
       <Title level={4} style={{ marginTop: 0 }}>
         Очередь модерации

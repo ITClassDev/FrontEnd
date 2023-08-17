@@ -13,7 +13,8 @@ import {
   CalendarOutlined,
   CodeSandboxOutlined,
   FieldTimeOutlined,
-  LineChartOutlined
+  LineChartOutlined,
+  BranchesOutlined
 } from '@ant-design/icons';
 
 
@@ -31,7 +32,7 @@ export const routes = [
     access: 'all'
   },
   {
-    path: 'achivments',
+    path: 'achievements',
     async lazy() {
       let { Achivments } = await import("../Pages/Achivments.jsx");
       return { Component: Achivments };
@@ -125,6 +126,16 @@ export const routes = [
     },
     icon: <ProfileOutlined />,
     label: 'Документация',
+    access: 'all'
+  },
+  {
+    path: 'projects',
+    async lazy() {
+      let { Projects } = await import("../Pages/Projects.jsx");
+      return { Component: Projects };
+    },
+    icon: <BranchesOutlined />,
+    label: 'Мои проекты',
     access: 'all'
   },
   {

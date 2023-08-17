@@ -16,7 +16,7 @@ const router = createBrowserRouter([
         element: <Root />,
         errorElement: <NotFound />,
         children: [...routes, {
-            path: 'profile',
+            path: 'u/:user_id',
             async lazy() {
                 let { ViewProfile } = await import("./Pages/ViewProfile.jsx");
                 return { Component: ViewProfile };

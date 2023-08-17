@@ -63,7 +63,7 @@ export function API({ endpoint, method = "get", data = {}, files = null, auth = 
 
     if (ok) ok(response);
   }).catch((response) => {
-    if (localStorage.getItem('userAccessToken') !== null && response.response.status === 403) { // Expired token handler (or invalid token)
+    if (localStorage.getItem('userAccessToken') !== null && [403, 422].includes(response.response.status)) { // Expired token handler
       localStorage.clear(); // Delete expired token
       window.location.replace('/login'); // redirect to login page
     }

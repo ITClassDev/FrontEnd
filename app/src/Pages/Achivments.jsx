@@ -23,12 +23,12 @@ export const Achivments = () => {
 
     API({
       endpoint: "/achievements", ok: (resp) => {
-        setSystemAchievementsBlock(
-          <SystemAchivmentsList
-            system_achivments={resp.data.achievements.system}
-          />)
+        // setSystemAchievementsBlock(
+        //   <SystemAchivmentsList
+        //     system_achivments={resp.data.achievements.system}
+        //   />)
           setAchivmentsBlock(
-            <AchivmentsList achivments={resp.data.achievements.base} />
+            <AchivmentsList achivments={resp.data} />
           );
   
 
@@ -36,8 +36,7 @@ export const Achivments = () => {
 
   }, []);
   const tabs = [
-    { label: "Олимпиады & Конкурсы", key: "item-1", children: achivmentsBlock },
-    { label: "Мероприятия", key: "item-2", children: "Content 2" },
+    { label: "Все", key: "item-1", children: achivmentsBlock },
     {
       label: "Системные",
       key: "item-3",

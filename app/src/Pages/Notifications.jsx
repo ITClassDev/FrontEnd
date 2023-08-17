@@ -33,7 +33,7 @@ export const Notifications = () => {
   useDocumentTitle("ШТП | Уведомления");
   useEffect(() => {
     API({
-      endpoint: "/users/my_notifications", ok: (response) => {
+      endpoint: "/notifications/all", ok: (response) => {
         setNotifications(
           <>
             {response.data.map((notification) => <Notification notification={parseNotification(notification)} key={notification.id} />)}

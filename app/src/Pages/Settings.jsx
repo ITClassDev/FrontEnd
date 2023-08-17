@@ -217,7 +217,7 @@ export const Settings = () => {
                       // }
                       if (info.file.status === 'done') {
                         messageApi.success("Аватар обновлён");
-                        setAvatarImageUrl(`${STORAGE}/avatars/${info.file.response.avatar}`);
+                        setAvatarImageUrl(`${STORAGE}/avatars/${info.file.response.avatar}?no_cache=${Date.now()}`);
 
                       } else if (info.file.status === 'error') {
                         messageApi.error("Ошибка при загрузке файла");
