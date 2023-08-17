@@ -131,8 +131,8 @@ export const routes = [
   {
     path: 'projects',
     async lazy() {
-      let { ApiDocs } = await import("../Pages/ApiDocs.jsx");
-      return { Component: ApiDocs };
+      let { Projects } = await import("../Pages/Projects.jsx");
+      return { Component: Projects };
     },
     icon: <BranchesOutlined />,
     label: 'Мои проекты',

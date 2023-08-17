@@ -22,6 +22,7 @@ import Telegram_logo from "../Images/Telegram_logo.svg";
 import Stepik_logo from "../Images/Stepik_logo.png";
 import Kaggle_logo from "../Images/Kaggle_logo.svg";
 import userContext from "../Contexts/user";
+import AchivmentsList from "./AchivmentsList";
 
 const STORAGE = config.STORAGE;
 const { Title, Paragraph, Text } = Typography;
@@ -134,7 +135,6 @@ const ProfileCard = ({
           </Col>
           <Col style={{ marginLeft: 20 }}>
             <div style={{ marginBottom: 10 }}>
-
               <Title level={2} style={{ marginBottom: 0 }}>
                 {userInfo.firstName} {userInfo.lastName}
               </Title>
@@ -146,6 +146,7 @@ const ProfileCard = ({
                 {userInfo.role === "student" ? "Ученик" : (userInfo.role === "teacher" ? "Преподаватель" : "Администратор")}
               </Tag>
               {userInfo.shtpMaintainer && (<Tag color="cyan">ShTP Developer</Tag>)}
+              <Tag color={userInfo.group.color}>{userInfo.group.name}</Tag>
             </div>
             <Row>
               {userSocialNets.map((social, ind) => (
@@ -185,11 +186,25 @@ const ProfileCard = ({
               user_tech_stack={userInfo["techStack"]}
             />
           </Card>
-          <Card title="График" bordered={false} style={{ marginTop: 20 }}>
-            <Calendar locale={locale} dateCellRender={dateCellRender} />
+          {editable && (
+            <Card title="График" bordered={false} style={{ marginTop: 20 }}>
+              <Calendar locale={locale} CellRender={dateCellRender} />
+            </Card>
+          )}
+        </>
+      )}
+      {!editable && (
+        <>
+          <Card title="Последние достижения" bordered={false} style={{ marginTop: 20 }}>
+            N/A; NOT IMPLEMENTED
+          </Card>
+
+          <Card title="Проекты" bordered={false} style={{ marginTop: 20 }}>
+            N/A; NOT IMPLEMENTED
           </Card>
         </>
       )}
+
     </>
 
   );

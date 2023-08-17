@@ -174,7 +174,7 @@ const AddAchivment = () => {
           таблица рекомендуемых баллов за достижения из разных категорий.
         </Text>
       </Form>
-      <h1>Ваши достижения на модерации</h1>
+      <h1>На модерации</h1>
       <Table columns={columns_queue_table} dataSource={achievementQueueData} />
     </>
   );

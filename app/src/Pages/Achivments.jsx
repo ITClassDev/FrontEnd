@@ -23,12 +23,12 @@ export const Achivments = () => {
 
     API({
       endpoint: "/achievements", ok: (resp) => {
-        setSystemAchievementsBlock(
-          <SystemAchivmentsList
-            system_achivments={resp.data.achievements.system}
-          />)
+        // setSystemAchievementsBlock(
+        //   <SystemAchivmentsList
+        //     system_achivments={resp.data.achievements.system}
+        //   />)
           setAchivmentsBlock(
-            <AchivmentsList achivments={resp.data.achievements.base} />
+            <AchivmentsList achivments={resp.data} />
           );
   
 
