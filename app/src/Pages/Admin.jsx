@@ -10,6 +10,7 @@ import AdminTasks from "../Components/AdminTasks";
 import useDocumentTitle from "../useDocumentTitle";
 import AdminNotifications from "../Components/AdminNotifications";
 import userContext from "../Contexts/user";
+import AdminEvents from "../Components/AdminEvents";
 
 const { Title } = Typography;
 
@@ -52,7 +53,7 @@ export const Admin = () => {
             {
               label: "Мероприятия",
               key: "6",
-              children: <AdminDayChallenge />,
+              children: <AdminEvents />,
             },
             {
               label: "Уведомления",

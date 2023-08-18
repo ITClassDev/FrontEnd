@@ -28,12 +28,18 @@ const AdminNotifications = () => {
                 requiredMark={false}
                 className="send_notifications"
                 onFinish={(values) => {
-                    API({ endpoint: "/notifications", method: "put", data: values, message: { show: true, api: messageApi, ok: "Уведомления успешно отправлены!", err: "Уведомления не отправлены" } })
+                    API({
+                        endpoint: "/notifications", method: "put", data: {
+                            toGroup: values.toGroup,
+                            type: values.type,
+                            data: { text: values.text }
+                        }, message: { show: true, api: messageApi, ok: "Уведомления успешно отправлены!", err: "Уведомления не отправлены" }
+                    })
                 }}
                 layout="vertical"
             >
                 <Form.Item
-                    name="groupId"
+                    name="toGroup"
                     label="Группа пользователей"
                     rules={[
                         {

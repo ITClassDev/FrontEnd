@@ -59,7 +59,7 @@ const AddAchivment = () => {
           description: achievement.description
         }
       },
-      files: { "confirmFile": achievement.file },
+      files: { "confirmFile": achievement.file.file },
       message: { show: true, api: messageApi, ok: "Достижение добавлено в очередь. Ожидайте модерации.", err: "Ошибка при добавлении достижения" },
       ok: (response) => {
         SetAchievementQueueData(prevState => [{

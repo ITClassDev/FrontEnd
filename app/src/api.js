@@ -39,7 +39,7 @@ export function API({ endpoint, method = "get", data = {}, files = null, auth = 
     request_params['headers']['Content-Type'] = 'multipart/form-data';
     const form_data = new FormData();
     // Add files from `files`
-    for (let file_id in files) form_data.append(file_id, files[file_id].file);
+    for (let file_id in files) form_data.append(file_id, files[file_id]);
     form_data.append(
       Object.keys(data)[0],
       JSON.stringify(Object.values(data)[0])

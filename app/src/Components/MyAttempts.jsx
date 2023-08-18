@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Table, Button } from "antd";
+import { Card, Table, Button, Typography } from "antd";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import {
   a11yLight,
@@ -7,7 +7,9 @@ import {
 } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { Tabs } from "antd";
 import { UndoOutlined } from "@ant-design/icons";
-import { getSubmissionDetails } from "../api";
+import { getSubmissionDetails, convertDateAndTime } from "../api";
+
+const { Text } = Typography;
 
 const Expanded = ({ columns, submission }) => {
   const [sourceCode, SetSourceCode] = useState("Loading...");
@@ -52,9 +54,29 @@ const MyAttempts = ({ attempts, getSubmissions }) => {
 
   const columns = [
     { title: "ID", dataIndex: "id", key: "id" },
-    { title: "Дата", dataIndex: "date", key: "date" },
+    {
+      title: "Дата", dataIndex: "date", key: "date", render: (_, record) => (
+        convertDateAndTime(record.date)
+      )
+    },
     { title: "Язык", dataIndex: "lang", key: "lang" },
-    { title: "Статус", dataIndex: "status", key: "status" },
+    {
+      title: "Статус", dataIndex: "status", key: "status", render: (_, record) => (
+        record.solved ? (
+          <Text code type="success">
+            OK
+          </Text>
+        ) : record.status === 2 ? (
+          <Text code type="danger">
+            NO
+          </Text>
+        ) : (
+          <Text code type="warning">
+            Checking...
+          </Text>
+        )
+    )
+    },
     { title: "Тесты", dataIndex: "tests", key: "tests" },
   ];
   const columns_tests = [
@@ -65,7 +87,7 @@ const MyAttempts = ({ attempts, getSubmissions }) => {
     { title: "STDOUT", dataIndex: "stdout", key: "stdout" },
   ];
   return (
-    <Card title="Ваши посылки">
+    <Card title="Ваши посылки" style={{ marginBottom: 20 }}>
       <Button
         icon={<UndoOutlined />}
         style={{ marginBottom: 20 }}

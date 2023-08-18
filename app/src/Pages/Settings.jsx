@@ -180,9 +180,9 @@ export const Settings = () => {
               }}
               autoComplete="off"
               layout="vertical"
-              onFinish={(aboutText) => {
+              onFinish={(data) => {
                 API({
-                  endpoint: "/users", method: "patch", data: { aboutText: aboutText.aboutText },
+                  endpoint: "/users", method: "patch", data: { aboutText: data.aboutText, nickName: data.nickName },
                   message: { show: true, api: messageApi, ok: "Описание профиля успешно обновлено!", err: "Ошибка при обновлении описания профиля" }
                 });
               }}

@@ -1,8 +1,8 @@
 import React from "react";
 import ProgTask from "../Components/ProgTask";
-import { Typography } from "antd";
+import { Typography, Card } from "antd";
 import { useEffect } from "react";
-import { getDayChallenge } from "../api";
+import { API } from "../api";
 import { useState } from "react";
 import LoadingBar from "../Components/Loading";
 import useDocumentTitle from "../useDocumentTitle";
@@ -15,21 +15,26 @@ export const Challenge = () => {
     <LoadingBar size="24" text={"Loading..."} />
   );
   useEffect(() => {
-    getDayChallenge(
-      (response) => {
+    API({
+      endpoint: "/assigments/tasks/challenge", ok: (response) => {
         SetDayChallenge(
-          <ProgTask
-            title={response.data.title}
-            desc={response.data.text}
-            time_limit={response.data.time_limit}
-            memory_limit={response.data.memory_limit}
-            task_id={response.data.id}
-            tests={response.data.tests}
-          />
+          <>
+            <ProgTask
+              title={response.data.title}
+              desc={response.data.text}
+              time_limit={response.data.timeLimit}
+              memory_limit={response.data.memoryLimit}
+              task_id={response.data.uuid}
+              tests={response.data.tests}
+            />
+            <Card title="Лидерборд">
+              A
+            </Card>
+
+          </>
         );
-      },
-      (response) => {}
-    );
+      }
+    })
   }, []);
   return (
     <>

@@ -20,7 +20,7 @@ const AdminSystem = () => {
   const measure_time = async (setTime, setCPU, setRAM) => {
     const request_start_at = performance.now();
 
-    const response = await axios.get(API_URL);
+    const response = await axios.get(API_URL.replace("api/v1", ""));
 
     const request_end_at = performance.now();
     const request_duration = request_end_at - request_start_at;
@@ -45,8 +45,8 @@ const AdminSystem = () => {
           <Descriptions.Item label="CPU usage">{backendCPU}%</Descriptions.Item>
           <Descriptions.Item label="API time">N/A</Descriptions.Item>
         </Descriptions>
-        <Text>Дистрибутив ShTP Project для школы 1561</Text>
       </div>
+      <Text>Дистрибутив ShTP Project для школы 1561: Licensed with </Text>
     </>
   );
 };

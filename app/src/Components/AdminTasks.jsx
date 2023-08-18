@@ -3,19 +3,19 @@ import { Typography, Table, Space, Button, Modal } from "antd";
 import { API } from "../api";
 import TaskForm from "./TaskForm";
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 
 
 const AdminTasks = () => {
   const [editModalOpen, setEditModalOpen] = useState(false);
-  const [editTaskData, setEditTaskData] = useState({ memory_limit: 1024, time_limit: 2, is_day_challenge: true, title: "123" });
+  const [editTaskData, setEditTaskData] = useState({ title: "Default" });
 
   useEffect(() => {
     API({
-      endpoint: "/programming/tasks", ok: (response) => {
-        SetAllTasks(response.data.map(val => (
-          { key: val.id, id: val.id, title: val.title }
+      endpoint: "/assigments/tasks", ok: (response) => {
+        SetAllTasks(response.data.map(task => (
+          { key: task.uuid, id: task.uuid, title: task.title, dayChallenge: task.dayChallenge }
         )))
       }
     });
@@ -32,6 +32,14 @@ const AdminTasks = () => {
       key: "title",
     },
     {
+      title: "Задача дня",
+      dataIndex: "dayChallenge",
+      key: "dayChallenge",
+      render: (_, record) => (
+        record.dayChallenge ? <Text code type="success">Задача дня</Text> : ""
+      )
+    },
+    {
       title: "Действия",
       dataIndex: "actionsBtns",
       key: "actionsBtns",
@@ -40,8 +48,9 @@ const AdminTasks = () => {
           <Button type="primary">Статистика</Button>
           <Button type="dashed" onClick={() => {
             API({
-              endpoint: `/programming/task/${record.id}`, ok: (response) => {
+              endpoint: `/assigments/tasks/${record.id}`, ok: (response) => {
                 setEditTaskData(response.data);
+                console.log(editTaskData);
               }
             });
             setEditModalOpen(true);

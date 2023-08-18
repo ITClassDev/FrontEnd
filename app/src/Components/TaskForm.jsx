@@ -23,9 +23,9 @@ const { Text } = Typography;
 
 
 
-const TaskForm = ({ createTaskFormHandler, defaults = { memory_limit: 1024, time_limit: 2, is_day_challenge: true, title: "" } }) => {
+const TaskForm = ({ createTaskFormHandler, defaults = {title: ""}}) => {
     const [form] = Form.useForm();
-    const [convertedText, setConvertedText] = useState("Some default content");
+    const [convertedText, setConvertedText] = useState();
     const [inputTypes, setInputTypes] = useState([]);
     const [outputTypes, setOutputTypes] = useState([]);
 
@@ -36,7 +36,7 @@ const TaskForm = ({ createTaskFormHandler, defaults = { memory_limit: 1024, time
             className="create-task-form"
             layout="vertical"
             requiredMark={false}
-            initialValues={{ ...defaults }}
+            initialValues={defaults}
             onFinish={(e) => {
                 createTaskFormHandler({ ...e, types: { in: inputTypes, out: outputTypes } });
             }}
@@ -74,7 +74,7 @@ const TaskForm = ({ createTaskFormHandler, defaults = { memory_limit: 1024, time
                 />
             </Form.Item>
             <Form.Item
-                name="time_limit"
+                name="timeLimit"
                 label="Максимальное время работы решения (секунды)"
                 rules={[
                     {
@@ -86,7 +86,7 @@ const TaskForm = ({ createTaskFormHandler, defaults = { memory_limit: 1024, time
                 <InputNumber min={1} max={50} />
             </Form.Item>
             <Form.Item
-                name="memory_limit"
+                name="memoryLimit"
                 label="Максимальный объём используемой памяти решением (КБ)"
                 rules={[
                     {
@@ -99,7 +99,7 @@ const TaskForm = ({ createTaskFormHandler, defaults = { memory_limit: 1024, time
                 <InputNumber min={32} max={4096} />
             </Form.Item>
 
-            <Form.Item name="is_day_challenge" valuePropName="checked">
+            <Form.Item name="dayChallenge" valuePropName="checked">
                 <Checkbox>Сделать задачей дня</Checkbox>
             </Form.Item>
             <Text className="testsTitleEasyMode" strong>

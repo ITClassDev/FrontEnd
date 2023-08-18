@@ -4,21 +4,20 @@ import NameAndAvatar from "./NameAndAvatar";
 import { PlusOutlined } from "@ant-design/icons";
 import CreateTaskCard from "./CreateTaskCard";
 import { useEffect } from "react";
-import { getDayChallenge } from "../api";
+import { API } from "../api";
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const fetch = (value, callback) => {
-  callback([
-    {
-      value: "1",
-      label: "Data",
-    },
-    {
-      value: 2,
-      label: "Data 2",
-    },
-  ]);
+  API({
+    endpoint: `/assigments/tasks/search?query=${value}`, ok: (resp) => {
+      console.log(resp.data);
+      callback(resp.data.map(task => ({
+        value: task.title,
+        label: task.uuid
+      })))
+    }
+  })
 };
 
 const SearchInput = (props) => {
@@ -82,7 +81,7 @@ const AdminDayChallenge = () => {
     {
       sol_id: "31213",
       key: "31213",
-      fio: <NameAndAvatar user_id={1} name={"Stephan Zhdanov"} avatar={"1_avatar.png"}/>,
+      fio: <NameAndAvatar user_id={1} name={"Stephan Zhdanov"} avatar={"1_avatar.png"} />,
       actionsBtns: (
         <Space direction="horizontal">
           <Button type="primary">Код решения</Button>
@@ -94,9 +93,11 @@ const AdminDayChallenge = () => {
     },
   ];
   useEffect(() => {
-    getDayChallenge((response) => {
-      SetCurrentDayChallenge(response.data);
-    }, () => {})
+    API({
+      endpoint: "/assigments/tasks/challenge", ok: (resp) => {
+        SetCurrentDayChallenge(resp.data);
+      }
+    });
   }, []);
   const [currentDayChallenge, SetCurrentDayChallenge] = useState({});
   return (
@@ -115,18 +116,25 @@ const AdminDayChallenge = () => {
           setCreateTaskModalOpen(false);
         }}
       >
-        <CreateTaskCard messageApi={messageApi}/>
+        <CreateTaskCard messageApi={messageApi} />
       </Modal>
 
-      <Title level={4} style={{ marginTop: 0 }}>
-        Решившие задачу - {solvedByUsers.length}
-      </Title>
-      <Table columns={solvedByTableColumns} dataSource={solvedByUsers} />
+      {currentDayChallenge["uuid"] ? (<>
+        <Title level={4} style={{ marginTop: 0 }}>
+          Задача дня: {currentDayChallenge.title}
+        </Title>
+        <Title level={4} style={{ marginTop: 0 }}>
+          Решившие задачу - {solvedByUsers.length}
+        </Title>
+        <Table columns={solvedByTableColumns} dataSource={solvedByUsers} />
+      </>)
+        : <Text>Задача дня ещё не установлена</Text>}
+
       <Title level={4} style={{ marginTop: 0, marginBottom: 20 }}>
         Выбрать задачу дня
       </Title>
       <Space direction="vertical" style={{ width: "100%", marginBottom: 20 }}>
-        
+
         <SearchInput
           placeholder="Поиск задачи по заголовку"
           style={{ width: "100%" }}
@@ -134,7 +142,7 @@ const AdminDayChallenge = () => {
       </Space>
       <Space>
         <Button type="primary">Сделать задачей дня</Button>
-        <Button type="dashed" icon={<PlusOutlined />} onClick={() => {setCreateTaskModalOpen(true);}}>
+        <Button type="dashed" icon={<PlusOutlined />} onClick={() => { setCreateTaskModalOpen(true); }}>
           Добавить новую задачу
         </Button>
       </Space>

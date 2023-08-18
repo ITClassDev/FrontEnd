@@ -4,7 +4,7 @@ import { Descriptions, Table } from "antd";
 import SendTask from "./SendTask";
 import MyAttempts from "./MyAttempts";
 import {
-  getTaskSubmits,
+  API,
   convertDateAndTime,
   getTaskSubmitsContest,
 } from "../api";
@@ -23,35 +23,20 @@ const ProgTask = ({
   can_submit = true,
 }) => {
   const getSubmissions = () => {
-    getTaskSubmits(
-      task_id,
-      (response) => {
-        let result = [];
-        response.data.forEach((submission) => {
-          result.push({
-            key: submission.id,
-            id: submission.id,
-            date: convertDateAndTime(submission.send_date),
-            lang: { py: "Python 3.10.6", cpp: "GCC 10.2.1" }[
-              submission.source.split(".").at(-1)
-            ],
-            status: submission.solved ? (
-              <Text code type="success">
-                OK
-              </Text>
-            ) : submission.status === 2 ? (
-              <Text code type="danger">
-                NO
-              </Text>
-            ) : (
-              "Checking..."
-            ),
-          });
-        });
-        setAttempts(result);
-      },
-      (response) => {}
-    );
+    API({
+      endpoint: "/assigments/tasks/challenge/submits", ok: (resp) => {
+        setAttempts(resp.data.map(submit => ({
+          key: submit.uuid,
+          id: submit.uuid,
+          date: submit.created_at,
+          lang: { py: "Python 3.10.6", cpp: "GCC 10.2.1" }[
+            submit.source.split(".").at(-1)
+          ],
+          solved: submit.solved,
+          status: submit.status
+        })))
+      }
+    })
   };
 
   const getSubmissionsContest = () => {
@@ -81,7 +66,7 @@ const ProgTask = ({
         });
         setAttempts(result);
       },
-      (response) => {}
+      (response) => { }
     );
   };
 
@@ -99,7 +84,7 @@ const ProgTask = ({
   return (
     <>
       <Card title={title} style={{ marginBottom: 20 }}>
-        <Descriptions title="Лимиты" bordered style={{ marginBottom: "20px" }}>
+        <Descriptions title="Лимиты" bordered style={{ marginBottom: 20 }}>
           <Descriptions.Item label="Время">
             <b>{time_limit} секунд</b>
           </Descriptions.Item>

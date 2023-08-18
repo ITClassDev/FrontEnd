@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { message, Upload, Button, Card, Tabs, Select } from "antd";
 import { CodeOutlined } from "@ant-design/icons";
-import { submitDayChallenge, submitDayChallengeLiveCode } from "../api";
+import { API, submitDayChallengeLiveCode } from "../api";
 import CodeEditor from "@uiw/react-textarea-code-editor";
 
 const { Dragger } = Upload;
@@ -28,22 +28,20 @@ const SendTask = ({ task_id, getSubmissions, isDarkTheme }) => {
   };
 
   const SendTaskHandler = () => {
-    submitDayChallenge(
-      fileToSend[0],
-      (response) => {
+    API({
+      endpoint: "/assigments/tasks/challenge/submit", method: "post", files: { "source": fileToSend[0] }, ok: (resp) => {
         getSubmissions();
         messageApi.open({
           type: "success",
           content: "Задача отправлена на проверку!",
         });
-      },
-      (response) => {
+      }, err: (resp) => {
         messageApi.open({
           type: "error",
           content: "Произошла ошибка при отправке файла! Проверьте расширение!",
         });
       }
-    );
+    });
   };
 
   const tabsItems = [
@@ -125,24 +123,39 @@ const SendTask = ({ task_id, getSubmissions, isDarkTheme }) => {
             block
             style={{ marginTop: 20 }}
             onClick={() => {
-              submitDayChallengeLiveCode(
-                code,
-                progLang,
-                (response) => {
+              API({
+                endpoint: "/assigments/tasks/challenge/submit", method: "post", files: { "source": new File([new Blob([code])], `main.${progLang}`) }, ok: (resp) => {
                   getSubmissions();
                   messageApi.open({
                     type: "success",
                     content: "Задача отправлена на проверку!",
                   });
-                },
-                (response) => {
+                }, err: (resp) => {
                   messageApi.open({
                     type: "error",
-                    content:
-                      "Произошла ошибка при отправке файла! Проверьте расширение!",
+                    content: "Произошла ошибка при отправке файла! Проверьте расширение!",
                   });
                 }
-              );
+              });
+
+              // submitDayChallengeLiveCode(
+              //   code,
+              //   progLang,
+              //   (response) => {
+              //     getSubmissions();
+              //     messageApi.open({
+              //       type: "success",
+              //       content: "Задача отправлена на проверку!",
+              //     });
+              //   },
+              //   (response) => {
+              //     messageApi.open({
+              //       type: "error",
+              //       content:
+              //         "Произошла ошибка при отправке файла! Проверьте расширение!",
+              //     });
+              //   }
+              // );
             }}
           >
             Отправить на проверку
