@@ -183,13 +183,13 @@ const AdminUsers = () => {
       <Space direction="vertical">
         Загрузите csv файл с описанием пользователей:
         <Upload {...{
-          name: 'file',
-          action: `${API_URL}/users/from_csv`,
+          name: 'csv_file',
+          action: `${API_URL}/users/csv`,
           method: 'put',
           maxCount: 1,
           accept: ".csv",
           headers: {
-            authorization: `Bearer ${localStorage.getItem("user")}`,
+            authorization: `Bearer ${localStorage.getItem("userAccessToken")}`,
           },
           onChange(info) {
             if (info.file.status !== 'uploading') {
@@ -197,7 +197,13 @@ const AdminUsers = () => {
             }
             if (info.file.status === 'done') {
               refreshUsersTable();
-              messageApi.success("Пользователи созданы");
+              
+              if (info.file.response.errors.length === 0){
+                messageApi.success("Пользователи созданы");
+              }else{
+                messageApi.error(`Ошибки: ${info.file.response.errors.join("; ")}`);
+              }
+              
             } else if (info.file.status === 'error') {
               messageApi.error("Ошибка при загрузке файла");
             }

@@ -38,7 +38,7 @@ const TaskForm = ({ createTaskFormHandler, defaults = {title: ""}}) => {
             requiredMark={false}
             initialValues={defaults}
             onFinish={(e) => {
-                createTaskFormHandler({ ...e, types: { in: inputTypes, out: outputTypes } });
+                createTaskFormHandler({ ...e, types: { input: inputTypes, output: outputTypes } });
             }}
             onSubmitCapture={() => { }}
         >
@@ -117,13 +117,13 @@ const TaskForm = ({ createTaskFormHandler, defaults = {title: ""}}) => {
             >
                 <Form.Item
                     label={<Text>Входные типы </Text>}
-                    name="in"
+                    name="input"
                 >
                     <TagsArray color={'geekblue'} tags={inputTypes} setTags={setInputTypes} />
                 </Form.Item>
                 <Form.Item
                     label={<Text>Выходные типы </Text>}
-                    name="out"
+                    name="output"
                 >
                     <TagsArray color={'magenta'} tags={outputTypes} setTags={setOutputTypes} />
                 </Form.Item>

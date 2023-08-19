@@ -137,25 +137,6 @@ const SendTask = ({ task_id, getSubmissions, isDarkTheme }) => {
                   });
                 }
               });
-
-              // submitDayChallengeLiveCode(
-              //   code,
-              //   progLang,
-              //   (response) => {
-              //     getSubmissions();
-              //     messageApi.open({
-              //       type: "success",
-              //       content: "Задача отправлена на проверку!",
-              //     });
-              //   },
-              //   (response) => {
-              //     messageApi.open({
-              //       type: "error",
-              //       content:
-              //         "Произошла ошибка при отправке файла! Проверьте расширение!",
-              //     });
-              //   }
-              // );
             }}
           >
             Отправить на проверку
