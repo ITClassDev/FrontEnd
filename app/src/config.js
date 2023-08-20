@@ -1,12 +1,13 @@
 //const dotenv = require('dotenv');
 
 
-const conf = (HOST, name="prod", PROTOCOL="https") => (
+const conf = (HOST, name="prod", PROTOCOL="http") => (
     {
-        API_URL: `${PROTOCOL}://${HOST}/api`,
-        STORAGE: `${PROTOCOL}://${HOST}/api/storage`,
+        API_URL: `${PROTOCOL}://${HOST}/api/v1`,
+        STORAGE: `${PROTOCOL}://${HOST}/storage`,
         FRONTEND_URL: `${PROTOCOL}://${HOST}`,
-        CLIENT_VER: `"0.0.3 alpha (${name})`
+        SCHOOL_NUMBER: '1561',
+        CLIENT_VER: name
     }
 )
 
@@ -27,5 +28,6 @@ const local_conf_2 = {
 }
 
 
-export const config = local_conf;
-//export const config = process.env.NODE_ENV === "development" ? conf("localhost", "dev") : conf("shtp.1561.ru");
+//export const config = local_conf;
+// export const config = process.env.NODE_ENV === "development" ? conf("localhost", "dev") : conf("shtp.1561.ru");
+export const config = process.env.REACT_APP_TYPE === "development" ? conf("localhost:8080", "2.0.0 Enigma") : conf("localhost", "prod", "http");

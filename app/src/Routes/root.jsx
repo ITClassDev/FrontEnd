@@ -26,6 +26,7 @@ import { parseNotification } from '../notifications';
 const { Content, Sider, Footer } = Layout;
 const { Text } = Typography;
 const CLIENT_VER = config.CLIENT_VER;
+const SCHOOL_NUMBER = config.SCHOOL_NUMBER;
 
 
 export const Root = () => {
@@ -169,8 +170,8 @@ export const Root = () => {
                         className="shtp_debug_info"
                     >
                         <Space direction="vertical">
-                            <Text italic>School 1561 IT class platform</Text>
-                            <Text italic>Powered by <Typography.Link href="https://github.com/ItClassDev/">ShTP</Typography.Link> Project</Text>
+                            <Text italic>School {SCHOOL_NUMBER} IT class platform</Text>
+                            <Text italic>Powered by <Typography.Link href="https://github.com/ItClassDev/">ShTP</Typography.Link> Project {CLIENT_VER}</Text>
                             {/* <Text>
                                 Client version: <Text code>{CLIENT_VER}</Text>
                             </Text>
