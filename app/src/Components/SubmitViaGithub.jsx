@@ -96,7 +96,7 @@ const SubmitViaGithub = ({ contest_id, contestDescription }) => {
                 },
                 {
                   value: "cpp",
-                  label: "C++ | g++ 13.2.1",
+                  label: "C++ | GCC 10.2.1",
                 },
               ]}
             />
