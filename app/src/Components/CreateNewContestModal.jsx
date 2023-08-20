@@ -3,54 +3,18 @@ import { Modal, Space, Typography, Form, Input, Button, Select, DatePicker } fro
 import "dayjs/locale/ru";
 import locale from "antd/es/date-picker/locale/ru_RU";
 import { API } from "../api";
+import TasksSearch from "./TasksSearch";
+import MultipleTaskSearch from "./MultipleTasksSearch";
 
 const { Text } = Typography;
 
 const CreateNewContestModal = ({ open, setModalOpened }) => {
+  const [tasksSelected, setTasksSelected] = useState([]);
   const createContestHandler = (form_data) => {
     console.log(form_data);
+    console.log(tasksSelected);
   }
 
-  const SearchInput = (props) => {
-    const [data, setData] = useState([]);
-    const [value, setValue] = useState();
-    const handleSearch = (newValue) => {
-      API({
-        endpoint: `/programming/tasks/search`, data: { query: newValue }, method: 'POST', ok: (response) => {
-          if (response.data.length > 0) setData(response.data.map(item => ({ value: item.id, text: item.title })));
-          else setData([]);
-        }
-      })
-
-    };
-    const handleChange = (newValue) => {
-      setValue(newValue);
-    };
-    return (
-      <Select
-        showSearch
-        value={value}
-        placeholder={props.placeholder}
-        style={props.style}
-        defaultActiveFirstOption={false}
-        showArrow={false}
-        filterOption={false}
-        mode={"multiple"}
-        onSearch={handleSearch}
-        onChange={handleChange}
-        notFoundContent={null}
-        options={(data || []).map((d) => ({
-          value: d.value,
-          label: d.text,
-        }))}
-      />
-    );
-  };
-
-
-  useEffect(() => {
-
-  }, [])
 
 
   return (
@@ -100,7 +64,7 @@ const CreateNewContestModal = ({ open, setModalOpened }) => {
         >
           <Space direction="vertical" style={{ width: "100%" }}>
             <Text strong>Задачи в контесте</Text>
-            <SearchInput />
+            <MultipleTaskSearch value={tasksSelected} setValue={setTasksSelected}/>
           </Space>
         </Form.Item>
 
@@ -134,7 +98,6 @@ const CreateNewContestModal = ({ open, setModalOpened }) => {
           </Space>
 
         </Form.Item>
-
 
         <Form.Item>
           <Button

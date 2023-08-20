@@ -70,10 +70,14 @@ const AchivmentsModeration = () => {
         moderationQueue={moderationQueue}
         setModerationQueue={setModerationQueue}
       />
-      <Title level={4} style={{ marginTop: 0 }}>
+      <Title level={4} style={{ marginTop: 10, marginBottom: 20 }}>
         Очередь модерации
       </Title>
       <Table columns={moderationColumns} dataSource={moderationQueue} />
+      <Title level={4} style={{ marginTop: 0 }}>
+        Все достижения
+      </Title>
+      DEV
     </>
   );
 };

@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { Typography, Table, Button, Space, Select, Modal, message } from "antd";
+import React, { useState, useEffect } from "react";
+import { Typography, Table, Button, Space, Modal, message } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import CreateTaskCard from "./CreateTaskCard";
-import { useEffect } from "react";
 import { API } from "../api";
 import ProfileLink from "./ProfileLink";
+import TasksSearch from "./TasksSearch";
 
 import { config } from "../config";
 
@@ -12,55 +12,10 @@ const STORAGE = config.STORAGE;
 
 const { Title, Text } = Typography;
 
-const fetch = (value, callback) => {
-  API({
-    endpoint: `/assigments/tasks/search?query=${value}`, ok: (resp) => {
-      callback(resp.data.map(task => ({
-        value: task.title,
-        label: task.uuid
-      })))
-    }
-  })
-};
-
-const SearchInput = ({placeholder, style, taskSearchSelect, callback}) => {
-  const [data, setData] = useState([]);
-  const handleSearch = (newValue) => {
-    if (newValue) {
-      fetch(newValue, setData);
-    } else {
-      setData([]);
-    }
-  };
-  const handleChange = (newValue) => {
-    console.log(data);
-    callback(newValue);
-  };
-  return (
-    <Select
-      showSearch
-      value={taskSearchSelect}
-      placeholder={placeholder}
-      style={style}
-      defaultActiveFirstOption={false}
-      filterOption={false}
-      onSearch={handleSearch}
-      onChange={() => {console.log()}}
-      notFoundContent={<>Ничего не найдено</>}
-      options={(data || []).map((d) => ({
-        value: d.value,
-        label: d.text,
-      }))}
-    />
-  );
-};
-
 const AdminDayChallenge = () => {
   const [createTaskModalOpen, setCreateTaskModalOpen] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
-  const [taskSearchSelect, setTaskSearchSelect] = useState();
-
-
+  const [taskSearchSelect, setTaskSearchSelect] = useState({ text: null, uuid: null });
   const solvedByTableColumns = [
     {
       title: "ID решения",
@@ -112,7 +67,7 @@ const AdminDayChallenge = () => {
       }
     });
   }, []);
-  
+
   return (
     <>
       {contextHolder}
@@ -137,7 +92,7 @@ const AdminDayChallenge = () => {
           Задача дня: {currentDayChallenge.title}
         </Title>
         <Title level={4} style={{ marginTop: 0 }}>
-          Решившие задачу - {solvedByUsers.length}
+          Решившие задачу: {solvedByUsers.length}
         </Title>
         <Table columns={solvedByTableColumns} dataSource={solvedByUsers} />
       </>)
@@ -148,17 +103,21 @@ const AdminDayChallenge = () => {
       </Title>
       <Space direction="vertical" style={{ width: "100%", marginBottom: 20 }}>
 
-        <SearchInput
+        <TasksSearch
           placeholder="Поиск задачи по заголовку"
           style={{ width: "100%" }}
-          taskSearchSelect={taskSearchSelect}
-          callback={(value) => setTaskSearchSelect(value)}
+          taskSearchSelect={taskSearchSelect.text}
+          callback={(text, uuid) => setTaskSearchSelect({ text: text, uuid: uuid })}
         />
       </Space>
       <Space>
         <Button type="primary" onClick={() => {
-          console.log(taskSearchSelect);
-          // API({ endpoint: `/assigments/tasks/challenge/set/${taskSearchSelect}`, method: "patch" })
+          API({
+            endpoint: `/assigments/tasks/challenge/set/${taskSearchSelect.uuid}`, method: "patch", ok: (resp) => {
+              SetCurrentDayChallenge(resp.data)
+              fetchLeaderBoard();
+            }, message: { show: 1, api: messageApi, ok: "Задача дня установлена", err: "Произошла ошибка!" }
+          })
         }}>Сделать задачей дня</Button>
         <Button type="dashed" icon={<PlusOutlined />} onClick={() => { setCreateTaskModalOpen(true); }}>
           Добавить новую задачу

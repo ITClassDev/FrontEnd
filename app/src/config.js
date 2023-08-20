@@ -15,7 +15,7 @@ const local_conf = {
     API_URL: `http://localhost:8080/api/v1`,
     STORAGE: `http://localhost:8080/storage`,
     FRONTEND_URL: `http://localhost:3000`,
-    CLIENT_VER: `EARLY DEVELOP MODE`
+    CLIENT_VER: `ShTP 2.0 Platform`
 }
 
 // For dev in local net

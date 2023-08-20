@@ -125,7 +125,7 @@ const AdminUsers = () => {
   return (
     <>
       {contextHolder}
-      <Title level={4} style={{ marginTop: 0 }}>
+      <Title level={4} style={{ marginTop: 10, marginBottom: 20 }}>
         Все пользователи
       </Title>
       <Search
