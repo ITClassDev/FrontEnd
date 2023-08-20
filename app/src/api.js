@@ -271,26 +271,6 @@ export function submitDayChallenge(
     );
 }
 
-export function submitDayChallengeLiveCode(
-  code,
-  extension,
-  ok_handler,
-  error_handler
-) {
-  const file = new File([new Blob([code])], `main.${extension}`);
-  submitDayChallenge(
-    file,
-    (response) => {
-      ok_handler(response);
-    },
-    (response) => {
-      error_handler(response);
-    }
-  );
-  //const formData = new FormData();
-  //formData.append('file', new File([new Blob([code])], `main.${extension}`));
-  //console.log(formData);
-}
 
 export function getSubmissionDetails(
   submission_id,
@@ -490,9 +470,14 @@ export function getAppInfo(app_id, ok_handler, error_handler, api = API_URL) {
 }
 
 // Utility
+Date.prototype.addHours = function (h) {
+  this.setHours(this.getHours() + h);
+  return this;
+}
+
 export function convertDate(date) {
-  return new Date(date).toLocaleDateString("ru-RU");
+  return new Date(date).addHours(3).toLocaleDateString("ru-RU", { timeZone: "Europe/Moscow" });
 }
 export function convertDateAndTime(date) {
-  return new Date(date).toLocaleString("ru-RU");
+  return new Date(date).addHours(3).toLocaleString("ru-RU", { timeZone: "Europe/Moscow" });
 }

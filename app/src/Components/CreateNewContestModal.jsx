@@ -3,17 +3,18 @@ import { Modal, Space, Typography, Form, Input, Button, Select, DatePicker } fro
 import "dayjs/locale/ru";
 import locale from "antd/es/date-picker/locale/ru_RU";
 import { API } from "../api";
-import TasksSearch from "./TasksSearch";
 import MultipleTaskSearch from "./MultipleTasksSearch";
 
 const { Text } = Typography;
 
-const CreateNewContestModal = ({ open, setModalOpened }) => {
+const CreateNewContestModal = ({ open, setModalOpened, userGroups }) => {
   const [tasksSelected, setTasksSelected] = useState([]);
+  
   const createContestHandler = (form_data) => {
     console.log(form_data);
     console.log(tasksSelected);
   }
+
 
 
 
@@ -64,23 +65,27 @@ const CreateNewContestModal = ({ open, setModalOpened }) => {
         >
           <Space direction="vertical" style={{ width: "100%" }}>
             <Text strong>Задачи в контесте</Text>
-            <MultipleTaskSearch value={tasksSelected} setValue={setTasksSelected}/>
+            <MultipleTaskSearch value={tasksSelected} setValue={setTasksSelected} />
           </Space>
         </Form.Item>
 
         <Form.Item
           name="user_groups"
-          rules={[
-            {
-              required: true,
-              message: "Выберите группы пользователей",
-            },
-          ]}
+        // rules={[
+        //   {
+        //     required: true,
+        //     message: "Выберите группы пользователей",
+        //   },
+        // ]}
         >
           <Space direction="vertical" style={{ width: "100%" }}>
             <Text strong>Группы пользователей</Text>
             <Select
               mode="tags"
+              options={userGroups.map((item) => ({
+                value: item.uuid,
+                label: item.name,
+              }))}
               style={{
                 width: "100%",
               }}

@@ -1,20 +1,42 @@
-import { Button, Table, Typography } from "antd";
-import React, {useState} from "react";
+import { Button, Table, Typography, Tag } from "antd";
+import React, { useState, useEffect } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import CreateNewContestModal from "./CreateNewContestModal";
+import { API, convertDateAndTime } from "../api";
 
 const { Title } = Typography;
 
-/*const HomeWorkActionsBtns = () => {
-  return (
-    <>
-      <Button type="primary">Edit</Button>
-    </>
-  );
-};*/
 
 const AdminHomeWork = () => {
+
   const [createContestModal, setCreateTaskModalOpen] = useState(false);
+  const [contests, setContests] = useState([]);
+  const [userGroups, setUserGroups] = useState([]);
+  const getAllContest = () => {
+    API({
+      endpoint: "/assigments/contests", ok: (resp) => {
+        setContests(resp.data.map(contest => ({
+          title: contest.title,
+          for: contest.forGroups,
+          forLearningClass: contest.forLearningClass,
+          deadline: contest.deadline
+
+        })));
+      }
+    })
+  }
+
+
+  useEffect(() => {
+    API({
+      endpoint: "/groups", ok: (response) => {
+        setUserGroups(response.data);
+      }
+    });
+    getAllContest();
+  }, []);
+  //let group = userGroups.find(item => item.uuid === record.user_group);
+
   const createdHomeworks = [
     {
       title: "Название",
@@ -25,27 +47,40 @@ const AdminHomeWork = () => {
       title: "Для",
       dataIndex: "for",
       key: "for",
+      render: (_, record) => (
+        record.for.map(uuid => {
+          console.log(record)
+          let group = userGroups.find(item => item.uuid === uuid);
+          return <Tag color={group.color}>{record.forLearningClass}: {group.name}</Tag>
+        })
+      )
     },
     {
       title: "Дедлайн",
       dataIndex: "deadline",
       key: "deadline",
+      render: (_, record) => (
+        convertDateAndTime(record.deadline)
+      )
     },
     {
       title: "Действия",
       dataIndex: "actionsBtns",
       key: "actionsBtns",
+      render: (_, record) => (
+        <Button>Э</Button>
+      )
     },
   ];
 
   return (
     <>
-      <CreateNewContestModal open={createContestModal} setModalOpened={setCreateTaskModalOpen}/>
+      <CreateNewContestModal open={createContestModal} setModalOpened={setCreateTaskModalOpen} userGroups={userGroups} />
       <Title level={4} style={{ marginTop: 0 }}>
         Все домашние работы
       </Title>
-      <Button style={{marginBottom: 20}} type="primary" icon={<PlusOutlined />} onClick={() => {setCreateTaskModalOpen(true);}}>Добавить</Button>
-      <Table columns={createdHomeworks} />
+      <Button style={{ marginBottom: 20 }} type="primary" icon={<PlusOutlined />} onClick={() => { setCreateTaskModalOpen(true); }}>Добавить</Button>
+      <Table columns={createdHomeworks} dataSource={contests} />
     </>
   );
 };
