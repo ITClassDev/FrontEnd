@@ -7,7 +7,7 @@ const HomeTaskCard = ({
   tag,
   complited_percent,
   description,
-  contest_id,
+  uuid,
 }) => {
   const task_tags_mapping = {
     easy: <Tag color="green">Easy</Tag>,
@@ -33,7 +33,7 @@ const HomeTaskCard = ({
         <Progress percent={complited_percent} />
         <Text strong>Описание</Text>
         <Text>{description}</Text>
-        <Button type="primary">Открыть задачи</Button>
+        <Button type="primary" href={`/contests/${uuid}`}>Открыть задачи</Button>
       </Space>
     </Card>
   );

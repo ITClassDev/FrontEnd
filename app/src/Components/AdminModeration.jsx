@@ -10,7 +10,7 @@ const { Title } = Typography;
 const AchivmentsModeration = () => {
   const moderationColumns = [
     {
-      title: "#",
+      title: "UUID",
       dataIndex: "id",
       key: "id",
     },

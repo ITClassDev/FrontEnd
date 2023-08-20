@@ -18,7 +18,7 @@ const AdminDayChallenge = () => {
   const [taskSearchSelect, setTaskSearchSelect] = useState({ text: null, uuid: null });
   const solvedByTableColumns = [
     {
-      title: "ID решения",
+      title: "UUID",
       dataIndex: "id",
       key: "id",
     },

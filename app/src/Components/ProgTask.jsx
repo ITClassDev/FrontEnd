@@ -18,7 +18,7 @@ const ProgTask = ({
   tests,
   time_limit,
   memory_limit,
-  task_id,
+  task_id = null,
   contest_id = null,
   can_submit = true,
 }) => {
@@ -36,38 +36,53 @@ const ProgTask = ({
           status: submit.status
         })))
       }
-    })
+    });
   };
 
   const getSubmissionsContest = () => {
-    getTaskSubmitsContest(
-      task_id,
-      contest_id,
-      (response) => {
-        let result = [];
-        response.data.forEach((submission) => {
-          result.push({
-            key: submission.id,
-            id: submission.id,
-            date: convertDateAndTime(submission.send_date),
-            lang: "C++",
-            status: submission.solved ? (
-              <Text code type="success">
-                OK
-              </Text>
-            ) : submission.status === 2 ? (
-              <Text code type="danger">
-                NO
-              </Text>
-            ) : (
-              "Checking..."
-            ),
-          });
-        });
-        setAttempts(result);
-      },
-      (response) => { }
-    );
+    API({
+      endpoint: `/assigments/contests/${contest_id}/task/${task_id}/submits`, ok: (resp) => {
+        setAttempts(resp.data.map(submit => ({
+          key: submit.uuid,
+          id: submit.uuid,
+          date: submit.created_at,
+          lang: { py: "Python 3.10.6", cpp: "GCC 10.2.1" }[
+            submit.source.split(".").at(-1)
+          ],
+          solved: submit.solved,
+          status: submit.status
+        })))
+      }
+    });
+
+    // getTaskSubmitsContest(
+    //   task_id,
+    //   contest_id,
+    //   (response) => {
+    //     let result = [];
+    //     response.data.forEach((submission) => {
+    //       result.push({
+    //         key: submission.id,
+    //         id: submission.id,
+    //         date: convertDateAndTime(submission.send_date),
+    //         lang: "C++",
+    //         status: submission.solved ? (
+    //           <Text code type="success">
+    //             OK
+    //           </Text>
+    //         ) : submission.status === 2 ? (
+    //           <Text code type="danger">
+    //             NO
+    //           </Text>
+    //         ) : (
+    //           "Checking..."
+    //         ),
+    //       });
+    //     });
+    //     setAttempts(result);
+    //   },
+    //   (response) => { }
+    // );
   };
 
   useEffect(() => {

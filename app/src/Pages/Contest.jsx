@@ -9,61 +9,61 @@ import ProgTask from "../Components/ProgTask";
 import { useEffect, useState } from "react";
 import SubmitViaGithub from "../Components/SubmitViaGithub";
 import { config } from "../config";
-import { useSearchParams } from "react-router-dom";
-import { getContestData, getTaskData } from "../api";
+import { useParams } from "react-router-dom";
+import { getContestData, getTaskData, API } from "../api";
+import useDocumentTitle from "../useDocumentTitle";
 
 const FRONTEND_URL = config.FRONTEND_URL;
 
 const { Title } = Typography;
 
-const Contest = () => {
+export const Contest = () => {
   const [contestTitle, SetContestTitle] = useState();
-  const [searchParams] = useSearchParams();
-  const contest_id = searchParams.get("id");
+  const [contestDescription, SetContestDescription] = useState("Loading...");
+  const params = useParams();
+
   function choosePage(setPage, item, contest_id) {
-    if (item === "submit") setPage(<SubmitViaGithub contest_id={contest_id} />);
+    if (item === "submit") setPage(<SubmitViaGithub contest_id={params.contest_id} contestDescription={contestDescription}/>);
     else {
-      getTaskData(
-        item,
-        (response) => {
+      API({
+        endpoint: `/assigments/tasks/${item}`, ok: (resp) => {
           setPage(
             <ProgTask
-              title={response.data.title}
-              desc={response.data.text}
-              time_limit={response.data.time_limit}
-              memory_limit={response.data.memory_limit}
+              key={resp.data.uuid}
+              title={resp.data.title}
+              desc={resp.data.text}
+              time_limit={resp.data.timeLimit}
+              memory_limit={resp.data.memoryLimit}
               can_submit={false}
-              task_id={response.data.id}
-              tests={response.data.tests}
-              contest_id={contest_id}
+              task_id={resp.data.uuid}
+              tests={resp.data.tests}
+              contest_id={params.contest_id}
             />
           );
-        },
-        () => {}
-      );
+        }
+      })
     }
   }
+  useDocumentTitle("ШТП | Контест");
 
   useEffect(() => {
-    getContestData(
-      contest_id,
-      (response) => {
-        SetContestTitle(response.data.title);
-        let result = [];
-        response.data.tasks_ids_list.forEach((task) => {
-          result.push({ key: task, label: task, icon: correctTask });
-        });
-        SetMenuTasks([
-          { label: "Submit", key: "submit", icon: <CodeOutlined /> },
-          ...result,
-        ]);
-      },
-      (response) => {}
-    );
+    API({
+      endpoint: `/assigments/contests/${params.contest_id}`, ok: (resp) => {
+        SetContestDescription(resp.data.description)
+        SetContestTitle(resp.data.title);
+        SetMenuTasks([{ label: "Submit", key: "submit", icon: <CodeOutlined /> }]);
+        SetMenuTasks(prev => (prev.concat(resp.data.tasks.map((task) => ({
+          key: task.uuid,
+          label: task.title,
+          icon: invalidTask
+        })))));
+
+      }
+    })
   }, []);
 
   const [pageContent, setPageContent] = useState(
-    <SubmitViaGithub contest_id={contest_id} />
+    <SubmitViaGithub contest_id={params.contest_id} contestDescription={contestDescription} />
   );
   const correctTask = (
     <Tooltip title="задача сдана">
@@ -98,7 +98,7 @@ const Contest = () => {
         defaultSelectedKeys={["submit"]}
         style={{ borderRadius: 10, marginBottom: 20 }}
         onClick={(item) => {
-          choosePage(setPageContent, item.key, contest_id);
+          choosePage(setPageContent, item.key, params.contest_id);
         }}
       />
       {pageContent}
@@ -106,4 +106,3 @@ const Contest = () => {
   );
 };
 
-export default Contest;

@@ -157,5 +157,31 @@ export const routes = [
     icon: <QuestionCircleOutlined />,
     label: 'Опросы',
     access: 'admin'
-  }
+  },
+  // {
+  //   path: 'services',
+  //   icon: <CodeOutlined />,
+  //   label: 'Сервисы',
+  //   access: 'student',
+  //   children: [{
+  //     path: 'challenge',
+  //     async lazy() {
+  //       let { Challenge } = await import("../Pages/Challenge.jsx");
+  //       return { Component: Challenge };
+  //     },
+  //     icon: <FieldTimeOutlined />,
+  //     label: 'Задача дня'
+
+  //   },
+  //   {
+  //     path: 'services',
+  //     async lazy() {
+  //       let { HomeWork } = await import("../Pages/HomeWork.jsx");
+  //       return { Component: HomeWork };
+  //     },
+  //     icon: <HomeOutlined />,
+  //     label: 'ДЗ'
+  //   }
+  //   ]
+  // },
 ]

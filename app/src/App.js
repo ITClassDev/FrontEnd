@@ -21,6 +21,13 @@ const router = createBrowserRouter([
                 let { ViewProfile } = await import("./Pages/ViewProfile.jsx");
                 return { Component: ViewProfile };
             }
+        },
+        {
+            path: 'contests/:contest_id',
+            async lazy() {
+                let { Contest } = await import("./Pages/Contest.jsx");
+                return { Component: Contest };
+            }
         }
         ]
     },
@@ -43,7 +50,7 @@ const router = createBrowserRouter([
 
 
 const App = () => {
-    const [user, setUser] = useState({ userInfo: null, loading: true, loggedIn: false, newNotifications: null});
+    const [user, setUser] = useState({ userInfo: null, loading: true, loggedIn: false, newNotifications: null });
     useEffect(() => {
         API({
             endpoint: '/auth/me', ok: (response) => {

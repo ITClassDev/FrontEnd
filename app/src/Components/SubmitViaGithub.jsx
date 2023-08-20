@@ -14,7 +14,7 @@ import {
 import { submitContest } from "../api";
 const { Text } = Typography;
 
-const SubmitViaGithub = ({ contest_id }) => {
+const SubmitViaGithub = ({ contest_id, contestDescription }) => {
   const [messageApi, contextHolder] = message.useMessage();
   const submitFormHandler = (form_data) => {
     submitContest(
@@ -35,10 +35,17 @@ const SubmitViaGithub = ({ contest_id }) => {
       }
     );
   };
+  console.log(contestDescription);
 
   return (
     <>
       {contextHolder}
+      <Card
+        title="Описание"
+        style={{ marginBottom: 20 }}
+      >
+        <Text>{contestDescription}</Text>
+      </Card>
       <Card
         title={
           <>
@@ -53,6 +60,7 @@ const SubmitViaGithub = ({ contest_id }) => {
           message="Убедитесь, что:"
           description={
             <Space direction="vertical">
+              <Text>Вы запушили последние изменения в коде</Text>
               <Text>Файлы задачи находятся в корне репозитория</Text>
               <Text>Репозиторий открытый</Text>
               <Text>
@@ -88,7 +96,7 @@ const SubmitViaGithub = ({ contest_id }) => {
                 },
                 {
                   value: "cpp",
-                  label: "C++",
+                  label: "C++ | g++ 13.2.1",
                 },
               ]}
             />
