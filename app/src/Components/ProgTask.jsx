@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Card, Typography } from "antd";
+import { Card, Typography, Space, Button } from "antd";
 import { Descriptions, Table } from "antd";
 import SendTask from "./SendTask";
 import MyAttempts from "./MyAttempts";
+import ProfileLink from "./ProfileLink";
 import {
-  API,
-  convertDateAndTime,
-  getTaskSubmitsContest,
+  API, convertDateAndTime
 } from "../api";
 import Parser from "html-react-parser";
+import { config } from "../config";
+
+const STORAGE = config.STORAGE;
 
 const { Text } = Typography;
 
@@ -22,6 +24,20 @@ const ProgTask = ({
   contest_id = null,
   can_submit = true,
 }) => {
+  const fetchLeaderBoard = () => {
+    API({
+      endpoint: "/assigments/tasks/challenge/leaderboard", ok: (resp) => {
+        setSolvedByUsers(resp.data.map(item => ({
+          id: item.userId,
+          key: item.userId,
+          fio: "1",
+          user: { ...item, uuid: item.userId },
+          date: item.created_at
+        })));
+      }
+    })
+  }
+
   const getSubmissions = () => {
     API({
       endpoint: "/assigments/tasks/challenge/submits", ok: (resp) => {
@@ -37,6 +53,7 @@ const ProgTask = ({
         })))
       }
     });
+    fetchLeaderBoard();
   };
 
   const getSubmissionsContest = () => {
@@ -54,35 +71,6 @@ const ProgTask = ({
         })))
       }
     });
-
-    // getTaskSubmitsContest(
-    //   task_id,
-    //   contest_id,
-    //   (response) => {
-    //     let result = [];
-    //     response.data.forEach((submission) => {
-    //       result.push({
-    //         key: submission.id,
-    //         id: submission.id,
-    //         date: convertDateAndTime(submission.send_date),
-    //         lang: "C++",
-    //         status: submission.solved ? (
-    //           <Text code type="success">
-    //             OK
-    //           </Text>
-    //         ) : submission.status === 2 ? (
-    //           <Text code type="danger">
-    //             NO
-    //           </Text>
-    //         ) : (
-    //           "Checking..."
-    //         ),
-    //       });
-    //     });
-    //     setAttempts(result);
-    //   },
-    //   (response) => { }
-    // );
   };
 
   useEffect(() => {
@@ -95,6 +83,21 @@ const ProgTask = ({
     { title: "Выход", dataIndex: "output", key: "output" },
   ];
   const [attempts, setAttempts] = useState();
+  const [solvedByUsers, setSolvedByUsers] = useState([]);
+  const solvedByTableColumns = [
+    {
+      title: "Дата и время",
+      dataIndex: "date",
+      key: "date",
+      render: (_, record) => convertDateAndTime(record.date)
+    },
+    {
+      title: "Ученик",
+      dataIndex: "fio",
+      key: "fio",
+      render: (_, record) => <ProfileLink user={record.user} storage={STORAGE} />
+    }
+  ];
 
   return (
     <>
@@ -119,13 +122,21 @@ const ProgTask = ({
 
       {can_submit && <SendTask task_id={1} getSubmissions={getSubmissions} />}
       {can_submit ? (
-        <MyAttempts attempts={attempts} getSubmissions={getSubmissions} />
+        <>
+          <MyAttempts attempts={attempts} getSubmissions={getSubmissions} />
+          <Card title="Лидерборд" style={{ marginBottom: 20 }}>
+            <Table columns={solvedByTableColumns} dataSource={solvedByUsers} />
+          </Card>
+        </>
       ) : (
         <MyAttempts
           attempts={attempts}
           getSubmissions={getSubmissionsContest}
         />
       )}
+      <Card title="Комментарии">
+
+      </Card>
     </>
   );
   /* Reactions

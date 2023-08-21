@@ -14,6 +14,7 @@ export const Challenge = () => {
   const [dayChallenge, SetDayChallenge] = useState(
     <LoadingBar size="24" text={"Loading..."} />
   );
+  
   useEffect(() => {
     API({
       endpoint: "/assigments/tasks/challenge", ok: (response) => {
@@ -27,10 +28,6 @@ export const Challenge = () => {
               task_id={response.data.uuid}
               tests={response.data.tests}
             />
-            <Card title="Лидерборд">
-              A
-            </Card>
-
           </>
         );
       }

@@ -28,7 +28,6 @@ const { confirm } = Modal;
 const { Title, Text } = Typography;
 
 
-
 const AdminUsers = () => {
   const refreshUsersTable = () => {
     API({
@@ -84,7 +83,7 @@ const AdminUsers = () => {
       title: "Класс",
       dataIndex: "user_class",
       key: "user_class",
-      filters: [{value: 11, text: 11}, {value: 10, text: 10}],
+      filters: [{ value: 11, text: 11 }, { value: 10, text: 10 }],
       onFilter: (value, record) => record.user_class === value,
       filterSearch: true,
     },
@@ -197,13 +196,13 @@ const AdminUsers = () => {
             }
             if (info.file.status === 'done') {
               refreshUsersTable();
-              
-              if (info.file.response.errors.length === 0){
+
+              if (info.file.response.errors.length === 0) {
                 messageApi.success("Пользователи созданы");
-              }else{
+              } else {
                 messageApi.error(`Ошибки: ${info.file.response.errors.join("; ")}`);
               }
-              
+
             } else if (info.file.status === 'error') {
               messageApi.error("Ошибка при загрузке файла");
             }

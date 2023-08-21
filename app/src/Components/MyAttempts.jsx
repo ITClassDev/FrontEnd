@@ -47,7 +47,7 @@ const Expanded = ({ columns, submission }) => {
     </>
   );
 };
-const MyAttempts = ({ attempts, getSubmissions }) => {
+const MyAttempts = ({ attempts, getSubmissions}) => {
   const loadSubmissionDetails = (resp) => {
     console.log(resp);
   };

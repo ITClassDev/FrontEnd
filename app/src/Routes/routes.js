@@ -135,7 +135,17 @@ export const routes = [
       return { Component: Projects };
     },
     icon: <BranchesOutlined />,
-    label: 'Мои проекты',
+    label: '* Мои проекты',
+    access: 'all'
+  },
+  {
+    path: 'courses',
+    async lazy() {
+      let { Projects } = await import("../Pages/Projects.jsx");
+      return { Component: Projects };
+    },
+    icon: <BranchesOutlined />,
+    label: '* Курсы',
     access: 'all'
   },
   {

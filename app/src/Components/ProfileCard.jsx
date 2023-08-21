@@ -135,9 +135,11 @@ const ProfileCard = ({
           </Col>
           <Col style={{ marginLeft: 20 }}>
             <div style={{ marginBottom: 10 }}>
-              <Title level={2} style={{ marginBottom: 0 }}>
+              {userInfo.shtpMaintainer ? <h2 className="rainbow rainbow_text_animated">{userInfo.firstName} {userInfo.lastName}</h2> : <Title level={2} style={{ marginBottom: 0 }}>
                 {userInfo.firstName} {userInfo.lastName}
               </Title>
+              }
+
               {userInfo.nickName && (<Text italic>@{userInfo.nickName}</Text>)}
               <Paragraph style={{ marginBottom: 3 }} editable={editable}>
                 {userAbout}
