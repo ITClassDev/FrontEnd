@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
 import {
     Button,
     Form,
@@ -23,20 +22,24 @@ const { Text } = Typography;
 
 
 
-const TaskForm = ({ createTaskFormHandler, defaults = {title: ""}}) => {
-    const [form] = Form.useForm();
+const TaskForm = ({ form, createTaskFormHandler, name = "add_task", types = null }) => {
     const [convertedText, setConvertedText] = useState();
     const [inputTypes, setInputTypes] = useState([]);
     const [outputTypes, setOutputTypes] = useState([]);
+    useEffect(() => {
+        if (types) {
+            setInputTypes(types.input);
+            setOutputTypes(types.output);
+        }
+    }, [types])
 
     return (
         <Form
             form={form}
-            name="add_task"
+            name={name}
             className="create-task-form"
             layout="vertical"
             requiredMark={false}
-            initialValues={defaults}
             onFinish={(e) => {
                 createTaskFormHandler({ ...e, types: { input: inputTypes, output: outputTypes } });
             }}
@@ -201,11 +204,11 @@ const TaskForm = ({ createTaskFormHandler, defaults = {title: ""}}) => {
                     htmlType="submit"
                     className="create-task-button"
                 >
-                    Создать
+                    Сохранить
                 </Button>
                 <Button
                     type="dashed"
-                    style={{marginLeft: 5}}
+                    style={{ marginLeft: 5 }}
                     onClick={() => {
                         form.resetFields();
                         setInputTypes([]);

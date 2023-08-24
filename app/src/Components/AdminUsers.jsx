@@ -28,19 +28,16 @@ const { confirm } = Modal;
 const { Title, Text } = Typography;
 
 
-const AdminUsers = ({currentTab}) => {
+const AdminUsers = ({ currentTab }) => {
   const load = () => {
     API({
       endpoint: "/groups", ok: (response) => {
         setUserGroups(response.data);
+        API({
+          endpoint: "/users", ok: (response) => setUsersList(response.data.map(user => ({ key: user.uuid, id: user.uuid, user: user, user_group: user.groupId, user_class: user.learningClass })))
+        });
       }
-    })
-
-    API({
-      endpoint: "/users", ok: (response) => {
-        setUsersList(response.data.map(user => ({ key: user.uuid, id: user.uuid, fio: <ProfileLink user={user} storage={STORAGE} target="__blank" />, user_group: user.groupId, user_class: user.learningClass })));
-      }
-    })
+    });
   };
   const inputGroupNameRef = useRef();
   const [inputGroupColor, setInputGroupColor] = useState("#B32931");
@@ -48,7 +45,7 @@ const AdminUsers = ({currentTab}) => {
   const [userGroups, setUserGroups] = useState([]);
   const [messageApi, contextHolder] = message.useMessage();
   useEffect(() => {
-    if (currentTab == "users") load();
+    if (currentTab === "users") load();
   }, [currentTab])
   const allUsersColumns = [
     {
@@ -64,6 +61,9 @@ const AdminUsers = ({currentTab}) => {
       title: "Имя",
       dataIndex: "fio",
       key: "fio",
+      render: (_, record) => (
+        <ProfileLink user={record.user} storage={STORAGE} target="__blank" />
+      )
       // sorter: (a, b) => a.fio.localeCompare(b.fio)
     },
     {
@@ -131,6 +131,11 @@ const AdminUsers = ({currentTab}) => {
         placeholder="Поиск пользователя по имени и фамилии"
         enterButton
         style={{ marginBottom: 20 }}
+        onChange={(e) => {
+          API({endpoint: `/users/search?query=${e.target.value}`, ok: (response) => {
+            setUsersList(response.data.map(user => ({ key: user.uuid, id: user.uuid, user: user, user_group: user.groupId, user_class: user.learningClass })));
+          }})
+        }}
       />
       <Table columns={allUsersColumns} dataSource={usersList} />
       <Title level={4} style={{ marginTop: 0 }}>

@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Typography, Table, Space, Button, Modal } from "antd";
+import { Typography, Table, Space, Button, Modal, Form, message } from "antd";
 import { API } from "../api";
 import TaskForm from "./TaskForm";
-
+import { sendTask } from "../api";
 const { Title, Text } = Typography;
 
 
 
-const AdminTasks = ({currentTab}) => {
+const AdminTasks = ({ currentTab }) => {
   const [editModalOpen, setEditModalOpen] = useState(false);
-  const [editTaskData, setEditTaskData] = useState({ title: "Default" });
+  const [editTaskTitle, setEditTaskTitle] = useState("Loading...");
+  const [editTaskTypes, setEditTaskTypes] = useState(null);
+  const [editTaskUUID, setEditTaskUUID] = useState(null);
+  const [messageApi, contextHolder] = message.useMessage();
 
+  const [form] = Form.useForm();
   const load = () => {
     API({
       endpoint: "/assigments/tasks", ok: (response) => {
@@ -22,7 +26,7 @@ const AdminTasks = ({currentTab}) => {
   }
 
   useEffect(() => {
-    if (currentTab == "tasks") load();
+    if (currentTab === "tasks") load();
   }, [currentTab]);
 
   const tasksColumnsTable = [
@@ -54,8 +58,10 @@ const AdminTasks = ({currentTab}) => {
           <Button type="dashed" onClick={() => {
             API({
               endpoint: `/assigments/tasks/${record.id}`, ok: (response) => {
-                setEditTaskData(response.data);
-                console.log(editTaskData);
+                setEditTaskTitle(response.data.title);
+                setEditTaskTypes(response.data.testsTypes);
+                setEditTaskUUID(response.data.uuid);
+                form.setFieldsValue(response.data);
               }
             });
             setEditModalOpen(true);
@@ -72,8 +78,9 @@ const AdminTasks = ({currentTab}) => {
   const [allTasks, SetAllTasks] = useState();
   return (
     <>
+      {contextHolder}
       <Modal
-        title={editTaskData.title}
+        title={editTaskTitle}
         transitionName=""
         open={editModalOpen}
         width={"50%"}
@@ -85,9 +92,9 @@ const AdminTasks = ({currentTab}) => {
           setEditModalOpen(false);
         }}
       >
-        <TaskForm createTaskFormHandler={(data) => {
-          console.log(data);
-        }} defaults={editTaskData} />
+        <TaskForm form={form} name="update_task" createTaskFormHandler={(data) => {
+          sendTask(`/assigments/tasks/${editTaskUUID}`, "patch", data, messageApi, f => f, "Задача успешно обновлена!", "Задча НЕ обновлена! Проверьте данные!");
+        }} types={editTaskTypes} />
       </Modal>
       <Title level={4} style={{ marginTop: 0 }}>
         Все задачи

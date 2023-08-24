@@ -1,32 +1,18 @@
 import React from "react";
 import { API } from "../api";
+import Form from "antd/es/form/Form";
 
 import "react-quill/dist/quill.snow.css";
 import TaskForm from "./TaskForm";
+import { sendTask } from "../api";
 
 
 const CreateTaskCard = ({ messageApi, callback }) => {
-  const createTaskFormHandler = (form_data) => {
-    console.log(form_data.types);
-    API({
-      endpoint: "/assigments/tasks/", method: "put", message: { show: 1, api: messageApi, ok: "Задача успешно добавлена!", err: "Задача НЕ добавлена! Проверьте данные!" }, data: {
-        title: form_data.title,
-        text: form_data.text,
-        timeLimit: form_data.timeLimit,
-        memoryLimit: form_data.memoryLimit,
-        dayChallenge: form_data.dayChallenge,
-        tests: form_data.tests,
-        testsTypes: form_data.types
-      }, ok: () => {
-        callback();
-      }
-    });
-  };
+  const [form] = Form.useForm();
+  const createTaskFormHandler = (form_data) => sendTask("/assigments/tasks", "put", form_data, messageApi, callback, "Задача успешно добавлена!", "Задча НЕ добавлена! Проверьте данные!");
 
   return (
-    <>
-      <TaskForm createTaskFormHandler={createTaskFormHandler} />
-    </>
+      <TaskForm form={form} createTaskFormHandler={createTaskFormHandler} />
   );
 };
 

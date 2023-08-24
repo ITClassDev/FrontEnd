@@ -105,24 +105,6 @@ const AddAchivment = () => {
 
       }
     });
-
-    // getAchivmentsQueue(
-    //   (resp) => {
-    //     let res = [];
-    //     console.log(resp.data);
-    //     // FIXIT MAP
-    //     resp.data.forEach((element) => {
-    //       res.push({
-    //         id: element.id,
-    //         key: element.id,
-    //         title: element.title,
-    //         sent_time: convertDate(element.received_at),
-    //       });
-    //     });
-    //     SetAchievementQueueData();
-    //   },
-    //   () => { }
-    // );
   }, []);
   return (
     <>

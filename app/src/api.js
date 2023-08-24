@@ -83,7 +83,7 @@ export function API({ endpoint, method = "get", data = {}, files = null, auth = 
           window.location.replace('/login'); // redirect to login page
         }
       });
-    } 
+    }
     // Show error message
     if (response.code === "ERR_NETWORK") { // Can't connect to backend  (API problem or internet problem)
       console.log("Backend down");
@@ -140,15 +140,23 @@ export function provideAccessToApp(
     });
 }
 
-export function getAchivmentsQueue(ok_handler, error_handler, api = API_URL) {
-  axios
-    .get(`${api}/achievements/my_queue`, getAuth())
-    .then((response) => {
-      ok_handler(response);
-    })
-    .catch((response) => {
-      error_handler(response);
-    });
+export const sendTask = (endpoint, method, form_data, messageApi, callback, ok_msg, err_msg) => {
+  // Задача успешно добавлена!
+  // "Задача НЕ добавлена! Проверьте данные!"
+  API({
+    endpoint: endpoint, method: method, message: { show: 1, api: messageApi, ok: ok_msg, err: err_msg }, data: {
+      title: form_data.title,
+      text: form_data.text,
+      timeLimit: form_data.timeLimit,
+      memoryLimit: form_data.memoryLimit,
+      dayChallenge: form_data.dayChallenge,
+      tests: form_data.tests,
+      testsTypes: form_data.types
+    }, ok: () => {
+      callback();
+    }
+  });
+
 }
 
 export function addAchivment(
