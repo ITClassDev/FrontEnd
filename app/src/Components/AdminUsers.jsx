@@ -132,9 +132,11 @@ const AdminUsers = ({ currentTab }) => {
         enterButton
         style={{ marginBottom: 20 }}
         onChange={(e) => {
-          API({endpoint: `/users/search?query=${e.target.value}`, ok: (response) => {
-            setUsersList(response.data.map(user => ({ key: user.uuid, id: user.uuid, user: user, user_group: user.groupId, user_class: user.learningClass })));
-          }})
+          API({
+            endpoint: `/users/search?query=${e.target.value}`, ok: (response) => {
+              setUsersList(response.data.map(user => ({ key: user.uuid, id: user.uuid, user: user, user_group: user.groupId, user_class: user.learningClass })));
+            }
+          })
         }}
       />
       <Table columns={allUsersColumns} dataSource={usersList} />

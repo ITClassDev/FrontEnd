@@ -30,8 +30,6 @@ export const Achivments = () => {
           setAchivmentsBlock(
             <AchivmentsList achivments={resp.data} />
           );
-  
-
       }});
 
   }, []);

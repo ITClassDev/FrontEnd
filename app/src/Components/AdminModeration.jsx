@@ -61,7 +61,7 @@ const AchivmentsModeration = ({ currentTab }) => {
     API({
       endpoint: "/achievements/queue", ok: (response) => {
         setModerationQueue(response.data.map((achiv) => ({
-          student: achiv.User, key: achiv.uuid, title: achiv.title,
+          uuid: achiv.uuid, student: achiv.User, key: achiv.uuid, title: achiv.title,
           moderation_date: achiv.created_at, description: achiv.description,
           attachmentName: achiv.attachmentName
         })));

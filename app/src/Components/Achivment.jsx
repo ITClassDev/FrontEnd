@@ -14,7 +14,7 @@ const Achivment = ({ title, points, desc, date }) => {
   return (
     <Card
       title={title}
-      bordered={false}
+      bordered={true}
       style={{ width: 300, marginRight: "20px", marginBottom: "20px" }}
     >
       <Space direction="vertical">

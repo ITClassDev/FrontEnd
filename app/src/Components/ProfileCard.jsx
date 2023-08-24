@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   Card,
   Avatar,
@@ -22,6 +22,8 @@ import Telegram_logo from "../Images/Telegram_logo.svg";
 import Stepik_logo from "../Images/Stepik_logo.png";
 import Kaggle_logo from "../Images/Kaggle_logo.svg";
 import userContext from "../Contexts/user";
+import LoadingBar from "./Loading";
+import AchivmentsList from "./AchivmentsList";
 
 const STORAGE = config.STORAGE;
 const { Title, Paragraph, Text } = Typography;
@@ -71,7 +73,6 @@ const ProfileCard = ({
 }) => {
   const { setUser } = useContext(userContext);
   const [userAbout, setUserAbout] = useState(userInfo.aboutText);
-  //FIXIT ONLY FOR DEV, WHILE WE DON'T KNOW WHERE TO CHANGE THIS STATE; to pass CI build
   // eslint-disable-next-line
   const [userAvatar, setUserAvatar] = useState(
     `${STORAGE}/avatars/${userInfo.avatarPath}`
@@ -88,7 +89,9 @@ const ProfileCard = ({
       ]);
   });
   const [userSocialNets] = useState(userSocial);
-  // FIXIT ONLY FOR DEV, WHILE WE DON'T KNOW WHERE TO CHANGE THIS STATE; to pass CI build
+  const [achivmentsBlock, setAchivmentsBlock] = useState(
+    <LoadingBar align="center" size={24} />
+  );
   // eslint-disable-next-line
   const [timelineEvents, setTimelineEvents] = useState({
     "Sat Dec 31 2022": [
@@ -124,6 +127,13 @@ const ProfileCard = ({
       }
     })
   };
+  useEffect(() => {
+    if (!editable) {
+      API({
+        endpoint: `/achievements/user/${userInfo.uuid}`, ok: (resp) => setAchivmentsBlock(<AchivmentsList achivments={resp.data} />)
+      });
+    }
+  }, [])
 
   return (
     <>
@@ -197,10 +207,10 @@ const ProfileCard = ({
       {!editable && (
         <>
           <Card title="Последние достижения" bordered={false} style={{ marginTop: 20 }}>
-            N/A; NOT IMPLEMENTED
+            {achivmentsBlock}
           </Card>
           <Card title="Проекты" bordered={false} style={{ marginTop: 20 }}>
-            N/A; NOT IMPLEMENTED
+            <Text>Даннй модуль будет реализован в ShTP 2.0.1</Text>
           </Card>
         </>
       )}

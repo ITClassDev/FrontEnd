@@ -66,7 +66,7 @@ const AddAchivment = () => {
           id: response.data.uuid,
           key: response.data.uuid,
           title: response.data.title,
-          sent_time: response.data.received_at,
+          sent_time: response.data.created_at,
           document: response.data.attachmentName
         }, ...prevState]);
       }

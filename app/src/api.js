@@ -474,15 +474,6 @@ export function getOtherUser(
     .catch((response) => error_handler(response));
 }
 
-export function getLeaderBoard(ok_handler, error_handler, api = API_URL) {
-  axios
-    .get(`${api}/users/get_leaderboard`)
-    .then((response) => {
-      ok_handler(response);
-    })
-    .catch((response) => error_handler(response));
-}
-
 export function getAppInfo(app_id, ok_handler, error_handler, api = API_URL) {
   axios
     .get(`${api}/oauth/get_app/${app_id}`)
