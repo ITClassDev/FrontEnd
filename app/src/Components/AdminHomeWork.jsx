@@ -7,8 +7,7 @@ import { API, convertDateAndTime } from "../api";
 const { Title } = Typography;
 
 
-const AdminHomeWork = () => {
-
+const AdminHomeWork = ({ currentTab }) => {
   const [createContestModal, setCreateTaskModalOpen] = useState(false);
   const [contests, setContests] = useState([]);
   const [userGroups, setUserGroups] = useState([]);
@@ -16,6 +15,7 @@ const AdminHomeWork = () => {
     API({
       endpoint: "/assigments/contests", ok: (resp) => {
         setContests(resp.data.map(contest => ({
+          key: contest.uuid,
           title: contest.title,
           for: contest.forGroups,
           forLearningClass: contest.forLearningClass,
@@ -26,15 +26,18 @@ const AdminHomeWork = () => {
     })
   }
 
-
-  useEffect(() => {
+  const load = () => {
     API({
       endpoint: "/groups", ok: (response) => {
         setUserGroups(response.data);
       }
     });
     getAllContest();
-  }, []);
+  }
+
+  useEffect(() => {
+    if (currentTab == "homeWorks") load();
+  }, [currentTab]);
   //let group = userGroups.find(item => item.uuid === record.user_group);
 
   const createdHomeworks = [
@@ -49,7 +52,6 @@ const AdminHomeWork = () => {
       key: "for",
       render: (_, record) => (
         record.for.map(uuid => {
-          console.log(record)
           let group = userGroups.find(item => item.uuid === uuid);
           return <Tag color={group.color}>{record.forLearningClass}: {group.name}</Tag>
         })

@@ -28,8 +28,8 @@ const { confirm } = Modal;
 const { Title, Text } = Typography;
 
 
-const AdminUsers = () => {
-  const refreshUsersTable = () => {
+const AdminUsers = ({currentTab}) => {
+  const load = () => {
     API({
       endpoint: "/groups", ok: (response) => {
         setUserGroups(response.data);
@@ -48,8 +48,8 @@ const AdminUsers = () => {
   const [userGroups, setUserGroups] = useState([]);
   const [messageApi, contextHolder] = message.useMessage();
   useEffect(() => {
-    refreshUsersTable();
-  }, []);
+    if (currentTab == "users") load();
+  }, [currentTab])
   const allUsersColumns = [
     {
       title: "UUID",
@@ -195,7 +195,7 @@ const AdminUsers = () => {
               console.log(info.file, info.fileList);
             }
             if (info.file.status === 'done') {
-              refreshUsersTable();
+              load();
 
               if (info.file.response.errors.length === 0) {
                 messageApi.success("Пользователи созданы");

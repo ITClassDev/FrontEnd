@@ -2,17 +2,23 @@ import React from "react";
 import { Typography, Table, Button } from "antd";
 import { useEffect } from "react";
 import { convertDate, API } from "../api";
+import { config } from "../config";
 import { useState } from "react";
 import AdminModerateAchivmentModal from "./AdminModerateAchivmentModal";
+import ProfileLink from "./ProfileLink";
 
+const STORAGE = config.STORAGE;
 const { Title } = Typography;
 
-const AchivmentsModeration = () => {
+const AchivmentsModeration = ({ currentTab }) => {
   const moderationColumns = [
     {
-      title: "UUID",
-      dataIndex: "id",
-      key: "id",
+      title: "Ученик",
+      dataIndex: "student",
+      key: "student",
+      render: (_, record) => (
+        <ProfileLink user={record.student} storage={STORAGE} />
+      )
     },
     {
       title: "Заголовок",
@@ -20,14 +26,30 @@ const AchivmentsModeration = () => {
       key: "title",
     },
     {
-      title: "На модерации с",
+      title: "Добавлено",
       dataIndex: "moderation_date",
       key: "moderation_date",
+      render: (_, record) => (
+        convertDate(record.moderation_date)
+      )
     },
     {
       title: "Действиия",
       dataIndex: "actionsBtns",
       key: "actionsBtns",
+      render: (_, record) => (
+        <Button
+          type="primary"
+          onClick={() => {
+            setModerationAchivmentText(record.description);
+            setModerationAchivmentId(record.uuid);
+            setModerationAchivmentAttachment(record.attachmentName)
+            setModerationModalOpen(true);
+          }}
+        >
+          Открыть
+        </Button>
+      )
     },
   ];
   const [moderationQueue, setModerationQueue] = useState();
@@ -35,29 +57,21 @@ const AchivmentsModeration = () => {
   const [moderationAchivmentText, setModerationAchivmentText] = useState();
   const [moderationAchivmentId, setModerationAchivmentId] = useState();
   const [moderationAchivmentAttachment, setModerationAchivmentAttachment] = useState();
-
-  useEffect(() => {
+  const load = () => {
     API({
       endpoint: "/achievements/queue", ok: (response) => {
         setModerationQueue(response.data.map((achiv) => ({
-          id: achiv.uuid, key: achiv.uuid, title: achiv.title, moderation_date: convertDate(achiv.created_at),
-          actionsBtns: (
-            <Button
-              type="primary"
-              onClick={() => {
-                setModerationAchivmentText(achiv.description);
-                setModerationAchivmentId(achiv.uuid);
-                setModerationAchivmentAttachment(achiv.attachmentName)
-                setModerationModalOpen(true);
-              }}
-            >
-              Открыть
-            </Button>
-          ),
+          student: achiv.User, key: achiv.uuid, title: achiv.title,
+          moderation_date: achiv.created_at, description: achiv.description,
+          attachmentName: achiv.attachmentName
         })));
       }
     });
-  }, []);
+  }
+
+  useEffect(() => {
+    if (currentTab == "achievements") load();
+  }, [currentTab]);
 
   return (
     <>

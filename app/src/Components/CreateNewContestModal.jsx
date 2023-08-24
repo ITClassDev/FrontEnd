@@ -15,9 +15,6 @@ const CreateNewContestModal = ({ open, setModalOpened, userGroups }) => {
     console.log(tasksSelected);
   }
 
-
-
-
   return (
     <Modal
       title="Новый контест"

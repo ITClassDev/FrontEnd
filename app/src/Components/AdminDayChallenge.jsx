@@ -12,7 +12,7 @@ const STORAGE = config.STORAGE;
 
 const { Title, Text } = Typography;
 
-const AdminDayChallenge = () => {
+const AdminDayChallenge = ({ currentTab }) => {
   const [createTaskModalOpen, setCreateTaskModalOpen] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
   const [taskSearchSelect, setTaskSearchSelect] = useState({ text: null, uuid: null });
@@ -46,6 +46,7 @@ const AdminDayChallenge = () => {
 
   const [currentDayChallenge, SetCurrentDayChallenge] = useState({});
   const [solvedByUsers, setSolvedByUsers] = useState([]);
+
   const fetchLeaderBoard = () => {
     API({
       endpoint: "/assigments/tasks/challenge/leaderboard", ok: (resp) => {
@@ -58,7 +59,7 @@ const AdminDayChallenge = () => {
       }
     })
   }
-  useEffect(() => {
+  const load = () => {
     API({
       endpoint: "/assigments/tasks/challenge", ok: (resp) => {
         SetCurrentDayChallenge(resp.data);
@@ -66,7 +67,11 @@ const AdminDayChallenge = () => {
         if (resp.data) fetchLeaderBoard();
       }
     });
-  }, []);
+  }
+
+  useEffect(() => {
+    if (currentTab == "dayChallenge") load();
+  }, [currentTab]);
 
   return (
     <>

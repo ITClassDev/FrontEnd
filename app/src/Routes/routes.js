@@ -14,7 +14,8 @@ import {
   CodeSandboxOutlined,
   FieldTimeOutlined,
   LineChartOutlined,
-  BranchesOutlined
+  BranchesOutlined,
+  AndroidOutlined
 } from '@ant-design/icons';
 
 
@@ -167,6 +168,12 @@ export const routes = [
     icon: <QuestionCircleOutlined />,
     label: 'Опросы',
     access: 'admin'
+  },
+  {
+    path: 'http://shtp.1561.ru',
+    icon: <AndroidOutlined />,
+    label: 'Мобильное приложение',
+    access: 'all'
   },
   // {
   //   path: 'services',

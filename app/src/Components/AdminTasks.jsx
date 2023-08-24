@@ -7,11 +7,11 @@ const { Title, Text } = Typography;
 
 
 
-const AdminTasks = () => {
+const AdminTasks = ({currentTab}) => {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [editTaskData, setEditTaskData] = useState({ title: "Default" });
 
-  useEffect(() => {
+  const load = () => {
     API({
       endpoint: "/assigments/tasks", ok: (response) => {
         SetAllTasks(response.data.map(task => (
@@ -19,7 +19,12 @@ const AdminTasks = () => {
         )))
       }
     });
-  }, []);
+  }
+
+  useEffect(() => {
+    if (currentTab == "tasks") load();
+  }, [currentTab]);
+
   const tasksColumnsTable = [
     {
       title: "ID задачи",

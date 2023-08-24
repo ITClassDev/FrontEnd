@@ -22,7 +22,6 @@ import Telegram_logo from "../Images/Telegram_logo.svg";
 import Stepik_logo from "../Images/Stepik_logo.png";
 import Kaggle_logo from "../Images/Kaggle_logo.svg";
 import userContext from "../Contexts/user";
-import AchivmentsList from "./AchivmentsList";
 
 const STORAGE = config.STORAGE;
 const { Title, Paragraph, Text } = Typography;
@@ -135,10 +134,9 @@ const ProfileCard = ({
           </Col>
           <Col style={{ marginLeft: 20 }}>
             <div style={{ marginBottom: 10 }}>
-              {userInfo.shtpMaintainer ? <h2 className="rainbow rainbow_text_animated">{userInfo.firstName} {userInfo.lastName}</h2> : <Title level={2} style={{ marginBottom: 0 }}>
+              <Title level={2} style={{ marginBottom: 0 }}>
                 {userInfo.firstName} {userInfo.lastName}
               </Title>
-              }
 
               {userInfo.nickName && (<Text italic>@{userInfo.nickName}</Text>)}
               <Paragraph style={{ marginBottom: 3 }} editable={editable}>
@@ -147,8 +145,9 @@ const ProfileCard = ({
               <Tag color={userInfo.role === "student" ? "blue" : (userInfo.role === "teacher" ? "green" : "red")}>
                 {userInfo.role === "student" ? "Ученик" : (userInfo.role === "teacher" ? "Преподаватель" : "Администратор")}
               </Tag>
-              {userInfo.shtpMaintainer && (<Tag color="cyan">ShTP Developer</Tag>)}
               <Tag color={userInfo.group.color}>{userInfo.group.name}</Tag>
+              {userInfo.shtpMaintainer && (<Tag color="cyan" className="rainbow rainbow_text_animated">ShTP Developer</Tag>)}
+
             </div>
             <Row>
               {userSocialNets.map((social, ind) => (

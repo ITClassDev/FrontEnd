@@ -5,6 +5,7 @@ const API_URL = config.API_URL;
 
 
 export function API({ endpoint, method = "get", data = {}, files = null, auth = true, ok = null, err = null, message = { show: false, api: null, ok: "ОК", err: "Err" }, api_url = API_URL }) {
+
   // axios.interceptors.response.use(null, (error) => {
   //   if (error.config && error.response && error.response.status === 403) {
   //     return updateToken().then((token) => {
@@ -63,10 +64,26 @@ export function API({ endpoint, method = "get", data = {}, files = null, auth = 
 
     if (ok) ok(response);
   }).catch((response) => {
-    if (localStorage.getItem('userAccessToken') !== null && [403, 422].includes(response.response.status)) { // Expired token handler
-      localStorage.clear(); // Delete expired token
-      window.location.replace('/login'); // redirect to login page
-    }
+    if (["Signature has expired", "Not enough segments"].includes(response.response.data["detail"]) && localStorage.getItem('userRefreshToken') !== null) { // Token expired
+      console.log("Trying to get new token")
+      // Get new token
+      axios({
+        method: "post",
+        url: `${api_url}/auth/refresh`,
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("userRefreshToken")}`
+        }
+      }).then((response) => {
+        localStorage.setItem("userAccessToken", response.data["accessToken"])
+        // Rerun request to API
+        API(...arguments);
+      }).catch((response) => {
+        if (response.response.data["detail"] == "Signature has expired") {
+          localStorage.clear(); // Delete expired access token and refreshToken
+          window.location.replace('/login'); // redirect to login page
+        }
+      });
+    } 
     // Show error message
     if (response.code === "ERR_NETWORK") { // Can't connect to backend  (API problem or internet problem)
       console.log("Backend down");

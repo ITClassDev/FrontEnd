@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import { Tabs, Typography } from "antd";
 import AdminUsers from "../Components/AdminUsers";
 import AdminSystem from "../Components/AdminSystem";
@@ -16,6 +16,7 @@ const { Title } = Typography;
 
 export const Admin = () => {
   const { userInfo, loading, loggedIn } = useContext(userContext);
+  const [currentTab, setCurrentTab] = useState("users");
   useDocumentTitle("ШТП | Админ-панель");
   // check permisiions to access this page
   if (userInfo.role === "teacher" || userInfo.role === "admin") {
@@ -23,46 +24,47 @@ export const Admin = () => {
       <>
         <Title level={3}>Панель администратора</Title>
         <Tabs
-          defaultActiveKey="1"
+          onChange={(key) => {setCurrentTab(key)}}
+          defaultActiveKey="users"
           items={[
             {
               label: "Пользователи",
-              key: "1",
-              children: <AdminUsers />,
+              key: "users",
+              children: <AdminUsers currentTab={currentTab}/>,
             },
             {
               label: "Достижения",
-              key: "2",
-              children: <AchivmentsModeration />,
+              key: "achievements",
+              children: <AchivmentsModeration currentTab={currentTab}/>,
             },
             {
               label: "Задача дня",
-              key: "3",
-              children: <AdminDayChallenge />,
+              key: "dayChallenge",
+              children: <AdminDayChallenge currentTab={currentTab}/>,
             },
             {
               label: "Домашние работы",
-              key: "4",
-              children: <AdminHomeWork />,
+              key: "homeWorks",
+              children: <AdminHomeWork currentTab={currentTab}/>,
             },
             {
               label: "Задачи",
-              key: "5",
-              children: <AdminTasks />,
+              key: "tasks",
+              children: <AdminTasks currentTab={currentTab}/>,
             },
             {
               label: "Мероприятия",
-              key: "6",
+              key: "events",
               children: <AdminEvents />,
             },
             {
               label: "Уведомления",
-              key: "7",
+              key: "notifications",
               children: <AdminNotifications />,
             },
             {
               label: "Настройки ШТП",
-              key: "8",
+              key: "settings",
               children: <AdminSystem />,
             },
           ]}
