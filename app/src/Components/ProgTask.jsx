@@ -49,7 +49,8 @@ const ProgTask = ({
             submit.source.split(".").at(-1)
           ],
           solved: submit.solved,
-          status: submit.status
+          status: submit.status,
+          source: submit.source
         })))
       }
     });
@@ -67,7 +68,8 @@ const ProgTask = ({
             submit.source.split(".").at(-1)
           ],
           solved: submit.solved,
-          status: submit.status
+          status: submit.status,
+          source: submit.source
         })))
       }
     });

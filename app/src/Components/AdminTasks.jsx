@@ -94,6 +94,9 @@ const AdminTasks = ({ currentTab }) => {
       >
         <TaskForm form={form} name="update_task" createTaskFormHandler={(data) => {
           sendTask(`/assigments/tasks/${editTaskUUID}`, "patch", data, messageApi, f => f, "Задача успешно обновлена!", "Задча НЕ обновлена! Проверьте данные!");
+          load();
+          console.log("Callback");
+          // setEditModalOpen(false);
         }} types={editTaskTypes} />
       </Modal>
       <Title level={4} style={{ marginTop: 0 }}>

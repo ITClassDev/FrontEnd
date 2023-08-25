@@ -1,4 +1,4 @@
-import { Button, Table, Typography, Tag } from "antd";
+import { Button, Table, Typography, Tag, Space } from "antd";
 import React, { useState, useEffect } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import CreateNewContestModal from "./CreateNewContestModal";
@@ -70,7 +70,10 @@ const AdminHomeWork = ({ currentTab }) => {
       dataIndex: "actionsBtns",
       key: "actionsBtns",
       render: (_, record) => (
-        <Button>Э</Button>
+        <Space direction="horizontal">
+          <Button type="primary">Статистика</Button>
+          <Button type="dashed">Редактировать</Button>
+        </Space>
       )
     },
   ];

@@ -166,7 +166,7 @@ export const routes = [
       return { Component: PollsAdmin };
     },
     icon: <QuestionCircleOutlined />,
-    label: 'Опросы',
+    label: '* Опросы',
     access: 'admin'
   },
   {

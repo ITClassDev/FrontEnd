@@ -7,7 +7,7 @@ import {
 } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { Tabs } from "antd";
 import { UndoOutlined } from "@ant-design/icons";
-import { getSubmissionDetails, convertDateAndTime } from "../api";
+import { API, convertDateAndTime } from "../api";
 
 const { Text } = Typography;
 
@@ -15,39 +15,55 @@ const Expanded = ({ columns, submission }) => {
   const [sourceCode, SetSourceCode] = useState("Loading...");
   const [testsRes, SetTestsRes] = useState();
   useEffect(() => {
-    getSubmissionDetails(
-      submission.id,
-      (response) => {
-        SetSourceCode(response.data.source);
-        let res = [];
-        response.data.task.tests_results.forEach((element, ind) => {
-          res.push({ key: ind, id: ind, status: element.status ? "ОК" : "ERROR", time: element.duration, memory: 122, stdout: element.error_info });
-        });
-        SetTestsRes(res);
-      },
-      (response) => { }
-    );
+    API({endpoint: `/assigments/tasks/submit/${submission.id}`, ok: (resp) => {
+      console.log(resp.data);
+      SetSourceCode(resp.data.source);
+      SetTestsRes(resp.data.testsResults);
+    }})
+    // getSubmissionDetails(
+    //   submission.id,
+    //   (response) => {
+    //     SetSourceCode(response.data.source);
+    //     let res = [];
+    //     response.data.task.tests_results.forEach((element, ind) => {
+    //       res.push({ key: ind, id: ind, status: element.status ? "ОК" : "ERROR", time: element.duration, memory: 122, stdout: element.error_info });
+    //     });
+    //     SetTestsRes(res);
+    //   },
+    //   (response) => { }
+    // );
   }, []);
+  const tabsItems = [
+    {
+      key: "source_code",
+      label: "Исходный код",
+      children: (
+        <SyntaxHighlighter
+          language="cpp"
+          style={a11yDark}
+          showLineNumbers
+          lineProps={{style: {wordBreak: 'break-all', whiteSpace: 'pre-wrap'}}}
+          wrapLines={true} 
+        >
+          {sourceCode}
+        </SyntaxHighlighter>
+      )
+    },
+    {
+      key: "tests",
+      label: "Тесты",
+      children: <Table columns={columns} dataSource={testsRes} />
+    }
+  ]
   return (
     <>
-      <Tabs defaultActiveKey="1">
-        <Tabs.TabPane tab="Исходный код" key="1">
-          <SyntaxHighlighter
-            language="cpp"
-            style={a11yDark}
-            showLineNumbers
-          >
-            {sourceCode}
-          </SyntaxHighlighter>
-        </Tabs.TabPane>
-        <Tabs.TabPane tab="Тесты" key="2">
-          <Table columns={columns} dataSource={testsRes} />
-        </Tabs.TabPane>
+      <Tabs defaultActiveKey="source_code" items={tabsItems}>
       </Tabs>
     </>
   );
 };
-const MyAttempts = ({ attempts, getSubmissions}) => {
+const MyAttempts = ({ attempts, getSubmissions }) => {
+  const [expandedSubmitId, setExpandedSubmitId] = useState();
   const loadSubmissionDetails = (resp) => {
     console.log(resp);
   };
@@ -75,16 +91,17 @@ const MyAttempts = ({ attempts, getSubmissions}) => {
             Checking...
           </Text>
         )
-    )
+      )
     },
     { title: "Тесты", dataIndex: "tests", key: "tests" },
   ];
   const columns_tests = [
-    { title: "Тест", dataIndex: "id", key: "id" },
-    { title: "Вердикт", dataIndex: "status", key: "status" },
-    { title: "Время работы", dataIndex: "time", key: "time" },
-    { title: "Используемая память (байт)", dataIndex: "memory", key: "memory" },
-    { title: "STDOUT", dataIndex: "stdout", key: "stdout" },
+    { title: "Вердикт", dataIndex: "status", key: "status", render: (_, record) => (
+      record.status ? <Text type="success">OK</Text> : (record.timeout ? <Text type="danger">TL</Text> : (record.memoryout ? <Text type="error">ME</Text> : <Text type="danger">RE</Text>))
+    ) },
+    { title: "Время работы", dataIndex: "duration", key: "duration" },
+    // { title: "Используемая память (байт)", dataIndex: "memory", key: "memory" },
+    { title: "StdErr", dataIndex: "error_info", key: "error_info" },
   ];
   return (
     <Card title="Ваши посылки" style={{ marginBottom: 20 }}>
@@ -101,9 +118,12 @@ const MyAttempts = ({ attempts, getSubmissions}) => {
         dataSource={attempts}
         expandable={{
           expandedRowRender: (record) => {
-            return <Expanded columns={columns_tests} submission={record} />;
+            return <Expanded columns={columns_tests} submission={record}  />;
           },
-          rowExpandable: (record) => true,
+          rowExpandable: (record) => (true),
+          onExpand: (status, record) => {
+            // if (status == true);
+          }
         }}
       />
     </Card>
