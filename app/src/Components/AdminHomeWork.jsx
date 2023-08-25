@@ -80,7 +80,7 @@ const AdminHomeWork = ({ currentTab }) => {
 
   return (
     <>
-      <CreateNewContestModal open={createContestModal} setModalOpened={setCreateTaskModalOpen} userGroups={userGroups} />
+      <CreateNewContestModal open={createContestModal} setModalOpened={setCreateTaskModalOpen} userGroups={userGroups} onCreate={() => { load(); setCreateTaskModalOpen(false); }} />
       <Title level={4} style={{ marginTop: 0 }}>
         Все домашние работы
       </Title>

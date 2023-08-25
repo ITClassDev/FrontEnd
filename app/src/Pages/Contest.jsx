@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import SubmitViaGithub from "../Components/SubmitViaGithub";
 import { config } from "../config";
 import { useParams } from "react-router-dom";
-import { getContestData, getTaskData, API } from "../api";
+import { API } from "../api";
 import useDocumentTitle from "../useDocumentTitle";
 
 const FRONTEND_URL = config.FRONTEND_URL;
@@ -87,7 +87,7 @@ export const Contest = () => {
           overlayInnerStyle={{
             padding: 0,
           }}
-          content={<QRCode value={`${FRONTEND_URL}?id=3`} bordered={false} />}
+          content={<QRCode value={`${FRONTEND_URL}/contests/${params.contest_id}`} bordered={false} />}
         >
           <QrcodeOutlined />
         </Popover>

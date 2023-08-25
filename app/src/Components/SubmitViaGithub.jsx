@@ -11,29 +11,36 @@ import {
   Select,
   message,
 } from "antd";
-import { submitContest } from "../api";
+import { API } from "../api";
 const { Text } = Typography;
 
 const SubmitViaGithub = ({ contest_id, contestDescription }) => {
   const [messageApi, contextHolder] = message.useMessage();
   const submitFormHandler = (form_data) => {
-    submitContest(
-      contest_id,
-      form_data.language,
-      `https://github.com/${form_data.github_repo}`,
-      (response) => {
-        messageApi.open({
-          type: "success",
-          content: "Контест отправлен на проверку!",
-        });
-      },
-      (response) => {
-        messageApi.open({
-          type: "error",
-          content: "Произошла ошибка при отправке контеста!",
-        });
-      }
-    );
+    API({
+      endpoint: "/assigments/contests/submit", method: "post", data: {
+        contest: contest_id,
+        githubLink: `https://github.com/${form_data.github_repo}`,
+        language: form_data.language
+      }, message: { show: true, api: messageApi, ok: "Отправлено на проверку!", err: "Произошла ошибка при отправке контеста!" }
+    })
+    // submitContest(
+    //   contest_id,
+    //   form_data.language,
+    //   `https://github.com/${form_data.github_repo}`,
+    //   (response) => {
+    //     messageApi.open({
+    //       type: "success",
+    //       content: "Контест отправлен на проверку!",
+    //     });
+    //   },
+    //   (response) => {
+    //     messageApi.open({
+    //       type: "error",
+    //       content: "Произошла ошибка при отправке контеста!",
+    //     });
+    //   }
+    // );
   };
   console.log(contestDescription);
 
