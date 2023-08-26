@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, Progress, Tag, Typography, Space, Button } from "antd";
+import { convertDateAndTime } from "../api";
 const { Text } = Typography;
 
 const HomeTaskCard = ({
@@ -8,6 +9,7 @@ const HomeTaskCard = ({
   complited_percent,
   description,
   uuid,
+  deadline
 }) => {
   const task_tags_mapping = {
     easy: <Tag color="green">Easy</Tag>,
@@ -33,6 +35,8 @@ const HomeTaskCard = ({
         <Progress percent={complited_percent} />
         <Text strong>Описание</Text>
         <Text>{description}</Text>
+        <Text strong>Дедлайн</Text>
+        <Text>{convertDateAndTime(deadline)}</Text>
         <Button type="primary" href={`/contests/${uuid}`}>Открыть задачи</Button>
       </Space>
     </Card>

@@ -96,7 +96,7 @@ export const Apps = () => {
         modalOpened={editModalOpened}
         setModalOpened={setEditModalOpened}
       />
-      <Title level={3}>OAuth</Title>
+      <Title level={3}>OAuth - API ВЫКЛЮЧЕНО</Title>
       <Alert
         showIcon
         message="Обратите внимание:"

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { message, Upload, Button, Card, Tabs, Select } from "antd";
 import { CodeOutlined } from "@ant-design/icons";
-import { API, submitDayChallengeLiveCode } from "../api";
+import { API } from "../api";
 import CodeEditor from "@uiw/react-textarea-code-editor";
+import { singleTaskSubmitHelp } from "./HelpModals";
 
 const { Dragger } = Upload;
 
@@ -148,7 +149,7 @@ const SendTask = ({ task_id, getSubmissions, isDarkTheme }) => {
   return (
     <>
       {contextHolder}
-      <Card title="Сдать задачу" style={{ marginBottom: 20 }}>
+      <Card title="Сдать задачу" style={{ marginBottom: 20 }} extra={<a onClick={() => {singleTaskSubmitHelp()}}>Помощь</a>}>
         <Tabs defaultActiveKey="1" items={tabsItems} />
       </Card>
     </>

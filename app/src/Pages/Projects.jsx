@@ -11,7 +11,7 @@ export const Projects = () => {
             <Title level={3}>Ваши проекты</Title>
             <Space direction="vertical">
                 <Text>Данный модуль будет реализован в ShTP 2.0.1</Text>
-                <Image src="https://sun6-22.userapi.com/impg/UdIuvvzhLqKfCH5QVfILMrxO4_16vomLk9fdfg/jtHUhANiJPw.jpg?size=604x548&quality=96&sign=0184ac1485ee1fc0a041cc6a05aadf61&type=album"/>
+                <Image src="/notimplemented.png"/>
             </Space>
         </>
     );

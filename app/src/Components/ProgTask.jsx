@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Typography, Space, Button } from "antd";
+import { Card, Typography, Space, Button, Rate, Alert } from "antd";
 import { Descriptions, Table } from "antd";
 import SendTask from "./SendTask";
 import MyAttempts from "./MyAttempts";
@@ -9,10 +9,11 @@ import {
 } from "../api";
 import Parser from "html-react-parser";
 import { config } from "../config";
+import { dayChallengeLeaderboardHelp } from "./HelpModals";
 
 const STORAGE = config.STORAGE;
 
-const { Text } = Typography;
+const { Text, Title } = Typography;
 
 const ProgTask = ({
   title,
@@ -103,7 +104,16 @@ const ProgTask = ({
 
   return (
     <>
+      <Alert message="Вы знаете, но мы напомним:" style={{marginBottom: 20}} description={
+        <>
+          <ul>
+            <li>Запрещено делиться своим решением задачи с другими</li>
+            <li>Баллы рейтинга получают только первые 3 человека, решивших задачу дня</li>
+          </ul>
+        </>
+      }/>
       <Card title={title} style={{ marginBottom: 20 }}>
+        
         <Descriptions title="Лимиты" bordered style={{ marginBottom: 20 }}>
           <Descriptions.Item label="Время">
             <b>{time_limit} секунд</b>
@@ -126,7 +136,7 @@ const ProgTask = ({
       {can_submit ? (
         <>
           <MyAttempts attempts={attempts} getSubmissions={getSubmissions} />
-          <Card title="Лидерборд" style={{ marginBottom: 20 }}>
+          <Card title="Лидерборд" style={{ marginBottom: 20 }} extra={<a onClick={() => { dayChallengeLeaderboardHelp() }}>Помощь</a>}>
             <Table columns={solvedByTableColumns} dataSource={solvedByUsers} />
           </Card>
         </>
@@ -137,6 +147,15 @@ const ProgTask = ({
         />
       )}
       <Card title="Комментарии">
+        <div>
+          <Text>Раздел заработает в ShTP 2.0.1</Text>
+        </div>
+
+        <Space direction="vertical">
+          <Title level={4}>Оцените задачу: </Title>
+          <Rate />
+        </Space>
+
 
       </Card>
     </>

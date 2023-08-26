@@ -171,7 +171,7 @@ export const Root = () => {
                     >
                         <Space direction="vertical">
                             <Text italic>School {SCHOOL_NUMBER} IT class platform</Text>
-                            <Text italic>Powered by <Typography.Link href="https://github.com/ItClassDev/">ShTP</Typography.Link> Project {CLIENT_VER}</Text>
+                            <Text italic>Powered by <Typography.Link href="https://itclassdev.github.io/ShTPLanding">ShTP Project</Typography.Link> {CLIENT_VER}</Text>
                             {/* <Text>
                                 Client version: <Text code>{CLIENT_VER}</Text>
                             </Text>

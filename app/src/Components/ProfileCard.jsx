@@ -24,6 +24,7 @@ import Kaggle_logo from "../Images/Kaggle_logo.svg";
 import userContext from "../Contexts/user";
 import LoadingBar from "./Loading";
 import AchivmentsList from "./AchivmentsList";
+import { profileCalendarHelp } from "./HelpModals";
 
 const STORAGE = config.STORAGE;
 const { Title, Paragraph, Text } = Typography;
@@ -89,21 +90,12 @@ const ProfileCard = ({
       ]);
   });
   const [userSocialNets] = useState(userSocial);
+  const [timelineEvents, setTimelineEvents] = useState([]);
   const [achivmentsBlock, setAchivmentsBlock] = useState(
     <LoadingBar align="center" size={24} />
   );
+
   // eslint-disable-next-line
-  const [timelineEvents, setTimelineEvents] = useState({
-    "Sat Dec 31 2022": [
-      { type: "warning", text: "Str middle deadline" },
-      { type: "warning", text: "Str hard deadline" },
-      { type: "error", text: "Str someshit deadline" },
-    ],
-    "Mon Dec 12 2022": [
-      { type: "warning", text: "NTO second tour" },
-      { type: "success", text: "Project predemo" },
-    ],
-  });
 
   const dateCellRender = (value) => {
     const date_string = value.$d.toDateString();
@@ -132,8 +124,19 @@ const ProfileCard = ({
       API({
         endpoint: `/achievements/user/${userInfo.uuid}`, ok: (resp) => setAchivmentsBlock(<AchivmentsList achivments={resp.data} />)
       });
+    } else {
+      API({
+        endpoint: "/assigments/contests/available", ok: (resp) => {
+          setTimelineEvents(resp.data.map((contest) => ({
+            type: "processing",
+            text: contest.title,
+            date: contest.deadline
+          })));
+        }
+      });
     }
-  }, [])
+
+  }, []);
 
   return (
     <>
@@ -198,8 +201,20 @@ const ProfileCard = ({
             />
           </Card>
           {editable && (
-            <Card title="График" bordered={false} style={{ marginTop: 20 }}>
-              <Calendar locale={locale} CellRender={dateCellRender} />
+            <Card title="Календарь событий" bordered={false} style={{ marginTop: 20 }} extra={<a onClick={() => {profileCalendarHelp()}}>Помощь</a>}>
+              <Calendar locale={locale} cellRender={(current, info) => {
+                let calendar_date = current.$d.toISOString().slice(0, 10);
+                const event = timelineEvents.find((event) => event.date.slice(0, 10) === calendar_date);
+                if (event) {
+                  return (
+                    <ul className="eventInCalendar">
+                      <li>
+                        <Badge status={event.type} text={event.text} />
+                      </li>
+                    </ul>
+                  )
+                }
+              }} />
             </Card>
           )}
         </>

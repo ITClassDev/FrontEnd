@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Table, Button, Typography } from "antd";
+import { Card, Table, Button, Typography, Alert } from "antd";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import {
   a11yLight,
@@ -8,6 +8,7 @@ import {
 import { Tabs } from "antd";
 import { UndoOutlined } from "@ant-design/icons";
 import { API, convertDateAndTime } from "../api";
+import { submitsTableHelp } from "./HelpModals";
 
 const { Text } = Typography;
 
@@ -15,23 +16,13 @@ const Expanded = ({ columns, submission }) => {
   const [sourceCode, SetSourceCode] = useState("Loading...");
   const [testsRes, SetTestsRes] = useState();
   useEffect(() => {
-    API({endpoint: `/assigments/tasks/submit/${submission.id}`, ok: (resp) => {
-      console.log(resp.data);
-      SetSourceCode(resp.data.source);
-      SetTestsRes(resp.data.testsResults);
-    }})
-    // getSubmissionDetails(
-    //   submission.id,
-    //   (response) => {
-    //     SetSourceCode(response.data.source);
-    //     let res = [];
-    //     response.data.task.tests_results.forEach((element, ind) => {
-    //       res.push({ key: ind, id: ind, status: element.status ? "ОК" : "ERROR", time: element.duration, memory: 122, stdout: element.error_info });
-    //     });
-    //     SetTestsRes(res);
-    //   },
-    //   (response) => { }
-    // );
+    API({
+      endpoint: `/assigments/tasks/submit/${submission.id}`, ok: (resp) => {
+        console.log(resp.data);
+        SetSourceCode(resp.data.source);
+        SetTestsRes(resp.data.testsResults);
+      }
+    })
   }, []);
   const tabsItems = [
     {
@@ -42,8 +33,8 @@ const Expanded = ({ columns, submission }) => {
           language="cpp"
           style={a11yDark}
           showLineNumbers
-          lineProps={{style: {wordBreak: 'break-all', whiteSpace: 'pre-wrap'}}}
-          wrapLines={true} 
+          lineProps={{ style: { wordBreak: 'break-all', whiteSpace: 'pre-wrap' } }}
+          wrapLines={true}
         >
           {sourceCode}
         </SyntaxHighlighter>
@@ -96,15 +87,17 @@ const MyAttempts = ({ attempts, getSubmissions }) => {
     { title: "Тесты", dataIndex: "tests", key: "tests" },
   ];
   const columns_tests = [
-    { title: "Вердикт", dataIndex: "status", key: "status", render: (_, record) => (
-      record.status ? <Text type="success">OK</Text> : (record.timeout ? <Text type="danger">TL</Text> : (record.memoryout ? <Text type="error">ME</Text> : <Text type="danger">RE</Text>))
-    ) },
+    {
+      title: "Вердикт", dataIndex: "status", key: "status", render: (_, record) => (
+        record.status ? <Text type="success">OK</Text> : (record.timeout ? <Text type="danger">TL</Text> : (record.memoryout ? <Text type="error">ME</Text> : <Text type="danger">RE</Text>))
+      )
+    },
     { title: "Время работы", dataIndex: "duration", key: "duration" },
     // { title: "Используемая память (байт)", dataIndex: "memory", key: "memory" },
-    { title: "StdErr", dataIndex: "error_info", key: "error_info" },
+    { title: "StdErr", dataIndex: "error_info", key: "error_info", render: (_, record) => (record["error_info"] && <Alert message="RE" description={record.error_info} type="error"/>) },
   ];
   return (
-    <Card title="Ваши посылки" style={{ marginBottom: 20 }}>
+    <Card title="Ваши посылки" style={{ marginBottom: 20 }} extra={<a onClick={() => { submitsTableHelp() }}>Помощь</a>}>
       <Button
         icon={<UndoOutlined />}
         style={{ marginBottom: 20 }}
@@ -118,7 +111,7 @@ const MyAttempts = ({ attempts, getSubmissions }) => {
         dataSource={attempts}
         expandable={{
           expandedRowRender: (record) => {
-            return <Expanded columns={columns_tests} submission={record}  />;
+            return <Expanded columns={columns_tests} submission={record} />;
           },
           rowExpandable: (record) => (true),
           onExpand: (status, record) => {

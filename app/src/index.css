@@ -34,6 +34,7 @@ code {
 .eventInCalendar {
   list-style: none;
   margin: 0;
+  margin-left: 10px;
   padding: 0;
 }
 
