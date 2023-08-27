@@ -33,6 +33,7 @@ export const Root = () => {
     const location = useLocation();
     const [backendStatus, setBackendStatus] = useState("Online");
     const [notificationApi, contextHolder] = notification.useNotification();
+    const [systemNotification, setSystemNotification] = useState();
 
     const [isDarkMode, setIsDarkMode] = useState(
         localStorage.getItem("isDarkMode") === "true"
@@ -50,6 +51,11 @@ export const Root = () => {
 
     useEffect(() => {
         document.body.style = `background: ${localStorage.getItem("isDarkMode") === "true" ? "#181818" : "#f5f5f5"};`; // apply theme background
+        API({
+            endpoint: "/notifications/system", ok: (resp) => {
+                setSystemNotification(resp.data);
+            }
+        })
     }, []);
     usePollingEffect(
         async () => {
@@ -160,7 +166,9 @@ export const Root = () => {
                             : theme.defaultAlgorithm,
                     }}
                 >
-                    {/* <Alert message="Уведомление ShTP" description={<>На данный момент ShTP работает в бета режиме. Свои предложения(обнаруженные проблемы) касательно ShTP просьба писать <Typography.Link href='https://shtp.1561.ru/poll?id=648790' target="_blank">сюда</Typography.Link> </>} type="warning" showIcon className="topLevelMessage" /> */}
+                    {systemNotification && (systemNotification.map(notification => (
+                        <Alert key={notification.uuid} message={notification.title} description={<div dangerouslySetInnerHTML={{ __html: notification.content }} />} type={notification.type} showIcon className="topLevelMessage" />
+                    )))}
                     <Outlet />
                     <Footer
                         style={{
@@ -172,27 +180,6 @@ export const Root = () => {
                         <Space direction="vertical">
                             <Text italic>School {SCHOOL_NUMBER} IT class platform</Text>
                             <Text italic>Powered by <Typography.Link href="https://itclassdev.github.io/ShTPLanding">ShTP Project</Typography.Link> {CLIENT_VER}</Text>
-                            {/* <Text>
-                                Client version: <Text code>{CLIENT_VER}</Text>
-                            </Text>
-                            <Text>
-                                FrontEnd:{" "}
-                                <Text code type="success">
-                                    Online
-                                </Text>
-                            </Text>
-                            <Text>
-                                BackEnd (API):{" "}
-                                <Text
-                                    code
-                                    type={backendStatus === "Online" ? "success" : "danger"}
-                                >
-                                    {backendStatus}
-                                </Text>
-                            </Text>
-                            <Text code onClick={() => { window.open("https://stats.uptimerobot.com/DVn8xCo4W7") }} style={{ cursor: "pointer" }} type="success">
-                                UpTime status
-                            </Text> */}
                         </Space>
                     </Footer>
                 </ConfigProvider>
