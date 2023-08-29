@@ -123,7 +123,7 @@ export const Settings = () => {
             <Form
               name="password_change"
               autoComplete="off"
-              onFinish={(password) => { API({ endpoint: "/users/", method: "patch", data: { password: password }, message: { show: true, api: messageApi, ok: "Пароль обновлён", err: "Ошибка" } }); }}
+              onFinish={(password) => { API({ endpoint: "/users", method: "patch", data: { password: password }, message: { show: true, api: messageApi, ok: "Пароль обновлён", err: "Ошибка" } }); }}
             >
               <Form.Item name="currentPassword">
                 <Input.Password

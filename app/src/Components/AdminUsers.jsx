@@ -34,7 +34,7 @@ const AdminUsers = ({ currentTab }) => {
       endpoint: "/groups", ok: (response) => {
         setUserGroups(response.data);
         API({
-          endpoint: "/users", ok: (response) => setUsersList(response.data.map(user => ({ key: user.uuid, id: user.uuid, user: user, user_group: user.groupId, user_class: user.learningClass })))
+          endpoint: "/users", ok: (response) => setUsersList(response.data.map(user => ({ key: user.uuid, id: user.uuid, "user": user, user_group: user.groupId, user_class: user.learningClass })))
         });
       }
     });
@@ -101,15 +101,11 @@ const AdminUsers = ({ currentTab }) => {
               icon: <ExclamationCircleFilled />,
               content: 'Отменить это действие невозможно!',
               async onOk() {
-                return new Promise((resolve, reject) => {
                   API({
                     endpoint: `/users/${record.id}`, method: "delete", ok: () => {
                       setUsersList(usersList.filter(obj => obj.id !== record.id));
-                      resolve();
                     }, message: { show: true, api: messageApi, ok: "Пользователь удалён", err: "Ошибка" }
                   });
-
-                }).catch(() => console.log('Oops errors!'));
               },
               onCancel() { },
             });
@@ -134,7 +130,7 @@ const AdminUsers = ({ currentTab }) => {
         onChange={(e) => {
           API({
             endpoint: `/users/search?query=${e.target.value}`, ok: (response) => {
-              setUsersList(response.data.map(user => ({ key: user.uuid, id: user.uuid, user: user, user_group: user.groupId, user_class: user.learningClass })));
+              setUsersList(response.data.map(user => ({ key: user.uuid, id: user.uuid, "user": user, user_group: user.groupId, user_class: user.learningClass })));
             }
           })
         }}
@@ -149,7 +145,7 @@ const AdminUsers = ({ currentTab }) => {
         <Button type="primary" icon={<PlusOutlined />} onClick={() => {
           if (inputGroupNameRef.current.input.value) {
             API({
-              endpoint: "/groups", method: "put", data: { name: inputGroupNameRef.current.input.value, color: inputGroupColor.toHexString() }, ok: (response) => {
+              endpoint: "/groups", method: "put", data: { name: inputGroupNameRef.current.input.value, color: inputGroupColor.toString() }, ok: (response) => {
                 setUserGroups(prevState => [...prevState, { uuid: response.data.uuid, name: response.data.name, color: response.data.color }]);
               }
             });
@@ -174,6 +170,7 @@ const AdminUsers = ({ currentTab }) => {
               setUsersList(prevState => [...prevState, {
                 id: response.data.uuid,
                 key: response.data.uuid,
+                user: response.data,
                 fio: <ProfileLink user={response.data} storage={STORAGE} target="__blank" />,
                 user_group: response.data.groupId,
                 user_class: response.data.learningClass

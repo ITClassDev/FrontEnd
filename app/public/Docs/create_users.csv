@@ -1,3 +1,3 @@
 firstName,lastName,email,role,password,learningClass,groupName
-Иван,Иванов,ivan@ivanov.com,student,12345,10,Default
-Иванов,Иван,ivanov@ivan.com,teacher,12345,10,Default
+Админ,Админович,email@email.ru,student,password,10,C++
+Админ,Админовиччч,email_2@email.ru,student,password,11,Python
