@@ -5,6 +5,7 @@ import CreateTaskCard from "./CreateTaskCard";
 import { API } from "../api";
 import ProfileLink from "./ProfileLink";
 import TasksSearch from "./TasksSearch";
+import { SourceCodeModal } from "./SourceCodeModal";
 
 import { config } from "../config";
 
@@ -16,6 +17,8 @@ const AdminDayChallenge = ({ currentTab }) => {
   const [createTaskModalOpen, setCreateTaskModalOpen] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
   const [taskSearchSelect, setTaskSearchSelect] = useState({ text: null, uuid: null });
+  const [sourceCode, setSourceCode] = useState({language: "", source: ""});
+  const [viewSourceCodeModal, setViewSourceCodeModal] = useState(false);
   const solvedByTableColumns = [
     {
       title: "UUID",
@@ -34,7 +37,14 @@ const AdminDayChallenge = ({ currentTab }) => {
       key: "actionsBtns",
       render: (_, record) => (
         <Space direction="horizontal">
-          <Button type="primary">Код решения</Button>
+          <Button type="primary" onClick={() => {
+            API({
+              endpoint: `/assigments/submit/${record.submitId}/source`, ok: (resp) => {
+                setSourceCode(resp.data);
+                setViewSourceCodeModal(true);
+              }
+            })
+          }}>Код решения</Button>
           <Button type="dashed" danger>
             Отклонить
           </Button>
@@ -52,6 +62,7 @@ const AdminDayChallenge = ({ currentTab }) => {
       endpoint: "/assigments/tasks/challenge/leaderboard", ok: (resp) => {
         setSolvedByUsers(resp.data.map(item => ({
           id: item.userId,
+          submitId: item.submitId,
           key: item.userId,
           fio: "1",
           user: { ...item, uuid: item.userId }
@@ -76,6 +87,7 @@ const AdminDayChallenge = ({ currentTab }) => {
   return (
     <>
       {contextHolder}
+      <SourceCodeModal sourceCode={sourceCode} show={viewSourceCodeModal} hideCallback={() => { setViewSourceCodeModal(false) }} />
       <Modal
         title="Добавить задачу"
         transitionName=""

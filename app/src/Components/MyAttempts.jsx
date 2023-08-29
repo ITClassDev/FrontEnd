@@ -94,9 +94,10 @@ const MyAttempts = ({ attempts, getSubmissions }) => {
     },
     { title: "Время работы", dataIndex: "duration", key: "duration" },
     // { title: "Используемая память (байт)", dataIndex: "memory", key: "memory" },
-    { title: "StdErr", dataIndex: "error_info", key: "error_info", render: (_, record) => (record["error_info"] && <Alert message="RE" description={record.error_info} type="error"/>) },
+    { title: "StdErr", dataIndex: "error_info", key: "error_info", render: (_, record) => (record["error_info"] && <Alert message="RE" description={record.error_info} type="error" />) },
   ];
   return (
+
     <Card title="Ваши посылки" style={{ marginBottom: 20 }} extra={<a onClick={() => { submitsTableHelp() }}>Помощь</a>}>
       <Button
         icon={<UndoOutlined />}
@@ -120,6 +121,7 @@ const MyAttempts = ({ attempts, getSubmissions }) => {
         }}
       />
     </Card>
+
   );
 };
 export default MyAttempts;
