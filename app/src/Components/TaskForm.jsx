@@ -26,6 +26,11 @@ const TaskForm = ({ form, createTaskFormHandler, name = "add_task", types = null
     const [convertedText, setConvertedText] = useState();
     const [inputTypes, setInputTypes] = useState([]);
     const [outputTypes, setOutputTypes] = useState([]);
+    const AVAILABLE_DATA_TYPES = [/^(int)+$/, /^(long long)+$/, /^(double)+$/, /^(char[^]*)+$/, /^(string)+$/, /^(float)+$/, /^(vector<[^]*>)+$/, /^(map<[^]*>)+$/];
+
+    const isTypeAvailable = (text, types = AVAILABLE_DATA_TYPES) => {
+        return types.some(rx => rx.test(text[text.length - 1]));
+    }
     useEffect(() => {
         if (types) {
             setInputTypes(types.input);
@@ -41,6 +46,7 @@ const TaskForm = ({ form, createTaskFormHandler, name = "add_task", types = null
             layout="vertical"
             requiredMark={false}
             onFinish={(e) => {
+                console.log(e);
                 createTaskFormHandler({ ...e, types: { input: inputTypes, output: outputTypes } });
             }}
             onSubmitCapture={() => { }}
@@ -74,6 +80,7 @@ const TaskForm = ({ form, createTaskFormHandler, name = "add_task", types = null
                     theme="snow"
                     value={convertedText}
                     onChange={setConvertedText}
+                    placeholder="Полный текст задачи"
                 />
             </Form.Item>
             <Form.Item
@@ -86,7 +93,7 @@ const TaskForm = ({ form, createTaskFormHandler, name = "add_task", types = null
                     },
                 ]}
             >
-                <InputNumber min={1} max={50} />
+                <InputNumber min={1} max={50} placeholder="1 с" />
             </Form.Item>
             <Form.Item
                 name="memoryLimit"
@@ -97,16 +104,24 @@ const TaskForm = ({ form, createTaskFormHandler, name = "add_task", types = null
                         message: "Укажите лимит на использованную память программой",
                     },
                 ]}
-                style={{ marginBottom: 0 }}
+
             >
-                <InputNumber min={32} max={4096} />
+                <InputNumber min={32} max={4096} placeholder="32 KB" />
             </Form.Item>
+
+            <Form.Item
+                name="functionName"
+                label="Название функции (для ДЗ)"
+            >
+                <Input placeholder="itcMyFunc" />
+            </Form.Item>
+
 
             <Form.Item name="dayChallenge" valuePropName="checked">
                 <Checkbox>Сделать задачей дня</Checkbox>
             </Form.Item>
             <Text className="testsTitleEasyMode" strong>
-                Входные/Выходные типы (для контестов)
+                Входные/Выходные типы функции (для контестов)
             </Text>
 
             <Space
@@ -122,13 +137,20 @@ const TaskForm = ({ form, createTaskFormHandler, name = "add_task", types = null
                     label={<Text>Входные типы </Text>}
                     name="input"
                 >
-                    <TagsArray color={'geekblue'} tags={inputTypes} setTags={setInputTypes} />
+                    <TagsArray color={'geekblue'} tags={inputTypes} setTags={(text) => {
+                        console.log(text);
+                        if (!text.length) setInputTypes([]);
+                        else if (isTypeAvailable(text)) setInputTypes(text);
+                    }} />
                 </Form.Item>
                 <Form.Item
                     label={<Text>Выходные типы </Text>}
                     name="output"
                 >
-                    <TagsArray color={'magenta'} tags={outputTypes} setTags={setOutputTypes} />
+                    <TagsArray color={'magenta'} tags={outputTypes} setTags={(text) => {
+                        if (!text.length) setOutputTypes([]);
+                        else if (isTypeAvailable(text, [...AVAILABLE_DATA_TYPES, "void"])) setOutputTypes(text);
+                    }} />
                 </Form.Item>
             </Space>
 

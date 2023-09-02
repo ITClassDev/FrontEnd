@@ -30,9 +30,10 @@ const AdminHomeWork = ({ currentTab }) => {
     API({
       endpoint: "/groups", ok: (response) => {
         setUserGroups(response.data);
+        getAllContest();
       }
     });
-    getAllContest();
+    
   }
 
   useEffect(() => {

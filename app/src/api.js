@@ -141,8 +141,6 @@ export function provideAccessToApp(
 }
 
 export const sendTask = (endpoint, method, form_data, messageApi, callback, ok_msg, err_msg) => {
-  // Задача успешно добавлена!
-  // "Задача НЕ добавлена! Проверьте данные!"
   API({
     endpoint: endpoint, method: method, message: { show: 1, api: messageApi, ok: ok_msg, err: err_msg }, data: {
       title: form_data.title,
@@ -151,7 +149,8 @@ export const sendTask = (endpoint, method, form_data, messageApi, callback, ok_m
       memoryLimit: form_data.memoryLimit,
       dayChallenge: form_data.dayChallenge,
       tests: form_data.tests,
-      testsTypes: form_data.types
+      testsTypes: form_data.types,
+      functionName: form_data.functionName
     }, ok: () => {
       callback();
     }

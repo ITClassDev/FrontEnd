@@ -17,6 +17,7 @@ import {
   BranchesOutlined,
   AndroidOutlined
 } from '@ant-design/icons';
+import { Tag } from 'antd';
 
 
 // Pages
@@ -136,7 +137,7 @@ export const routes = [
       return { Component: Projects };
     },
     icon: <BranchesOutlined />,
-    label: '* Мои проекты',
+    label: <><Tag color="error">Dev</Tag>Проекты</>,
     access: 'all'
   },
   {
@@ -146,7 +147,7 @@ export const routes = [
       return { Component: Projects };
     },
     icon: <BranchesOutlined />,
-    label: '* Курсы',
+    label: <><Tag color="error">Dev</Tag>Курсы</>,
     access: 'all'
   },
   {
@@ -166,7 +167,7 @@ export const routes = [
       return { Component: PollsAdmin };
     },
     icon: <QuestionCircleOutlined />,
-    label: '* Опросы',
+    label: <><Tag color="error">Dev</Tag>Опросы</>,
     access: 'admin'
   },
   {
