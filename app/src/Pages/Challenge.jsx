@@ -6,6 +6,7 @@ import { API } from "../api";
 import { useState } from "react";
 import LoadingBar from "../Components/Loading";
 import useDocumentTitle from "../useDocumentTitle";
+import { DayChallengeNotFound } from "./NotFound";
 
 const { Title } = Typography;
 
@@ -30,6 +31,10 @@ export const Challenge = () => {
             />
           </>
         );
+      }, err: (response) => {
+        if (response.status === 404){
+          SetDayChallenge(<DayChallengeNotFound/>)
+        }
       }
     })
   }, []);

@@ -77,11 +77,13 @@ const MyAttempts = ({ attempts, getSubmissions }) => {
           <Text code type="danger">
             NO
           </Text>
-        ) : (
-          <Text code type="warning">
-            Checking...
+        ) : (record.status === 3 ? (
+          <Text code type="danger">
+            REJECTED
           </Text>
-        )
+        ) : <Text code type="warning">
+          Checking...
+        </Text>)
       )
     },
     { title: "Тесты", dataIndex: "tests", key: "tests" },

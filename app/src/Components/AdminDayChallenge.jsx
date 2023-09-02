@@ -17,7 +17,8 @@ const AdminDayChallenge = ({ currentTab }) => {
   const [createTaskModalOpen, setCreateTaskModalOpen] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
   const [taskSearchSelect, setTaskSearchSelect] = useState({ text: null, uuid: null });
-  const [sourceCode, setSourceCode] = useState({language: "", source: ""});
+  const [sourceCode, setSourceCode] = useState({ language: "", source: "" });
+  const [submitId, setSubmitId] = useState(null);
   const [viewSourceCodeModal, setViewSourceCodeModal] = useState(false);
   const solvedByTableColumns = [
     {
@@ -42,6 +43,7 @@ const AdminDayChallenge = ({ currentTab }) => {
               endpoint: `/assigments/submit/${record.submitId}/source`, ok: (resp) => {
                 setSourceCode(resp.data);
                 setViewSourceCodeModal(true);
+                setSubmitId(record.submitId);
               }
             })
           }}>Код решения</Button>
@@ -87,7 +89,7 @@ const AdminDayChallenge = ({ currentTab }) => {
   return (
     <>
       {contextHolder}
-      <SourceCodeModal sourceCode={sourceCode} show={viewSourceCodeModal} hideCallback={() => { setViewSourceCodeModal(false) }} />
+      <SourceCodeModal sourceCode={sourceCode} submitId={submitId} show={viewSourceCodeModal} hideCallback={() => { setViewSourceCodeModal(false) }} onReject={() => { load() }} />
       <Modal
         title="Добавить задачу"
         transitionName=""

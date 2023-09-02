@@ -11,7 +11,7 @@ const SendTask = ({ task_id, getSubmissions, isDarkTheme }) => {
   const [fileToSend, SetFileToSend] = useState();
   const [messageApi, contextHolder] = message.useMessage();
   const [code, setCode] = useState(``);
-  const [progLang, setProgLang] = useState("py");
+  const [progLang, setProgLang] = useState("cpp");
   const props = {
     name: "file",
     multiple: false,
@@ -91,13 +91,13 @@ const SendTask = ({ task_id, getSubmissions, isDarkTheme }) => {
             }}
             options={[
               {
-                value: "py",
-                label: "Python 3.10",
-              },
-              {
                 value: "cpp",
                 label: "C++",
               },
+              {
+                value: "py",
+                label: "Python 3.10",
+              }
             ]}
           />
           <CodeEditor
@@ -124,20 +124,13 @@ const SendTask = ({ task_id, getSubmissions, isDarkTheme }) => {
             block
             style={{ marginTop: 20 }}
             onClick={() => {
-              API({
-                endpoint: "/assigments/tasks/challenge/submit", method: "post", files: { "source": new File([new Blob([code])], `main.${progLang}`) }, ok: (resp) => {
-                  getSubmissions();
-                  messageApi.open({
-                    type: "success",
-                    content: "Задача отправлена на проверку!",
-                  });
-                }, err: (resp) => {
-                  messageApi.open({
-                    type: "error",
-                    content: "Произошла ошибка при отправке файла! Проверьте расширение!",
-                  });
-                }
-              });
+              if (code.length) {
+                API({
+                  endpoint: "/assigments/tasks/challenge/submit", method: "post", files: { "source": new File([new Blob([code])], `main.${progLang}`) }, ok: (resp) => {
+                    getSubmissions();
+                  }, message: { show: 1, api: messageApi, ok: "Задача отправлена на проверку!", err: "Произошла ошибка при отправке файла! Проверьте расширение!" }
+                });
+              }
             }}
           >
             Отправить на проверку
@@ -149,7 +142,7 @@ const SendTask = ({ task_id, getSubmissions, isDarkTheme }) => {
   return (
     <>
       {contextHolder}
-      <Card title="Сдать задачу" style={{ marginBottom: 20 }} extra={<a onClick={() => {singleTaskSubmitHelp()}}>Помощь</a>}>
+      <Card title="Сдать задачу" style={{ marginBottom: 20 }} extra={<a onClick={() => { singleTaskSubmitHelp() }}>Помощь</a>}>
         <Tabs defaultActiveKey="1" items={tabsItems} />
       </Card>
     </>

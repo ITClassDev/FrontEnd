@@ -10,3 +10,11 @@ export const NotFound = () => (
         extra={<Button type="primary">На главную</Button>}
     />
 )
+
+export const DayChallengeNotFound = () => (
+    <Result
+        status="404"
+        title="Ничего нет"
+        subTitle="Задача дня пока не установлена:( Зайдите позже"
+    />
+)

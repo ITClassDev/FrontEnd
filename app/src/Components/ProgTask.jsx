@@ -113,7 +113,6 @@ const ProgTask = ({
         </>
       }/>
       <Card title={title} style={{ marginBottom: 20 }}>
-        
         <Descriptions title="Лимиты" bordered style={{ marginBottom: 20 }}>
           <Descriptions.Item label="Время">
             <b>{time_limit} секунд</b>
