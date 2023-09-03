@@ -30,4 +30,4 @@ const local_conf_2 = {
 
 //export const config = local_conf;
 // export const config = process.env.NODE_ENV === "development" ? conf("localhost", "dev") : conf("shtp.1561.ru");
-export const config = process.env.REACT_APP_TYPE === "development" ? conf("localhost:8080", "2.0.0 Enigma dev") : conf("localhost", "2.0.0 Enigma", "http");
+export const config = process.env.REACT_APP_TYPE === "development" ? conf("192.168.1.8:8080", "2.0.0 Enigma dev") : conf("shtp.1561.ru", "2.0.0 Enigma", "https");

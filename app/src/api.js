@@ -101,7 +101,7 @@ export function API({ endpoint, method = "get", data = {}, files = null, auth = 
 
 }
 
-export function DownloadPrivateFile({ endpoint, file_name, method = "get", api_url = API_URL }) {
+export const DownloadPrivateFile = ({ endpoint, file_name, method = "get", api_url = API_URL }) => {
   axios({
     url: `${api_url}${endpoint}`,
     method: method,

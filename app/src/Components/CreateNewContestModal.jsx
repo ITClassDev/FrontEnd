@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal, Space, Typography, Form, Input, Button, Select, DatePicker, message } from "antd";
+import { Modal, Space, Typography, Form, Input, Button, Select, DatePicker, message, InputNumber } from "antd";
 import "dayjs/locale/ru";
 import locale from "antd/es/date-picker/locale/ru_RU";
 import { API } from "../api";
@@ -16,10 +16,6 @@ const CreateNewContestModal = ({ open, setModalOpened, userGroups, onCreate }) =
   const [form] = Form.useForm();
 
   const createContestHandler = (form_data) => {
-    console.log(form_data);
-    console.log(tasksSelected);
-    console.log(deadlineInput);
-    console.log(userGroupsInput);
     API({
       endpoint: "/assigments/contests", method: "put", data: {
         tasks: tasksSelected.map(task => (task.value)),
@@ -27,7 +23,10 @@ const CreateNewContestModal = ({ open, setModalOpened, userGroups, onCreate }) =
         title: form_data.contest_name,
         description: form_data.contest_description,
         deadline: deadlineInput.substring(0, deadlineInput.length - 5),
-        forLearningClass: userClassInput
+        forLearningClass: userClassInput,
+        mark5: form_data.mark5,
+        mark4: form_data.mark4,
+        mark3: form_data.mark3
       }, ok: () => {
         form.resetFields();
         onCreate();
@@ -147,6 +146,52 @@ const CreateNewContestModal = ({ open, setModalOpened, userGroups, onCreate }) =
               <DatePicker locale={locale} placeholder="Последний день для сдачи контеста" format="YYYY-DD-MM HH:mm:ss" showTime={true} onChange={(e) => {
                 if (e) setDeadlineInput(e.$d.toISOString());
               }} />
+            </Space>
+
+          </Form.Item>
+          <Text strong>Система оценивания</Text>
+          <Form.Item
+            name="mark5"
+            rules={[
+              {
+                required: true,
+                message: "Введите границу оценки 5",
+              },
+            ]}
+          >
+            <Space direction="vertical" style={{ width: "100%" }}>
+              <Text strong>Минимум для `5`</Text>
+              <InputNumber min={1} max={10000} placeholder="10 задач" />
+            </Space>
+
+          </Form.Item>
+          <Form.Item
+            name="mark4"
+            rules={[
+              {
+                required: true,
+                message: "Введите границу оценки 4",
+              },
+            ]}
+          >
+            <Space direction="vertical" style={{ width: "100%" }}>
+              <Text strong>Минимум для `4`</Text>
+              <InputNumber min={1} max={10000} placeholder="7 задач" />
+            </Space>
+
+          </Form.Item>
+          <Form.Item
+            name="mark3"
+            rules={[
+              {
+                required: true,
+                message: "Введите границу оценки 3",
+              },
+            ]}
+          >
+            <Space direction="vertical" style={{ width: "100%" }}>
+              <Text strong>Минимум для `3`</Text>
+              <InputNumber min={1} max={10000} placeholder="5 задач" />
             </Space>
 
           </Form.Item>

@@ -201,7 +201,7 @@ const ProfileCard = ({
             />
           </Card>
           {editable && (
-            <Card title="Календарь событий" bordered={false} style={{ marginTop: 20 }} extra={<a onClick={() => {profileCalendarHelp()}}>Помощь</a>}>
+            <Card title="Календарь событий" bordered={false} style={{ marginTop: 20 }} extra={<a onClick={() => { profileCalendarHelp() }}>Помощь</a>}>
               <Calendar locale={locale} cellRender={(current, info) => {
                 let calendar_date = current.$d.toISOString().slice(0, 10);
                 const event = timelineEvents.find((event) => event.date.slice(0, 10) === calendar_date);
@@ -219,11 +219,14 @@ const ProfileCard = ({
           )}
         </>
       )}
+
       {!editable && (
         <>
-          <Card title="Последние достижения" bordered={false} style={{ marginTop: 20 }}>
-            {achivmentsBlock}
-          </Card>
+          {userInfo.role == "student" && (
+            <Card title="Последние достижения" bordered={false} style={{ marginTop: 20 }}>
+              {achivmentsBlock}
+            </Card>)
+          }
           <Card title="Проекты" bordered={false} style={{ marginTop: 20 }}>
             <Text>Даннй модуль будет реализован в ShTP 2.0.1</Text>
           </Card>
