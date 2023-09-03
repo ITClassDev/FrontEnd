@@ -23,26 +23,8 @@ const SubmitViaGithub = ({ contest_id, contestDescription }) => {
         githubLink: `https://github.com/${form_data.github_repo}`,
         language: form_data.language
       }, message: { show: true, api: messageApi, ok: "Отправлено на проверку!", err: "Произошла ошибка при отправке контеста!" }
-    })
-    // submitContest(
-    //   contest_id,
-    //   form_data.language,
-    //   `https://github.com/${form_data.github_repo}`,
-    //   (response) => {
-    //     messageApi.open({
-    //       type: "success",
-    //       content: "Контест отправлен на проверку!",
-    //     });
-    //   },
-    //   (response) => {
-    //     messageApi.open({
-    //       type: "error",
-    //       content: "Произошла ошибка при отправке контеста!",
-    //     });
-    //   }
-    // );
+    });
   };
-  console.log(contestDescription);
 
   return (
     <>

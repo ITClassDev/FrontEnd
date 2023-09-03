@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import CreateNewContestModal from "./CreateNewContestModal";
 import { API, convertDateAndTime } from "../api";
+import { ContestStatistic } from "./ContestStatistic";
 
 const { Title } = Typography;
 
@@ -11,6 +12,8 @@ const AdminHomeWork = ({ currentTab }) => {
   const [createContestModal, setCreateTaskModalOpen] = useState(false);
   const [contests, setContests] = useState([]);
   const [userGroups, setUserGroups] = useState([]);
+  const [showStatistics, setShowStatistics] = useState(false);
+  const [statisticsContest, setStatisticsContest] = useState(false);
   const getAllContest = () => {
     API({
       endpoint: "/assigments/contests", ok: (resp) => {
@@ -72,7 +75,7 @@ const AdminHomeWork = ({ currentTab }) => {
       key: "actionsBtns",
       render: (_, record) => (
         <Space direction="horizontal">
-          <Button type="primary">Статистика</Button>
+          <Button type="primary" onClick={() => { setStatisticsContest(record.key); setShowStatistics(true) }}>Статистика</Button>
           <Button type="dashed">Редактировать</Button>
         </Space>
       )
@@ -81,6 +84,7 @@ const AdminHomeWork = ({ currentTab }) => {
 
   return (
     <>
+      <ContestStatistic contestId={statisticsContest} show={showStatistics} onClose={() => { setShowStatistics(false) }} />
       <CreateNewContestModal open={createContestModal} setModalOpened={setCreateTaskModalOpen} userGroups={userGroups} onCreate={() => { load(); setCreateTaskModalOpen(false); }} />
       <Title level={4} style={{ marginTop: 0 }}>
         Все домашние работы

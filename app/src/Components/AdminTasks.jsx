@@ -3,9 +3,10 @@ import { Typography, Table, Space, Button, Modal, Form, message } from "antd";
 import { API } from "../api";
 import TaskForm from "./TaskForm";
 import { sendTask } from "../api";
+import { PlusOutlined } from "@ant-design/icons";
+import CreateTaskCard from "./CreateTaskCard";
+
 const { Title, Text } = Typography;
-
-
 
 const AdminTasks = ({ currentTab }) => {
   const [editModalOpen, setEditModalOpen] = useState(false);
@@ -13,6 +14,7 @@ const AdminTasks = ({ currentTab }) => {
   const [editTaskTypes, setEditTaskTypes] = useState(null);
   const [editTaskUUID, setEditTaskUUID] = useState(null);
   const [messageApi, contextHolder] = message.useMessage();
+  const [createTaskModalOpen, setCreateTaskModalOpen] = useState(false);
 
   const [form] = Form.useForm();
   const load = () => {
@@ -80,6 +82,21 @@ const AdminTasks = ({ currentTab }) => {
     <>
       {contextHolder}
       <Modal
+        title="Добавить задачу"
+        transitionName=""
+        open={createTaskModalOpen}
+        width={"50%"}
+        footer={<></>}
+        onOk={() => {
+          setCreateTaskModalOpen(false);
+        }}
+        onCancel={() => {
+          setCreateTaskModalOpen(false);
+        }}
+      >
+        <CreateTaskCard messageApi={messageApi} callback={() => { setCreateTaskModalOpen(false) }} />
+      </Modal>
+      <Modal
         title={editTaskTitle}
         transitionName=""
         open={editModalOpen}
@@ -95,13 +112,14 @@ const AdminTasks = ({ currentTab }) => {
         <TaskForm form={form} name="update_task" createTaskFormHandler={(data) => {
           sendTask(`/assigments/tasks/${editTaskUUID}`, "patch", data, messageApi, f => f, "Задача успешно обновлена!", "Задча НЕ обновлена! Проверьте данные!");
           load();
-          console.log("Callback");
-          // setEditModalOpen(false);
         }} types={editTaskTypes} />
       </Modal>
       <Title level={4} style={{ marginTop: 0 }}>
         Все задачи
       </Title>
+      <Button type="dashed" icon={<PlusOutlined />} onClick={() => { setCreateTaskModalOpen(true); }} style={{ marginBottom: 20 }}>
+        Добавить новую задачу
+      </Button>
       <Table columns={tasksColumnsTable} dataSource={allTasks} />
     </>
   );

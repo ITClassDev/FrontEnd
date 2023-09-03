@@ -6,7 +6,7 @@ const { Text } = Typography;
 const HomeTaskCard = ({
   title,
   tag,
-  complited_percent,
+  solvedPercentage,
   description,
   uuid,
   deadline
@@ -32,7 +32,7 @@ const HomeTaskCard = ({
         }}
       >
         <Text strong>Прогресс по задачам</Text>
-        <Progress percent={complited_percent} />
+        <Progress percent={solvedPercentage} />
         <Text strong>Описание</Text>
         <Text>{description}</Text>
         <Text strong>Дедлайн</Text>

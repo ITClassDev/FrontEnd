@@ -4,6 +4,7 @@ import {
   CloseCircleOutlined,
   CodeOutlined,
   QrcodeOutlined,
+  MinusCircleOutlined
 } from "@ant-design/icons";
 import ProgTask from "../Components/ProgTask";
 import { useEffect, useState } from "react";
@@ -20,10 +21,13 @@ const { Title } = Typography;
 export const Contest = () => {
   const [contestTitle, SetContestTitle] = useState();
   const [contestDescription, SetContestDescription] = useState("Loading...");
+  const [solvedTasks, setSolvedTasks] = useState();
   const params = useParams();
 
-  function choosePage(setPage, item, contest_id) {
-    if (item === "submit") setPage(<SubmitViaGithub contest_id={params.contest_id} contestDescription={contestDescription}/>);
+  useDocumentTitle("ШТП | Контест");
+
+  const choosePage = (setPage, item, contest_id) => {
+    if (item === "submit") setPage(<SubmitViaGithub contest_id={params.contest_id} contestDescription={contestDescription} />);
     else {
       API({
         endpoint: `/assigments/tasks/${item}`, ok: (resp) => {
@@ -44,37 +48,51 @@ export const Contest = () => {
       })
     }
   }
-  useDocumentTitle("ШТП | Контест");
+  const load = () => {
+    API({
+      endpoint: `/assigments/contest/${params.contest_id}/solved`, ok: (tasks_statuses) => {
+        API({
+          endpoint: `/assigments/contests/${params.contest_id}`, ok: (resp) => {
+            SetContestDescription(resp.data.description)
+            SetContestTitle(resp.data.title);
+            SetMenuTasks([{ label: "Submit", key: "submit", icon: <CodeOutlined /> }]);
+            let allTasks = resp.data.tasks;
+            SetMenuTasks(prev => (prev.concat(allTasks.map((task) => ({
+              key: task.uuid,
+              label: task.title,
+              icon: tasks_statuses.data.solved.includes(task.uuid) ? correctTask : (
+                tasks_statuses.data.failed.includes(task.uuid) ? failedTask : notSentTask
+              )
+            })))));
+          }
+        })
+      }
+    });
+  }
 
   useEffect(() => {
-    API({
-      endpoint: `/assigments/contests/${params.contest_id}`, ok: (resp) => {
-        SetContestDescription(resp.data.description)
-        SetContestTitle(resp.data.title);
-        SetMenuTasks([{ label: "Submit", key: "submit", icon: <CodeOutlined /> }]);
-        SetMenuTasks(prev => (prev.concat(resp.data.tasks.map((task) => ({
-          key: task.uuid,
-          label: task.title,
-          icon: invalidTask
-        })))));
-
-      }
-    })
+    load();
   }, []);
 
   const [pageContent, setPageContent] = useState(
     <SubmitViaGithub contest_id={params.contest_id} contestDescription={contestDescription} />
   );
   const correctTask = (
-    <Tooltip title="задача сдана">
+    <Tooltip title="Задача сдана">
       <CheckCircleOutlined style={{ color: "green" }} />
     </Tooltip>
   );
-  const invalidTask = (
-    <Tooltip title="задача не сдана">
+  const failedTask = (
+    <Tooltip title="Задача решена неверно">
       <CloseCircleOutlined style={{ color: "red" }} />
     </Tooltip>
   );
+  const notSentTask = (
+    <Tooltip title="Задачу ещё не сдавали">
+      <MinusCircleOutlined style={{ color: "blue" }} />
+    </Tooltip>
+  );
+
   const [menuTasks, SetMenuTasks] = useState([
     { label: "Submit", key: "submit", icon: <CodeOutlined /> },
   ]);
@@ -99,6 +117,7 @@ export const Contest = () => {
         style={{ borderRadius: 10, marginBottom: 20 }}
         onClick={(item) => {
           choosePage(setPageContent, item.key, params.contest_id);
+          load();
         }}
       />
       {pageContent}

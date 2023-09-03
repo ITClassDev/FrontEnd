@@ -52,7 +52,7 @@ const AdminUsers = ({ currentTab }) => {
       title: "UUID",
       dataIndex: "id",
       key: "id",
-      sorter: (a, b) => a.id - b.id,
+      // sorter: (a, b) => a.id - b.id,
       render: (_, record) => (
         <Text>{record.id.slice(30)}...</Text>
       )

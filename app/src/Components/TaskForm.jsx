@@ -26,7 +26,8 @@ const TaskForm = ({ form, createTaskFormHandler, name = "add_task", types = null
     const [convertedText, setConvertedText] = useState();
     const [inputTypes, setInputTypes] = useState([]);
     const [outputTypes, setOutputTypes] = useState([]);
-    const AVAILABLE_DATA_TYPES = [/^(int)+$/, /^(long long)+$/, /^(double)+$/, /^(char[^]*)+$/, /^(string)+$/, /^(float)+$/, /^(vector<[^]*>)+$/, /^(map<[^]*>)+$/];
+    const AVAILABLE_DATA_TYPES = [/^(int)+$/, /^(long long)+$/, /^(double)+$/, /^(char[^]*)+$/,
+                                 /^(string)+$/, /^(float)+$/, /^(vector<[^]*>)+$/, /^(map<[^]*>)+$/];
 
     const isTypeAvailable = (text, types = AVAILABLE_DATA_TYPES) => {
         return types.some(rx => rx.test(text[text.length - 1]));
@@ -149,7 +150,7 @@ const TaskForm = ({ form, createTaskFormHandler, name = "add_task", types = null
                 >
                     <TagsArray color={'magenta'} tags={outputTypes} setTags={(text) => {
                         if (!text.length) setOutputTypes([]);
-                        else if (isTypeAvailable(text, [...AVAILABLE_DATA_TYPES, "void"])) setOutputTypes(text);
+                        else if (isTypeAvailable(text, [...AVAILABLE_DATA_TYPES, /^(void)+$/])) setOutputTypes(text);
                     }} />
                 </Form.Item>
             </Space>
