@@ -27,7 +27,7 @@ const TaskForm = ({ form, createTaskFormHandler, name = "add_task", types = null
     const [inputTypes, setInputTypes] = useState([]);
     const [outputTypes, setOutputTypes] = useState([]);
     const AVAILABLE_DATA_TYPES = [/^(int)+$/, /^(long long)+$/, /^(double)+$/, /^(char[^]*)+$/,
-                                 /^(string)+$/, /^(float)+$/, /^(vector<[^]*>)+$/, /^(map<[^]*>)+$/];
+                                 /^(string)+$/, /^(float)+$/, /^(bool)+$/, /^(vector<[^]*>)+$/, /^(map<[^]*>)+$/];
 
     const isTypeAvailable = (text, types = AVAILABLE_DATA_TYPES) => {
         return types.some(rx => rx.test(text[text.length - 1]));

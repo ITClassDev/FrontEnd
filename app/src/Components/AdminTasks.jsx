@@ -94,7 +94,7 @@ const AdminTasks = ({ currentTab }) => {
           setCreateTaskModalOpen(false);
         }}
       >
-        <CreateTaskCard messageApi={messageApi} callback={() => { setCreateTaskModalOpen(false) }} />
+        <CreateTaskCard messageApi={messageApi} callback={() => { setCreateTaskModalOpen(false); load(); }} />
       </Modal>
       <Modal
         title={editTaskTitle}
