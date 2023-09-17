@@ -39,13 +39,16 @@ export const ContestStatistic = ({ contestId, show, onClose }) => {
     ];
     useEffect(() => {
         setLoading(true);
-        API({
-            endpoint: `/assigments/contest/${contestId}/statistics`, ok: (resp) => {
-                setAllTasksCount(resp.data.tasksCount);
-                setData(resp.data.students);
-                setLoading(false);
-            }
-        });
+        if (contestId) {
+            API({
+                endpoint: `/assigments/contest/${contestId}/statistics`, ok: (resp) => {
+                    setAllTasksCount(resp.data.tasksCount);
+                    setData(resp.data.students);
+                    setLoading(false);
+                }
+            });
+        }
+
     }, [contestId])
     return (
         <Modal

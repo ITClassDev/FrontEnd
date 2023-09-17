@@ -1,4 +1,4 @@
-import { Button, Table, Typography, Tag, Space } from "antd";
+import { Button, Table, Typography, Tag, Space, message } from "antd";
 import React, { useState, useEffect } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import CreateNewContestModal from "./CreateNewContestModal";
@@ -13,7 +13,10 @@ const AdminHomeWork = ({ currentTab }) => {
   const [contests, setContests] = useState([]);
   const [userGroups, setUserGroups] = useState([]);
   const [showStatistics, setShowStatistics] = useState(false);
+  const [contestData, setContestData] = useState({});
+  const [loading, setLoading] = useState(false);
   const [statisticsContest, setStatisticsContest] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
   const getAllContest = () => {
     API({
       endpoint: "/assigments/contests", ok: (resp) => {
@@ -76,7 +79,17 @@ const AdminHomeWork = ({ currentTab }) => {
       render: (_, record) => (
         <Space direction="horizontal">
           <Button type="primary" onClick={() => { setStatisticsContest(record.key); setShowStatistics(true) }}>Статистика</Button>
-          <Button type="dashed">Редактировать</Button>
+          <Button type="dashed" loading={loading} onClick={() => { 
+            setLoading(true);
+            API({
+              endpoint: `/assigments/contests/${record.key}`,
+              ok: (resp) => {
+                setContestData(resp.data);
+                setCreateTaskModalOpen(true);
+                setLoading(false);
+              }
+            })
+           }}>Редактировать</Button>
         </Space>
       )
     },
@@ -84,8 +97,26 @@ const AdminHomeWork = ({ currentTab }) => {
 
   return (
     <>
+      {contextHolder}
       <ContestStatistic contestId={statisticsContest} show={showStatistics} onClose={() => { setShowStatistics(false) }} />
-      <CreateNewContestModal open={createContestModal} setModalOpened={setCreateTaskModalOpen} userGroups={userGroups} onCreate={() => { load(); setCreateTaskModalOpen(false); }} />
+      <CreateNewContestModal defaults={contestData} open={createContestModal} setModalOpened={setCreateTaskModalOpen} userGroups={userGroups} onCreate={(form_data, userGroupsInput, userClassInput, tasksSelected, deadlineInput) => {
+        API({
+          endpoint: "/assigments/contests", method: "put", data: {
+            tasks: tasksSelected.map(task => (task.value)),
+            forGroups: userGroupsInput,
+            title: form_data.contest_name,
+            description: form_data.contest_description,
+            deadline: deadlineInput.substring(0, deadlineInput.length - 5),
+            forLearningClass: userClassInput,
+            mark5: form_data.mark5,
+            mark4: form_data.mark4,
+            mark3: form_data.mark3
+          }, ok: () => {
+            load(); setCreateTaskModalOpen(false);
+          }, message: { show: true, api: messageApi, ok: "Контест создан", err: "Контест не создан" }
+        })
+
+      }} />
       <Title level={4} style={{ marginTop: 0 }}>
         Все домашние работы
       </Title>
